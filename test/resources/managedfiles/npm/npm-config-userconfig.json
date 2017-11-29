@@ -1,0 +1,14 @@
+[
+  {
+    "pattern": "subdomain\.npm-domain\.tld[:\/]group",
+    "id": "npm-user-config-id",
+    "name": "npm-user-config-name",
+    "comment": "npm-user-config-comment"
+  },
+  {
+    "pattern": "subdomain\.npm-domain\.tld[:\/]group/project1",
+    "id": "npm-user-config-project1-id",
+    "name": "npm-user-config-project1-name",
+    "comment": "npm-user-config-project1-comment"
+  }
+]

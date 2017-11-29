@@ -1,0 +1,14 @@
+[
+  {
+    "pattern": "subdomain\.npm-domain\.tld[:/]group",
+    "id": "bundle-config-id",
+    "name": "bundle-config-name",
+    "comment": "bundle-config-comment"
+  },
+  {
+    "pattern": "subdomain\.npm-domain\.tld[:/]group/project1",
+    "id": "bundle-config-project1-id",
+    "name": "bundle-config-project1-name",
+    "comment": "bundle-config-project1-comment"
+  }
+]

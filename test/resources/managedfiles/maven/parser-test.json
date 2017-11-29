@@ -1,0 +1,12 @@
+[
+  {
+    "pattern": "should-be-parsed-pattern",
+    "id": "should-be-parsed-id",
+    "name": "should-be-parsed-name",
+    "comment": "should-be-parsed-comment"
+  },
+  {
+    "name": "should-not-be-parsed-name",
+    "comment": "should-not-be-parsed-comment"
+  }
+]

@@ -1,0 +1,10 @@
+- src: williamyeh.oracle-java
+- src: tecris.maven
+  version: v3.5.2
+- src: https://github.com/wcm-io-devops/ansible-aem-cms.git
+  name: aem-cms
+  scm: git
+- src: https://github.com/wcm-io-devops/ansible-aem-service.git
+  name: aem-service
+  scm: git
+  version: develop

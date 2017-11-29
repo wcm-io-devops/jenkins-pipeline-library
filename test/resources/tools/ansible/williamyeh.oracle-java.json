@@ -1,0 +1,271 @@
+{
+  "count": 1,
+  "cur_page": 1,
+  "num_pages": 1,
+  "next_link": null,
+  "previous_link": null,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "url": "/api/v1/roles/2851/",
+      "related": {
+        "imports": "/api/v1/roles/2851/imports/",
+        "versions": "/api/v1/roles/2851/versions/",
+        "dependencies": "/api/v1/roles/2851/dependencies/",
+        "notifications": "/api/v1/roles/2851/notifications/"
+      },
+      "summary_fields": {
+        "platforms": [
+          {
+            "release": "jessie",
+            "name": "Debian"
+          },
+          {
+            "release": "wheezy",
+            "name": "Debian"
+          },
+          {
+            "release": "6",
+            "name": "EL"
+          },
+          {
+            "release": "7",
+            "name": "EL"
+          },
+          {
+            "release": "12.1",
+            "name": "opensuse"
+          },
+          {
+            "release": "12.2",
+            "name": "opensuse"
+          },
+          {
+            "release": "12.3",
+            "name": "opensuse"
+          },
+          {
+            "release": "13.1",
+            "name": "opensuse"
+          },
+          {
+            "release": "13.2",
+            "name": "opensuse"
+          },
+          {
+            "release": "10SP3",
+            "name": "SLES"
+          },
+          {
+            "release": "10SP4",
+            "name": "SLES"
+          },
+          {
+            "release": "11",
+            "name": "SLES"
+          },
+          {
+            "release": "11SP1",
+            "name": "SLES"
+          },
+          {
+            "release": "11SP2",
+            "name": "SLES"
+          },
+          {
+            "release": "11SP3",
+            "name": "SLES"
+          },
+          {
+            "release": "11SP4",
+            "name": "SLES"
+          },
+          {
+            "release": "12",
+            "name": "SLES"
+          },
+          {
+            "release": "12SP1",
+            "name": "SLES"
+          },
+          {
+            "release": "precise",
+            "name": "Ubuntu"
+          },
+          {
+            "release": "trusty",
+            "name": "Ubuntu"
+          }
+        ],
+        "versions": [
+          {
+            "release_date": "2016-06-23T05:01:41Z",
+            "name": "2.9.0",
+            "id": 15876
+          },
+          {
+            "release_date": "2016-06-13T09:51:11Z",
+            "name": "2.8.0",
+            "id": 15428
+          },
+          {
+            "release_date": "2016-06-01T07:19:54Z",
+            "name": "2.7.0",
+            "id": 15053
+          },
+          {
+            "release_date": "2016-05-23T03:02:31Z",
+            "name": "2.6.0",
+            "id": 14717
+          },
+          {
+            "release_date": "2016-04-11T07:44:05Z",
+            "name": "2.5.0",
+            "id": 13022
+          },
+          {
+            "release_date": "2016-04-11T04:15:26Z",
+            "name": "2.4.0",
+            "id": 13010
+          },
+          {
+            "release_date": "2016-04-08T08:41:38Z",
+            "name": "2.3.0",
+            "id": 12946
+          },
+          {
+            "release_date": "2016-03-25T03:00:53Z",
+            "name": "2.2.0",
+            "id": 12427
+          },
+          {
+            "release_date": "2017-02-02T09:56:13Z",
+            "name": "2.11.0",
+            "id": 25743
+          },
+          {
+            "release_date": "2016-08-26T08:13:36Z",
+            "name": "2.10.0",
+            "id": 18129
+          },
+          {
+            "release_date": "2016-03-01T09:10:50Z",
+            "name": "2.1.0",
+            "id": 11176
+          },
+          {
+            "release_date": "2016-02-23T03:51:57Z",
+            "name": "2.0.0",
+            "id": 10846
+          },
+          {
+            "release_date": "2016-01-11T10:55:28Z",
+            "name": "1.1.9",
+            "id": 9229
+          },
+          {
+            "release_date": "2015-12-24T10:42:01Z",
+            "name": "1.1.8",
+            "id": 8758
+          },
+          {
+            "release_date": "2015-12-21T10:00:35Z",
+            "name": "1.1.7",
+            "id": 8730
+          },
+          {
+            "release_date": "2015-12-21T03:08:45Z",
+            "name": "1.1.6",
+            "id": 8713
+          },
+          {
+            "release_date": "2015-12-14T06:29:54Z",
+            "name": "1.1.5",
+            "id": 8582
+          },
+          {
+            "release_date": "2015-12-08T07:11:30Z",
+            "name": "1.1.4",
+            "id": 8484
+          },
+          {
+            "release_date": "2015-10-27T03:23:45Z",
+            "name": "1.1.3",
+            "id": 7391
+          },
+          {
+            "release_date": "2015-10-22T04:02:05Z",
+            "name": "1.1.2",
+            "id": 7392
+          },
+          {
+            "release_date": "2016-01-21T07:22:52Z",
+            "name": "1.1.11",
+            "id": 9435
+          },
+          {
+            "release_date": "2015-10-20T14:32:53Z",
+            "name": "1.1.1",
+            "id": 7323
+          },
+          {
+            "release_date": "2015-10-19T15:16:27Z",
+            "name": "1.1.0",
+            "id": 7301
+          },
+          {
+            "release_date": "2015-09-22T15:20:42Z",
+            "name": "1.0.0",
+            "id": 7302
+          }
+        ],
+        "dependencies": [],
+        "tags": [
+          {
+            "name": "development"
+          },
+          {
+            "name": "java"
+          },
+          {
+            "name": "jdk"
+          },
+          {
+            "name": "jvm"
+          },
+          {
+            "name": "system"
+          }
+        ]
+      },
+      "id": 2851,
+      "created": "2015-02-10T10:18:55.255Z",
+      "modified": "2017-10-26T14:52:15.774Z",
+      "name": "oracle-java",
+      "role_type": "ANS",
+      "namespace": "williamyeh",
+      "is_valid": true,
+      "github_user": "William-Yeh",
+      "github_repo": "ansible-oracle-java",
+      "github_branch": "",
+      "min_ansible_version": "2.0.0",
+      "issue_tracker_url": "https://github.com/William-Yeh/ansible-oracle-java/issues",
+      "license": "Apache",
+      "company": "",
+      "description": "Oracle JDK 7/8 for CentOS/Debian/Ubuntu/Suse/MacOSX",
+      "readme": "\nwilliamyeh.oracle-java for Ansible Galaxy\n============\n\n[![Build Status](https://travis-ci.org/William-Yeh/ansible-oracle-java.svg?branch=master)](https://travis-ci.org/William-Yeh/ansible-oracle-java) [![Circle CI](https://circleci.com/gh/William-Yeh/ansible-oracle-java.svg?style=shield)](https://circleci.com/gh/William-Yeh/ansible-oracle-java)\n\n## Summary\n\nRole name in Ansible Galaxy: **[williamyeh.oracle-java](https://galaxy.ansible.com/williamyeh/oracle-java/)**\n\nThis Ansible role has the following features for Oracle JDK:\n\n - Install JDK 7 or 8 version.\n - Install optional Java Cryptography Extensions (JCE)\n - Install for CentOS, Debian/Ubuntu, SUSE, and Mac OS X families.\n\nIf you prefer OpenJDK, try alternatives such as [geerlingguy.java](https://galaxy.ansible.com/geerlingguy/java/) or [smola.java](https://galaxy.ansible.com/smola/java/).\n\n\n## Role Variables\n\n### Mandatory variables\n\nNone.\n\n### Optional variables\n\n\nUser-configurable defaults:\n\n```yaml\n# which version?\njava_version: 8\n\n# which subversion?\njava_subversion: 112\n\n# which directory to put the download file?\njava_download_path: /tmp\n\n# rpm/tar.gz file location:\n#   - true: download from Oracle on-the-fly;\n#   - false: copy from `{{ playbook_dir }}/files` on the control machine.\njava_download_from_oracle: true\n\n# remove temporary downloaded files?\njava_remove_download: true\n\n# set $JAVA_HOME?\njava_set_javahome: false\n\n# install JCE?\njava_install_jce: false\n```\n\nFor other configurable internals, read `tasks/set-role-variables.yml` file; for example, supported `java_version`/`java_subversion` combinations.\n\nIf you want to install a Java release which is not supported out-of-the-box, you have to specify the corresponding Java build number in the variable `java_build` in addition to `java_version` and `java_subversion`, e.g.\n```yaml\n---\n- hosts: all\n\n  roles:\n    - williamyeh.oracle-java\n\n  vars:\n    java_version: 8\n    java_subversion: 91\n    java_build: 14\n```\n\n\n### Customized variables, if absolutely necessary\n\nIf you have a pre-downloaded `jdk_tarball_file` whose filename cannot be inferred successfully by `tasks/set-role-variables.yml`, you may specify it explicitly: \n\n```yaml\n# Specify the pre-fetch filename (without tailing .tar.gz or .rpm or .dmg);\n# used in conjunction with `java_download_from_oracle: false`.\n\njdk_tarball_file\n\n# For example, if you have a `files/jdk-7u79-linux-x64.tar.gz` locally,\n# but the filename cannot be inferred successfully by `tasks/set-role-variables.yml`,\n# you may specify the following variables in your playbook:\n#\n#    java_version:    7\n#    java_subversion: 79\n#    java_download_from_oracle: false\n#    jdk_tarball_file: jdk-7u79-linux-x64\n#\n```\n\n\n## Usage\n\n\n### Step 1: add role\n\nAdd role name `williamyeh.oracle-java` to your playbook file.\n\n\n### Step 2: add variables\n\nSet vars in your playbook file.\n\nSimple example:\n\n```yaml\n---\n# file: simple-playbook.yml\n\n- hosts: all\n\n  roles:\n    - williamyeh.oracle-java\n\n  vars:\n    java_version: 8\n```\n\n\n### (Optionally) pre-fetch .rpm and .tar.gz files\n\nFor some reasons, you may want to pre-fetch .rpm and .tar.gz files *before the execution of this role*, instead of downloading from Oracle on-the-fly.\n\nTo do this, put the file on the `{{ playbook_dir }}/files` directory in advance, and then set the `java_download_from_oracle` variable to `false`:\n\n```yaml\n---\n# file: prefetch-playbook.yml\n\n- hosts: all\n\n  roles:\n    - williamyeh.oracle-java\n\n  vars:\n    java_version: 8\n    java_download_from_oracle: false\n```\n\n\n\n\n\n\n## Dependencies\n\n\n## License\n\nLicensed under the Apache License V2.0. See the [LICENSE file](LICENSE) for details.\n\n\n## History\n\nRewritten from my pre-Galaxy version: [server-config-template](https://github.com/William-Yeh/server-config-template).\n",
+      "readme_html": "<div class=\"announce instapaper_body md\" data-path=\"README.md\" id=\"readme\"><article class=\"markdown-body entry-content\" itemprop=\"text\"><h1><a id=\"user-content-williamyehoracle-java-for-ansible-galaxy\" class=\"anchor\" href=\"#williamyehoracle-java-for-ansible-galaxy\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>williamyeh.oracle-java for Ansible Galaxy</h1>\n<p><a href=\"https://travis-ci.org/William-Yeh/ansible-oracle-java\"><img src=\"https://camo.githubusercontent.com/e2f5974a73a932ecef162f9183273eeb9f7e1bdd/68747470733a2f2f7472617669732d63692e6f72672f57696c6c69616d2d5965682f616e7369626c652d6f7261636c652d6a6176612e7376673f6272616e63683d6d6173746572\" alt=\"Build Status\" data-canonical-src=\"https://travis-ci.org/William-Yeh/ansible-oracle-java.svg?branch=master\" style=\"max-width:100%;\"></a> <a href=\"https://circleci.com/gh/William-Yeh/ansible-oracle-java\"><img src=\"https://camo.githubusercontent.com/b60623c0b520e1aadbc11bfc038626ecb1b4c03d/68747470733a2f2f636972636c6563692e636f6d2f67682f57696c6c69616d2d5965682f616e7369626c652d6f7261636c652d6a6176612e7376673f7374796c653d736869656c64\" alt=\"Circle CI\" data-canonical-src=\"https://circleci.com/gh/William-Yeh/ansible-oracle-java.svg?style=shield\" style=\"max-width:100%;\"></a></p>\n<h2><a id=\"user-content-summary\" class=\"anchor\" href=\"#summary\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Summary</h2>\n<p>Role name in Ansible Galaxy: <strong><a href=\"https://galaxy.ansible.com/williamyeh/oracle-java/\">williamyeh.oracle-java</a></strong></p>\n<p>This Ansible role has the following features for Oracle JDK:</p>\n<ul>\n<li>Install JDK 7 or 8 version.</li>\n<li>Install optional Java Cryptography Extensions (JCE)</li>\n<li>Install for CentOS, Debian/Ubuntu, SUSE, and Mac OS X families.</li>\n</ul>\n<p>If you prefer OpenJDK, try alternatives such as <a href=\"https://galaxy.ansible.com/geerlingguy/java/\">geerlingguy.java</a> or <a href=\"https://galaxy.ansible.com/smola/java/\">smola.java</a>.</p>\n<h2><a id=\"user-content-role-variables\" class=\"anchor\" href=\"#role-variables\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Role Variables</h2>\n<h3><a id=\"user-content-mandatory-variables\" class=\"anchor\" href=\"#mandatory-variables\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Mandatory variables</h3>\n<p>None.</p>\n<h3><a id=\"user-content-optional-variables\" class=\"anchor\" href=\"#optional-variables\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Optional variables</h3>\n<p>User-configurable defaults:</p>\n<div class=\"highlight highlight-source-yaml\"><pre><span class=\"pl-c\"><span class=\"pl-c\">#</span> which version?</span>\n<span class=\"pl-ent\">java_version</span>: <span class=\"pl-c1\">8</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> which subversion?</span>\n<span class=\"pl-ent\">java_subversion</span>: <span class=\"pl-c1\">112</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> which directory to put the download file?</span>\n<span class=\"pl-ent\">java_download_path</span>: <span class=\"pl-s\">/tmp</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> rpm/tar.gz file location:</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span>   - true: download from Oracle on-the-fly;</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span>   - false: copy from `{{ playbook_dir }}/files` on the control machine.</span>\n<span class=\"pl-ent\">java_download_from_oracle</span>: <span class=\"pl-c1\">true</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> remove temporary downloaded files?</span>\n<span class=\"pl-ent\">java_remove_download</span>: <span class=\"pl-c1\">true</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> set $JAVA_HOME?</span>\n<span class=\"pl-ent\">java_set_javahome</span>: <span class=\"pl-c1\">false</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> install JCE?</span>\n<span class=\"pl-ent\">java_install_jce</span>: <span class=\"pl-c1\">false</span></pre></div>\n<p>For other configurable internals, read <code>tasks/set-role-variables.yml</code> file; for example, supported <code>java_version</code>/<code>java_subversion</code> combinations.</p>\n<p>If you want to install a Java release which is not supported out-of-the-box, you have to specify the corresponding Java build number in the variable <code>java_build</code> in addition to <code>java_version</code> and <code>java_subversion</code>, e.g.</p>\n<div class=\"highlight highlight-source-yaml\"><pre>---\n- <span class=\"pl-ent\">hosts</span>: <span class=\"pl-s\">all</span>\n\n  <span class=\"pl-ent\">roles</span>:\n    - <span class=\"pl-s\">williamyeh.oracle-java</span>\n\n  <span class=\"pl-ent\">vars</span>:\n    <span class=\"pl-ent\">java_version</span>: <span class=\"pl-c1\">8</span>\n    <span class=\"pl-ent\">java_subversion</span>: <span class=\"pl-c1\">91</span>\n    <span class=\"pl-ent\">java_build</span>: <span class=\"pl-c1\">14</span></pre></div>\n<h3><a id=\"user-content-customized-variables-if-absolutely-necessary\" class=\"anchor\" href=\"#customized-variables-if-absolutely-necessary\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Customized variables, if absolutely necessary</h3>\n<p>If you have a pre-downloaded <code>jdk_tarball_file</code> whose filename cannot be inferred successfully by <code>tasks/set-role-variables.yml</code>, you may specify it explicitly:</p>\n<div class=\"highlight highlight-source-yaml\"><pre><span class=\"pl-c\"><span class=\"pl-c\">#</span> Specify the pre-fetch filename (without tailing .tar.gz or .rpm or .dmg);</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> used in conjunction with `java_download_from_oracle: false`.</span>\n\n<span class=\"pl-s\">jdk_tarball_file</span>\n\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> For example, if you have a `files/jdk-7u79-linux-x64.tar.gz` locally,</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> but the filename cannot be inferred successfully by `tasks/set-role-variables.yml`,</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> you may specify the following variables in your playbook:</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span></span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span>    java_version:    7</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span>    java_subversion: 79</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span>    java_download_from_oracle: false</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span>    jdk_tarball_file: jdk-7u79-linux-x64</span>\n<span class=\"pl-c\"><span class=\"pl-c\">#</span></span></pre></div>\n<h2><a id=\"user-content-usage\" class=\"anchor\" href=\"#usage\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Usage</h2>\n<h3><a id=\"user-content-step-1-add-role\" class=\"anchor\" href=\"#step-1-add-role\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Step 1: add role</h3>\n<p>Add role name <code>williamyeh.oracle-java</code> to your playbook file.</p>\n<h3><a id=\"user-content-step-2-add-variables\" class=\"anchor\" href=\"#step-2-add-variables\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Step 2: add variables</h3>\n<p>Set vars in your playbook file.</p>\n<p>Simple example:</p>\n<div class=\"highlight highlight-source-yaml\"><pre>---\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> file: simple-playbook.yml</span>\n\n- <span class=\"pl-ent\">hosts</span>: <span class=\"pl-s\">all</span>\n\n  <span class=\"pl-ent\">roles</span>:\n    - <span class=\"pl-s\">williamyeh.oracle-java</span>\n\n  <span class=\"pl-ent\">vars</span>:\n    <span class=\"pl-ent\">java_version</span>: <span class=\"pl-c1\">8</span></pre></div>\n<h3><a id=\"user-content-optionally-pre-fetch-rpm-and-targz-files\" class=\"anchor\" href=\"#optionally-pre-fetch-rpm-and-targz-files\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>(Optionally) pre-fetch .rpm and .tar.gz files</h3>\n<p>For some reasons, you may want to pre-fetch .rpm and .tar.gz files <em>before the execution of this role</em>, instead of downloading from Oracle on-the-fly.</p>\n<p>To do this, put the file on the <code>{{ playbook_dir }}/files</code> directory in advance, and then set the <code>java_download_from_oracle</code> variable to <code>false</code>:</p>\n<div class=\"highlight highlight-source-yaml\"><pre>---\n<span class=\"pl-c\"><span class=\"pl-c\">#</span> file: prefetch-playbook.yml</span>\n\n- <span class=\"pl-ent\">hosts</span>: <span class=\"pl-s\">all</span>\n\n  <span class=\"pl-ent\">roles</span>:\n    - <span class=\"pl-s\">williamyeh.oracle-java</span>\n\n  <span class=\"pl-ent\">vars</span>:\n    <span class=\"pl-ent\">java_version</span>: <span class=\"pl-c1\">8</span>\n    <span class=\"pl-ent\">java_download_from_oracle</span>: <span class=\"pl-c1\">false</span></pre></div>\n<h2><a id=\"user-content-dependencies\" class=\"anchor\" href=\"#dependencies\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>Dependencies</h2>\n<h2><a id=\"user-content-license\" class=\"anchor\" href=\"#license\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>License</h2>\n<p>Licensed under the Apache License V2.0. See the <a href=\"LICENSE\">LICENSE file</a> for details.</p>\n<h2><a id=\"user-content-history\" class=\"anchor\" href=\"#history\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>History</h2>\n<p>Rewritten from my pre-Galaxy version: <a href=\"https://github.com/William-Yeh/server-config-template\">server-config-template</a>.</p>\n</article></div>",
+      "travis_status_url": "https://travis-ci.org/William-Yeh/ansible-oracle-java.svg?branch=master",
+      "stargazers_count": 138,
+      "watchers_count": 26,
+      "forks_count": 91,
+      "open_issues_count": 19,
+      "commit": "c6c8de6efaa18fc7ab76f0959d049c1721fe918c",
+      "commit_message": "Update: default version to 8u112 (#48)\n\nMerged from https://github.com/William-Yeh/ansible-oracle-java/pull/48",
+      "commit_url": "https://github.com/William-Yeh/ansible-oracle-java/commit/c6c8de6efaa18fc7ab76f0959d049c1721fe918c",
+      "download_count": 14124,
+      "active": true
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+/**
+ * gdsl for pipeline steps that do not need a allocated node
+ */
+def pipelineCtx = context(scope: scriptScope())
+contributor(pipelineCtx) {
+  method(name: 'checkoutScm', type: 'void', params: [config: Map], doc: 'Check out from scm with provided configuration')
+  method(name: 'execManagedShellScript', type: String, params: [fileId: String, args: 'List<String>'], doc: 'Executes the managed shell script and returns the stdout')
+  method(name: 'execManagedShellScript', type: String, params: [fileId: String, argsLine: String], doc: 'Executes the managed shell script and returns the stdout')
+  method(name: 'execMaven', type: 'void', params: [config: Map], doc: 'Executes maven with the given configuration')
+  method(name: 'execMavenRelease', type: 'void', params: [config: Map], doc: 'Performs a maven release with the given configuration')
+  method(name: 'execNpm', type: 'void', params: [config: Map], doc: 'Executed NPM with the given configuration')
+  method(name: 'getBuildParameters.groovy', type: String, doc: 'Returns the current build parameters')
+  method(name: 'getScmUrl', type: String, doc: 'Returns the current scm url')
+  method(name: 'getScmUrl', type: String, params: [config: Map], doc: 'Returns the current scm url')
+  method(name: 'notifyMail', type: 'void', params: [config: Map], doc: 'Sends mail notification with the given configuration')
+  method(name: 'setBuildName', type: 'void', doc: 'Sets the current build name to #BUILD_NUMBER GIT_BRANCH')
+  method(name: 'setGitBranch', type: 'void', doc: 'Detects the current git branch and sets the result into GIT_BRANCH environment variable')
+  method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
+  method(name: 'setupTools', type: 'void', params: [config: Map], doc: 'Setup tools configured in the provided configuration')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.tooling.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
+}
+

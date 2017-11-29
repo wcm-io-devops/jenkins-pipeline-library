@@ -1,0 +1,20 @@
+[
+  {
+    "pattern": "subdomain\.domain\.tld[:\/]group",
+    "id": "ssh-or-https-id",
+    "name": "ssh-or-https-name",
+    "comment": "ssh-or-https-comment"
+  },
+  {
+    "pattern": "subdomain\.domain\.tld[:\/]group/project1",
+    "id": "ssh-or-https-better-match-id",
+    "name": "project1-better-match-name",
+    "comment": "project1-better-match-comment"
+  },
+  {
+    "pattern": "subdomain\.evenbetterdomain\.tld",
+    "id": "EVEN_BETTER_DOMAIN_MVN_GLOBAL_SETTINGS_ID",
+    "name": "better-domain-global-settings-name",
+    "comment": "better-domain-global-settings-comment"
+  }
+]

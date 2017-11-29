@@ -1,0 +1,32 @@
+[
+  {
+    "pattern": "subdomain\.domain\.tld[:\/]group1",
+    "id": "group1-maven-settings-id",
+    "name": "group1-maven-settings-name",
+    "comment": "group1-maven-settings-comment"
+  },
+  {
+    "pattern": "subdomain\.domain\.tld[:\/]group1/project1",
+    "id": "group1-project1-maven-settings-id",
+    "name": "group1-project1-maven-settings-name",
+    "comment": "group1-project1-maven-settings-comment"
+  },
+  {
+    "pattern": "subdomain\.domain\.tld[:\/]group1/project2",
+    "id": "group1-project2-maven-settings-id",
+    "name": "group1-project2-maven-settings-name",
+    "comment": "group1-project2-maven-settings-comment"
+  },
+  {
+    "pattern": "subdomain\.betterdomain\.tld[:\/]group1/project2",
+    "id": "BETTER_DOMAIN_MVN_SETTINGS",
+    "name": "group1-project2-maven-settings-name",
+    "comment": "group1-project2-maven-settings-comment"
+  },
+  {
+    "pattern": "subdomain\.evenbetterdomain\.tld[:\/]group1/project2",
+    "id": "EVEN_BETTER_DOMAIN_MVN_SETTINGS",
+    "name": "group1-project2-maven-settings-name",
+    "comment": "group1-project2-maven-settings-comment"
+  }
+]

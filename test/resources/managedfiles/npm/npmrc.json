@@ -1,0 +1,14 @@
+[
+  {
+    "pattern": "subdomain\.npm-domain\.tld[:\/]group",
+    "id": "npmrc-id",
+    "name": "npmrc-name",
+    "comment": "npmrc-comment"
+  },
+  {
+    "pattern": "subdomain\.npm-domain\.tld[:\/]group/project1",
+    "id": "npmrc-project1-id",
+    "name": "npmrc-name",
+    "comment": "npmrc-comment"
+  }
+]
