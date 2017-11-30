@@ -12,7 +12,7 @@ see the whole time.
 
 * [Initialization](#initialization)
 * [Features](#features)
-    *[Colorized output](#colorized-output)
+   * [Colorized output](#colorized-output)
 * [LogLevels](#loglevels)
 * [Examples](#examples)
   * [Example 1: Do a trace logging](#example-1-do-a-trace-logging)
