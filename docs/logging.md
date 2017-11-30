@@ -33,7 +33,7 @@ import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
 import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
 
 // initialize the logger with WorkflowScript reference (this 
-Logger.init(this, [ logLevel: [LogLevel.INFO] ])
+Logger.init(this, [ logLevel: LogLevel.INFO ])
 ```
 
 The logger needs a reference to the `DSL` instance which is the `steps`
@@ -87,7 +87,7 @@ import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
 import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
 
 // initialize the logger 
-Logger.init(this, [ logLevel: [LogLevel.TRACE] ])
+Logger.init(this, [ logLevel: LogLevel.TRACE ])
 Logger log = new Logger(this)
 
 log.trace("I am a trace log message")
