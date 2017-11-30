@@ -4,6 +4,10 @@
  * cps/sandbox exception.
  */
 @Library('pipeline-library') pipelineLibrary
+library identifier: 'pipeline-library-example@master', retriever: modernSCM([
+    $class: 'GitSCMSource',
+    remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
+])
 
 import io.wcm.tooling.jenkins.pipeline.credentials.Credential
 import io.wcm.tooling.jenkins.pipeline.credentials.CredentialConstants
