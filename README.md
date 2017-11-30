@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/wcm-io-devops/jenkins-pipeline-library.svg?branch=develop)](https://travis-ci.org/wcm-io-devops/jenkins-pipeline-library)
+[![Code Coverage](https://codecov.io/gh/wcm-io-devops/jenkins-pipeline-library/branch/develop/graph/badge.svg)](https://codecov.io/gh/wcm-io-devops/jenkins-pipeline-library)
+
 # Pipeline Library
 
 Since Jenkins Pipeline has reached a certain state of production scripted
