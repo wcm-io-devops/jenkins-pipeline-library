@@ -1,10 +1,10 @@
 # Logging
 
-The pipeline library provides an own [`Logger`](../src/io/wcm/tooling/jenkins/pipeline/utils/logging/Logger.groovy)
+The pipeline library provides an own [`Logger`](../src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
 since pipeline provides only `echo` step at the moment and is quite communicative.
 
 At the end the
-[`Logger`](../src/io/wcm/tooling/jenkins/pipeline/utils/logging/Logger.groovy)
+[`Logger`](../src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
 also uses the echo step but it filters out messages you don't want to
 see the whole time.
 
@@ -184,5 +184,5 @@ the root level of the config to be evaluated.
 The log level for the logger
 
 ## Related classes
-* [Logger](../src/io/wcm/tooling/jenkins/pipeline/utils/logging/Logger.groovy)
-* [LogLevel](../src/io/wcm/tooling/jenkins/pipeline/utils/logging/LogLevel.groovy)
+* [Logger](../src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
+* [LogLevel](../src/io/wcm/devops/jenkins/pipeline/utils/logging/LogLevel.groovy)

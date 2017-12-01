@@ -83,7 +83,7 @@ variables would otherwise be directly evaluated!
 
 Complete list of all configuration options.
 
-All configuration options must be inside the `notify` ([`ConfigConstants.NOTIFY`](https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)) map element to be
+All configuration options must be inside the `notify` ([`ConfigConstants.NOTIFY`](https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)) map element to be
 evaluated and used by the step.
 
 ```groovy
@@ -114,7 +114,7 @@ notifyMail(
 ### `attachLog` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ATTACH_LOG`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ATTACH_LOG`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -126,7 +126,7 @@ Controls if the log should be attached to the mail.
 ### `attachmentsPattern` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ATTACHMENTS_PATTERN`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ATTACHMENTS_PATTERN`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`, comma separated list of ANT patterns|
 |Default|`''`|
 
@@ -137,7 +137,7 @@ The pattern(s) for the attachments which should be send along with the email.
 ### `body` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_BODY`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_BODY`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`${DEFAULT_CONTENT}`|
 
@@ -148,7 +148,7 @@ The body of the mail. The pipeline script assumes that you have a configured ema
 ### `compressLog` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_COMPRESS_LOG`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_COMPRESS_LOG`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -159,7 +159,7 @@ When set to `true` the log is attached to the mail as compressed zip.
 ### `mimeType` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_MIME_TYPE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_MIME_TYPE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -172,7 +172,7 @@ your Jenkins instance.
 ### `onAbort` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_ABORT`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_ABORT`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -181,7 +181,7 @@ When set to `true` a notification is send when the job is aborted.
 ### `onFailure` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_FAILURE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_FAILURE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`true`|
 
@@ -194,7 +194,7 @@ one time in a row see [onStillFailing](#onstillfailing-optional)
 ### `onStillFailing` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_STILL_FAILING`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_STILL_FAILING`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`true`|
 
@@ -204,7 +204,7 @@ previous build failed.
 ### `onFixed` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_FIXED`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_FIXED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`true`|
 
@@ -214,7 +214,7 @@ from a non successful to successful.
 ### `onSuccess` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_SUCCESS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_SUCCESS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -224,7 +224,7 @@ successful.
 ### `onUnstable` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_UNSTABLE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_UNSTABLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`true`|
 
@@ -236,14 +236,14 @@ one time in a row see [onStillUnstable](#onstillunstable-optional)
 ### `onStillUnstable` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_ON_STILL_UNSTABLE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_ON_STILL_UNSTABLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`true`|
 
 ### `recipientProviders` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_RECIPIENT_PROVIDERS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_RECIPIENT_PROVIDERS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`List` of `Map` with `RecipientProvider` classes|
 |Default|`[[$class: 'CulpritsRecipientProvider'],[$class: 'DevelopersRecipientProvider'],[$class: 'FailingTestSuspectsRecipientProvider'], [$class: 'FirstFailingBuildSuspectsRecipientProvider'],[$class: 'RequesterRecipientProvider'][$class: 'UpstreamComitterRecipientProvider']]`|
 
@@ -256,7 +256,7 @@ are used.
 ### `subject` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_SUBJECT`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_SUBJECT`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}`|
 
@@ -267,7 +267,7 @@ The subject for the mail.
 ### `to` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NOTIFY_TO`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NOTIFY_TO`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`, comma separated list of email adresses|
 |Default|`null`|
 
@@ -277,4 +277,4 @@ comma separated String of mail adresses.
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
 ## Related classes
-* [`NotificationTriggerHelper`](../src/io/wcm/tooling/jenkins/pipeline/utils/NotificationTriggerHelper.groovy)
+* [`NotificationTriggerHelper`](../src/io/wcm/devops/jenkins/pipeline/utils/NotificationTriggerHelper.groovy)

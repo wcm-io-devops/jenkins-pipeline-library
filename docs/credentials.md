@@ -88,7 +88,7 @@ information on how the `getBestMatch` algorithm works
 ### Step examples
 
 If you have retrieved a
-[Credential](../src/io/wcm/tooling/jenkins/pipeline/credentials/Credential.groovy)
+[Credential](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
 object stored in the variable `foundCredential` you can use this for example in the
 following ways:
 
@@ -119,8 +119,8 @@ sshagent([foundCredential.id]) {
 ```
 
 ## Related classes
-* [Credential](../src/io/wcm/tooling/jenkins/pipeline/credentials/Credential.groovy)
-* [CredentialConstants](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialConstants.groovy)
-* [CredentialParser](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialParser.groovy)
-* [PatternMatchable](../src/io/wcm/tooling/jenkins/pipeline/model/PatternMatchable.groovy)
-* [PatternMatcher](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [Credential](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
+* [CredentialConstants](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialConstants.groovy)
+* [CredentialParser](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
+* [PatternMatchable](../src/io/wcm/devops/jenkins/pipeline/model/PatternMatchable.groovy)
+* [PatternMatcher](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)

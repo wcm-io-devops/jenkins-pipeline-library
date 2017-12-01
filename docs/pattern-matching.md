@@ -3,7 +3,7 @@
 [Credentials](credentials.md) and [ManagedFiles](managed-files.md)
 supports pattern matching. During pattern matching the `pattern` defined
 in
-[`PatternMatchable`](../src/io/wcm/tooling/jenkins/pipeline/model/PatternMatchable.groovy)
+[`PatternMatchable`](../src/io/wcm/devops/jenkins/pipeline/model/PatternMatchable.groovy)
 objects is used as regular expression and evaluated against a search
 value.
 
@@ -13,7 +13,7 @@ maven settins, npm repository settings, ruby bundler settings or
 credentials for repository urls.
 
 The class
-[`PatternMatcher`](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+[`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
 can be used to get items from a PatternMatchable list.
 
 # Table of contents
@@ -76,10 +76,10 @@ Even when the first entry matched, the more specific pattern from the
 second entry had a better match, so this Credential will be returned.
 
 ## Related classes
-* [Credential](../src/io/wcm/tooling/jenkins/pipeline/credentials/Credential.groovy)
-* [CredentialParser](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialParser.groovy)
-* [ManagedFile](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFile.groovy)
-* [ManagedFileConstants](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFileConstants.groovy)
-* [ManagedFileParser](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
-* [PatternMatchable](../src/io/wcm/tooling/jenkins/pipeline/model/PatternMatchable.groovy)
-* [PatternMatcher](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [Credential](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
+* [CredentialParser](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
+* [ManagedFile](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFile.groovy)
+* [ManagedFileConstants](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFileConstants.groovy)
+* [ManagedFileParser](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
+* [PatternMatchable](../src/io/wcm/devops/jenkins/pipeline/model/PatternMatchable.groovy)
+* [PatternMatcher](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)

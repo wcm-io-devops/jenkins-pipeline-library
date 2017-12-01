@@ -82,4 +82,4 @@ a look at the configuration options for the
 [`execMaven` configuration options](execMaven.md#configuration-options) for more information
 
 ## Related classes
-* [`ComparableVersion`](../src/io/wcm/tooling/jenkins/pipeline/versioning/ComparableVersion.groovy)
+* [`ComparableVersion`](../src/io/wcm/devops/jenkins/pipeline/versioning/ComparableVersion.groovy)

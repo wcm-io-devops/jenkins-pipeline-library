@@ -104,13 +104,13 @@ environment variables.
 * NODEJS (environment variable: `NPM_HOME`)
 
 :bulb: See
-[`Tool`](../src/io/wcm/tooling/jenkins/pipeline/model/Tool.groovy)
+[`Tool`](../src/io/wcm/devops/jenkins/pipeline/model/Tool.groovy)
 
 ## Configuration options
 
 Complete list of all configuration options.
 
-All configuration options must be inside the `tools` ([`ConfigConstants.TOOLS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)) map element to be
+All configuration options must be inside the `tools` ([`ConfigConstants.TOOLS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)) map element to be
 evaluated and used by the step.
 
 The `tools` element must be a `List`.
@@ -134,7 +134,7 @@ Each tool definition has three properties:
 ### `envVar` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.TOOL_ENVVAR`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.TOOL_ENVVAR`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String` The name of the environment variable where the path will be set after initialisation|
 |Default|-|
 
@@ -143,7 +143,7 @@ If set this environment variable will be used to store the path the tool
 ### `name`
 |||
 |---|---|
-|Constant|[`ConfigConstants.TOOL_NAME`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.TOOL_NAME`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|-|
 
@@ -152,7 +152,7 @@ The name of the tool configured in the Jenkins instance
 ### `type` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.TOOL_TYPE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.TOOL_TYPE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|-|
 
@@ -160,4 +160,4 @@ The type of the tool. [Supported tools](#supported-tools)
 If provided the environment variable will be automatically set based on the type.
 
 ## Related classes:
-* [`Tool`](../src/io/wcm/tooling/jenkins/pipeline/model/Tool.groovy)
+* [`Tool`](../src/io/wcm/devops/jenkins/pipeline/model/Tool.groovy)

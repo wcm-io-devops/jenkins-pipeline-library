@@ -64,7 +64,7 @@ automatically try to lookup the global settings for the provided scm url
 and use them
 
 This step uses the best match by using the
-[PatternMatcher](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+[PatternMatcher](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
 so the `ManagedFile` with the most matching characters will be used as
 global setting.
 
@@ -120,7 +120,7 @@ automatically try to lookup the settings for the provided scm url
 and use them
 
 This step uses the best match by using the
-[PatternMatcher](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+[PatternMatcher](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
 so the `ManagedFile` with the most matching characters will be used as
 global setting.
 
@@ -358,7 +358,7 @@ mechanism The resulting `shell` command will look like:
 Complete list of all configuration options.
 
 All configuration options must be inside the `maven`
-([`ConfigConstants.MAVEN`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy))
+([`ConfigConstants.MAVEN`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
 map element to be evaluated and used by the step.
 
 ```groovy
@@ -382,7 +382,7 @@ execMaven(
 ### `arguments` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_ARGUMENTS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_ARGUMENTS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`List` of `String` or `String`|
 |Default|`null`|
 
@@ -397,7 +397,7 @@ or a `String` like:
 ### `defines` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_DEFINES`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_DEFINES`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Map` or `String`|
 |Default|`null`|
 
@@ -412,7 +412,7 @@ or a `String` like:
 ### `executable` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_EXECUTABLE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_EXECUTABLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`mvn`|
 
@@ -425,7 +425,7 @@ You can specify the path to a custom mavn installation with this option like
 ### `globalSettings` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_GLOBAL_SETTINGS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_GLOBAL_SETTINGS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -435,7 +435,7 @@ and the step tries to retrieve a managed file with the provided value.
 ### `goals` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_GOALS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_GOALS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`List` of `String`, or `String`|
 |Default|`null`|
 
@@ -450,7 +450,7 @@ or a `String` like:
 ### `injectParams` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_INJECT_PARAMS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_INJECT_PARAMS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -463,7 +463,7 @@ when using `MAVEN_INJECT_PARAMS`
 ### `pom` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_POM`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_POM`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -474,7 +474,7 @@ current working directory
 ### `profiles` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_PROFILES`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_PROFILES`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String` or `List<String>`|
 |Default|`[]`|
 
@@ -483,7 +483,7 @@ Maven profiles to use.
 ### `settings` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_SETTINGS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.MAVEN_SETTINGS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -491,8 +491,8 @@ When provided the auto lookup mechanism for local maven settings is omitted
 and the step tries to retrieve a managed file with the provided value.
 
 ## Related classes
-* [`ManagedFile`](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFile.groovy)
-* [`ManagedFileParser`](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
-* [`CommandBuilder`](../src/io/wcm/tooling/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
-* [`MavenCommandBuilder`](../src/io/wcm/tooling/jenkins/pipeline/shell/MavenCommandBuilderImpl.groovy)
-* [`PatternMatcher`](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [`ManagedFile`](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFile.groovy)
+* [`ManagedFileParser`](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
+* [`CommandBuilder`](../src/io/wcm/devops/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
+* [`MavenCommandBuilder`](../src/io/wcm/devops/jenkins/pipeline/shell/MavenCommandBuilderImpl.groovy)
+* [`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)

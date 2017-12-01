@@ -62,4 +62,4 @@ As you can the the provided arguments were returned by the
 `execManagedShellScript` step
 
 ## Related classes
-* [`CommandBuilder`](../src/io/wcm/tooling/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
+* [`CommandBuilder`](../src/io/wcm/devops/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
