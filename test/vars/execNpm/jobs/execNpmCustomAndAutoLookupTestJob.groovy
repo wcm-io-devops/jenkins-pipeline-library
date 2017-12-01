@@ -19,7 +19,7 @@
  */
 package vars.execNpm.jobs
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Runs execNpm step  with default configuration by providing only the scm url

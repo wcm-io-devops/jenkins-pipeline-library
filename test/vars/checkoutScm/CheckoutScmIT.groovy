@@ -20,7 +20,7 @@
 package vars.checkoutScm
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants
+import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
 import org.junit.Test
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.CHECKOUT

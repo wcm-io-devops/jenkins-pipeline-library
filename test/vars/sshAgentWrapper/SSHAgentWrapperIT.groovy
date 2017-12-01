@@ -21,9 +21,9 @@ package vars.sshAgentWrapper
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
-import io.wcm.tooling.jenkins.pipeline.credentials.Credential
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialAware
-import io.wcm.tooling.jenkins.pipeline.ssh.SSHTarget
+import io.wcm.devops.jenkins.pipeline.credentials.Credential
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialAware
+import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
 import org.junit.Test
 
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce

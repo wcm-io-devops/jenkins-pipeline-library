@@ -20,12 +20,12 @@
 
 
 import groovy.json.JsonOutput
-import io.wcm.tooling.jenkins.pipeline.tools.ansible.Role
-import io.wcm.tooling.jenkins.pipeline.tools.ansible.RoleRequirements
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import io.wcm.tooling.jenkins.pipeline.utils.maps.MapUtils
+import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
+import io.wcm.devops.jenkins.pipeline.tools.ansible.RoleRequirements
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Checks out ansible galaxy requirements based upon a provided

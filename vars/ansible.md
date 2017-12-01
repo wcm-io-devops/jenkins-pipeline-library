@@ -90,7 +90,7 @@ This ensures that the types like `boolean` and `integer` are retained.
 **Example**
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = [
     (ANSIBLE) : [
@@ -120,7 +120,7 @@ When enabled the step will automatically add all build parameters as extra varia
 :bulb: These extra vars are combined with the variables defined via `ANSIBLE_EXTRA_VARS`.
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 properties([
 	parameters([
@@ -154,7 +154,7 @@ ansible-playbook --extra-vars '{"boolparam":false,"choiceparam":"choice1","strin
 The step provides a convenient way to add extra parameters to the command line.
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = [
     (ANSIBLE) : [
@@ -182,7 +182,7 @@ All configuration options must be inside the `ansible`
 map element to be evaluated and used by the step.
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 ansible.execPlaybook(
         (ANSIBLE): [
@@ -240,7 +240,7 @@ Extra parameters that will be passed to ansible-playbook commandline
 **Example:**
 This example will add `-v` to the command line.
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = {
     (ANSIBLE) : [
@@ -265,7 +265,7 @@ Can be used to define `--extra-vars` which will be passed in JSON format to the 
 **Example:**
 This example will add `--extra-vars '{"string":"value","boolean":true,"integer":1,"list":[1,2,3,4]}'` to the command line.
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = [
     (ANSIBLE) : [
@@ -405,7 +405,7 @@ Utility function to the the Ansible Galaxy role info from the API.
 This example will return the API role info for the role "tecris.maven"
 
 ```groovy
-import io.wcm.tooling.jenkins.pipeline.tools.ansible.Role
+import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
 Role role = new Role("tecris.maven")
 
 Object apiInfo = ansible.getGalaxyRoleInfo(role)

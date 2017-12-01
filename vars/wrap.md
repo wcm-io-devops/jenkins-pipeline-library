@@ -16,10 +16,10 @@ It uses the pipeline configuration to set the color mode
 ### `color` Example
 
 ```groovy
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 Map config = [
     (ANSI_COLOR) : ANSI_COLOR_XTERM
 ]
@@ -39,7 +39,7 @@ The value used in this configuration option is the color mode provided to the
 `ansiColor` Step
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 wrap.color(
         (ANSI_COLOR): ANSI_COLOR_XTERM

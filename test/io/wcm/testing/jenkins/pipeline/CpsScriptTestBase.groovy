@@ -19,7 +19,7 @@
  */
 package io.wcm.testing.jenkins.pipeline
 
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import org.junit.Before
 
 /**

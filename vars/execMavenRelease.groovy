@@ -17,14 +17,14 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import io.wcm.tooling.jenkins.pipeline.utils.maps.MapUtils
-import io.wcm.tooling.jenkins.pipeline.versioning.ComparableVersion
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
+import io.wcm.devops.jenkins.pipeline.versioning.ComparableVersion
 import org.apache.maven.model.Model
 import org.apache.maven.model.Plugin
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Utility step for performing a release with maven

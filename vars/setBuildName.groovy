@@ -17,8 +17,8 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
  * Sets the build name depending on the availability of the GIT_BRANCH environment variable.

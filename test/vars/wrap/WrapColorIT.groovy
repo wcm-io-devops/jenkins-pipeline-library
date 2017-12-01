@@ -22,7 +22,7 @@ package vars.wrap
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import org.junit.Assert
 import org.junit.Test
 

@@ -19,9 +19,7 @@
  */
 package vars.ansible.jobs
 
-import io.wcm.tooling.jenkins.pipeline.tools.ansible.Role
-
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
 
 /**
  * Runs execMaven step with path to custom maven executable

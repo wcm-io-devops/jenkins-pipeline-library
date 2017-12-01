@@ -17,8 +17,8 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.shell.CommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import org.jenkinsci.plugins.workflow.cps.DSL
 
 /**

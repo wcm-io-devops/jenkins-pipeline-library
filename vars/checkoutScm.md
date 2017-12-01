@@ -84,7 +84,7 @@ You have to provide at least the repository `url` for the checkout or a
 
 ##### Example 1: Simple checkout
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM) : [
@@ -95,7 +95,7 @@ checkoutScm(
 
 ##### Example 2: Advanced checkout
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM) : [
@@ -109,7 +109,7 @@ checkoutScm(
 
 ##### Example 3: Checkout with url and credentialId
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM) : [
@@ -122,7 +122,7 @@ checkoutScm(
 
 ##### Example 4: Checkout with userRemoteConfigs
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM) : [
@@ -145,7 +145,7 @@ To do a checkout within your pipeline script with this mode you have to
 call the step in your pipeline as follows:
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM): [
@@ -178,7 +178,7 @@ map element to be evaluated and used by the step.
 job configuration pages to generate the configuration options
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM) : [

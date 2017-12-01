@@ -21,7 +21,7 @@ package vars.setupTools
 
 import hudson.AbortException
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import io.wcm.tooling.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.model.Tool
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 

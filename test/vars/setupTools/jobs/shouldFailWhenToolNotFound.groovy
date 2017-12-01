@@ -19,9 +19,9 @@
  */
 package vars.setupTools.jobs
 
-import io.wcm.tooling.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.model.Tool
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Runs the setupTools step with invalid tool to test failure when tool is not found

@@ -19,7 +19,7 @@
  */
 package vars.execMavenRelease.jobs
 
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 
 /**
  * Runs execMavenRelease step with not supported https url
