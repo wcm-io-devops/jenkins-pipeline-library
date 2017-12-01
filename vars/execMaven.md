@@ -208,7 +208,7 @@ this content:
 
 When you now execute the `execMaven` Step with
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (SCM) : [ (SCM_URL) : 'https://git.company.tld/group1/project1.git' ],
     (MAVEN) : [ (MAVEN_GOALS) : ['clean', 'install'] ]
@@ -249,7 +249,7 @@ all you have to do is to create the file
 
 When you now execute the `execMaven` Step with
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (SCM) : [ (SCM_URL) : 'https://git.company.tld/group1/project1.git' ],
     (MAVEN) : [ (MAVEN_GOALS): ['clean', 'install'] ]
@@ -269,7 +269,7 @@ parameters as defines.
 The `execMaven` also supports this functionality by simply enabling this functionality.
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (MAVEN): [        
         (MAVEN_GOALS)           : ["clean", "install"],
@@ -288,7 +288,7 @@ from the global `params` Map object to the maven defines.
 ### Example 1: All configuration options used
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (MAVEN): [
         (MAVEN_POM)             : "path/to/customPom1.xml",
@@ -313,7 +313,7 @@ settings is omitted because `globalSettings` and `localSettings` were provided
 ### Example 2: Simple maven call
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (MAVEN) : [
         (MAVEN_GOALS) : ["clean", "install"]
@@ -328,7 +328,7 @@ mechanism The resulting `shell` command will look like:
 ### Example 3: Just maven
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (MAVEN) : [:]
 )
@@ -341,7 +341,7 @@ mechanism The resulting `shell` command will look like:
 ### Example 4: Maven version
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven(
     (MAVEM): [
         (MAVEN_ARGUMENTS) : ["--version"]
@@ -362,7 +362,7 @@ All configuration options must be inside the `maven`
 map element to be evaluated and used by the step.
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 execMaven( 
     (MAVEN) : [

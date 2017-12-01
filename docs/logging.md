@@ -29,8 +29,8 @@ beginning of your pipeline script:
 
 ```groovy
 // do the import
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 // initialize the logger with WorkflowScript reference (this 
 Logger.init(this, [ logLevel: [LogLevel.INFO] ])
@@ -83,8 +83,8 @@ initialize the `Logger` or set the `LogLevel` to `NONE`
 
 ```groovy
 // do the import
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 // initialize the logger 
 Logger.init(this, [ logLevel: [LogLevel.TRACE] ])
@@ -102,9 +102,9 @@ Output:
 
 ```groovy
 // do the import
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 // initialize the logger 
 Logger.init(this, [ (LOGLEVEL) : LogLevel.WARN] )
@@ -126,9 +126,9 @@ the `String` representation (`toString()`) should always work.
 
 ```groovy
 // do the import
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = [ (LOGLEVEL) : LogLevel.DEBUG ]
 
@@ -149,9 +149,9 @@ This example will output all log levels with theis colors.
 
 ```groovy
 // do the import
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = [ (LOGLEVEL) : LogLevel.TRACE ]
 

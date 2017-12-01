@@ -19,8 +19,8 @@
  */
 
 
-import io.wcm.tooling.jenkins.pipeline.utils.IntegrationTestHelper
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.IntegrationTestHelper
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
  * Assert utitlity function
@@ -147,7 +147,7 @@ void runTest(String className, Closure testClosure) {
 void runTestsOnPackage(String packageName, Closure packageTestClosure) {
     // reset package test results
     IntegrationTestHelper.addTestPackage(packageName)
-    String displayName = packageName.replace("io.wcm.tooling.jenkins.pipeline.", "")
+    String displayName = packageName.replace("io.wcm.devops.jenkins.pipeline.", "")
     stage(displayName) {
         packageTestClosure()
     }

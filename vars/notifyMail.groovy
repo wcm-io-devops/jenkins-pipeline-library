@@ -18,10 +18,10 @@
  * #L%
  */
 
-import io.wcm.tooling.jenkins.pipeline.utils.NotificationTriggerHelper
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Used to send notifications at the end of a build.

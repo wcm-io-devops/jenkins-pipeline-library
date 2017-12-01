@@ -55,7 +55,7 @@ Will be escaped into
 
 ### Example 1: Transfer a single file
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 Map config = [
    // configure scp transport
   (SCP) : [
@@ -70,7 +70,7 @@ transferScp(config)
 
 ### Example 2: Transfer multiple files (recursively)
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 Map config = [
    // configure scp transport
   (SCP) : [
@@ -93,7 +93,7 @@ evaluated and used by the step.
 
 The `scp` element must be a `Map`.
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 transferScp([
     (SCP): [

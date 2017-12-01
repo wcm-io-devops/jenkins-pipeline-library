@@ -18,11 +18,11 @@
  * #L%
  */
 
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR_XTERM
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR_XTERM
 
 /**
  * Enables color output in Jenkins console by using the ansiColor step

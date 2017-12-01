@@ -17,18 +17,18 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.credentials.Credential
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialConstants
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialParser
-import io.wcm.tooling.jenkins.pipeline.shell.ScpCommandBuilderImpl
-    import io.wcm.tooling.jenkins.pipeline.ssh.SSHTarget
-    import io.wcm.tooling.jenkins.pipeline.utils.PatternMatcher
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import io.wcm.tooling.jenkins.pipeline.utils.resources.JsonLibraryResource
+import io.wcm.devops.jenkins.pipeline.credentials.Credential
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
+import io.wcm.devops.jenkins.pipeline.shell.ScpCommandBuilderImpl
+    import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
+    import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.resources.JsonLibraryResource
 import net.sf.json.JSON
 import org.jenkinsci.plugins.workflow.cps.DSL
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP
 
 /**
  * Utility step to transfer files via scp.

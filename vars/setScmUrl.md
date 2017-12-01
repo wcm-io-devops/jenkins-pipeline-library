@@ -16,7 +16,7 @@ In this case the step tries to retrieve the `SCM_URL` from
 the config object:
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 setScmUrl(
     (SCM): [

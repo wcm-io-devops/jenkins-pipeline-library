@@ -20,7 +20,7 @@
 package vars.execNpm
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFileConstants
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
 import org.junit.Assert
 import org.junit.Test
 

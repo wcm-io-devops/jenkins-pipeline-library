@@ -19,7 +19,7 @@
  */
 package vars.transferScp.jobs
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Runs the setScmUrl step in auto detection mode where scm url is determined via command line

@@ -19,11 +19,9 @@
  */
 package vars.sshAgentWrapper.jobs
 
-import io.wcm.tooling.jenkins.pipeline.shell.ScpCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.ssh.SSHTarget
+import io.wcm.devops.jenkins.pipeline.shell.ScpCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
 import org.jenkinsci.plugins.workflow.cps.DSL
-
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Runs the transferScp step with ssh credential auto lookup (key + username)

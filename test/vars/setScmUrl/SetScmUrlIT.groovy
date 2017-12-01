@@ -20,7 +20,7 @@
 package vars.setScmUrl
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

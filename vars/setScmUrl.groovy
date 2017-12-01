@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
  * Utility step to retrieve scm url when checkout was done via default scm variable (e.g. checkout scm)

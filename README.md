@@ -27,6 +27,7 @@ Want to see an example? Have look at
 * [Setup your environment to use the pipeline library](#setup-your-environment-to-use-the-pipeline-library)
 * [Building/Testing](#buildingtesting)
     * [Building with maven](#building-with-maven)
+* [Changes / Version History](#changes--version-history)
 
 ## Key concepts
 
@@ -62,7 +63,7 @@ Configured properly this library enables you to checkout scm
 with these lines of code:
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 checkoutScm( (SCM) : [
         (SCM_URL) : "git@domain.tld/group/project.git",
     ]
@@ -73,7 +74,7 @@ Or running maven with local and global maven settings with these lines
 of code:
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 execMaven( 
     (SCM) : [
         (SCM_URL) : "git@domain.tld/group/project.git",
@@ -166,3 +167,11 @@ with jUnit/Failsafe. All integration tests have the naming format
 ### Building with maven
 
     mvn clean install
+
+## Changes / Version History
+
+:bulb: Please also have a look at the [changes.xml](changes.xml)
+
+### Version 1.0.0
+
+* Initial Release

@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.model.Tool
-import io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
  * Main function to setup tools. Takes a list of
