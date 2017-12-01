@@ -19,8 +19,8 @@
  */
 package vars.checkoutScm.jobs
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCM
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCM_URL
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCM
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCM_URL
 
 /**
  * Executes default checkout with no credential found during auto lookup for the given scm url

@@ -20,8 +20,8 @@
 package vars.execMaven
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFileConstants
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
 import org.junit.Test
 
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOneShellCommand

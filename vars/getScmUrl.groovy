@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Tries to retrieve the current scm url by using some fallback steps

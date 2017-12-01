@@ -26,7 +26,7 @@ import org.junit.Test
 import static io.wcm.testing.jenkins.pipeline.StepConstants.EMAILEXT
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import static org.junit.Assert.assertEquals
 
 class NotifyMailCustomIT extends LibraryIntegrationTestBase {

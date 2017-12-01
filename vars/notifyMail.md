@@ -87,7 +87,7 @@ All configuration options must be inside the `notify` ([`ConfigConstants.NOTIFY`
 evaluated and used by the step.
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 notifyMail(
     (NOTIFY) : [

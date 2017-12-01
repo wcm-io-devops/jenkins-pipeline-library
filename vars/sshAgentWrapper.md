@@ -58,8 +58,8 @@ automatically added to the `SSHTarget` object. With this information we are
 able to use the username configured in the credential for building the command.
 
 ```groovy
-import io.wcm.tooling.jenkins.pipeline.shell.ScpCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.ssh.SSHTarget 
+import io.wcm.devops.jenkins.pipeline.shell.ScpCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget 
 
 ScpCommandBuilderImpl commandBuilder = new ScpCommandBuilderImpl((DSL) this.steps)
 commandBuilder.setHost("testserver.yourcompany.de")
@@ -82,7 +82,7 @@ sshAgentWrapper([sshTarget]) {
 ### Example 3: Multipe SSH targets
 
 ```groovy
-import io.wcm.tooling.jenkins.pipeline.ssh.SSHTarget
+import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
 
 List<SSHTarget> sshTargets = [
     new SSHTarget("testserver1.yourcompany.de"),

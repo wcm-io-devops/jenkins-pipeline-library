@@ -19,7 +19,7 @@
  */
 package vars.checkoutScm.jobs
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Executes a custom checkout with the provided userRemoteConfig that should not use the provided credentialsId

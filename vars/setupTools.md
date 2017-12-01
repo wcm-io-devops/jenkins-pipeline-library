@@ -24,7 +24,8 @@ tool is also available in the `PATH` environment variable
 ### Setting up Maven and Jdk
 
 ``` groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+``` groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import io.wcm.tooling.jenkins.pipeline.model.Tool
 
 setupTools(
@@ -45,7 +46,8 @@ paths to the tools.
 ### Setting up two Jdk's
 
 ``` groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+``` groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import io.wcm.tooling.jenkins.pipeline.model.Tool
 
 setupTools([
@@ -69,8 +71,9 @@ there now will be two java binaries in the paths
 ### Setting up tool without environment variable
 
 ``` groovy
+``` groovy
 import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
-import io.wcm.tooling.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.model.Tool
 setupTools([
     (TOOLS): [
         [ (TOOL_NAME): 'jdk8' ]     
@@ -112,7 +115,7 @@ evaluated and used by the step.
 
 The `tools` element must be a `List`.
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 setupTools([
     (TOOLS): [

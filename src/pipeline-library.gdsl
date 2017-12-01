@@ -18,7 +18,7 @@ contributor(pipelineCtx) {
   method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
   method(name: 'setupTools', type: 'void', params: [config: Map], doc: 'Setup tools configured in the provided configuration')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
-  method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.tooling.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.devops.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
 }
 

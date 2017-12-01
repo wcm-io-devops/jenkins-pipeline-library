@@ -17,19 +17,19 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.tooling.jenkins.pipeline.credentials.Credential
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialConstants
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialParser
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialAware
-import io.wcm.tooling.jenkins.pipeline.shell.ScpCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.ssh.SSHTarget
-import io.wcm.tooling.jenkins.pipeline.utils.PatternMatcher
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import io.wcm.tooling.jenkins.pipeline.utils.resources.JsonLibraryResource
+import io.wcm.devops.jenkins.pipeline.credentials.Credential
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialAware
+import io.wcm.devops.jenkins.pipeline.shell.ScpCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
+import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.resources.JsonLibraryResource
 import net.sf.json.JSON
 import org.jenkinsci.plugins.workflow.cps.DSL
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP
 
 /**
  * Adapter step for one ssh target without credential aware parameter
@@ -97,10 +97,10 @@ void call(List<SSHTarget> sshTargets, Closure body) {
  *
  * @param host The host to connect to
  * @return The found Credential object or null when no credential object was found during auto lookup
- * @see io.wcm.tooling.jenkins.pipeline.credentials.Credential
- * @see io.wcm.tooling.jenkins.pipeline.credentials.CredentialParser
+ * @see io.wcm.devops.jenkins.pipeline.credentials.Credential
+ * @see io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
  * @see JsonLibraryResource
- * @see io.wcm.tooling.jenkins.pipeline.credentials.CredentialConstants
+ * @see io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
  */
 Credential autoLookupSSHCredentials(String host) {
     // load the json

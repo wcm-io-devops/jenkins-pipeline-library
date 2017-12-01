@@ -3,11 +3,11 @@
 ## Example 1: Building a maven project with notifications
 
 ```groovy
-import io.wcm.tooling.jenkins.pipeline.model.Tool
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 Map config = [
     (SCM): [

@@ -18,16 +18,16 @@
  * #L%
  */
 import hudson.AbortException
-import io.wcm.tooling.jenkins.pipeline.environment.EnvironmentConstants
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFile
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFileConstants
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFileParser
-import io.wcm.tooling.jenkins.pipeline.model.PatternMatchable
-import io.wcm.tooling.jenkins.pipeline.shell.MavenCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants
-import io.wcm.tooling.jenkins.pipeline.utils.PatternMatcher
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import io.wcm.tooling.jenkins.pipeline.utils.resources.JsonLibraryResource
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileParser
+import io.wcm.devops.jenkins.pipeline.model.PatternMatchable
+import io.wcm.devops.jenkins.pipeline.shell.MavenCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
+import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.resources.JsonLibraryResource
 import net.sf.json.JSON
 import org.jenkinsci.plugins.workflow.cps.DSL
 

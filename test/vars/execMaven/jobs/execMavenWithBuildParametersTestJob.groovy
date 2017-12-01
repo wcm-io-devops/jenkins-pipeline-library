@@ -19,11 +19,11 @@
  */
 package vars.execMaven.jobs
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.MAVEN
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.MAVEN_GOALS
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.MAVEN_INJECT_PARAMS
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCM
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCM_URL
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.MAVEN
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.MAVEN_GOALS
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.MAVEN_INJECT_PARAMS
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCM
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCM_URL
 
 /**
  * Runs execMaven step with default configuration to test auto lookup for global and local maven settings

@@ -18,9 +18,6 @@
  * #L%
  */
 package vars.sshAgentWrapper.jobs
-
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
-
 /**
  * Runs the transferScp step with ssh credential auto lookup (key + username)
  *

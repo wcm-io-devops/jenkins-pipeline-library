@@ -9,46 +9,46 @@ library identifier: 'pipeline-library-example@master', retriever: modernSCM([
     remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
 ])
 
-import io.wcm.tooling.jenkins.pipeline.credentials.Credential
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialConstants
-import io.wcm.tooling.jenkins.pipeline.credentials.CredentialParser
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFile
-import io.wcm.tooling.jenkins.pipeline.managedfiles.ManagedFileParser
-import io.wcm.tooling.jenkins.pipeline.model.PatternMatchable
-import io.wcm.tooling.jenkins.pipeline.model.Result
-import io.wcm.tooling.jenkins.pipeline.model.Tool
-import io.wcm.tooling.jenkins.pipeline.shell.CommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.shell.GitCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.shell.MavenCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.shell.ScpCommandBuilderImpl
-import io.wcm.tooling.jenkins.pipeline.shell.ShellUtils
-import io.wcm.tooling.jenkins.pipeline.tools.ansible.Role
-import io.wcm.tooling.jenkins.pipeline.tools.ansible.RoleRequirements
-import io.wcm.tooling.jenkins.pipeline.utils.IntegrationTestHelper
-import io.wcm.tooling.jenkins.pipeline.utils.ListUtils
-import io.wcm.tooling.jenkins.pipeline.utils.NotificationTriggerHelper
-import io.wcm.tooling.jenkins.pipeline.utils.PatternMatcher
-import io.wcm.tooling.jenkins.pipeline.utils.TypeUtils
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
-import io.wcm.tooling.jenkins.pipeline.utils.maps.MapUtils
-import io.wcm.tooling.jenkins.pipeline.utils.resources.JsonLibraryResource
-import io.wcm.tooling.jenkins.pipeline.utils.resources.LibraryResource
-import io.wcm.tooling.jenkins.pipeline.versioning.ComparableVersion
-import io.wcm.tooling.jenkins.pipeline.versioning.IntegerItem
-import io.wcm.tooling.jenkins.pipeline.versioning.ListItem
-import io.wcm.tooling.jenkins.pipeline.versioning.StringItem
+import io.wcm.devops.jenkins.pipeline.credentials.Credential
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
+import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileParser
+import io.wcm.devops.jenkins.pipeline.model.PatternMatchable
+import io.wcm.devops.jenkins.pipeline.model.Result
+import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.shell.GitCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.shell.MavenCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.shell.ScpCommandBuilderImpl
+import io.wcm.devops.jenkins.pipeline.shell.ShellUtils
+import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
+import io.wcm.devops.jenkins.pipeline.tools.ansible.RoleRequirements
+import io.wcm.devops.jenkins.pipeline.utils.IntegrationTestHelper
+import io.wcm.devops.jenkins.pipeline.utils.ListUtils
+import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
+import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
+import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
+import io.wcm.devops.jenkins.pipeline.utils.resources.JsonLibraryResource
+import io.wcm.devops.jenkins.pipeline.utils.resources.LibraryResource
+import io.wcm.devops.jenkins.pipeline.versioning.ComparableVersion
+import io.wcm.devops.jenkins.pipeline.versioning.IntegerItem
+import io.wcm.devops.jenkins.pipeline.versioning.ListItem
+import io.wcm.devops.jenkins.pipeline.versioning.StringItem
 import org.jenkinsci.plugins.workflow.cps.DSL
 
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_ARGUMENTS
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_DESTINATION
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_EXECUTABLE
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_HOST
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_HOST_KEY_CHECK
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_PORT
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_RECURSIVE
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_SOURCE
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.SCP_USER
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_ARGUMENTS
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_DESTINATION
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_EXECUTABLE
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_HOST
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_HOST_KEY_CHECK
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_PORT
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_RECURSIVE
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_SOURCE
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_USER
 
 // job properties
 
@@ -62,7 +62,7 @@ Logger log = new Logger(this)
 
 node() {
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.credentials") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.credentials") {
     integrationTestUtils.runTest("Credential") {
       Credential credential = new Credential("pattern", "id", "comment", "userName")
       integrationTestUtils.assertEquals("pattern", credential.getPattern())
@@ -72,7 +72,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.managedfiles") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.managedfiles") {
     integrationTestUtils.runTest("ManagedFile") {
       ManagedFile managedFile = new ManagedFile("pattern", "id", "comment")
     }
@@ -81,7 +81,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.model") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.model") {
     integrationTestUtils.runTest("Result") {
       Result testResult = Result.ABORTED
     }
@@ -90,7 +90,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.shell") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.shell") {
     integrationTestUtils.runTest("CommandBuilderImpl") {
       CommandBuilderImpl commandBuilder = new CommandBuilderImpl((DSL) this.steps, "somecommand")
       commandBuilder.addArguments(["1", "2"])
@@ -132,7 +132,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.tools") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.tools") {
     integrationTestUtils.runTest("ansible.Role") {
       Role role1 = new Role("src")
     }
@@ -141,7 +141,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.utils.logging") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.logging") {
     integrationTestUtils.runTest("Logger") {
       Logger test = new Logger(this)
       test.trace("trace")
@@ -157,7 +157,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.utils.maps") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.maps") {
     integrationTestUtils.runTest("MapUtils") {
       Map map1 = [
           node1: [
@@ -210,7 +210,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.utils.resources") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.resources") {
     integrationTestUtils.runTest("JsonLibraryResource") {
       JsonLibraryResource jsonLibraryResource = new JsonLibraryResource((DSL) this.steps, CredentialConstants.SCM_CREDENTIALS_PATH)
       jsonLibraryResource.load()
@@ -221,7 +221,7 @@ node() {
     }
   }
 
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.utils") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils") {
     integrationTestUtils.runTest("ListUtils") {
       List test = [1, 2, 3]
       test = ListUtils.removeAt(test, 1)
@@ -250,7 +250,7 @@ node() {
       integrationTestUtils.assertEquals(false, typeUtils.isList("noList"))
     }
   }
-  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.tooling.jenkins.pipeline.utils.versioning") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
     List<String> versionQualifier =
         ["1-alpha2snapshot", "1-alpha2", "1-alpha-123", "1-beta-2", "1-beta123", "1-m2", "1-m11", "1-rc", "1-cr2",
          "1-rc123", "1-SNAPSHOT", "1", "1-sp", "1-sp2", "1-sp123", "1-abc", "1-def", "1-pom-1", "1-1-snapshot",

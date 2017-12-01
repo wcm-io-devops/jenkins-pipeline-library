@@ -3,7 +3,7 @@
 You may be wondering why each step gets named config map passed like
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 checkoutScm( 
     (SCM): [
@@ -15,7 +15,7 @@ checkoutScm(
 or
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 execMaven(
     (MAVEN): [
@@ -27,7 +27,7 @@ execMaven(
 or
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 setupTools([
     (TOOLS): [
@@ -45,11 +45,11 @@ With this structure you are able to keep your configuration in one place.
 Based on the steps above you are able to create a pipeline job like this:
 
 ```groovy
-import static io.wcm.tooling.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-import io.wcm.tooling.jenkins.pipeline.model.Tool
-import io.wcm.tooling.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.tooling.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 Map config = [
     (SCM): [

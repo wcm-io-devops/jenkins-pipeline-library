@@ -28,8 +28,8 @@
     <relativePath />
   </parent>
 
-  <groupId>io.wcm.devops.ci</groupId>
-  <artifactId>io.wcm.devops.ci.jenkins-pipeline-library</artifactId>
+  <groupId>io.wcm.devops.jenkins</groupId>
+  <artifactId>io.wcm.devops.jenkins.pipeline-library</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <description>wcm.io Jenkins Pipeline Library</description>
 
@@ -190,6 +190,7 @@
         <configuration>
           <includes>
             <include>**/*.groovy</include>
+            <include>**/*.xml</include>
           </includes>
         </configuration>
       </plugin>
@@ -318,6 +319,25 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.12.1</version>
+        <executions>
+          <execution>
+            <id>validate-changes</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>changes-validate</goal>
+            </goals>
+            <configuration>
+              <!-- if set to true the build will fail if the changes file is invalid,
+                   if set to false warnings will be logged. -->
+              <failOnError>true</failOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
     <!-- plugin management -->
@@ -345,8 +365,28 @@
             </includes>
           </configuration>
         </plugin>
+        <plugin>
+          <artifactId>maven-changes-plugin</artifactId>
+          <version>2.12.1</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
   </build>
+  <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-changes-plugin</artifactId>
+          <version>2.12.1</version>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>changes-report</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
 </project>
