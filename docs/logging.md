@@ -12,7 +12,7 @@ see the whole time.
 
 * [Initialization](#initialization)
 * [Features](#features)
-    *[Colorized output](#colorized-output)
+   * [Colorized output](#colorized-output)
 * [LogLevels](#loglevels)
 * [Examples](#examples)
   * [Example 1: Do a trace logging](#example-1-do-a-trace-logging)
@@ -33,7 +33,7 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 // initialize the logger with WorkflowScript reference (this 
-Logger.init(this, [ logLevel: [LogLevel.INFO] ])
+Logger.init(this, [ logLevel: LogLevel.INFO ])
 ```
 
 The logger needs a reference to the `DSL` instance which is the `steps`
@@ -87,7 +87,7 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 // initialize the logger 
-Logger.init(this, [ logLevel: [LogLevel.TRACE] ])
+Logger.init(this, [ logLevel: LogLevel.TRACE ])
 Logger log = new Logger(this)
 
 log.trace("I am a trace log message")
