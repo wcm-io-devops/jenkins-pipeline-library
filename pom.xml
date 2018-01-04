@@ -17,8 +17,7 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -30,14 +29,14 @@
 
   <groupId>io.wcm.devops.jenkins</groupId>
   <artifactId>io.wcm.devops.jenkins.pipeline-library</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <description>wcm.io Jenkins Pipeline Library</description>
 
   <scm>
     <connection>scm:git:git@github.com:wcm-io-devops/jenkins-pipeline-library.git</connection>
     <developerConnection>scm:git:git@github.com:wcm-io-devops/jenkins-pipeline-library.git</developerConnection>
     <url>https://github.com/wcm-io-devops/jenkins-pipeline-library</url>
-    <tag>HEAD</tag>
+    <tag>1.0.0</tag>
   </scm>
 
   <properties>
