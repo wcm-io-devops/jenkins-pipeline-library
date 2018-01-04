@@ -5,8 +5,8 @@
 *.dtd text eol=lf
 *.esp text eol=lf
 *.ecma text eol=lf
-*.groovy text eol=lf
 *.hbrs text eol=lf
+*.hbs text eol=lf
 *.htm text eol=lf
 *.html text eol=lf
 *.java text eol=lf
@@ -36,6 +36,8 @@
 *.xsd text eol=lf
 *.xsl text eol=lf
 *.xslt text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
 
 
 # Declare windows-specific text files with windows file ending
