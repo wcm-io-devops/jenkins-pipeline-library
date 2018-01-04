@@ -170,8 +170,4 @@ with jUnit/Failsafe. All integration tests have the naming format
 
 ## Changes / Version History
 
-:bulb: Please also have a look at the [changes.xml](changes.xml)
-
-### Version 1.0.0
-
-* Initial Release
+Please have a look at the [changes.xml](changes.xml)
