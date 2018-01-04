@@ -33,9 +33,9 @@ provided.
 
 ### Path escaping
 You don't have to take care about path escaping! This step uses the  
-[ScpCommandBuilderImpl](../src/io/wcm/tooling/jenkins/pipeline/shell/ScpCommandBuilderImpl.groovy)
+[ScpCommandBuilderImpl](../src/io/wcm/devops/jenkins/pipeline/shell/ScpCommandBuilderImpl.groovy)
 which used the
-[ShellUtils](../src/io/wcm/tooling/jenkins/pipeline/shell/ShellUtils.groovy)
+[ShellUtils](../src/io/wcm/devops/jenkins/pipeline/shell/ShellUtils.groovy)
 to escape the paths for you.
 
 ```groovy
@@ -88,7 +88,7 @@ transferScp(config)
 
 Complete list of all configuration options.
 
-All configuration options must be inside the `scp` ([`ConfigConstants.SCP`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)) map element to be
+All configuration options must be inside the `scp` ([`ConfigConstants.SCP`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)) map element to be
 evaluated and used by the step.
 
 The `scp` element must be a `Map`.
@@ -116,7 +116,7 @@ transferScp([
 ### `arguments` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_ARGUMENTS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_ARGUMENTS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`List` of `String`|
 |Default|`[]`|
 
@@ -127,14 +127,14 @@ Additional arguments for SCP like `-v` for verbose output.
 ### `destination`
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_DESTINATION`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_DESTINATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
 ### `executable` (Optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_EXECUTABLE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_EXECUTABLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`scp`|
 
@@ -143,7 +143,7 @@ Defines the executable to use. Per default `transferScp` expects the executable 
 ### `host`
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_HOST`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_HOST`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -152,7 +152,7 @@ The scp destination host.
 ### `hostKeyCheck` (Optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_HOST_KEY_CHECK`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_HOST_KEY_CHECK`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`
 
@@ -164,14 +164,14 @@ When set to `false` (default) ssh arguments are automatically added to the comma
 ### `port` (Optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_PORT`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_PORT`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Integer`|
 |Default|`22`|
 
 ### `recursive` (Optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_RECURSIVE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_RECURSIVE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -180,7 +180,7 @@ When set to true the `-r` argument is added to the command line and SCP will tra
 ### `source`
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_SOURCE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_SOURCE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -189,16 +189,16 @@ Path to the source which should be transferred.
 ### `user` (Optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.SCP_USER`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.SCP_USER`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
 The name of the user to use. Per default the user is determined during SSH credential auto lookup.
 
 ## Related classes:
-* [`Credential`](../src/io/wcm/tooling/jenkins/pipeline/credentials/Credential.groovy)
-* [`CredentialConstants`](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialConstants.groovy)
-* [`CredentialParser`](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialParser.groovy)
-* [`PatternMatcher`](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
-* [`ScpCommandBuilderImpl`](../src/io/wcm/tooling/jenkins/pipeline/shell/ScpCommandBuilderImpl.groovy)
-* [`ShellUtils`](../src/io/wcm/tooling/jenkins/pipeline/shell/ShellUtils.groovy)
+* [`Credential`](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
+* [`CredentialConstants`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialConstants.groovy)
+* [`CredentialParser`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
+* [`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [`ScpCommandBuilderImpl`](../src/io/wcm/devops/jenkins/pipeline/shell/ScpCommandBuilderImpl.groovy)
+* [`ShellUtils`](../src/io/wcm/devops/jenkins/pipeline/shell/ShellUtils.groovy)

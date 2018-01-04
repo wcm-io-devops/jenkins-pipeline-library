@@ -37,7 +37,7 @@ class SubmoduleSourceRetriever implements SourceRetriever {
 
   @Override
   List<URL> retrieve(String repository, String branch, String targetPath) {
-    def sourceDir = new File(sourceURL).toPath().resolve("$repository/$branch").toFile()
+    def sourceDir = new File(sourceURL).toPath().resolve("$targetPath/$branch").toFile()
     if (sourceDir.exists()) {
       return [sourceDir.toURI().toURL()]
     }

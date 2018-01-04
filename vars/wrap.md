@@ -53,5 +53,5 @@ Available values:
 * `ConfigConstants.ANSI_COLOR_CSS`
 
 ## Related classes:
-* [`Logger`](../src/io/wcm/tooling/jenkins/pipeline/utils/logging/Logger.groovy)
-* [`LogLevel`](../src/io/wcm/tooling/jenkins/pipeline/utils/logging/LogLevel.groovy)
+* [`Logger`](../src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
+* [`LogLevel`](../src/io/wcm/devops/jenkins/pipeline/utils/logging/LogLevel.groovy)

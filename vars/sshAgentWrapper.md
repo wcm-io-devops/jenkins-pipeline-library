@@ -28,7 +28,7 @@ automatically try to lookup the SSH credentials for the target host and
 uses the credentials for authentication.
 
 This step uses the best match by using the
-[PatternMatcher](https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+[PatternMatcher](https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
 so the SSH credentials with the most matching characters will be used
 for the sshagent.
 
@@ -51,8 +51,8 @@ sshAgentWrapper(targetHost)
 ### Example 2: Use a credential aware command builder
 
 In this example we are providing the
-[`CredentialAware`](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialAware.groovy)
-[`ScpCommandBuilderImpl`](../src/io/wcm/tooling/jenkins/pipeline/shell/ScpCommandBuilderImpl.groovy).
+[`CredentialAware`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialAware.groovy)
+[`ScpCommandBuilderImpl`](../src/io/wcm/devops/jenkins/pipeline/shell/ScpCommandBuilderImpl.groovy).
 During the ssh credential autolookup the found credentials are
 automatically added to the `SSHTarget` object. With this information we are
 able to use the username configured in the credential for building the command.
@@ -96,9 +96,9 @@ sshAgentWrapper(sshTargets)
 ```
 
 # Related classes
-* [`Credential`](../src/io/wcm/tooling/jenkins/pipeline/credentials/Credential.groovy)
-* [`CredentialAware`](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialAware.groovy)
-* [`CredentialConstants`](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialConstants.groovy)
-* [`CredentialParser`](../src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialParser.groovy)
-* [`PatternMatcher`](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
-* [`SSHTarget`](../src/io/wcm/tooling/jenkins/pipeline/ssh/SSHTarget.groovy)
+* [`Credential`](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
+* [`CredentialAware`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialAware.groovy)
+* [`CredentialConstants`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialConstants.groovy)
+* [`CredentialParser`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
+* [`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [`SSHTarget`](../src/io/wcm/devops/jenkins/pipeline/ssh/SSHTarget.groovy)

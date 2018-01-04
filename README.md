@@ -123,28 +123,28 @@ The pipeline library comes with the following steps:
 ## Utilities
 * [Integration Testing](vars/integrationTestUtils.md)
 * [Logging](docs/logging.md)
-    * [`Logger`](src/io/wcm/tooling/jenkins/pipeline/utils/logging/Logger.groovy)
-    * [`LogLevel`](src/io/wcm/tooling/jenkins/pipeline/utils/logging/LogLevel.groovy)
-* [`MapUtils`](src/io/wcm/tooling/jenkins/pipeline/utils/maps/MapUtils.groovy)
+    * [`Logger`](src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
+    * [`LogLevel`](src/io/wcm/devops/jenkins/pipeline/utils/logging/LogLevel.groovy)
+* [`MapUtils`](src/io/wcm/devops/jenkins/pipeline/utils/maps/MapUtils.groovy)
 
 ## Credential and managed file auto lookup
 
 * [Credentials](docs/credentials.md)
-    *  [`Credential`](src/io/wcm/tooling/jenkins/pipeline/credentials/Credential.groovy)
-    *  [`CredentialParser`](src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialParser.groovy)
-    *  [`CredentialConstants`](src/io/wcm/tooling/jenkins/pipeline/credentials/CredentialConstants.groovy)
+    *  [`Credential`](src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
+    *  [`CredentialParser`](src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
+    *  [`CredentialConstants`](src/io/wcm/devops/jenkins/pipeline/credentials/CredentialConstants.groovy)
 * [ManagedFiles](docs/managed-files.md)
-    * [`ManagedFile`](src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFile.groovy)
-    * [`ManagedFileParser`](src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
-    * [`ManagedFileConstants`](src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFileConstants.groovy)
+    * [`ManagedFile`](src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFile.groovy)
+    * [`ManagedFileParser`](src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
+    * [`ManagedFileConstants`](src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFileConstants.groovy)
 * [PatternMatching](docs/pattern-matching.md)
-    * [`PatternMatchable`](src/io/wcm/tooling/jenkins/pipeline/model/PatternMatchable.groovy)
-    * [`PatternMatcher`](src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+    * [`PatternMatchable`](src/io/wcm/devops/jenkins/pipeline/model/PatternMatchable.groovy)
+    * [`PatternMatcher`](src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
 
 ## Support for command line execution
 
-* [`CommandBuilder`](src/io/wcm/tooling/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
-* [`MavenCommandBuilder`](src/io/wcm/tooling/jenkins/pipeline/shell/MavenCommandBuilderImpl.groovy)
+* [`CommandBuilder`](src/io/wcm/devops/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
+* [`MavenCommandBuilder`](src/io/wcm/devops/jenkins/pipeline/shell/MavenCommandBuilderImpl.groovy)
 
 ## Setup your environment to use the pipeline library
 
@@ -170,8 +170,4 @@ with jUnit/Failsafe. All integration tests have the naming format
 
 ## Changes / Version History
 
-:bulb: Please also have a look at the [changes.xml](changes.xml)
-
-### Version 1.0.0
-
-* Initial Release
+Please have a look at the [changes.xml](changes.xml)

@@ -69,7 +69,7 @@ This `requirements.yml` will result in a checkout of four reposities:
 ### Process
 
 1. Load the provided yaml file
-2. Parse the roles into [`Role`](../src/io/wcm/tooling/jenkins/pipeline/tools/ansible/Role.groovy) objects by using [`RoleRequirements`](../src/io/wcm/tooling/jenkins/pipeline/tools/ansible/RoleRequirements.groovy)
+2. Parse the roles into [`Role`](../src/io/wcm/devops/jenkins/pipeline/tools/ansible/Role.groovy) objects by using [`RoleRequirements`](../src/io/wcm/devops/jenkins/pipeline/tools/ansible/RoleRequirements.groovy)
 3. Get API info for each Ansible Galaxy Role by using [`getGalaxyRoleInfo`](#getgalaxyroleinfo)
    1. When API info is available set the github url and branch into the Role
 4. Transform the roles into configurations for the [`checkoutScm`](checkoutScm.groovy) step
@@ -178,7 +178,7 @@ ansible-playbook -v [...]
 Complete list of all configuration options.
 
 All configuration options must be inside the `ansible`
-([`ConfigConstants.ANSIBLE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy))
+([`ConfigConstants.ANSIBLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
 map element to be evaluated and used by the step.
 
 ```groovy
@@ -209,7 +209,7 @@ ansible.execPlaybook(
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_COLORIZED`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_COLORIZED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`true`|
 
@@ -219,7 +219,7 @@ Controls the colorized output of ansible. Default is set to true.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_CREDENTIALS_ID`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_CREDENTIALS_ID`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -231,7 +231,7 @@ Use this option to pass SSH credentials.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_EXTRA_PARAMETERS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_EXTRA_PARAMETERS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`List` of `String`|
 |Default|`[]`|
 
@@ -254,7 +254,7 @@ Map config = {
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_EXTRA_VARS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_EXTRA_VARS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Map`|
 |Default|`[:]`|
 
@@ -286,7 +286,7 @@ Map config = [
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_FORKS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_FORKS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Integer`|
 |Default|`5`|
 
@@ -296,7 +296,7 @@ Controls how many forks will be used during Ansible Playbook execution.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_INJECT_PARAMS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_INJECT_PARAMS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -307,7 +307,7 @@ When enabled **all** build parameters are injected into `--extra-vars`*
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -317,7 +317,7 @@ Controls which ansible installation will be used for playbook execution.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_INVENTORY`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_INVENTORY`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -327,7 +327,7 @@ Specifies the path to the Ansible Playbook inventory.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_LIMIT`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_LIMIT`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -337,7 +337,7 @@ When set the configured value will be passed as `--limit <value>` to the Ansible
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_PLAYBOOK`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_PLAYBOOK`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -347,7 +347,7 @@ Specifies the path to the Ansible Playbook.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_SKIPPED_TAGS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_SKIPPED_TAGS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -357,7 +357,7 @@ When set the configured value will be passed as `--skip-tags <value>` to the Ans
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_START_AT_TASK`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_START_AT_TASK`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -367,7 +367,7 @@ When set the configured value will be passed as `--start-at-task <value>` to the
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_TAGS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_TAGS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -377,7 +377,7 @@ When set the configured value will be passed as `--tags <value>` to the Ansible 
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_SUDO`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_SUDO`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -387,7 +387,7 @@ When enabled sudo (become) will be used. Combined with [`sudoUser`](#sudouser-op
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.ANSIBLE_SUDO_USER`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.ANSIBLE_SUDO_USER`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 

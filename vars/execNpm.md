@@ -88,7 +88,7 @@ path/to/global/config`
 Complete list of all configuration options.
 
 All configuration options must be inside the `npm`
-([`ConfigConstants.NPM`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy))
+([`ConfigConstants.NPM`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
 map element to be evaluated and used by the step.
 
 ```groovy
@@ -105,7 +105,7 @@ execNpm(
 ### `arguments`
 |||
 |---|---|
-|Constant|[`ConfigConstants.NPM_ARGUMENTS`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NPM_ARGUMENTS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`List` of `String` or `String`|
 |Default|`[]`|
 
@@ -124,14 +124,14 @@ or a `String` like:
 ### `executable` (optional)
 |||
 |---|---|
-|Constant|[`ConfigConstants.NPM_EXECUTABLE`](../src/io/wcm/tooling/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Constant|[`ConfigConstants.NPM_EXECUTABLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Map` or `String`|
 |Default|`null`|
 
 Defines the executable to use. Per default `execNpm` expects the executable `npm` to be in the `PATH`
 
 ## Related classes
-* [`ManagedFile`](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFile.groovy)
-* [`ManagedFileParser`](../src/io/wcm/tooling/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
-* [`CommandBuilder`](../src/io/wcm/tooling/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
-* [`PatternMatcher`](../src/io/wcm/tooling/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [`ManagedFile`](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFile.groovy)
+* [`ManagedFileParser`](../src/io/wcm/devops/jenkins/pipeline/managedfiles/ManagedFileParser.groovy)
+* [`CommandBuilder`](../src/io/wcm/devops/jenkins/pipeline/shell/CommandBuilderImpl.groovy)
+* [`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
