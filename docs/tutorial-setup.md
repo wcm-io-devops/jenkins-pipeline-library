@@ -88,16 +88,14 @@ It is recommended to use folder based shared library!
   Pipeline job named 'Demo'
 * Add the following script in the Pipeline script field:
   ```groovy
-      ```groovy
-      @Library ('pipeline-library') pipelineLibrary
-    
-      import io.wcm.devops.jenkins.pipeline.utils.logging.*
-    
-      Logger.init(steps, LogLevel.INFO)
-      Logger log = new Logger(this)
-    
-      log.info("This is an info log from the pipeline library")
-      ```
+   @Library ('pipeline-library') pipelineLibrary
+
+   import io.wcm.devops.jenkins.pipeline.utils.logging.*
+
+   Logger.init(steps, LogLevel.INFO)
+   Logger log = new Logger(this)
+
+   log.info("This is an info log from the pipeline library")      
   ```
 * run the job
 
