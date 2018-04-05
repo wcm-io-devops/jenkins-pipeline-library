@@ -27,13 +27,16 @@ import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
+import org.apache.tools.ant.DirectoryScanner
 import org.jenkinsci.plugins.configfiles.buildwrapper.ManagedFile
+import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper
 import org.junit.Assert
 import org.junit.Before
 import org.jvnet.hudson.tools.versionnumber.VersionNumberBuildInfo
 import org.jvnet.hudson.tools.versionnumber.VersionNumberCommon
 import org.jvnet.hudson.tools.versionnumber.VersionNumberStep
 
+import java.nio.file.Path
 import java.util.regex.Pattern
 
 import static com.lesfurets.jenkins.unit.global.lib.LibraryConfiguration.library
@@ -193,6 +196,16 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(UPSTREAM, [Map.class], upstreamCallback)
 
     helper.registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
+
+    helper.registerAllowedMethod(FIND_FILES, [Map.class], {
+      Map params ->
+        stepRecorder.record(FIND_FILES, params)
+        return this.findFiles(params['glob'])
+    })
+    helper.registerAllowedMethod(FIND_FILES, [], {
+      stepRecorder.record(FIND_FILES, null)
+      return this.findFiles()
+    })
 
     // register the current workspace as library
     def projectPath = new File("").getAbsolutePath()
@@ -407,6 +420,38 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     Calendar timeStamp = Calendar.getInstance()
     String result = VersionNumberCommon.formatVersionNumber(versionNumberString, versionNumberStep.getProjectStartDate(), versionNumberBuildInfo, this.envVars.getEnvironment(), timeStamp)
     return result
+  }
+
+  /**
+   * Mocks findFiles from pipeline-utility-steps plugin
+   *
+   * @param glob (optional) Ant style pattern of file paths that should match. If this property is set all descendants of the current working directory will be searched for a match and returned, if it is omitted only the direct descendants of the directory will be returned.
+   * @return Returns a list of found files
+   */
+  FileWrapper[] findFiles(String glob = null) {
+    if (glob == null) {
+      glob = "*"
+    }
+    String[] includes = [glob]
+    String[] excludes = ["**/target/**/*"]
+    DirectoryScanner ds = new DirectoryScanner()
+    File baseDir = new File("").getAbsoluteFile()
+    ds.setBasedir(baseDir)
+    ds.setIncludes(includes)
+    ds.setExcludes(excludes)
+    ds.scan()
+
+    String[] files = ds.getIncludedFiles()
+    FileWrapper[] ret = new FileWrapper[files.length]
+    for (int i = 0; i < files.size(); i++) {
+      Path path = baseDir.toPath().resolve(files[i])
+      File file = path.toFile()
+      String name = file.getName()
+      ret[i] = new FileWrapper(name, file.toString(), file.isDirectory(), file.length(), file.lastModified())
+    }
+
+
+    return ret
   }
 
   /**
