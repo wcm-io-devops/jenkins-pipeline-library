@@ -60,7 +60,7 @@ void call(Map config = null) {
     // retrieve global settingsId
     if (commandBuilder.getGlobalSettingsId() == null) {
         // use autolookup for maven global settingsId
-        ManagedFile mavenGlobalSettingsManagedFile = autoLookupMavenSettings(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH, scmUrl)
+        ManagedFile mavenGlobalSettingsManagedFile = autoLookupMavenSettings(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH, scmUrl, log)
         if (mavenGlobalSettingsManagedFile) {
             commandBuilder.setGlobalSettingsId(mavenGlobalSettingsManagedFile.getId())
         }
@@ -70,7 +70,7 @@ void call(Map config = null) {
     // retrieve settingsId
     if (commandBuilder.getSettingsId() == null) {
         // use autolookup for maven global settingsId
-        ManagedFile mavenSettingsManagedFile = autoLookupMavenSettings(ManagedFileConstants.MAVEN_SETTINS_PATH, scmUrl)
+        ManagedFile mavenSettingsManagedFile = autoLookupMavenSettings(ManagedFileConstants.MAVEN_SETTINS_PATH, scmUrl, log)
         if (mavenSettingsManagedFile) {
             commandBuilder.setSettingsId(mavenSettingsManagedFile.getId())
         }
@@ -123,10 +123,18 @@ void call(Map config = null) {
  * @param scmUrl The url of the used scm
  * @return A found Managed file, or null
  */
-ManagedFile autoLookupMavenSettings(String jsonPath, String scmUrl) {
+ManagedFile autoLookupMavenSettings(String jsonPath, String scmUrl, Logger log) {
     // load and parse the json
     JsonLibraryResource jsonLibraryResource = new JsonLibraryResource(steps, jsonPath)
-    JSON managedFilesJson = jsonLibraryResource.load()
+    JSON managedFilesJson
+    try {
+        managedFilesJson = jsonLibraryResource.load()
+    } catch (AbortException ex) {
+        log.warn("Exception during loading '$jsonPath', it seems that you do not have a pipeline configuration present, skip parsing of managedfiles. " +
+          "Refer to https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/docs/tutorial-setup.md for proper setup.")
+        return null
+    }
+
     ManagedFileParser parser = new ManagedFileParser()
     List<PatternMatchable> managedFiles = parser.parse(managedFilesJson)
     // match the scmUrl against the parsed mangedFiles and get the best match
@@ -145,22 +153,25 @@ ManagedFile autoLookupMavenSettings(String jsonPath, String scmUrl) {
  * @param configFiles List of config files where the found file has to be added
  */
 void addManagedFile(Logger log, String scmUrl, String jsonPath, String envVar, List configFiles) {
+    // load and parse the json
+    JsonLibraryResource jsonLibraryResource = new JsonLibraryResource(steps, jsonPath)
+    JSON managedFilesJson
     try {
-        // load and parse the json
-        JsonLibraryResource jsonLibraryResource = new JsonLibraryResource(steps, jsonPath)
-        JSON managedFilesJson = jsonLibraryResource.load()
-        ManagedFileParser parser = new ManagedFileParser()
-        List<PatternMatchable> managedFiles = parser.parse(managedFilesJson)
-        PatternMatcher matcher = new PatternMatcher()
-        // match the scmUrl against the parsed mangedFiles and get the best match
-        PatternMatchable managedFile = matcher.getBestMatch(scmUrl, managedFiles)
-        // when a file was found add it to the configFiles
-        if (managedFile) {
-            log.info("Found managed file for env var '$envVar' with id: '${managedFile.id}', adding to provided config files")
-            configFiles.push(configFile(fileId: managedFile.getId(), targetLocation: "", variable: envVar))
-        }
+        managedFilesJson = jsonLibraryResource.load()
     } catch (AbortException ex) {
-        log.debug("Unable to load resource from $jsonPath")
+        log.warn("Exception during loading '$jsonPath', it seems that you do not have a pipeline configuration present, skip parsing of managedfiles. " +
+          "Refer to https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/docs/tutorial-setup.md for proper setup.")
+        return
     }
 
+    ManagedFileParser parser = new ManagedFileParser()
+    List<PatternMatchable> managedFiles = parser.parse(managedFilesJson)
+    PatternMatcher matcher = new PatternMatcher()
+    // match the scmUrl against the parsed mangedFiles and get the best match
+    PatternMatchable managedFile = matcher.getBestMatch(scmUrl, managedFiles)
+    // when a file was found add it to the configFiles
+    if (managedFile) {
+        log.info("Found managed file for env var '$envVar' with id: '${managedFile.id}', adding to provided config files")
+        configFiles.push(configFile(fileId: managedFile.getId(), targetLocation: "", variable: envVar))
+    }
 }
