@@ -65,7 +65,7 @@ class JsonLibraryResource implements Serializable {
       log.trace("parsed json: ${json}")
       return json
     } catch (Exception ex) {
-      log.fatal("Error parsing '$file' from project pipeline library: ${ex}")
+      log.debug("Error parsing '$file' from project pipeline library: ${ex}")
       throw ex
     }
   }

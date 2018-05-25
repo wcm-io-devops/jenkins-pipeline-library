@@ -61,7 +61,7 @@ class LibraryResource implements Serializable {
       log.trace("content of $file: ${content}")
       return content
     } catch (Exception ex) {
-      log.fatal("Error loading $file from project pipeline library, error ${ex}")
+      log.debug("Error loading $file from project pipeline library, error ${ex}")
       throw ex
     }
   }
