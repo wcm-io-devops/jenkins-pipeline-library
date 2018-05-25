@@ -29,14 +29,14 @@
 
   <groupId>io.wcm.devops.jenkins</groupId>
   <artifactId>io.wcm.devops.jenkins.pipeline-library</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3-SNAPSHOT</version>
   <description>wcm.io Jenkins Pipeline Library</description>
 
   <scm>
     <connection>scm:git:git@github.com:wcm-io-devops/jenkins-pipeline-library.git</connection>
     <developerConnection>scm:git:git@github.com:wcm-io-devops/jenkins-pipeline-library.git</developerConnection>
     <url>https://github.com/wcm-io-devops/jenkins-pipeline-library</url>
-    <tag>1.0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
