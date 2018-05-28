@@ -170,4 +170,4 @@ with jUnit/Failsafe. All integration tests have the naming format
 
 ## Changes / Version History
 
-Please have a look at the [changes.xml](changes.xml)
+Please have a look at the [Releases](https://github.com/wcm-io-devops/jenkins-pipeline-library/releases)
