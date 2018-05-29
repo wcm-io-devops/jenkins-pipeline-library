@@ -68,6 +68,8 @@ class StepConstants {
   public final static String READ_MAVEN_POM = "readMavenPom"
   public final static String READ_YAML = "readYaml"
 
+
+  public final static String SET_BUILD_NAME = "setBuildName"
   public final static String SH = "sh"
   public final static String SLEEP = "sleep"
   public final static String SSH_AGENT = "sshagent"
