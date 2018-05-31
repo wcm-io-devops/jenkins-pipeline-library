@@ -63,6 +63,11 @@ class StepConstants {
 
   public final static String LOG_ROTATOR = "logRotator"
 
+  public final static String MANAGED_SCRIPTS_EXEC_JENKINS_SHELL_SCRIPT = "execJenkinsShellScript"
+  public final static String MANAGED_SCRIPTS_EXEC_PIPELINE_SHELL_SCRIPT = "execPipelineShellScript"
+
+  public final static String MAVEN_PURGE_SNAPSHOTS = "purgeSnapshots"
+
   public final static String NODE = "node"
 
   public final static String OPENTASKS = "openTasks"
