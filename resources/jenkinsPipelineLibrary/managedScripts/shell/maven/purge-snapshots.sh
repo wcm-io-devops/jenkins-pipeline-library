@@ -23,7 +23,7 @@
 
 # define variables / defaults
 MAVEN_REPO="$HOME/.m2/repository"
-LOG_LVL=3
+LOG_LVL=4
 DRY_RUN=false
 REGEX="\/?\s*(.+)"
 TMP_FILES_TO_DELETE="/tmp/$USER-files_to_delete.txt"
