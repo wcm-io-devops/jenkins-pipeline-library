@@ -232,6 +232,7 @@ class DSLMock {
     // lookup in local path when helper not present or no resource was found
     if (foundResources.size() == 0 && resourcePath != null) {
       File libraryResource = new File("test/resources/".concat(resourcePath))
+      String absolutePath = libraryResource.getAbsolutePath()
       if (libraryResource.exists()) {
         foundResources.put("test-resource", libraryResource)
       }

@@ -79,11 +79,12 @@ class LoggerCpsScriptTest extends CpsScriptTestBase {
     LogLevel lvl = Logger.getLevel()
     this.logAllLevels("shouldRespectLogLvlInfo")
 
-    assertLogSize(4)
+    assertLogSize(5)
 
     assertLogContains("[FATAL]")
     assertLogContains("[ERROR]")
     assertLogContains("[WARN]")
+    assertLogContains("[DEPRECATED]")
     assertLogContains("[INFO]")
   }
 
@@ -91,10 +92,11 @@ class LoggerCpsScriptTest extends CpsScriptTestBase {
   void shouldRespectLogLvlDebug() throws Exception {
     Logger.setLevel(LogLevel.DEBUG)
     this.logAllLevels("shouldRespectLogLvlDebug")
-    assertLogSize(5)
+    assertLogSize(6)
     assertLogContains("[FATAL]")
     assertLogContains("[ERROR]")
     assertLogContains("[WARN]")
+    assertLogContains("[DEPRECATED]")
     assertLogContains("[INFO]")
     assertLogContains("[DEBUG]")
   }
@@ -103,10 +105,11 @@ class LoggerCpsScriptTest extends CpsScriptTestBase {
   void shouldRespectLogLvlTrace() throws Exception {
     Logger.setLevel(LogLevel.TRACE)
     this.logAllLevels("shouldRespectLogLvlTrace")
-    assertLogSize(6)
+    assertLogSize(7)
     assertLogContains("[FATAL]")
     assertLogContains("[ERROR]")
     assertLogContains("[WARN]")
+    assertLogContains("[DEPRECATED]")
     assertLogContains("[INFO]")
     assertLogContains("[DEBUG]")
     assertLogContains("[TRACE]")
@@ -188,6 +191,7 @@ class LoggerCpsScriptTest extends CpsScriptTestBase {
     assertLogContains("\u001B[1;38;5;8m[TRACE]\u001B[0m")
     assertLogContains("\u001B[1;38;5;12m[DEBUG]\u001B[0m")
     assertLogContains("\u001B[1;38;5;0m[INFO]\u001B[0m")
+    assertLogContains("\u001B[1;38;5;93m[DEPRECATED]\u001B[0m")
     assertLogContains("\u001B[1;38;5;202m[WARN]\u001B[0m")
     assertLogContains("\u001B[1;38;5;5m[ERROR]\u001B[0m")
     assertLogContains("\u001B[1;38;5;9m[FATAL]\u001B[0m")
@@ -217,6 +221,7 @@ class LoggerCpsScriptTest extends CpsScriptTestBase {
     underTest.trace("trace ${testName}")
     underTest.debug("debug ${testName}")
     underTest.info("info ${testName}")
+    underTest.deprecated("deprecated ${testName}")
     underTest.warn("warn ${testName}")
     underTest.error("error ${testName}")
     underTest.fatal("fatal ${testName}")

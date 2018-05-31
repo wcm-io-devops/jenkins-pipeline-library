@@ -5,7 +5,7 @@ The ansible part of the library implements
 * Checking out Ansible Galaxy requirements to track role changes
 * Getting Ansible Galaxy role info from the galaxy API
 
-# Table of contents
+## Table of contents
 
 * [`checkoutRequirements(String requirementsYmlPath)`](#checkoutrequirementsstring-requirementsymlpath)
     * [Example of a `requirements.yml`](#example-of-a-requirementsyml)

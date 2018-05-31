@@ -57,16 +57,17 @@ The logger detects the wrapper by checking for the `TERM` environment variable.
 
 The Logger supports the following LogLevels (from priority low to high, log level / color code)
 
-|Name|Level (`int`)|Color|
-|---|---|---|
-|`ALL`|`0`|`0`|
-|`TRACE`|`2`|`8`|
-|`DEBUG`|`3`|`12`|
-|`INFO`|`4`|`0`|
-|`WARN`|`5`|`202`|
-|`ERROR`|`6`|`5`|
-|`FATAL`|`7`|`9`|
-|`NONE`|`Integer.MAX_VALUE`|`0`|
+| Name         | Level (`int`)       | Color |
+|:-------------|:--------------------|:------|
+| `ALL`        | `0`                 | `0`   |
+| `TRACE`      | `2`                 | `8`   |
+| `DEBUG`      | `3`                 | `12`  |
+| `INFO`       | `4`                 | `0`   |
+| `DEPRECATED` | `5`                 | `93`  |
+| `WARN`       | `6`                 | `202` |
+| `ERROR`      | `7`                 | `5`   |
+| `FATAL`      | `8`                 | `9`   |
+| `NONE`       | `Integer.MAX_VALUE` | `0`   |
 
 If you want to show only `INFO` and above (e.g. `WARN`, `ERROR` or
 `FATAL` set the log level to `LogLevel.INFO`.
@@ -163,6 +164,7 @@ ansiColor('xterm') {
     log.trace("trace logging")
     log.debug("debug logging")
     log.info("info logging")
+    log.deprecated("deprecated logging")
     log.warn("warn logging")
     log.error("error logging")
     log.fatal("fatal logging")    

@@ -40,10 +40,12 @@ String call(String fileId, List<String> args) {
  * @param fileId The id of the managed script
  * @param argLine The argument line for the managed script to be executed
  * @return the output of the executed shell script
+ * @deprecated
  */
 String call(String fileId, String argLine) {
     Logger log = new Logger(this)
     log.info("Executing managed script with id: '$fileId' and argLine: '$argLine'")
+    log.deprecated('execManagedShellScript', 'managedScripts.execJenkinsShellScript')
 
     // creating an environment variable
     String envVar = "SCRIPT_$fileId"

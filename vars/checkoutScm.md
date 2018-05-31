@@ -317,8 +317,8 @@ When set to `true` the step uses the `scm` variable of the pipeline to
 checkout the scm.
 
 ## Related classes
-* [Credential](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
-* [CredentialConstants](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialConstants.groovy)
-* [CredentialParser](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
-* [PatternMatchable](../src/io/wcm/devops/jenkins/pipeline/model/PatternMatchable.groovy)
-* [PatternMatcher](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
+* [`Credential`](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)
+* [`CredentialConstants`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialConstants.groovy)
+* [`CredentialParser`](../src/io/wcm/devops/jenkins/pipeline/credentials/CredentialParser.groovy)
+* [`PatternMatchable`](../src/io/wcm/devops/jenkins/pipeline/model/PatternMatchable.groovy)
+* [`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)

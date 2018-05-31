@@ -58,6 +58,12 @@ class ConfigConstants {
   public static final String MAVEN_PROFILES = "profiles"
   public static final String MAVEN_SETTINGS = "settings"
 
+  public static final String MAVEN_PURGE_SNAPSHOTS = "purgeSnapShots"
+  public static final String MAVEN_PURGE_SNAPSHOTS_REPO_PATH = "repoPath"
+  public static final String MAVEN_PURGE_SNAPSHOTS_DRY_RUN = "dryRun"
+  public static final String MAVEN_PURGE_SNAPSHOTS_LOG_LEVEL = "logLevel"
+
+
   public static final String LOGLEVEL = "logLevel"
 
   public static final String NOTIFY = "notify"
