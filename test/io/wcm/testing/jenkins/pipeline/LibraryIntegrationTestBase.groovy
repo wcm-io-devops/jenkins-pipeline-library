@@ -127,9 +127,34 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     // set the currentBuild to the RunWrapper cpsScriptMock
     this.binding.setVariable("currentBuild", runWrapper)
 
+    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class], addBadgeCallBack )
+    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack )
+    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack)
+    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class, String.class], addBadgeCallBack)
+
+    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class], addErrorBadgeCallback)
+    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class], addErrorBadgeCallback)
+    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class,String.class], addErrorBadgeCallback)
+
+    helper.registerAllowedMethod(ADD_HTML_BADGE, [String.class], addHtmlBadgeCallback)
+    helper.registerAllowedMethod(ADD_HTML_BADGE, [String.class,String.class], addHtmlBadgeCallback)
+
+    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class], addInfoBadgeCallback)
+    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class], addInfoBadgeCallback)
+    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class,String.class], addInfoBadgeCallback)
+
+    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class], addShortTextCallback)
+    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class], addShortTextCallback)
+    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class], addShortTextCallback)
+    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class], addShortTextCallback)
+    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class], addShortTextCallback)
+    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class,String.class], addShortTextCallback)
+
+    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class], addWarningBadgeCallback)
+    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class], addWarningBadgeCallback)
+    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class,String.class], addWarningBadgeCallback)
+
     // add callbacks for DSL functions and pass them to the step recorder if necessary
-    helper.registerAllowedMethod("getName", [], canonicalNameCallback)
-    helper.registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)
     helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
     helper.registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> stepRecorder.record(ANSIBLE_PLAYBOOK, incomingCall) })
 
@@ -141,20 +166,38 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(CHECKSTYLE, map) })
     helper.registerAllowedMethod(CONFIGFILE, [Map.class], configFileCallback)
     helper.registerAllowedMethod(CONFIGFILEPROVIDER, [List.class, Closure.class], configFileProviderCallback)
+
+    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class], createSummaryCallback)
+    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class], createSummaryCallback)
+    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class,String.class], createSummaryCallback)
+
     helper.registerAllowedMethod(CRON, [String.class], cronCallback)
 
     helper.registerAllowedMethod(DISABLE_CONCURRENT_BUILDS, [], {
       stepRecorder.record(DISABLE_CONCURRENT_BUILDS, null)
     })
 
-    helper.registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
-
     helper.registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> stepRecorder.record(EMAILEXT, incomingCall) })
     helper.registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
       stepRecorder.record(ERROR, incomingCall)
       throw new AbortException(incomingCall)
     })
+    helper.registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
+
+    helper.registerAllowedMethod(FIND_FILES, [Map.class], {
+      Map params ->
+        stepRecorder.record(FIND_FILES, params)
+        return this.findFiles(params['glob'])
+    })
+    helper.registerAllowedMethod(FIND_FILES, [], {
+      stepRecorder.record(FIND_FILES, null)
+      return this.findFiles()
+    })
+
     helper.registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(FINDBUGS, map) })
+
+    helper.registerAllowedMethod("getName", [], canonicalNameCallback)
+    helper.registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)
 
     helper.registerAllowedMethod(JUNIT, [String.class], { String incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
     helper.registerAllowedMethod(JUNIT, [Map.class], { Map incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
@@ -174,6 +217,12 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(READ_JSON, [Map.class], readJSONCallback)
     helper.registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
     helper.registerAllowedMethod(READ_YAML, [Map.class], readYamlCallback)
+
+    helper.registerAllowedMethod(REMOVE_BADGES, [], removeBadgesCallback)
+    helper.registerAllowedMethod(REMOVE_BADGES, [String.class], removeBadgesCallback)
+
+    helper.registerAllowedMethod(REMOVE_HTML_BADGES, [], removeHtmlBadgesCallback)
+    helper.registerAllowedMethod(REMOVE_HTML_BADGES, [String.class], removeHtmlBadgesCallback)
 
     helper.registerAllowedMethod(SH, [String.class], { String incomingCommand -> stepRecorder.record(SH, incomingCommand) })
     helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
@@ -197,15 +246,8 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
 
     helper.registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
 
-    helper.registerAllowedMethod(FIND_FILES, [Map.class], {
-      Map params ->
-        stepRecorder.record(FIND_FILES, params)
-        return this.findFiles(params['glob'])
-    })
-    helper.registerAllowedMethod(FIND_FILES, [], {
-      stepRecorder.record(FIND_FILES, null)
-      return this.findFiles()
-    })
+    helper.registerAllowedMethod(WRITE_FILE, [Map.class], { Map incomingCall -> stepRecorder.record(WRITE_FILE, incomingCall) })
+
 
     // register the current workspace as library
     def projectPath = new File("").getAbsolutePath()
@@ -219,36 +261,150 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerSharedLibrary(library)
   }
 
+  /**
+   * Callback for addBadge step
+   */
+  def addBadgeCallBack = {
+    ...a ->
+      Map recordData = [
+        icon: getArgAt(a,0),
+        text: getArgAt(a,1),
+        id: getArgAt(a,2),
+        link: getArgAt(a,3),
+      ]
+      stepRecorder.record(ADD_BADGE, recordData)
+  }
+
+  /**
+   * Callback for addErrorBadge step
+   */
+  def addErrorBadgeCallback = {
+    ...a ->
+      Map recordData = [
+        text: getArgAt(a,0),
+        id: getArgAt(a,1),
+        link: getArgAt(a,2),
+      ]
+      stepRecorder.record(ADD_ERROR_BADGE, recordData)
+  }
+
+  /**
+   * Callback for addHtmlBadge step
+   */
+  def addHtmlBadgeCallback = {
+    ...a ->
+      Map recordData = [
+        html: getArgAt(a,0),
+        id: getArgAt(a,1),
+      ]
+      stepRecorder.record(ADD_HTML_BADGE, recordData)
+  }
+
+  /**
+   * Callback for addInfoBadge step
+   */
+  def addInfoBadgeCallback = {
+    ...a ->
+      Map recordData = [
+        text: getArgAt(a,0),
+        id: getArgAt(a,1),
+        link: getArgAt(a,2),
+      ]
+      stepRecorder.record(ADD_INFO_BADGE, recordData)
+  }
+
+  /**
+   * Callback for addInfoBadge step
+   */
+  def addShortTextCallback = {
+    ...a ->
+      Map recordData = [
+        text: getArgAt(a,0),
+        background: getArgAt(a,1),
+        border: getArgAt(a,2),
+        borderColor: getArgAt(a,3),
+        color: getArgAt(a,4),
+        link: getArgAt(a,5),
+      ]
+      stepRecorder.record(ADD_SHORT_TEXT, recordData)
+  }
+
+  /**
+   * Callback for addInfoBadge step
+   */
+  def addWarningBadgeCallback = {
+    ...a ->
+      Map recordData = [
+        text: getArgAt(a,0),
+        id: getArgAt(a,1),
+        link: getArgAt(a,2),
+      ]
+      stepRecorder.record(ADD_WARNING_BADGE, recordData)
+  }
+
+  /**
+   * Callback for addInfoBadge step
+   */
+  def createSummaryCallback = {
+    ...a ->
+      Map recordData = [
+        icon: getArgAt(a,0),
+        id: getArgAt(a,1),
+        text: getArgAt(a,2),
+      ]
+      stepRecorder.record(CREATE_SUMMARY, recordData)
+  }
+
+
+
+  /**
+   * Callback for timeout step
+   */
   def timeoutCallback = {
     Map params, Closure body ->
       stepRecorder.record(TIMEOUT, params)
       body.run()
   }
 
+  /**
+   * Callback for stage step
+   */
   def stageCallback = {
     String name, Closure body ->
       stepRecorder.record(STAGE, name)
       body.run()
   }
 
+  /**
+   * Callback for boolean Param
+   */
   def booleanParamCallback = {
     Map config ->
       stepRecorder.record(BOOLEAN_PARAM, config)
       return "booleanParam($config)"
   }
 
+  /**
+   * Callback for choice param
+   */
   def choiceCallback = {
     Map config ->
       stepRecorder.record(CHOICE, config)
       return "choice($config)"
   }
 
+  /**
+   * Callback for string param
+   */
   def stringCallback = {
     Map config ->
       stepRecorder.record(STRING, config)
       return "string($config)"
   }
 
+  /**
+   * Callback for text
+   */
   def textCallback = {
     Map config ->
       stepRecorder.record(TEXT, config)
@@ -341,6 +497,28 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       Model ret = new MavenXpp3Reader().read(inputStream)
       inputStream.close()
       return ret
+  }
+
+  /**
+   * Callback for removeBadges Step
+   */
+  def removeBadgesCallback = {
+    ...a ->
+      Map recordData = [
+        id: getArgAt(a,0),
+      ]
+      stepRecorder.record(REMOVE_BADGES, recordData)
+  }
+
+  /**
+   * Callback for removeBadges Step
+   */
+  def removeHtmlBadgesCallback = {
+    ...a ->
+      Map recordData = [
+        id: getArgAt(a,0),
+      ]
+      stepRecorder.record(REMOVE_HTML_BADGES, recordData)
   }
 
   /**
@@ -462,6 +640,18 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   protected getEnv(String var) {
     return this.envVars.getProperty(var)
+  }
+
+  /**
+   * Utility function to get an argument from dynamic arguments
+   *
+   * @param args The object containing the arguments
+   * @param index The index of the argument that should be parsed
+   * @param defaultValue
+   * @return The found arg or defaultValue when arg is not present
+   */
+  protected Object getArgAt(Object args, Integer index, defaultValue = null) {
+    return (args.length > index ? args.getAt(index) : null)
   }
 
   /**

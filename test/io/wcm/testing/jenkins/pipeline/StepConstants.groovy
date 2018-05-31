@@ -24,6 +24,13 @@ package io.wcm.testing.jenkins.pipeline
  */
 class StepConstants {
 
+  public final static String ADD_BADGE = "addBadge"
+  public final static String ADD_ERROR_BADGE = "addErrorBadge"
+  public final static String ADD_HTML_BADGE = "addHtmlBadge"
+  public final static String ADD_INFO_BADGE = "addInfoBadge"
+  public final static String ADD_SHORT_TEXT = "addShortText"
+  public final static String ADD_WARNING_BADGE = "addWarningBadge"
+
   public final static String ANALYSISPUBLISHER = "AnalysisPublisher"
   public final static String ANSI_COLOR = "ansiColor"
   public final static String ANSIBLE_PLAYBOOK = "ansiblePlaybook"
@@ -37,7 +44,9 @@ class StepConstants {
   public final static String CHOICE = "choice"
   public final static String CONFIGFILE = "configFile"
   public final static String CONFIGFILEPROVIDER = "configFileProvider"
+  public final static String CREATE_SUMMARY = "createSummary"
   public final static String CRON = "cron"
+
 
   public final static String DISABLE_CONCURRENT_BUILDS = "disableConcurrentBuilds"
 
@@ -68,6 +77,8 @@ class StepConstants {
   public final static String READ_MAVEN_POM = "readMavenPom"
   public final static String READ_YAML = "readYaml"
 
+  public final static String REMOVE_BADGES = "removeBadges"
+  public final static String REMOVE_HTML_BADGES = "removeHtmlBadges"
 
   public final static String SET_BUILD_NAME = "setBuildName"
   public final static String SH = "sh"
@@ -87,6 +98,8 @@ class StepConstants {
   public final static String UPSTREAM = "upstream"
 
   public final static String VERSIONNUMBER = "VersionNumber"
+
+  public final static String WRITE_FILE ="writeFile"
 
   public final static String XUNITBUILDER = "XUnitBuilder"
 

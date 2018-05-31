@@ -90,8 +90,9 @@ class Logger implements Serializable {
       return
     }
     this.dsl = dsl
-    dsl.echo("[WARN]\n[WARN] Deprecated! Initializing the logger with steps/DSL object will be removed in future release\n[WARN]")
     initialized = true
+    Logger tmpLogger = new Logger('Logger')
+    tmpLogger.deprecated('Logger.init(DSL dsl, logLevel)','Logger.init(Script script, logLevel)')
   }
 
   /**
@@ -269,7 +270,6 @@ class Logger implements Serializable {
    * Logs a trace message
    *
    * @param message The message to be logged
-   * @param object The object to be dumped
    */
   @NonCPS
   void trace(String message) {
@@ -280,7 +280,6 @@ class Logger implements Serializable {
    * Logs a trace message
    *
    * @param message The message to be logged
-   * @param object The object to be dumped
    */
   @NonCPS
   void info(String message) {
@@ -291,7 +290,6 @@ class Logger implements Serializable {
    * Logs a debug message
    *
    * @param message The message to be logged
-   * @param object The object to be dumped
    */
   @NonCPS
   void debug(String message) {
@@ -302,7 +300,6 @@ class Logger implements Serializable {
    * Logs a warn message
    *
    * @param message The message to be logged
-   * @param object The object to be dumped
    */
   @NonCPS
   void warn(String message) {
@@ -318,6 +315,34 @@ class Logger implements Serializable {
   @NonCPS
   void error(String message) {
     log(LogLevel.ERROR, message)
+  }
+
+  /**
+   * Logs a deprecation message
+   *
+   * @param message The message to be logged
+   */
+  @NonCPS
+  void deprecated(String message) {
+    try {
+      Logger.dsl.addWarningBadge(message)
+    } catch (Exception ex) {
+      // no badge plugin available
+    }
+    log(LogLevel.DEPRECATED, message)
+  }
+
+  /**
+   * Logs a deprecation message with deprecated and replacement
+   *
+   * @param deprecatedItem The item that is depcrecated
+   * @param newItem The replacement (if exist)
+   */
+  @NonCPS
+  void deprecated(String deprecatedItem, String newItem) {
+    String message = "The step/function/class '$deprecatedItem' is marked as depecreated and will be removed in future releases. " +
+      "Please use '$newItem' instead."
+    deprecated(message)
   }
 
   /**
@@ -378,22 +403,43 @@ class Logger implements Serializable {
   private static void writeLogMsg(LogLevel logLevel, String msg) {
     String lvlString = "[${logLevel.toString()}]"
 
+    lvlString = wrapColor(logLevel.getColorCode(), lvlString)
+
+    if (dsl != null) {
+      dsl.echo("$lvlString $msg")
+    }
+  }
+
+  /**
+   * Wraps a string with color codes when terminal is available
+   * @param logLevel
+   * @param str
+   * @return
+   */
+  @NonCPS
+  private static String wrapColor(String colorCode, String str) {
+    String ret = str
+    if (hasTermEnv()) {
+      ret = "\u001B[${colorCode}m${str}\u001B[0m"
+    }
+    return ret
+  }
+
+  /**
+   * Helper function to detect if a term environment is available
+   * @return
+   */
+  @NonCPS
+  private static Boolean hasTermEnv() {
+    String termEnv = null
     if (script != null) {
-      // check if color can be used
-      String termEnv = null
       try {
         termEnv = script.env.TERM
       } catch (Exception ex) {
 
       }
-      if (termEnv != null) {
-        String colorCode = logLevel.getColorCode()
-        lvlString = "\u001B[${colorCode}m${lvlString}\u001B[0m"
-      }
     }
-    if (dsl != null) {
-      dsl.echo("$lvlString $msg")
-    }
+    return termEnv != null
   }
 
   /**

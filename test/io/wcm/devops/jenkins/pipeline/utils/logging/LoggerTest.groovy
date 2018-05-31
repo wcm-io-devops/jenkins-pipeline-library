@@ -19,6 +19,7 @@
  */
 package io.wcm.devops.jenkins.pipeline.utils.logging
 
+import io.wcm.testing.jenkins.pipeline.CpsScriptMock
 import io.wcm.testing.jenkins.pipeline.DSLTestBase
 import org.hamcrest.CoreMatchers
 import org.junit.Before
@@ -76,21 +77,34 @@ class LoggerTest extends DSLTestBase {
   void shouldRespectLogLvlInfo() throws Exception {
     Logger.setLevel(LogLevel.INFO)
     this.logAllLevels()
+    assertLogSize(5)
+    assertLogContains("[FATAL]")
+    assertLogContains("[ERROR]")
+    assertLogContains("[WARN]")
+    assertLogContains("[DEPRECATED]")
+    assertLogContains("[INFO]")
+  }
+
+  @Test
+  void shouldRespectLogLvlDeprecated() throws Exception {
+    Logger.setLevel(LogLevel.DEPRECATED)
+    this.logAllLevels()
     assertLogSize(4)
     assertLogContains("[FATAL]")
     assertLogContains("[ERROR]")
     assertLogContains("[WARN]")
-    assertLogContains("[INFO]")
+    assertLogContains("[DEPRECATED]")
   }
 
   @Test
   void shouldRespectLogLvlDebug() throws Exception {
     Logger.setLevel(LogLevel.DEBUG)
     this.logAllLevels()
-    assertLogSize(5)
+    assertLogSize(6)
     assertLogContains("[FATAL]")
     assertLogContains("[ERROR]")
     assertLogContains("[WARN]")
+    assertLogContains("[DEPRECATED]")
     assertLogContains("[INFO]")
     assertLogContains("[DEBUG]")
   }
@@ -99,10 +113,11 @@ class LoggerTest extends DSLTestBase {
   void shouldRespectLogLvlTrace() throws Exception {
     Logger.setLevel(LogLevel.TRACE)
     this.logAllLevels()
-    assertLogSize(6)
+    assertLogSize(7)
     assertLogContains("[FATAL]")
     assertLogContains("[ERROR]")
     assertLogContains("[WARN]")
+    assertLogContains("[DEPRECATED]")
     assertLogContains("[INFO]")
     assertLogContains("[DEBUG]")
     assertLogContains("[TRACE]")
@@ -180,6 +195,7 @@ class LoggerTest extends DSLTestBase {
     underTest.trace("trace")
     underTest.debug("debug")
     underTest.info("info")
+    underTest.deprecated("deprecated")
     underTest.warn("warn")
     underTest.error("error")
     underTest.fatal("fatal")
@@ -188,7 +204,6 @@ class LoggerTest extends DSLTestBase {
   void assertLogSize(Integer logSize) {
     logSize = logSize + 1
     assertEquals(logSize, dslMock.getLogMessages().size())
-    assertLogContains("Deprecated")
   }
 
   void assertLogContains(String expected) {
