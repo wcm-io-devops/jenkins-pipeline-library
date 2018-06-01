@@ -41,7 +41,25 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecuteJenkinsShellScriptWithDefaultsTestJob() {
+  void shouldExecuteJenkinsShellScriptWithoutCommandBuilder() {
+    Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithoutCommandBuilderTestJob.groovy")
+    List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
+    List shellCommands = assertTwice(SH)
+
+    commonAssertions(configFileCommand, shellCommands, 'jenkins-script-id-5')
+
+
+    Map expectedManagedScriptShellCommand = [
+      'script': './.jenkinsShellScript_jenkins-script-id-5'
+    ]
+    Map actualManagedScriptShellCommand = (Map) shellCommands[1]
+    assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
+
+    assertNull(scriptResult)
+  }
+
+  @Test
+  void shouldExecuteJenkinsShellScriptWithDefaults() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithDefaultsTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
     List shellCommands = assertTwice(SH)
@@ -59,7 +77,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecuteJenkinsShellScriptWithReturnStatusTestJob() {
+  void shouldExecuteJenkinsShellScriptWithReturnStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithReturnStatusTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
     List shellCommands = assertTwice(SH)
@@ -77,7 +95,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecuteJenkinsShellScriptWithReturnStdoutStatusTestJob() {
+  void shouldExecuteJenkinsShellScriptWithReturnStdoutStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithReturnStdoutStatusTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
     List shellCommands = assertTwice(SH)
@@ -95,7 +113,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecuteJenkinsShellScriptWithReturnStdoutTestJob() {
+  void shouldExecuteJenkinsShellScriptWithReturnStdout() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithReturnStdoutTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
     List shellCommands = assertTwice(SH)

@@ -27,10 +27,7 @@ import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
  * @see vars.managedScripts.MangedPipelineShellScriptIT
  */
 def execute() {
-  CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps)
-  commandBuilder.addPathArgument('jenkinsScript/path/4')
-  commandBuilder.addArguments(['arg3','arg4'])
-  return managedScripts.execJenkinsShellScript('jenkins-script-id-4', commandBuilder, true, false)
+  return managedScripts.execJenkinsShellScript('jenkins-script-id-5')
 }
 
 return this

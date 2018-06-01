@@ -33,7 +33,7 @@ import org.jenkinsci.plugins.workflow.cps.DSL
  * @param returnStatus When set to true the status code will be returned
  * @return stdout, status code or sh step result, depending on the selection
  */
-Object execJenkinsShellScript(String scriptId, CommandBuilder commandBuilder, returnStdout = false, returnStatus = false) {
+Object execJenkinsShellScript(String scriptId, CommandBuilder commandBuilder = null, returnStdout = false, returnStatus = false) {
   Logger log = new Logger('execJenkinsShellScript')
   log.debug("scriptId", scriptId)
   String tmpScriptPath = '.jenkinsShellScript_' + scriptId
@@ -56,7 +56,7 @@ Object execJenkinsShellScript(String scriptId, CommandBuilder commandBuilder, re
  * @param returnStatus When set to true the status code will be returned
  * @return stdout, status code or sh step result, depending on the selection
  */
-Object execPipelineShellScript(String scriptPath, CommandBuilder commandBuilder, returnStdout = false, returnStatus = false) {
+Object execPipelineShellScript(String scriptPath, CommandBuilder commandBuilder = null, returnStdout = false, returnStatus = false) {
   Logger log = new Logger('execPipelineShellScript')
   String tmpScriptPath = '.libraryShellScript_' + scriptPath.replace('/','___')
   log.info("provide pipelin shell script from '$scriptPath' to '$tmpScriptPath'")
@@ -88,6 +88,9 @@ Object _execShellScript(Logger log, String scriptPath, CommandBuilder commandBui
   String chmodCommand = chmodBuilder.build()
   sh(chmodCommand)
 
+  if (commandBuilder == null) {
+    commandBuilder = new CommandBuilderImpl(this.steps)
+  }
   // build shell command for executing managed script
   commandBuilder.setExecutable("./$scriptPath")
   String command = commandBuilder.build()

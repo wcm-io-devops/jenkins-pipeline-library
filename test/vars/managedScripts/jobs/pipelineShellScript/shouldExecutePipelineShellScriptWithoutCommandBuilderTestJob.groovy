@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.managedScripts.jobs.jenkinsShellScript
+package vars.managedScripts.jobs.pipelineShellScript
 
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
@@ -27,10 +27,7 @@ import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
  * @see vars.managedScripts.MangedPipelineShellScriptIT
  */
 def execute() {
-  CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps)
-  commandBuilder.addPathArgument('jenkinsScript/path/4')
-  commandBuilder.addArguments(['arg3','arg4'])
-  return managedScripts.execJenkinsShellScript('jenkins-script-id-4', commandBuilder, true, false)
+  return managedScripts.execPipelineShellScript('jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh')
 }
 
 return this

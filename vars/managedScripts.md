@@ -7,11 +7,11 @@ provided by
 
 # Table of contents
 
-* [`execJenkinsShellScript`](#execjenkinsshellscriptstring-scriptid-commandbuilder-commandbuilder-returnstdout--false-returnstatus--false)
-* [`execPipelineShellScript`](#execpipelineshellscriptstring-scriptpath-commandbuilder-commandbuilder-returnstdout--false-returnstatus--false)
+* [`execJenkinsShellScript`](#execjenkinsshellscriptstring-scriptid-commandbuilder-commandbuilder-null-returnstdout--false-returnstatus--false)
+* [`execPipelineShellScript`](#execpipelineshellscriptstring-scriptpath-commandbuilder-commandbuilder-null-returnstdout--false-returnstatus--false)
 * [Related classes](#related-classes)
 
-## `execJenkinsShellScript(String scriptId, CommandBuilder commandBuilder, returnStdout = false, returnStatus = false)`
+## `execJenkinsShellScript(String scriptId, CommandBuilder commandBuilder null, returnStdout = false, returnStatus = false)`
 
 This step will execute the Jenkins script with the id `scriptId`. The
 shell command is build using the provided command builder.
@@ -22,7 +22,7 @@ If you want to get the stdout from the execution set `returnStdout` to
 :exclamation: You can only set `returnStdout` or `returnStatus`. If both
 are set the `returnStdout` setting will be used.
 
-## `execPipelineShellScript(String scriptPath, CommandBuilder commandBuilder, returnStdout = false, returnStatus = false)`
+## `execPipelineShellScript(String scriptPath, CommandBuilder commandBuilder null, returnStdout = false, returnStatus = false)`
 
 This step will execute a managed shell script from the pipeline-library
 with path `scriptPath`. The shell command is build using the provided

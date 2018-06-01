@@ -23,8 +23,6 @@ import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 
 /**
- * Executes a managed shell script from pipeline with one argument
- *
  * @return The script
  * @see vars.managedScripts.MangedPipelineShellScriptIT
  */

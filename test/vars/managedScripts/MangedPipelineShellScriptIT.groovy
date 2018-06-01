@@ -40,7 +40,25 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecutePipelineShellScriptWithDefaultsTestJob() {
+  void shouldExecutePipelineShellScriptWithoutCommandBuilder() {
+    Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithoutCommandBuilderTestJob.groovy")
+    Map writeFileCommand = assertOnce(WRITE_FILE)
+    List shellCommands = assertTwice(SH)
+
+    commonAssertions(writeFileCommand, shellCommands)
+
+
+    Map expectedManagedScriptShellCommand = [
+      'script': './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh'
+    ]
+    Map actualManagedScriptShellCommand = (Map) shellCommands[1]
+    assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
+
+    assertNull(scriptResult)
+  }
+
+  @Test
+  void shouldExecutePipelineShellScriptWithDefaults() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithDefaultsTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
     List shellCommands = assertTwice(SH)
@@ -58,7 +76,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecutePipelineShellScriptWithReturnStatusTestJob() {
+  void shouldExecutePipelineShellScriptWithReturnStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithReturnStatusTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
     List shellCommands = assertTwice(SH)
@@ -76,7 +94,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecutePipelineShellScriptWithReturnStdoutStatusTestJob() {
+  void shouldExecutePipelineShellScriptWithReturnStdoutStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithReturnStdoutStatusTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
     List shellCommands = assertTwice(SH)
@@ -94,7 +112,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldExecutePipelineShellScriptWithReturnStdoutTestJob() {
+  void shouldExecutePipelineShellScriptWithReturnStdout() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithReturnStdoutTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
     List shellCommands = assertTwice(SH)
