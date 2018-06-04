@@ -57,7 +57,7 @@ class PatternMatcher implements Serializable {
       item ->
         log.debug("try to match file: " + item + " with pattern " + item.getPattern())
         Matcher matcher = searchValue =~ item.getPattern()
-        // check if ther is a match
+        // check if there is a match
         if (matcher) {
           String group = matcher[0]
           // check if matcher has a group and if the matched length/score is better as the last found match

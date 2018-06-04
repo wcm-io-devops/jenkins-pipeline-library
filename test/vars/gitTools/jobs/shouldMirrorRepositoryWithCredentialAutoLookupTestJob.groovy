@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,19 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package vars.managedScripts.jobs.pipelineShellScript
+package vars.gitTools.jobs
 
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 
-/**
- * @return The script
- * @see vars.managedScripts.MangedPipelineShellScriptIT
- */
 def execute() {
-  CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps)
-  commandBuilder.addPathArgument('path/to/repo')
-  return managedScripts.execPipelineShellScript('jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh', commandBuilder)
+  gitTools.mirrorRepository("git@host1.domain.tld:wcm-io-devops/jenkins-pipeline-library.git","git@host2.domain.tld:wcm-io-devops/jenkins-pipeline-library.git")
 }
 
 return this

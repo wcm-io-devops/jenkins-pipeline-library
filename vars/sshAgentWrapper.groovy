@@ -17,19 +17,10 @@
  * limitations under the License.
  * #L%
  */
-import io.wcm.devops.jenkins.pipeline.credentials.Credential
-import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
-import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
-import io.wcm.devops.jenkins.pipeline.credentials.CredentialAware
-import io.wcm.devops.jenkins.pipeline.shell.ScpCommandBuilderImpl
-import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
-import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
-import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
-import io.wcm.devops.jenkins.pipeline.utils.resources.JsonLibraryResource
-import net.sf.json.JSON
-import org.jenkinsci.plugins.workflow.cps.DSL
 
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP
+import io.wcm.devops.jenkins.pipeline.credentials.Credential
+import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
  * Adapter step for one ssh target without credential aware parameter
@@ -67,7 +58,7 @@ void call(List<SSHTarget> sshTargets, Closure body) {
 
         // auto lookup ssh credentials
         log.trace("auto lookup credentials for : '${sshTarget.getHost()}'")
-        Credential sshCredential = autoLookupSSHCredentials(sshTarget.getHost())
+        Credential sshCredential = credentials.lookupSshCredential(sshTarget.getHost())
         if (sshCredential != null) {
             log.debug("auto lookup found the following credential for '${sshTarget.getHost()}' : '${sshCredential.id}'")
             foundCredentials[sshCredential.id] = sshCredential
@@ -89,27 +80,4 @@ void call(List<SSHTarget> sshTargets, Closure body) {
     sshagent(sshCredentials) {
         body()
     }
-}
-
-/**
- * Tries to retrieve credentials for the given host by using configurations provided in
- * resources/credentials/ssh/credentials.json
- *
- * @param host The host to connect to
- * @return The found Credential object or null when no credential object was found during auto lookup
- * @see io.wcm.devops.jenkins.pipeline.credentials.Credential
- * @see io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
- * @see JsonLibraryResource
- * @see io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
- */
-Credential autoLookupSSHCredentials(String host) {
-    // load the json
-    JsonLibraryResource jsonRes = new JsonLibraryResource((DSL) this.steps, CredentialConstants.SSH_CREDENTIALS_PATH)
-    JSON credentialJson = jsonRes.load()
-    // parse the credentials
-    CredentialParser parser = new CredentialParser()
-    List<Credential> credentials = parser.parse(credentialJson)
-    // try to find matching credential and return the credential
-    PatternMatcher matcher = new PatternMatcher()
-    return (Credential) matcher.getBestMatch(host, credentials)
 }

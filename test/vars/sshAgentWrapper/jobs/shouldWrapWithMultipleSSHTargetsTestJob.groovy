@@ -32,7 +32,8 @@ def execute() {
   List sshTargets = [
       new SSHTarget("host1.domain.tld"),
       new SSHTarget("host2.domain.tld"),
-      new SSHTarget("host3.domain.tld")
+      new SSHTarget("host3.domain.tld"),
+      new SSHTarget("host3-1.domain.tld")
   ]
 
   sshAgentWrapper(sshTargets) {

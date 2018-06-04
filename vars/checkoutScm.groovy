@@ -114,7 +114,7 @@ def checkoutWithConfiguration(Map scmCfg, Logger log) {
         // do credential auto lookup
         if (credentialsId == null) {
             log.debug("no credentials id passed, try auto lookup")
-            Credential credential = autoLookupSCMCredentials(url)
+            Credential credential = credentials.lookupScmCredential(url)
             if (credential != null) {
                 credentialsId = credential.getId()
             }
@@ -144,27 +144,4 @@ def checkoutWithConfiguration(Map scmCfg, Logger log) {
                     userRemoteConfigs                : userRemoteConfigs
             ]
     )
-}
-
-/**
- * Tries to retrieve credentials for the given scmUrl by using configurations provided in
- * resources/credentials/scm/credentials.json
- *
- * @param scmUrl The url of the repository
- * @return The found Credential object or null when no credential object was found during auto lookup
- * @see Credential
- * @see CredentialParser
- * @see JsonLibraryResource
- * @see CredentialConstants
- */
-Credential autoLookupSCMCredentials(String scmUrl) {
-    // load the json
-    JsonLibraryResource jsonRes = new JsonLibraryResource((DSL) this.steps, CredentialConstants.SCM_CREDENTIALS_PATH)
-    JSON credentialJson = jsonRes.load()
-    // parse the credentials
-    CredentialParser parser = new CredentialParser()
-    List<Credential> credentials = parser.parse(credentialJson)
-    // try to find matching credential and return the credential
-    PatternMatcher matcher = new PatternMatcher()
-    return (Credential) matcher.getBestMatch(scmUrl, credentials)
 }
