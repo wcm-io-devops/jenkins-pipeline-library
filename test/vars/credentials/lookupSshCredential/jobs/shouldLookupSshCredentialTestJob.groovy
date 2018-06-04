@@ -17,19 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package vars.managedScripts.jobs.pipelineShellScript
 
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
+package vars.credentials.lookupSshCredential.jobs
 
-/**
- * @return The script
- * @see vars.managedScripts.MangedPipelineShellScriptIT
- */
 def execute() {
-  CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps)
-  commandBuilder.addPathArgument('path/to/repo')
-  return managedScripts.execPipelineShellScript('jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh', commandBuilder)
+  return credentials.lookupSshCredential("host3.domain.tld")
 }
 
 return this

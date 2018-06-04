@@ -177,6 +177,8 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       stepRecorder.record(DISABLE_CONCURRENT_BUILDS, null)
     })
 
+    helper.registerAllowedMethod(DIR, [String.class,Closure.class], dirCallback)
+
     helper.registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> stepRecorder.record(EMAILEXT, incomingCall) })
     helper.registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
       stepRecorder.record(ERROR, incomingCall)
@@ -363,6 +365,15 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   def timeoutCallback = {
     Map params, Closure body ->
       stepRecorder.record(TIMEOUT, params)
+      body.run()
+  }
+
+  /**
+   * Callback for dir step
+   */
+  def dirCallback = {
+    String dir, Closure body ->
+      stepRecorder.record(DIR, dir)
       body.run()
   }
 

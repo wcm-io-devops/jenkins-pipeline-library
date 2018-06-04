@@ -49,6 +49,7 @@ class StepConstants {
 
 
   public final static String DISABLE_CONCURRENT_BUILDS = "disableConcurrentBuilds"
+  public final static String DIR = "dir"
 
   public final static String EMAILEXT = "emailext"
   public final static String ERROR = "error"
@@ -104,7 +105,7 @@ class StepConstants {
 
   public final static String VERSIONNUMBER = "VersionNumber"
 
-  public final static String WRITE_FILE ="writeFile"
+  public final static String WRITE_FILE = "writeFile"
 
   public final static String XUNITBUILDER = "XUnitBuilder"
 

@@ -69,10 +69,11 @@ class SSHAgentWrapperIT extends LibraryIntegrationTestBase {
 
     // assert that the sshagent step was called once
     List keyAgentCredentialList = assertOnce(StepConstants.SSH_AGENT)
-    assertEquals("provided ssh credentials are wrong", ['domain-ssh-credential-id', 'host3-ssh-credential-id'], keyAgentCredentialList)
+    assertEquals("provided ssh credentials are wrong", ['host1-ssh-credential-id', 'host2-ssh-credential-id', 'host3-ssh-credential-id'], keyAgentCredentialList)
 
-    assertEquals("domain-ssh-credential-id", sshTargets[0].getCredential().getId())
-    assertEquals("domain-ssh-credential-id", sshTargets[1].getCredential().getId())
+    assertEquals("host1-ssh-credential-id", sshTargets[0].getCredential().getId())
+    assertEquals("host2-ssh-credential-id", sshTargets[1].getCredential().getId())
     assertEquals("host3-ssh-credential-id", sshTargets[2].getCredential().getId())
+    assertEquals("host3-ssh-credential-id", sshTargets[3].getCredential().getId())
   }
 }
