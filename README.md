@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/wcm-io-devops/jenkins-pipeline-library.svg?branch=develop)](https://travis-ci.org/wcm-io-devops/jenkins-pipeline-library)
 [![Code Coverage](https://codecov.io/gh/wcm-io-devops/jenkins-pipeline-library/branch/develop/graph/badge.svg)](https://codecov.io/gh/wcm-io-devops/jenkins-pipeline-library)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library)
+[![Sonatype Snapshots](https://img.shields.io/nexus/s/https/oss.sonatype.org/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library.svg)
 
 # Jenkins Pipeline Library
 
