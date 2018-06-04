@@ -24,6 +24,9 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 import java.util.regex.Matcher
 
+/**
+ * Model for a GIT repository
+ */
 class GitRepository {
 
   public static final PROTOCOL_SSH = "ssh"
@@ -32,14 +35,46 @@ class GitRepository {
 
   Logger log = new Logger(this)
 
+  /**
+   * The repository url
+   */
   String url = null
+
+  /**
+   * The GIT group, like 'wcm-io-devops'
+   */
   String group = null
+
+  /**
+   * The project, like 'jenkins-pipeline-library.git'
+   */
   String project = null
+
+  /**
+   * The project name, like 'jenkins-pipeline-library'
+   */
   String projectName = null
+
+  /**
+   * The protocol, either ssh, http or https
+   */
   String protocol = null
+
+  /**
+   * The server, like 'github.com'
+   */
   String server = null
+
+  /**
+   * Stores a reference to the pipeline script
+   */
   Script script = null
 
+  /**
+   *
+   * @param script Reference to the pipeline script
+   * @param url The GIT repository url to parse
+   */
   GitRepository(Script script, String url) {
     this.script = script
     this.url = url
@@ -74,21 +109,33 @@ class GitRepository {
     matcher = null
   }
 
+  /**
+   * @return true when protocol is SSH
+   */
   @NonCPS
   Boolean isSsh() {
     return this.protocol == PROTOCOL_SSH
   }
 
+  /**
+   * @return true when protocol is HTTP
+   */
   @NonCPS
   Boolean isHttp() {
     return this.protocol == PROTOCOL_HTTP
   }
 
+  /**
+   * @return true when protocol is HTTPS
+   */
   @NonCPS
   Boolean isHttps() {
     return this.protocol == PROTOCOL_HTTPS
   }
 
+  /**
+   * @return true when parsed GIT repository is valid
+   */
   @NonCPS
   Boolean isValid() {
     return (
