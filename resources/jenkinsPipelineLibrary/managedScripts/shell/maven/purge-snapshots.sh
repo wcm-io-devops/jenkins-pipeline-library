@@ -27,7 +27,7 @@ LOG_LVL=4
 DRY_RUN=false
 REGEX="\/?\s*(.+)"
 TMP_FILES_TO_DELETE="/tmp/$USER-files_to_delete.txt"
-LOG_SCOPE="managedScripts:shell:maven:mvn-purge-snapshots"
+LOG_SCOPE="managedScripts:shell:maven:purge-snapshots"
 
 # read arguments
 while [ $# -gt 0 ]; do
