@@ -107,6 +107,7 @@ The pipeline library comes with the following steps:
     * [`ansible.execPlaybook`](vars/ansible.md#execplaybookmap-config)
     * [`ansible.getGalaxyRoleInfo`](vars/ansible.md#getgalaxyroleinforole-role)
 * [`checkoutScm`](vars/checkoutScm.md)
+* [`conditionalStage`](vars/conditionalStage.md)
 * [credentials](vars/credentials.md)
     *  [`lookupScmCredential`](vars/credentials.md#lookupscmcredentialstring-scmurl)
     *  [`lookupSshCredential`](vars/credentials.md#lookupsshcredentialstring-host)
