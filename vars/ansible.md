@@ -44,7 +44,7 @@ This currently works for:
 * Ansible Galaxy roles (with and without version)
 * Git scm Roles
 
-:bulb: The roles are checkout into subfolders using the `name` (`src` for Ansible Galaxy Roles) of the role.
+:bulb: The roles are checkout into sub folders using the `name` (`src` for Ansible Galaxy Roles) of the role.
 
 ### Example of a `requirements.yml`
 ```yaml
@@ -60,7 +60,7 @@ This currently works for:
   version: develop
 ```
 
-This `requirements.yml` will result in a checkout of four reposities:
+This `requirements.yml` will result in a checkout of four repositories:
 * https://github.com/William-Yeh/ansible-oracle-java.git (master) into folder "williamyeh.oracle-java"
 * https://github.com/tecris/ansible-maven.git (tag v3.5.2)  into folder "tecris.maven"
 * https://github.com/wcm-io-devops/ansible-aem-cms.git (master) into folder "aem-cms"
@@ -70,7 +70,7 @@ This `requirements.yml` will result in a checkout of four reposities:
 
 1. Load the provided yaml file
 2. Parse the roles into [`Role`](../src/io/wcm/devops/jenkins/pipeline/tools/ansible/Role.groovy) objects by using [`RoleRequirements`](../src/io/wcm/devops/jenkins/pipeline/tools/ansible/RoleRequirements.groovy)
-3. Get API info for each Ansible Galaxy Role by using [`getGalaxyRoleInfo`](#getgalaxyroleinfo)
+3. Get API info for each Ansible Galaxy Role by using [`getGalaxyRoleInfo`](#getgalaxyroleinforole-role)
    1. When API info is available set the github url and branch into the Role
 4. Transform the roles into configurations for the [`checkoutScm`](checkoutScm.groovy) step
 5. Checkout the SCM using the [`checkoutScm`](checkoutScm.groovy) step

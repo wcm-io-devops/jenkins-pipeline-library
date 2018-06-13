@@ -14,7 +14,7 @@ during scm checkout:
 ![checkout-to-local-branch](../docs/assets/checkout-scm/checkout-to-local-branch.png)
 
 or via [`checkoutScm`](checkoutScm.groovy) step. See
-[`Example 4`](checkoutScm.groovy#example-4-checkout-with-userremoteconfigs)
+[`Example 4`](checkoutScm.md#example-4-checkout-with-userremoteconfigs)
 
 :bulb: If you are using the [`checkoutScm`](checkoutScm.groovy) step from
 the library this step will be automatically called for your convenience.

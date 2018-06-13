@@ -20,7 +20,7 @@ for more information
 
 # Table of contents
 * [JSON Format](#json-format)
-* [Using Credentials](#using-credentials)
+* [Using managed files](#using-managed-files)
 * [Step examples](#step-examples)
 
 * [Related classes](credentials.md#related-classes)

@@ -37,7 +37,7 @@ maven.purgeSnapshots(
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_PURGE_SNAPSHOTS_REPO_PATH`]((../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))|
+|Constant|[`ConfigConstants.MAVEN_PURGE_SNAPSHOTS_REPO_PATH`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
 
@@ -47,7 +47,7 @@ The path to the maven repository.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_PURGE_SNAPSHOTS_DRY_RUN`]((../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))|
+|Constant|[`ConfigConstants.MAVEN_PURGE_SNAPSHOTS_DRY_RUN`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`false`|
 
@@ -57,7 +57,7 @@ Controls if the snapshot purging is executed in test mode.
 
 |||
 |---|---|
-|Constant|[`ConfigConstants.MAVEN_PURGE_SNAPSHOTS_LOG_LEVEL`]((../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))|
+|Constant|[`ConfigConstants.MAVEN_PURGE_SNAPSHOTS_LOG_LEVEL`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`Boolean`|
 |Default|`null`|
 
