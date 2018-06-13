@@ -71,6 +71,7 @@ class ConfigConstants {
   public static final String NOTIFY_ATTACHMENTS_PATTERN = "attachmentsPattern"
   public static final String NOTIFY_BODY = "body"
   public static final String NOTIFY_COMPRESS_LOG = "compressLog"
+  public static final String NOTIFY_ENABLED = "enabled"
   public static final String NOTIFY_MIME_TYPE = "mimeType"
   public static final String NOTIFY_ON_SUCCESS = "onSuccess"
   public static final String NOTIFY_ON_FAILURE = "onFailure"

@@ -36,6 +36,12 @@ void call(Map config = [:]) {
     // retrieve the configuration and set defaults
     Map notifyConfig = (Map) config[NOTIFY] ?: [:]
 
+    // early return when notify is not enabled
+    Boolean enabled = notifyConfig[NOTIFY_ENABLED] != null ? notifyConfig[NOTIFY_ENABLED] : true
+    if (!enabled) {
+        return
+    }
+
     String subject = notifyConfig[NOTIFY_SUBJECT] ?: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}'
     String body = notifyConfig[NOTIFY_BODY] ?: '${DEFAULT_CONTENT}'
     String to = notifyConfig[NOTIFY_TO]
