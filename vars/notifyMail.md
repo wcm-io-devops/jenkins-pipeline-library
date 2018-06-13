@@ -16,21 +16,22 @@ The `notifyMail` step brings back parts of this convenience.
   * [Send only on first failure all participating developers](#send-only-on-first-failure-all-participating-developers)
   * [Custom Subject](#custom-subject)
 * [Configuration Options](#configuration-options)
-  * [attachLog](#attachlog-optional)
-  * [attachmentsPattern](#attachmentspattern-optional)
-  * [body](#body-optional)
-  * [compressLog](#compresslog-optional)
-  * [mimeType](#mimetype-optional)
-  * [onAbort](#onabort-optional)
-  * [onFailure](#onfailure-optional)
-  * [onStillFailing](#onstillfailing-optional)
-  * [onFixed](#onfixed-optional)
-  * [onSuccess](#onsuccess-optional)
-  * [onUnstable](#onunstable-optional)
-  * [onStillUnstable](#onstillunstable-optional)
-  * [recipientProviders](#recipientproviders-optional)
-  * [subject](#subject-optional)
-  * [to](#to-optional)
+  * [`attachLog` (optional)](#attachlog-optional)
+  * [`attachmentsPattern` (optional)](#attachmentspattern-optional)
+  * [`body` (optional)](#body-optional)
+  * [`compressLog` (optional)](#compresslog-optional)
+  * [`enabled` (optional)](#enabled-optional)
+  * [`mimeType` (optional)](#mimetype-optional)
+  * [`onAbort` (optional)](#onabort-optional)
+  * [`onFailure` (optional)](#onfailure-optional)
+  * [`onStillFailing` (optional)](#onstillfailing-optional)
+  * [`onFixed` (optional)](#onfixed-optional)
+  * [`onSuccess` (optional)](#onsuccess-optional)
+  * [`onUnstable` (optional)](#onunstable-optional)
+  * [`onStillUnstable` (optional)](#onstillunstable-optional)
+  * [`recipientProviders` (optional)](#recipientproviders-optional)
+  * [`subject` (optional)](#subject-optional)
+  * [`to` (optional)](#to-optional)
 * [Related classes](checkoutScm.md#related-classes)
 
 ## Examples
@@ -95,6 +96,7 @@ notifyMail(
         (NOTIFY_ATTACHMENTS_PATTERN): '',
         (NOTIFY_BODY): null,
         (NOTIFY_COMPRESS_LOG): false,
+        (NOTIFY_ENABLED): true,
         (NOTIFY_MIME_TYPE): null,
         (NOTIFY_ON_ABORT): true,
         (NOTIFY_ON_FAILURE): true,
@@ -155,6 +157,15 @@ The body of the mail. The pipeline script assumes that you have a configured ema
 When set to `true` the log is attached to the mail as compressed zip.
 
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
+
+### `enabled` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_ENABLED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`Boolean`|
+|Default|`true`|
+
+Disables the notifications when set to `false`
 
 ### `mimeType` (optional)
 |||
