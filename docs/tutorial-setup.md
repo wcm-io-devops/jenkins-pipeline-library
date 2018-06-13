@@ -117,7 +117,7 @@ To use the auto lookup functionalities you need your own library in a
 SCM repository (GIT is preferred)
 
 You can use
-[Pipeline Library Example](https://github.com/wcm-io-devops/jenkins-pipeline-library/pipeline-library-example)
+[Pipeline Library Example](https://github.com/wcm-io-devops/jenkins-pipeline-library-example)
 as starting point for your own pipeline libray.
 
 :bulb: Pipeline libraries are only valid if they contain at least one
