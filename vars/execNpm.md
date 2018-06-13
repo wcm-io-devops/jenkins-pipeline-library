@@ -7,10 +7,10 @@ don't have to configure your own npm artifact manager in every job.
 # Table of contents
 * [Managed file auto lookup](#managed-file-auto-lookup)
     * [NPM/node.js environment configuration](#npmnodejs-environment-configuration)
-        * [Example for `NPM_CONFIG_USER_CONFIG` and `NPMRC` auto lookup](#example-for-npm-config-user-config-and-npmrc-auto-lookup)
+        * [Example for `NPM_CONFIG_USER_CONFIG` and `NPMRC` auto lookup](#example-for-npm_config_user_config-and-npmrc-auto-lookup)
 * [Examples]()
 * [Configuration options](#configuration-options)
-    * [`arguments` (optional)](#arguments-optional)
+    * [`arguments`](#arguments)
     * [`executable` (optional)](#executable-optional)
 * [Related classes](#related-classes)
 
