@@ -57,7 +57,7 @@ properties([
     pipelineTriggers([pollSCM('H * * * * ')])
 ])
 
-Logger.init(this.steps, LogLevel.INFO)
+Logger.init(this, LogLevel.INFO)
 Logger log = new Logger(this)
 
 node() {
