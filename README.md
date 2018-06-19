@@ -96,7 +96,7 @@ start using Pipeline Library.
 
 ## Requirements
 
-Have a look at [Requirements](docs/requirements.md) to get the library running.
+Have a look at [requirements](docs/requirements.md) to get the library running.
 
 ## Steps
 
