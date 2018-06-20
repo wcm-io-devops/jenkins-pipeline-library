@@ -17,13 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package vars.gitTools.jobs
-
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
+package vars.credentials.lookupHttpCredential.jobs
 
 def execute() {
-  gitTools.mirrorRepository("git@host1.domain.tld:wcm-io-devops/jenkins-pipeline-library.git","git@host2.domain.tld:wcm-io-devops/jenkins-pipeline-library.git")
+  return credentials.lookupHttpCredential("https://server2")
 }
 
 return this

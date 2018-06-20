@@ -4,18 +4,23 @@ This part of the pipeline library provides easy to use functions for credential 
 
 # Table of contents
 
-* [`lookupScmCredential`](#lookupscmcredentialstring-scmurl)
-* [`lookupSshCredential`](#lookupsshcredentialstring-host)
+* [`lookupHttpCredential`](#lookuphttpcredentialstring-uri)
+* [`lookupScmCredential`](#lookupscmcredentialstring-uri)
+* [`lookupSshCredential`](#lookupsshcredentialstring-uri)
 * [Related classes](#related-classes)
 
-## `lookupScmCredential(String scmUrl)`
+## `lookupHttpCredential(String uri)`
 
-Performs an auto lookup for SCM credentials for the given `scmUrl`.
+Performs an auto lookup for HTTP (username/password) credentials for the
+given `uri`.
 
-## `lookupSshCredential(String host)`
+## `lookupScmCredential(String uri)`
 
-Performs an auto lookup for SSH credentials for the given `host`.
+Performs an auto lookup for SCM credentials for the given `uri`.
 
+## `lookupSshCredential(String uri)`
+
+Performs an auto lookup for SSH credentials for the given `uri`.
 
 ## Related classes
 * [`Credential.groovy`](../src/io/wcm/devops/jenkins/pipeline/credentials/Credential.groovy)

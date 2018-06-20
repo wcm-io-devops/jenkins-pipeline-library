@@ -17,13 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package vars.gitTools.jobs
+package io.wcm.testing.jenkins.pipeline.plugins.credentials
 
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
+class UsernamePasswordMock {
+  String credentialsId
+  String passwordVariable = null
+  String usernameVariable = null
 
-def execute() {
-  gitTools.mirrorRepository("git@github.com:wcm-io-devops/jenkins-pipeline-library.git","git@github.com:wcm-io-devops/jenkins-pipeline-library.git")
+  String password = "MOCKED_PASSWORD"
+  String username = "MOCKED_USERNAME"
 }
-
-return this

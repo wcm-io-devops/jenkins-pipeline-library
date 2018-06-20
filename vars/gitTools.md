@@ -13,16 +13,18 @@ This step is a combination of:
 * [`mirrorRepositoryToWorkspace(...)`](#mirrorrepositorytoworkspacegitrepository-srcrepo-liststring-srccredentialids--null)
 * [`mirrorRepositoryToRemote(...)`](#mirrorrepositorytoremotestring-srcrepopath-gitrepository-targetrepo-liststring-targetcredentialids--null)
 
-This steps mirrors a GIT repository from `srcUrl` to `targetUrl`
-When no `srcCredentialIds` or `targetCredentialIds` are provided a auto lookup of the ssh credentials will be performed.
+This steps mirrors a GIT repository from `srcUrl` to `targetUrl` When no
+`srcCredentialIds` or `targetCredentialIds` are provided a auto lookup
+of the SSH or http(s) credentials will be performed.
 
 #### `mirrorRepositoryToRemote(String srcRepoPath, GitRepository targetRepo, List<String> targetCredentialIds = null)`
 
-Mirrors a local bare cloned repository form `$WORKSPACE/$srcRepoPath` to the  `targetRepo`.
-When no `targetCredentialIds` are provided a auto lookup of the ssh credentials will be performed.
+Mirrors a local bare cloned repository form `$WORKSPACE/$srcRepoPath` to
+the `targetRepo`. When no `targetCredentialIds` are provided a auto
+lookup of the SSH or http(s) credentials will be performed.
 
 #### `mirrorRepositoryToWorkspace(GitRepository srcRepo, List<String> srcCredentialIds = null)`
 
 Mirrors the `srcRepo` to the current workspace.
-When no `srcCredentialIds` are provided a auto lookup of the ssh credentials will be performed.
+When no `srcCredentialIds` are provided a auto lookup of the SSH or http(s) credentials will be performed.
 

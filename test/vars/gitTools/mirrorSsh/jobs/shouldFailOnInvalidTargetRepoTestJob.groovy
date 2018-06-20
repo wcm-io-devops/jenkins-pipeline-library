@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.gitTools.jobs
+package vars.gitTools.mirrorSsh.jobs
 
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl

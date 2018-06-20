@@ -19,6 +19,8 @@
  */
 package io.wcm.testing.jenkins.pipeline
 
+import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
+
 /**
  * Mock for EnvActionImpl to support setProperty and getProperty on env Var
  */
@@ -26,8 +28,15 @@ class EnvActionImplMock extends GroovyObjectSupport {
 
   protected Map env
 
+  protected StepRecorder stepRecorder
+
   EnvActionImplMock() {
     env = new TreeMap<String, String>()
+  }
+
+  EnvActionImplMock(StepRecorder stepRecorder) {
+    env = new TreeMap<String, String>()
+    this.stepRecorder = stepRecorder
   }
 
   Map getEnvironment() throws IOException, InterruptedException {
@@ -36,14 +45,24 @@ class EnvActionImplMock extends GroovyObjectSupport {
 
   @Override
   String getProperty(String propertyName) {
+    if (stepRecorder) {
+      stepRecorder.record(StepConstants.ENV_GET_PROPERTY, propertyName)
+    }
     return env.getOrDefault(propertyName, null)
   }
 
   @Override
   void setProperty(String propertyName, Object newValue) {
+
     if (newValue != null) {
+      if (stepRecorder) {
+        stepRecorder.record(StepConstants.ENV_SET_PROPERTY, String.valueOf(newValue))
+      }
       env.put(propertyName, String.valueOf(newValue))
     } else {
+      if (stepRecorder) {
+        stepRecorder.record(StepConstants.ENV_SET_PROPERTY, null)
+      }
       env.remove(propertyName)
     }
   }

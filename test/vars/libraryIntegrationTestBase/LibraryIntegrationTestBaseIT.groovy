@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.libraryIntegrationTestBase;
+package vars.libraryIntegrationTestBase
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper;
@@ -47,22 +47,28 @@ public class LibraryIntegrationTestBaseIT extends LibraryIntegrationTestBase {
   @Test
   void shouldFindMultipleFiles() {
     FileWrapper[] result = loadAndExecuteScript("vars/libraryIntegrationTestBase/jobs/shouldFindMultipleFilesTestJob.groovy")
-    Assert.assertEquals(3, result.size())
+    Assert.assertEquals(4, result.size())
+
+    // resources/credentials/http/credentials.json
+    FileWrapper underTest = result[0]
+    Assert.assertEquals("credentials.json", underTest.getName())
+    Assert.assertEquals(false, underTest.isDirectory())
+    Assert.assertEquals(new File("test/resources/credentials/http/credentials.json").getAbsolutePath(), underTest.getPath())
 
     // resources/credentials/parser-test.json
-    FileWrapper underTest = result[0]
+    underTest = result[1]
     Assert.assertEquals("parser-test.json", underTest.getName())
     Assert.assertEquals(false, underTest.isDirectory())
     Assert.assertEquals(new File("test/resources/credentials/parser-test.json").getAbsolutePath(), underTest.getPath())
 
     // resources/credentials/scm/credentials.json
-    underTest = result[1]
+    underTest = result[2]
     Assert.assertEquals("credentials.json", underTest.getName())
     Assert.assertEquals(false, underTest.isDirectory())
     Assert.assertEquals(new File("test/resources/credentials/scm/credentials.json").getAbsolutePath(), underTest.getPath())
 
     // resources/credentials/ssh/credentials.json
-    underTest = result[2]
+    underTest = result[3]
     Assert.assertEquals("credentials.json", underTest.getName())
     Assert.assertEquals(false, underTest.isDirectory())
     Assert.assertEquals(new File("test/resources/credentials/ssh/credentials.json").getAbsolutePath(), underTest.getPath())

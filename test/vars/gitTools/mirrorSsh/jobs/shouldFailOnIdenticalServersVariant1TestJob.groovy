@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2018 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.devops.jenkins.pipeline.environment
+package vars.gitTools.mirrorSsh.jobs
 
-/**
- * Constants for environment variables used by Pipeline scripts and by Jenkins
- */
-class EnvironmentConstants implements Serializable {
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 
-  private static final long serialVersionUID = 1L
-
-  static final public String GIT_BRANCH = "GIT_BRANCH"
-  static final public String BRANCH_NAME = "BRANCH_NAME"
-  static final public String SCM_URL = "SCM_URL"
-  static final public String TERM = "TERM"
-  static final public String WORKSPACE = "WORKSPACE"
-
-
+def execute() {
+  gitTools.mirrorRepository("git@github.com:wcm-io-devops/jenkins-pipeline-library.git","git@github.com:wcm-io-devops/jenkins-pipeline-library.git")
 }
+
+return this
