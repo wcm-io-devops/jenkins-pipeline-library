@@ -22,7 +22,10 @@ package io.wcm.testing.jenkins.pipeline
 import com.lesfurets.jenkins.unit.BasePipelineTest
 import hudson.AbortException
 import hudson.model.Run
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.global.lib.SelfSourceRetriever
+import io.wcm.testing.jenkins.pipeline.plugins.BadgePluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.credentials.CredentialsPluginMock
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
 import org.apache.maven.model.Model
@@ -88,13 +91,32 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   protected StepRecorder stepRecorder
 
+  /**
+   * Mocks for badge plugin
+   */
+  BadgePluginMock badgePluginMock
+
+  /**
+   * Mocks for credentials plugin
+   */
+  CredentialsPluginMock credentialsPluginMock
+
+  /**
+   * Mocks for basic steps
+   */
+  BasicStepsMock basicStepsMock
+
   @Override
   @Before
   void setUp() throws Exception {
+    // initialize the step recorder
+    stepRecorder = new StepRecorder()
+    StepRecorderAssert.init(stepRecorder)
+
     // add the test folder to the script roots for the BasePipelineTest and call the super function
     scriptRoots += 'test'
 
-    envVars = new EnvActionImplMock()
+    envVars = new EnvActionImplMock(stepRecorder)
     envVars.setProperty("PATH", "/usr/bin")
     super.setUp()
 
@@ -107,52 +129,30 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     // give the dslMock the refernce to the pipeline helper to allow access to registered libraries
     dslMock.setHelper(helper)
 
-    // initialize the step recorder
-    stepRecorder = new StepRecorder()
-    StepRecorderAssert.init(stepRecorder)
-
     // set binding for steps and assign it the the DSL cpsScriptMock
     binding.setVariable("steps", this.dslMock.getMock())
 
     // set the environment variables
     binding.setVariable('env', envVars)
 
+    // set the workspace
+    binding.setVariable(EnvironmentConstants.WORKSPACE, WORKSPACE_PATH)
+
     // set build parameters
     params = [:]
-    binding.setVariable('params', params)
-
-    // set the enviornment variables
     binding.setVariable('params', params)
 
     // set the currentBuild to the RunWrapper cpsScriptMock
     this.binding.setVariable("currentBuild", runWrapper)
 
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class], addBadgeCallBack )
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack )
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack)
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class, String.class], addBadgeCallBack)
+    // add badge plugin mocks
+    this.badgePluginMock = new BadgePluginMock(this.helper, stepRecorder)
 
-    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class], addErrorBadgeCallback)
-    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class], addErrorBadgeCallback)
-    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class,String.class], addErrorBadgeCallback)
+    // add credentials plugin mocks
+    this.credentialsPluginMock = new CredentialsPluginMock(this.helper, stepRecorder, envVars)
 
-    helper.registerAllowedMethod(ADD_HTML_BADGE, [String.class], addHtmlBadgeCallback)
-    helper.registerAllowedMethod(ADD_HTML_BADGE, [String.class,String.class], addHtmlBadgeCallback)
-
-    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class], addInfoBadgeCallback)
-    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class], addInfoBadgeCallback)
-    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class,String.class], addInfoBadgeCallback)
-
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class,String.class], addShortTextCallback)
-
-    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class], addWarningBadgeCallback)
-    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class], addWarningBadgeCallback)
-    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class,String.class], addWarningBadgeCallback)
+    // add basic step mocks
+    this.basicStepsMock = new BasicStepsMock(this.helper, stepRecorder, envVars)
 
     // add callbacks for DSL functions and pass them to the step recorder if necessary
     helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
@@ -167,17 +167,13 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(CONFIGFILE, [Map.class], configFileCallback)
     helper.registerAllowedMethod(CONFIGFILEPROVIDER, [List.class, Closure.class], configFileProviderCallback)
 
-    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class], createSummaryCallback)
-    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class], createSummaryCallback)
-    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class,String.class], createSummaryCallback)
-
     helper.registerAllowedMethod(CRON, [String.class], cronCallback)
 
     helper.registerAllowedMethod(DISABLE_CONCURRENT_BUILDS, [], {
       stepRecorder.record(DISABLE_CONCURRENT_BUILDS, null)
     })
 
-    helper.registerAllowedMethod(DIR, [String.class,Closure.class], dirCallback)
+    helper.registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
 
     helper.registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> stepRecorder.record(EMAILEXT, incomingCall) })
     helper.registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
@@ -220,12 +216,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
     helper.registerAllowedMethod(READ_YAML, [Map.class], readYamlCallback)
 
-    helper.registerAllowedMethod(REMOVE_BADGES, [], removeBadgesCallback)
-    helper.registerAllowedMethod(REMOVE_BADGES, [String.class], removeBadgesCallback)
-
-    helper.registerAllowedMethod(REMOVE_HTML_BADGES, [], removeHtmlBadgesCallback)
-    helper.registerAllowedMethod(REMOVE_HTML_BADGES, [String.class], removeHtmlBadgesCallback)
-
     helper.registerAllowedMethod(SH, [String.class], { String incomingCommand -> stepRecorder.record(SH, incomingCommand) })
     helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
     helper.registerAllowedMethod(SLEEP, [LinkedHashMap.class], { values -> })
@@ -250,114 +240,17 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
 
     helper.registerAllowedMethod(WRITE_FILE, [Map.class], { Map incomingCall -> stepRecorder.record(WRITE_FILE, incomingCall) })
 
-
     // register the current workspace as library
     def projectPath = new File("").getAbsolutePath()
     def library = library().name('local-library')
-        .defaultVersion("master")
-        .allowOverride(false)
-        .implicit(true)
-        .targetPath(projectPath)
-        .retriever(SelfSourceRetriever.localSourceRetriever(projectPath))
-        .build()
+      .defaultVersion("master")
+      .allowOverride(false)
+      .implicit(true)
+      .targetPath(projectPath)
+      .retriever(SelfSourceRetriever.localSourceRetriever(projectPath))
+      .build()
     helper.registerSharedLibrary(library)
   }
-
-  /**
-   * Callback for addBadge step
-   */
-  def addBadgeCallBack = {
-    ...a ->
-      Map recordData = [
-        icon: getArgAt(a,0),
-        text: getArgAt(a,1),
-        id: getArgAt(a,2),
-        link: getArgAt(a,3),
-      ]
-      stepRecorder.record(ADD_BADGE, recordData)
-  }
-
-  /**
-   * Callback for addErrorBadge step
-   */
-  def addErrorBadgeCallback = {
-    ...a ->
-      Map recordData = [
-        text: getArgAt(a,0),
-        id: getArgAt(a,1),
-        link: getArgAt(a,2),
-      ]
-      stepRecorder.record(ADD_ERROR_BADGE, recordData)
-  }
-
-  /**
-   * Callback for addHtmlBadge step
-   */
-  def addHtmlBadgeCallback = {
-    ...a ->
-      Map recordData = [
-        html: getArgAt(a,0),
-        id: getArgAt(a,1),
-      ]
-      stepRecorder.record(ADD_HTML_BADGE, recordData)
-  }
-
-  /**
-   * Callback for addInfoBadge step
-   */
-  def addInfoBadgeCallback = {
-    ...a ->
-      Map recordData = [
-        text: getArgAt(a,0),
-        id: getArgAt(a,1),
-        link: getArgAt(a,2),
-      ]
-      stepRecorder.record(ADD_INFO_BADGE, recordData)
-  }
-
-  /**
-   * Callback for addInfoBadge step
-   */
-  def addShortTextCallback = {
-    ...a ->
-      Map recordData = [
-        text: getArgAt(a,0),
-        background: getArgAt(a,1),
-        border: getArgAt(a,2),
-        borderColor: getArgAt(a,3),
-        color: getArgAt(a,4),
-        link: getArgAt(a,5),
-      ]
-      stepRecorder.record(ADD_SHORT_TEXT, recordData)
-  }
-
-  /**
-   * Callback for addInfoBadge step
-   */
-  def addWarningBadgeCallback = {
-    ...a ->
-      Map recordData = [
-        text: getArgAt(a,0),
-        id: getArgAt(a,1),
-        link: getArgAt(a,2),
-      ]
-      stepRecorder.record(ADD_WARNING_BADGE, recordData)
-  }
-
-  /**
-   * Callback for addInfoBadge step
-   */
-  def createSummaryCallback = {
-    ...a ->
-      Map recordData = [
-        icon: getArgAt(a,0),
-        id: getArgAt(a,1),
-        text: getArgAt(a,2),
-      ]
-      stepRecorder.record(CREATE_SUMMARY, recordData)
-  }
-
-
 
   /**
    * Callback for timeout step
@@ -508,28 +401,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       Model ret = new MavenXpp3Reader().read(inputStream)
       inputStream.close()
       return ret
-  }
-
-  /**
-   * Callback for removeBadges Step
-   */
-  def removeBadgesCallback = {
-    ...a ->
-      Map recordData = [
-        id: getArgAt(a,0),
-      ]
-      stepRecorder.record(REMOVE_BADGES, recordData)
-  }
-
-  /**
-   * Callback for removeBadges Step
-   */
-  def removeHtmlBadgesCallback = {
-    ...a ->
-      Map recordData = [
-        id: getArgAt(a,0),
-      ]
-      stepRecorder.record(REMOVE_HTML_BADGES, recordData)
   }
 
   /**

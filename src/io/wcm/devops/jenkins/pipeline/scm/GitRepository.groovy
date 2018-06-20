@@ -61,6 +61,11 @@ class GitRepository {
   String protocol = null
 
   /**
+   * The parsedProtocolString
+   */
+  String protocolPrefix = null
+
+  /**
    * The server, like 'github.com'
    */
   String server = null
@@ -71,6 +76,11 @@ class GitRepository {
   Script script = null
 
   /**
+   * Stores the username
+   */
+  String username = null
+
+  /**
    *
    * @param script Reference to the pipeline script
    * @param url The GIT repository url to parse
@@ -78,13 +88,13 @@ class GitRepository {
   GitRepository(Script script, String url) {
     this.script = script
     this.url = url
-    Matcher matcher = url =~ /(https?:\\/\\/|(?:ssh:\\/\\/)?\w+@)((?:[\w.\-_]+)(?::\d+)?)(?:\\/|:)((?:[\w-_\\/]*))\\/(.*)/
+    Matcher matcher = url =~ /(https?:\\/\\/|(?:ssh:\\/\\/)?)(?:([^@\/]+)@)?((?:[\w.\-_]+)(?::\d+)?)(?:\\/|:)((?:[\w-_\\/]*))\\/(.*)/
     if (matcher) {
       List matches = matcher[0]
 
       // parse protocol
       String protocolMatch = matches[0]
-      if (protocolMatch.matches(/^(ssh:\/\/)?git@.*/)) {
+      if (protocolMatch.matches(/^(ssh:\/\/)?[^@\/]*@.*/)) {
         this.protocol = PROTOCOL_SSH
       } else if (protocolMatch.matches(/^https:\/\/.*$/)) {
         this.protocol = PROTOCOL_HTTPS
@@ -92,9 +102,12 @@ class GitRepository {
         this.protocol = PROTOCOL_HTTP
       }
 
-      this.server = matches[2]
-      this.group = matches[3]
-      this.project = matches[4]
+      this.protocolPrefix = matches[1] != "" ? matches[1] : null
+
+      this.username = matches[2]
+      this.server = matches[3]
+      this.group = matches[4]
+      this.project = matches[5]
       this.projectName = project.replace(".git", "")
     } else {
       this.script.steps.error("Error during parsing provided url: '$url'")
@@ -134,6 +147,35 @@ class GitRepository {
   }
 
   /**
+   * @returns The url composed out of the parsed parts
+   */
+  @NonCPS
+  String getUrl() {
+    String ret = ""
+    // add a protocol prefix if present (e.g. ssh://, http:// or https://
+    if (protocolPrefix != null) {
+      ret += "${protocolPrefix}"
+    }
+    if (isHttp() || isHttps()) {
+      // add a username if present
+      if (username != null) {
+        ret += "${username}@"
+      }
+      // add the server, group and project
+      ret += "${server}/${group}/${project}"
+    } else {
+      ret += "${username}@${server}"
+      // check if server has a port configuration and add only a slash, otherwise a double colon
+      if (server.contains(":")) {
+        ret += "/"
+      } else {
+        ret += ":"
+      }
+      ret += "${group}/${project}"
+    }
+    return ret
+  }
+/**
    * @return true when parsed GIT repository is valid
    */
   @NonCPS

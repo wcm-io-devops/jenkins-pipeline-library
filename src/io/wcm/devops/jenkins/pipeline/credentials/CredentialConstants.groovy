@@ -30,4 +30,6 @@ class CredentialConstants implements Serializable {
 
   final static SSH_CREDENTIALS_PATH = "credentials/ssh/credentials.json"
 
+  final static HTTP_CREDENTIALS_PATH = "credentials/http/credentials.json"
+
 }

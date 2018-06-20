@@ -17,23 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package vars.gitTools.jobs
+package vars.gitTools.mirrorHttps.jobs
 
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 
 def execute() {
   List srcCredentialIds = [
-    "src-cred-1",
-    "src-cred-2",
-    "src-cred-3",
+    "host1-http-credential-id",
   ]
   List targetCredentialIds = [
-    "target-cred-1",
-    "target-cred-2",
-    "target-cred-3",
+    "host2-http-credential-id",
   ]
-  gitTools.mirrorRepository("git@host1.domain.tld:wcm-io-devops/jenkins-pipeline-library.git","git@host2.domain.tld:wcm-io-devops/jenkins-pipeline-library.git", srcCredentialIds, targetCredentialIds)
+  gitTools.mirrorRepository("https://host1.domain.tld/wcm-io-devops/jenkins-pipeline-library.git","https://host2.domain.tld:wcm-io-devops/jenkins-pipeline-library.git", srcCredentialIds, targetCredentialIds)
 }
 
 return this

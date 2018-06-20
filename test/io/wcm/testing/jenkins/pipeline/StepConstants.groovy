@@ -52,6 +52,9 @@ class StepConstants {
   public final static String DIR = "dir"
 
   public final static String EMAILEXT = "emailext"
+  public final static String ENV = "env"
+  public final static String ENV_SET_PROPERTY = "env.setProperty"
+  public final static String ENV_GET_PROPERTY = "env.getProperty"
   public final static String ERROR = "error"
   public final static String EXEC_MANAGED_SHELL_SCRIPT = "execManagedShellScript"
 
@@ -102,10 +105,13 @@ class StepConstants {
 
   public final static String UNSTASH = "unstash"
   public final static String UPSTREAM = "upstream"
+  public final static String USERNAME_PASSWORD = "usernamePassword"
 
   public final static String VERSIONNUMBER = "VersionNumber"
 
   public final static String WRITE_FILE = "writeFile"
+  public final static String WITH_CREDENTIALS = "withCredentials"
+  public final static String WITH_ENV = "withEnv"
 
   public final static String XUNITBUILDER = "XUnitBuilder"
 

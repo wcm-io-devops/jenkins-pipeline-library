@@ -18,7 +18,7 @@
  * #L%
  */
 
-package vars.gitTools
+package vars.gitTools.mirrorSsh
 
 import hudson.AbortException
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
@@ -35,7 +35,7 @@ import static org.junit.Assert.*
 import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
 
 
-class GitToolsIT extends LibraryIntegrationTestBase {
+class GitToolsMirrorSshIT extends LibraryIntegrationTestBase {
 
   List<Map> mockedShellCommands = []
 
@@ -50,28 +50,23 @@ class GitToolsIT extends LibraryIntegrationTestBase {
   }
 
   @Test(expected = AbortException)
-  void shouldFailOnHttpSrcRepo() {
-    loadAndExecuteScript("vars/gitTools/jobs/shouldFailOnHttpSrcRepoTestJob.groovy")
-  }
-
-  @Test(expected = AbortException)
-  void shouldFailOnHttpTargetRepo() {
-    loadAndExecuteScript("vars/gitTools/jobs/shouldFailOnHttpTargetRepoTestJob.groovy")
-  }
-
-  @Test(expected = AbortException)
   void shouldFailOnInvalidSrcRepo() {
-    loadAndExecuteScript("vars/gitTools/jobs/shouldFailOnInvalidSrcRepoTestJob.groovy")
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldFailOnInvalidSrcRepoTestJob.groovy")
   }
 
   @Test(expected = AbortException)
   void shouldFailOnInvalidTargetRepo() {
-    loadAndExecuteScript("vars/gitTools/jobs/shouldFailOnInvalidTargetRepoTestJob.groovy")
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldFailOnInvalidTargetRepoTestJob.groovy")
   }
 
   @Test(expected = AbortException)
-  void shouldFailOnIdenticalServers() {
-    loadAndExecuteScript("vars/gitTools/jobs/shouldFailOnIdenticalServersTestJob.groovy")
+  void shouldFailOnIdenticalServersVariant1() {
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldFailOnIdenticalServersVariant1TestJob.groovy")
+  }
+
+  @Test(expected = AbortException)
+  void shouldFailOnIdenticalServersVariant2() {
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldFailOnIdenticalServersVariant2TestJob.groovy")
   }
 
   @Test
@@ -83,7 +78,7 @@ class GitToolsIT extends LibraryIntegrationTestBase {
           "origin  git@host2.domain.tld:wcm-io-devops/jenkins-pipeline-library.git (push)"
       ]
     ]
-    loadAndExecuteScript("vars/gitTools/jobs/shouldMirrorRepositoryWithCredentialAutoLookupTestJob.groovy")
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldMirrorRepositoryWithCredentialAutoLookupTestJob.groovy")
     List actualShellCalls = assertStepCalls(SH, 4)
     List expectedShellCalls = [
       "git clone --mirror git@host1.domain.tld:wcm-io-devops/jenkins-pipeline-library.git jenkins-pipeline-library.git",
@@ -118,7 +113,7 @@ class GitToolsIT extends LibraryIntegrationTestBase {
           "origin  git@host2.domain.tld:wcm-io-devops/jenkins-pipeline-library.git (push)"
       ]
     ]
-    loadAndExecuteScript("vars/gitTools/jobs/shouldMirrorRepositoryWithProvidedCredentialsTestJob.groovy")
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldMirrorRepositoryWithProvidedCredentialsTestJob.groovy")
     List actualShellCalls = assertStepCalls(SH, 4)
     List expectedShellCalls = [
       "git clone --mirror git@host1.domain.tld:wcm-io-devops/jenkins-pipeline-library.git jenkins-pipeline-library.git",
@@ -154,7 +149,7 @@ class GitToolsIT extends LibraryIntegrationTestBase {
       ]
     ]
     repoExists = true
-    loadAndExecuteScript("vars/gitTools/jobs/shouldMirrorRepositoryWithCredentialAutoLookupTestJob.groovy")
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldMirrorRepositoryWithCredentialAutoLookupTestJob.groovy")
     List actualShellCalls = assertStepCalls(SH, 5)
     List expectedShellCalls = [
       [
@@ -197,7 +192,7 @@ class GitToolsIT extends LibraryIntegrationTestBase {
           "origin  git@host1.domain.tld:wcm-io-devops/jenkins-pipeline-library.git (push)"
       ]
     ]
-    loadAndExecuteScript("vars/gitTools/jobs/shouldMirrorRepositoryWithCredentialAutoLookupTestJob.groovy")
+    loadAndExecuteScript("vars/gitTools/mirrorSsh/jobs/shouldMirrorRepositoryWithCredentialAutoLookupTestJob.groovy")
   }
 
   def fileExistsCallback = {

@@ -17,6 +17,7 @@
  * limitations under the License.
  * #L%
  */
+
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
 import io.wcm.devops.jenkins.pipeline.scm.GitRepository
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
@@ -65,27 +66,15 @@ void mirrorRepositoryToWorkspace(GitRepository srcRepo, List<String> srcCredenti
     error("The provided source repository is invalid!")
   }
 
-  if (!srcRepo.isSsh()) {
-    log.fatal("Only ssh repositories are supported for the source repository!")
-    error("Only ssh repositories are supported for the source repository!")
-  }
-
-  // do credential auto lookup for clone operation
-  if (srcCredentialIds == null) {
-    srcCredentialIds = []
-    log.debug("no srcCredentialId passed, try ssh credential auto lookup")
-    Credential srcCredential = credentials.lookupSshCredential(srcRepo.getUrl())
-    if (srcCredential != null) {
-      srcCredentialId = srcCredential.getId()
-      log.debug("using '${srcCredential.getComment()}' with id '${srcCredential.getId()}' for source server")
-      srcCredentialIds.push(srcCredentialId)
-    }
-  }
+  // lookup credentials or use the targetCredentialIds when not null
+  srcCredentialIds = _lookupRepositoryCredentials(srcRepo, srcCredentialIds, log)
 
   // execute bare clone or fetch
   CommandBuilder cloneCommandBuilder = new GitCommandBuilderImpl(this.steps)
-  sshagent(srcCredentialIds) {
-    Boolean repoExists = fileExists(srcRepo.getProject())
+
+  Boolean repoExists = fileExists(srcRepo.getProject())
+
+  _withGitCredentials(srcRepo, srcCredentialIds, log) {
     if (!repoExists) {
       log.info("no existing repository found, mirror external repository")
       cloneCommandBuilder.addArguments(["clone", "--mirror", srcRepo.getUrl(), srcRepo.getProject()])
@@ -101,8 +90,8 @@ void mirrorRepositoryToWorkspace(GitRepository srcRepo, List<String> srcCredenti
         Matcher fetchMatcher = remotes =~ /origin\s+${srcRepo.getUrl()}\s+\(fetch\)/
 
         if (!fetchMatcher) {
-          log.fatal("Unable to verify that remote fetch target is pointing to '${srcRepo.getUrl()}'!")
-          error("Unable to verify that remote fetch target is pointing to '${srcRepo.getUrl()}'!")
+          log.fatal("Unable to verify that remote fetch target is pointing to '${srcRepo.getUrl()}'! Found remotes: \n$remotes")
+          error("Unable to verify that remote fetch target is pointing to '${srcRepo.getUrl()}'! Found remotes: \n$remotes")
         }
 
         // unset matcher vars because they are not serializable
@@ -131,63 +120,124 @@ void mirrorRepositoryToRemote(String srcRepoPath, GitRepository targetRepo, List
     error("The provided target repository is invalid!")
   }
 
-  if (!targetRepo.isSsh()) {
-    log.fatal("Only ssh repositories are supported for the target repository!")
-    error("Only ssh repositories are supported for the target repository!")
-  }
+  // lookup credentials or use the targetCredentialIds when not null
+  targetCredentialIds = _lookupRepositoryCredentials(targetRepo, targetCredentialIds, log)
+  _withGitCredentials(targetRepo, targetCredentialIds, log) {
+    dir(srcRepoPath) {
 
-  // do credential auto lookup for clone operation
-  if (targetCredentialIds == null) {
-    targetCredentialIds = []
-    log.debug("no targetCredentialId passed, try ssh credential auto lookup")
-    Credential targetCredential = credentials.lookupSshCredential(targetRepo.getUrl())
-    if (targetCredential != null) {
-      targetCredentialId = targetCredential.getId()
-      log.debug("using '${targetCredential.getComment()}' with id '${targetCredential.getId()}' for target server")
-      targetCredentialIds.push(targetCredentialId)
-    }
-  }
+      // change remote
+      CommandBuilder setRemoteCommandBuilder = new GitCommandBuilderImpl(this.steps)
+      setRemoteCommandBuilder.addArguments(["remote", "set-url", "--push origin", targetRepo.getUrl()])
+      sh(setRemoteCommandBuilder.build())
 
-  dir(srcRepoPath) {
+      String remotes = this._getRemotes()
 
-    // change remote
-    CommandBuilder setRemoteCommandBuilder = new GitCommandBuilderImpl(this.steps)
-    setRemoteCommandBuilder.addArguments(["remote", "set-url", "--push origin", targetRepo.getUrl()])
-    sh(setRemoteCommandBuilder.build())
+      // check that push origin is correct
+      Matcher fetchMatcher = remotes =~ /origin\s+${targetRepo.getUrl()}\s+\(fetch\)/
+      Matcher pushMatcher = remotes =~ /origin\s+${targetRepo.getUrl()}\s+\(push\)/
 
-    String remotes = this._getRemotes()
+      if (fetchMatcher) {
+        log.fatal("Unable to verify that remote fetch target is NOT pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
+        error("Unable to verify that remote fetch target is NOT pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
+      }
 
-    // check that push origin is correct
-    Matcher fetchMatcher = remotes =~ /origin\s+${targetRepo.getUrl()}\s+\(fetch\)/
-    Matcher pushMatcher = remotes =~ /origin\s+${targetRepo.getUrl()}\s+\(push\)/
+      if (!pushMatcher) {
+        log.fatal("Unable to verify that remote push target is pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
+        error("Unable to verify that remote push target is pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
+      }
 
-    if (fetchMatcher) {
-      log.fatal("Unable to verify that remote fetch target is NOT pointing to '${targetRepo.getUrl()}'!")
-      error("Unable to verify that remote fetch target is NOT pointing to '${targetRepo.getUrl()}'!")
-    }
+      // unset matcher vars because they are not serializable
+      pushMatcher = null
+      fetchMatcher = null
 
-    if (!pushMatcher) {
-      log.fatal("Unable to verify that remote push target is pointing to '${targetRepo.getUrl()}'!")
-      error("Unable to verify that remote push target is pointing to '${targetRepo.getUrl()}'!")
-    }
+      // push to target url
+      CommandBuilder pushCommand = new GitCommandBuilderImpl(this.steps)
+      pushCommand.addArguments(["push", "--mirror"])
 
-    // unset matcher vars because they are not serializable
-    pushMatcher = null
-    fetchMatcher = null
-
-    // push to target url
-    CommandBuilder pushCommand = new GitCommandBuilderImpl(this.steps)
-    pushCommand.addArguments(["push", "--mirror"])
-
-    sshagent(targetCredentialIds) {
       sh(pushCommand.build())
     }
   }
 }
 
+/**
+ * Utility function to get the remotes of the target server
+ * @return The result of the git remove -v call
+ */
 String _getRemotes() {
   // verify that remote push target is correct
   CommandBuilder getRemotePushTarget = new GitCommandBuilderImpl(this.steps)
   getRemotePushTarget.addArguments(["remote", "-v",])
   return sh(script: getRemotePushTarget.build(), returnStdout: true).trim()
+}
+
+/**
+ * Internal function providing GIT credentials for steps
+ *
+ * @param repo The repository to provide the credentials for
+ * @param credentialIds The list of credentials that should be provided
+ * @param log The logger instance
+ * @param body The body that should be executed with the GIT credentials
+ */
+void _withGitCredentials(GitRepository repo, List credentialIds, Logger log, Closure body) {
+  if (repo.isSsh()) {
+    sshagent(credentialIds) {
+      body()
+    }
+  } else if (repo.isHttp() || repo.isHttps()) {
+    if (credentialIds.size() >= 1) {
+      withCredentials([usernamePassword(credentialsId: credentialIds[0], passwordVariable: '_GIT_PASSWORD', usernameVariable: '_GIT_USERNAME')]) {
+        String originalUsername = repo.getUsername()
+        String sshAskPassPath = "${WORKSPACE}/.gitaskpass.sh"
+        try {
+          // set the username to the repository to make sure username is used during git operations
+          repo.setUsername(env.getProperty("_GIT_USERNAME"))
+          String gitPassword = env.getProperty("_GIT_PASSWORD")
+          // create script for git askpass
+          sh("echo '#!/bin/bash\necho \"$gitPassword\"' > '${sshAskPassPath}' && chmod 700 '${sshAskPassPath}'")
+          withEnv(["GIT_ASKPASS=$sshAskPassPath"]) {
+            body()
+          }
+        } finally {
+          // reset username
+          repo.setUsername(originalUsername)
+          sh("rm -f '$sshAskPassPath'")
+        }
+      }
+    } else {
+      // no credentials found, execute without providing credentials
+      body()
+    }
+  }
+}
+
+/**
+ * Utility function to retrieve ssh or http/https credentials for a repository.
+ * When the parameter credentialIds is null a autolookup is performed.
+ * Otherwise the passed credentialIds will be returned
+ *
+ * @param repo The repository to lookup the credentials for
+ * @param credentialIds When not empty the
+ * @return A list of credential ids for a repository
+ */
+List<String> _lookupRepositoryCredentials(GitRepository repo, List credentialIds, Logger log) {
+  // do credential auto lookup for clone operation
+  if (credentialIds == null) {
+    credentialIds = []
+    if (repo.isSsh()) {
+      log.debug("no credentialIds passed, repo is using ssh, try ssh credential auto lookup")
+      Credential repoSshCredential = credentials.lookupSshCredential(repo.getUrl())
+      if (repoSshCredential != null) {
+        log.debug("using '${repoSshCredential.getComment()}' with id '${repoSshCredential.getId()}' for repo")
+        credentialIds.push(repoSshCredential.getId())
+      }
+    } else if (repo.isHttps() || repo.isHttp()) {
+      log.debug("no credentialIds passed, repo is using https, try http/https credential auto lookup")
+      Credential repoHttpsCredential = credentials.lookupHttpCredential(repo.getUrl())
+      if (repoHttpsCredential != null) {
+        log.debug("using '${repoHttpsCredential.getComment()}' with id '${repoHttpsCredential.getId()}' for repo")
+        credentialIds.push(repoHttpsCredential.getId())
+      }
+    }
+  }
+  return credentialIds
 }

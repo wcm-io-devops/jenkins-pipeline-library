@@ -17,13 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package vars.gitTools.jobs
+package vars.gitTools.mirrorHttps.jobs
 
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 
 def execute() {
-  gitTools.mirrorRepository("https://github.com/wcm-io-devops/jenkins-pipeline-library.git","git@github.com:wcm-io-devops/jenkins-pipeline-library.git")
+  gitTools.mirrorRepository("https://host1.domain.tld/wcm-io-devops/jenkins-pipeline-library.git","https://host2.domain.tld/wcm-io-devops/jenkins-pipeline-library.git")
 }
 
 return this
