@@ -25,6 +25,7 @@ import hudson.model.Run
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.global.lib.SelfSourceRetriever
 import io.wcm.testing.jenkins.pipeline.plugins.BadgePluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.ConfigFileProviderPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.credentials.CredentialsPluginMock
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
@@ -106,6 +107,11 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   BasicStepsMock basicStepsMock
 
+  /**
+   *  Mocks the Config File Provider Plugin
+   */
+  ConfigFileProviderPluginMock configFileProviderPluginMock
+
   @Override
   @Before
   void setUp() throws Exception {
@@ -146,13 +152,16 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     this.binding.setVariable("currentBuild", runWrapper)
 
     // add badge plugin mocks
-    this.badgePluginMock = new BadgePluginMock(this.helper, stepRecorder)
+    this.badgePluginMock = new BadgePluginMock(helper, stepRecorder)
 
     // add credentials plugin mocks
-    this.credentialsPluginMock = new CredentialsPluginMock(this.helper, stepRecorder, envVars)
+    this.credentialsPluginMock = new CredentialsPluginMock(helper, stepRecorder, envVars)
 
     // add basic step mocks
-    this.basicStepsMock = new BasicStepsMock(this.helper, stepRecorder, envVars)
+    this.basicStepsMock = new BasicStepsMock(helper, stepRecorder, envVars)
+
+    // add config file provider plugin mock
+    this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(helper, stepRecorder, envVars, WORKSPACE_TMP_PATH)
 
     // add callbacks for DSL functions and pass them to the step recorder if necessary
     helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
@@ -164,8 +173,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(CHOICE, [Map.class], choiceCallback)
     helper.registerAllowedMethod(CHECKOUT, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(CHECKOUT, incomingCall) })
     helper.registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(CHECKSTYLE, map) })
-    helper.registerAllowedMethod(CONFIGFILE, [Map.class], configFileCallback)
-    helper.registerAllowedMethod(CONFIGFILEPROVIDER, [List.class, Closure.class], configFileProviderCallback)
 
     helper.registerAllowedMethod(CRON, [String.class], cronCallback)
 
@@ -448,16 +455,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   }
 
   /**
-   * Mocks the 'configFile' step
-   *
-   * @return a new ManagedFile object with the arguments provided in the Map
-   */
-  def configFileCallback = { Map map ->
-    stepRecorder.record(CONFIGFILE, map)
-    return new ManagedFile((String) map.fileId, (String) map.targetLocation, (String) map.variable)
-  }
-
-  /**
    * Mocks the 'sshagent' step
    */
   def sshAgentCallback = { List list, Closure closure ->
@@ -583,33 +580,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * analyze call parameters.
    */
   protected void afterLoadingScript() {}
-
-  /**
-   * Mocks the 'configFileProvider' step. For each ManagedFile the environment variable is set to a dummy filepath
-   */
-  def configFileProviderCallback = { List<ManagedFile> configFiles, Closure closure ->
-    stepRecorder.record(CONFIGFILEPROVIDER, configFiles)
-    configFiles.each { ManagedFile file ->
-      String filePath = file.getTargetLocation()
-      if (filePath == null || filePath.isEmpty()) {
-        filePath = WORKSPACE_TMP_PATH.concat(file.fileId)
-      }
-      file.setTargetLocation(filePath)
-      if (file.getVariable() != null && file.getVariable().length() > 0) {
-        Exception catchedException = null
-        try {
-          if (getEnv(file.getVariable()) != null) {
-            throw new Exception("${file.getVariable()} is already registered!")
-          }
-        } catch (Exception e) {
-          catchedException = e
-        }
-        Assert.assertNull("The config provider already has a configFile with variable " + file.getVariable(), catchedException)
-        setEnv(file.getVariable(), filePath)
-      }
-    }
-    closure.run()
-  }
 
   /**
    * Mocks the 'configFileProvider' step. For each ManagedFile the environment variable is set to a dummy filepath
