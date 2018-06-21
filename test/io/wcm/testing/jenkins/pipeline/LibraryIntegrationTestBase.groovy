@@ -32,9 +32,7 @@ import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
 import org.apache.tools.ant.DirectoryScanner
-import org.jenkinsci.plugins.configfiles.buildwrapper.ManagedFile
 import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper
-import org.junit.Assert
 import org.junit.Before
 import org.jvnet.hudson.tools.versionnumber.VersionNumberBuildInfo
 import org.jvnet.hudson.tools.versionnumber.VersionNumberCommon
@@ -78,11 +76,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   protected EnvActionImplMock envVars
 
   /**
-   * Current build parameters
-   */
-  protected Map params
-
-  /**
    * Path to the log file
    */
   protected File logFile = null
@@ -106,6 +99,11 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * Mocks for basic steps
    */
   BasicStepsMock basicStepsMock
+
+  /**
+   * Mock for build parameters
+   */
+  JobPropertiesMock jobPropertiesMock
 
   /**
    *  Mocks the Config File Provider Plugin
@@ -144,10 +142,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     // set the workspace
     binding.setVariable(EnvironmentConstants.WORKSPACE, WORKSPACE_PATH)
 
-    // set build parameters
-    params = [:]
-    binding.setVariable('params', params)
-
     // set the currentBuild to the RunWrapper cpsScriptMock
     this.binding.setVariable("currentBuild", runWrapper)
 
@@ -163,22 +157,15 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     // add config file provider plugin mock
     this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(helper, stepRecorder, envVars, WORKSPACE_TMP_PATH)
 
+    // add job properties mock
+    this.jobPropertiesMock = new JobPropertiesMock(helper, stepRecorder, binding)
+
     // add callbacks for DSL functions and pass them to the step recorder if necessary
     helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
     helper.registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> stepRecorder.record(ANSIBLE_PLAYBOOK, incomingCall) })
 
-    helper.registerAllowedMethod(BOOLEAN_PARAM, [Map.class], booleanParamCallback)
-    helper.registerAllowedMethod(BUILD_DISCARDER, [Object.class], { Map incomingCall -> stepRecorder.record(BUILD_DISCARDER, incomingCall) })
-
-    helper.registerAllowedMethod(CHOICE, [Map.class], choiceCallback)
     helper.registerAllowedMethod(CHECKOUT, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(CHECKOUT, incomingCall) })
     helper.registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(CHECKSTYLE, map) })
-
-    helper.registerAllowedMethod(CRON, [String.class], cronCallback)
-
-    helper.registerAllowedMethod(DISABLE_CONCURRENT_BUILDS, [], {
-      stepRecorder.record(DISABLE_CONCURRENT_BUILDS, null)
-    })
 
     helper.registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
 
@@ -207,17 +194,10 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(JUNIT, [String.class], { String incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
     helper.registerAllowedMethod(JUNIT, [Map.class], { Map incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
 
-    helper.registerAllowedMethod(LOG_ROTATOR, [Map.class], {
-      Map incomingCall ->
-        stepRecorder.record(LOG_ROTATOR, incomingCall)
-        return [(LOG_ROTATOR): incomingCall]
-    })
+
     helper.registerAllowedMethod(OPENTASKS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(OPENTASKS, map) })
 
-    helper.registerAllowedMethod(PARAMETERS, [List.class], { List incomingCall -> stepRecorder.record(PARAMETERS, incomingCall) })
-    helper.registerAllowedMethod(PIPELINE_TRIGGERS, [List.class], { List incomingCall -> stepRecorder.record(PIPELINE_TRIGGERS, incomingCall) })
     helper.registerAllowedMethod(PMD, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(PMD, map) })
-    helper.registerAllowedMethod(POLLSCM, [String.class], pollSCMCallback)
 
     helper.registerAllowedMethod(READ_JSON, [Map.class], readJSONCallback)
     helper.registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
@@ -230,9 +210,8 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(STAGE, [String.class, Closure.class], stageCallback)
     helper.registerAllowedMethod(STASH, [Map.class], { Map incomingCall -> stepRecorder.record(STASH, incomingCall) })
     helper.registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(STEP, incomingCall) })
-    helper.registerAllowedMethod(STRING, [Map.class], stringCallback)
 
-    helper.registerAllowedMethod(TEXT, [Map.class], textCallback)
+
     helper.registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
     helper.registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
       stepRecorder.record(TIMESTAMPS, true)
@@ -241,7 +220,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(TOOL, [String.class], toolCallback)
 
     helper.registerAllowedMethod(UNSTASH, [Map.class], { Map incomingCall -> stepRecorder.record(UNSTASH, incomingCall) })
-    helper.registerAllowedMethod(UPSTREAM, [Map.class], upstreamCallback)
 
     helper.registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
 
@@ -284,69 +262,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     String name, Closure body ->
       stepRecorder.record(STAGE, name)
       body.run()
-  }
-
-  /**
-   * Callback for boolean Param
-   */
-  def booleanParamCallback = {
-    Map config ->
-      stepRecorder.record(BOOLEAN_PARAM, config)
-      return "booleanParam($config)"
-  }
-
-  /**
-   * Callback for choice param
-   */
-  def choiceCallback = {
-    Map config ->
-      stepRecorder.record(CHOICE, config)
-      return "choice($config)"
-  }
-
-  /**
-   * Callback for string param
-   */
-  def stringCallback = {
-    Map config ->
-      stepRecorder.record(STRING, config)
-      return "string($config)"
-  }
-
-  /**
-   * Callback for text
-   */
-  def textCallback = {
-    Map config ->
-      stepRecorder.record(TEXT, config)
-      return "text($config)"
-  }
-
-  /**
-   * Callback for pollscm pipeline trigger
-   */
-  def pollSCMCallback = {
-    String config ->
-      stepRecorder.record(POLLSCM, config)
-      return "pollSCM($config)"
-  }
-
-  /**
-   * Callback for cron pipeline trigger
-   */
-  def cronCallback = {
-    String config ->
-      stepRecorder.record(CRON, config)
-      return "cron($config)"
-  }
-
-  /**
-   * Callback for upstream pipeline trigger
-   */
-  def upstreamCallback = {
-    Map config ->
-      stepRecorder.record(UPSTREAM, config)
-      return "upstream($config)"
   }
 
   /**
@@ -507,7 +422,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       ret[i] = new FileWrapper(name, file.toString(), file.isDirectory(), file.length(), file.lastModified())
     }
 
-
     return ret
   }
 
@@ -604,22 +518,5 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
         return TOOL_JDK_PREFIX.concat(tool)
     }
     return ""
-  }
-
-  /**
-   * @return The current build parameters
-   */
-  Map getParams() {
-    return params
-  }
-
-  /**
-   * Sets the current build parameters
-   *
-   * @param params
-   */
-  void setParams(Map params) {
-    this.params = params
-    this.binding.setVariable("params", params)
   }
 }

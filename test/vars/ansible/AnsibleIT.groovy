@@ -22,10 +22,8 @@ package vars.ansible
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
-import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
 import net.sf.json.JSONObject
-import org.apache.commons.lang.NotImplementedException
 import org.junit.Assert
 import org.junit.Test
 
@@ -166,7 +164,7 @@ class AnsibleIT extends LibraryIntegrationTestBase {
 
   @Test
   public void shouldInjectBuildParams() {
-    this.setParams([choiceParam: "choice1", boolParam: true, stringParam: "text"])
+    this.getJobPropertiesMock().setParams([choiceParam: "choice1", boolParam: true, stringParam: "text"])
     loadAndExecuteScript("vars/ansible/jobs/ansibleExecPlaybookInjectParamsTestJob.groovy")
     Map actualPlaybookCall = StepRecorderAssert.assertOnce(StepConstants.ANSIBLE_PLAYBOOK)
 

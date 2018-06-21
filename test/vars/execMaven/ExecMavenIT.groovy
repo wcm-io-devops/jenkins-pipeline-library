@@ -113,7 +113,7 @@ class ExecMavenIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldExecuteWithBuildParameters() {
-    this.setParams([choiceParam: "choice1", boolParam: true, stringParam: "text"])
+    this.getJobPropertiesMock().setParams([choiceParam: "choice1", boolParam: true, stringParam: "text"])
     expectedCommand = "mvn clean verify -DchoiceParam=choice1 -DboolParam=true -DstringParam=text --global-settings /path/to/workspace@tmp/EVEN_BETTER_DOMAIN_MVN_GLOBAL_SETTINGS_ID"
     loadAndExecuteScript("vars/execMaven/jobs/execMavenWithBuildParametersTestJob.groovy")
 
