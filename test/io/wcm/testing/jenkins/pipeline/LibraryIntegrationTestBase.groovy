@@ -26,6 +26,7 @@ import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.global.lib.SelfSourceRetriever
 import io.wcm.testing.jenkins.pipeline.plugins.BadgePluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.ConfigFileProviderPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.PipelineUtilityStepsPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.credentials.CredentialsPluginMock
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
@@ -106,9 +107,14 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   JobPropertiesMock jobPropertiesMock
 
   /**
-   *  Mocks the Config File Provider Plugin
+   *  Mocks the Config File Provider plugin
    */
   ConfigFileProviderPluginMock configFileProviderPluginMock
+
+  /**
+   * Mocks the pipeline utility steps plugin
+   */
+  PipelineUtilityStepsPluginMock pipelineUtilityStepsPluginMock
 
   @Override
   @Before
@@ -160,6 +166,9 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     // add job properties mock
     this.jobPropertiesMock = new JobPropertiesMock(helper, stepRecorder, binding)
 
+    // add pipeline utility steps plugin mock
+    pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(helper, stepRecorder, dslMock)
+
     // add callbacks for DSL functions and pass them to the step recorder if necessary
     helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
     helper.registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> stepRecorder.record(ANSIBLE_PLAYBOOK, incomingCall) })
@@ -176,16 +185,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     })
     helper.registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
 
-    helper.registerAllowedMethod(FIND_FILES, [Map.class], {
-      Map params ->
-        stepRecorder.record(FIND_FILES, params)
-        return this.findFiles(params['glob'])
-    })
-    helper.registerAllowedMethod(FIND_FILES, [], {
-      stepRecorder.record(FIND_FILES, null)
-      return this.findFiles()
-    })
-
     helper.registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(FINDBUGS, map) })
 
     helper.registerAllowedMethod("getName", [], canonicalNameCallback)
@@ -199,10 +198,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
 
     helper.registerAllowedMethod(PMD, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(PMD, map) })
 
-    helper.registerAllowedMethod(READ_JSON, [Map.class], readJSONCallback)
-    helper.registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
-    helper.registerAllowedMethod(READ_YAML, [Map.class], readYamlCallback)
-
     helper.registerAllowedMethod(SH, [String.class], { String incomingCommand -> stepRecorder.record(SH, incomingCommand) })
     helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
     helper.registerAllowedMethod(SLEEP, [LinkedHashMap.class], { values -> })
@@ -210,7 +205,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     helper.registerAllowedMethod(STAGE, [String.class, Closure.class], stageCallback)
     helper.registerAllowedMethod(STASH, [Map.class], { Map incomingCall -> stepRecorder.record(STASH, incomingCall) })
     helper.registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(STEP, incomingCall) })
-
 
     helper.registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
     helper.registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
@@ -280,52 +274,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   }
 
   /**
-   * Mocks the 'readYaml' step
-   *
-   * @see <a href="https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Utility+Steps+Plugin">Pipeline Utility Steps Plugin</a>
-   *
-   * return The Maven model
-   */
-  def readYamlCallback = {
-    Map incomingCommand ->
-      String file = incomingCommand.file
-      String text = incomingCommand.text
-      return dslMock.readYaml(file, text)
-  }
-
-  /**
-   * Mocks the 'readJSON' step
-   *
-   * @see <a href="https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Utility+Steps+Plugin">Pipeline Utility Steps Plugin</a>
-   *
-   * return The file/text as json
-   */
-  def readJSONCallback = {
-    Map incomingCommand ->
-      String file = incomingCommand.file
-      String text = incomingCommand.text
-      return dslMock.readJSON(file, text)
-  }
-
-  /**
-   * Mocks the 'readMavenPom' step
-   * Emulates the readMavenPom step of the Pipeline Utility Steps Plugin
-   *
-   * @see <a href="https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Utility+Steps+Plugin">Pipeline Utility Steps Plugin</a>
-   *
-   * return The Maven model
-   */
-  def readMavenPomCallback = {
-    Map incomingCommand ->
-      String path = incomingCommand.file
-      File file = this.dslMock.locateTestResource(path)
-      InputStream inputStream = new FileInputStream(file)
-      Model ret = new MavenXpp3Reader().read(inputStream)
-      inputStream.close()
-      return ret
-  }
-
-  /**
    * Mocks the 'sh' step when executed with named arguments (Map)
    * Used to cpsScriptMock some shell commands executed during integration testing
    *
@@ -392,37 +340,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     Calendar timeStamp = Calendar.getInstance()
     String result = VersionNumberCommon.formatVersionNumber(versionNumberString, versionNumberStep.getProjectStartDate(), versionNumberBuildInfo, this.envVars.getEnvironment(), timeStamp)
     return result
-  }
-
-  /**
-   * Mocks findFiles from pipeline-utility-steps plugin
-   *
-   * @param glob (optional) Ant style pattern of file paths that should match. If this property is set all descendants of the current working directory will be searched for a match and returned, if it is omitted only the direct descendants of the directory will be returned.
-   * @return Returns a list of found files
-   */
-  FileWrapper[] findFiles(String glob = null) {
-    if (glob == null) {
-      glob = "*"
-    }
-    String[] includes = [glob]
-    String[] excludes = ["**/target/**/*"]
-    DirectoryScanner ds = new DirectoryScanner()
-    File baseDir = new File("").getAbsoluteFile()
-    ds.setBasedir(baseDir)
-    ds.setIncludes(includes)
-    ds.setExcludes(excludes)
-    ds.scan()
-
-    String[] files = ds.getIncludedFiles()
-    FileWrapper[] ret = new FileWrapper[files.length]
-    for (int i = 0; i < files.size(); i++) {
-      Path path = baseDir.toPath().resolve(files[i])
-      File file = path.toFile()
-      String name = file.getName()
-      ret[i] = new FileWrapper(name, file.toString(), file.isDirectory(), file.length(), file.lastModified())
-    }
-
-    return ret
   }
 
   /**
