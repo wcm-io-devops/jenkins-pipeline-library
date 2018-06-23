@@ -19,9 +19,7 @@
  */
 package io.wcm.testing.jenkins.pipeline.plugins
 
-import com.lesfurets.jenkins.unit.PipelineTestHelper
-import io.wcm.testing.jenkins.pipeline.DSLMock
-import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
 import org.apache.tools.ant.DirectoryScanner
@@ -30,48 +28,30 @@ import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper
 import java.nio.file.Path
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.FIND_FILES
-import static io.wcm.testing.jenkins.pipeline.StepConstants.FIND_FILES
-import static io.wcm.testing.jenkins.pipeline.StepConstants.FIND_FILES
-import static io.wcm.testing.jenkins.pipeline.StepConstants.FIND_FILES
 import static io.wcm.testing.jenkins.pipeline.StepConstants.READ_JSON
 import static io.wcm.testing.jenkins.pipeline.StepConstants.READ_MAVEN_POM
 import static io.wcm.testing.jenkins.pipeline.StepConstants.READ_YAML
 
 class PipelineUtilityStepsPluginMock {
 
-  /**
-   * Reference to PipelineTestHelper
-   */
-  protected PipelineTestHelper helper
+  LibraryIntegrationTestContext context
 
-  /**
-   * Utility for recording executed steps
-   */
-  protected StepRecorder stepRecorder
+  PipelineUtilityStepsPluginMock(LibraryIntegrationTestContext context) {
+    this.context = context
 
-  /**
-   * Reference to DSL mock object
-   */
-  protected  DSLMock dslMock
-
-  PipelineUtilityStepsPluginMock(PipelineTestHelper helper, StepRecorder stepRecorder, DSLMock dslMock) {
-    this.helper = helper
-    this.stepRecorder = stepRecorder
-    this.dslMock = dslMock
-
-    helper.registerAllowedMethod(FIND_FILES, [Map.class], {
+    this.context.getPipelineTestHelper().registerAllowedMethod(FIND_FILES, [Map.class], {
       Map params ->
-        stepRecorder.record(FIND_FILES, params)
+        this.context.getStepRecorder().record(FIND_FILES, params)
         return this.findFiles(params['glob'])
     })
-    helper.registerAllowedMethod(FIND_FILES, [], {
-      stepRecorder.record(FIND_FILES, null)
+    this.context.getPipelineTestHelper().registerAllowedMethod(FIND_FILES, [], {
+      this.context.getStepRecorder().record(FIND_FILES, null)
       return this.findFiles()
     })
 
-    helper.registerAllowedMethod(READ_JSON, [Map.class], readJSONCallback)
-    helper.registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
-    helper.registerAllowedMethod(READ_YAML, [Map.class], readYamlCallback)
+    this.context.getPipelineTestHelper().registerAllowedMethod(READ_JSON, [Map.class], readJSONCallback)
+    this.context.getPipelineTestHelper().registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
+    this.context.getPipelineTestHelper().registerAllowedMethod(READ_YAML, [Map.class], readYamlCallback)
   }
 
   /**
@@ -85,7 +65,7 @@ class PipelineUtilityStepsPluginMock {
     Map incomingCommand ->
       String file = incomingCommand.file
       String text = incomingCommand.text
-      return dslMock.readYaml(file, text)
+      return this.context.getDslMock().readYaml(file, text)
   }
 
   /**
@@ -99,7 +79,7 @@ class PipelineUtilityStepsPluginMock {
     Map incomingCommand ->
       String file = incomingCommand.file
       String text = incomingCommand.text
-      return dslMock.readJSON(file, text)
+      return this.context.getDslMock().readJSON(file, text)
   }
 
   /**
@@ -113,7 +93,7 @@ class PipelineUtilityStepsPluginMock {
   def readMavenPomCallback = {
     Map incomingCommand ->
       String path = incomingCommand.file
-      File file = this.dslMock.locateTestResource(path)
+      File file = this.context.getDslMock().locateTestResource(path)
       InputStream inputStream = new FileInputStream(file)
       Model ret = new MavenXpp3Reader().read(inputStream)
       inputStream.close()

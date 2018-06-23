@@ -22,32 +22,21 @@ package io.wcm.testing.jenkins.pipeline
 import com.lesfurets.jenkins.unit.PipelineTestHelper
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 
+import static io.wcm.testing.jenkins.pipeline.StepConstants.CHECKOUT
+import static io.wcm.testing.jenkins.pipeline.StepConstants.CHECKOUT
 import static io.wcm.testing.jenkins.pipeline.StepConstants.CONFIGFILEPROVIDER
 import static io.wcm.testing.jenkins.pipeline.StepConstants.WITH_ENV
 
 class BasicStepsMock {
 
-/**
- * Reference to PipelineTestHelper
- */
-  protected PipelineTestHelper helper
+  LibraryIntegrationTestContext context
 
-  /**
-   * Utility for recording executed steps
-   */
-  protected StepRecorder stepRecorder
+  BasicStepsMock(LibraryIntegrationTestContext context) {
+    this.context = context
 
-  /**
-   * Environment
-   */
-  protected EnvActionImplMock envVars
+    this.context.getPipelineTestHelper().registerAllowedMethod(CHECKOUT, [Map.class], { LinkedHashMap incomingCall -> this.context.getStepRecorder().record(CHECKOUT, incomingCall) })
 
-  BasicStepsMock(PipelineTestHelper helper, StepRecorder stepRecorder, EnvActionImplMock envVars) {
-    this.helper = helper
-    this.stepRecorder = stepRecorder
-    this.envVars = envVars
-
-    helper.registerAllowedMethod(WITH_ENV, [List.class, Closure.class], withEnvCallback)
+    this.context.getPipelineTestHelper().registerAllowedMethod(WITH_ENV, [List.class, Closure.class], withEnvCallback)
   }
 
   def withEnvCallback = {
@@ -58,12 +47,12 @@ class BasicStepsMock {
         String varName = varParts[0]
         String varValue = varParts[1]
         modifiedEnvVars.push(varName)
-        this.envVars.setProperty(varName, varValue)
+        this.context.getEnvVars().setProperty(varName, varValue)
       }
       body.call()
       // set environment variables
       for (String modifiedEnvVar in modifiedEnvVars) {
-        this.envVars.setProperty(modifiedEnvVar, null)
+        this.context.getEnvVars().setProperty(modifiedEnvVar, null)
       }
   }
 }

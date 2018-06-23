@@ -62,29 +62,14 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   public final static String TOOL_MAVEN = "apache-maven3"
 
   /**
-   * Mock for the pipeline DSL object
-   */
-  protected DSLMock dslMock
-
-  /**
-   * Mock for the RunWrapper which provides whitelisted access to the currentBuild
-   */
-  protected RunWrapperMock runWrapper
-
-  /**
-   * Environment variables
-   */
-  protected EnvActionImplMock envVars
-
-  /**
    * Path to the log file
    */
   protected File logFile = null
 
   /**
-   * Utility for recording executed steps
+   * Context for IT Tests
    */
-  protected StepRecorder stepRecorder
+  LibraryIntegrationTestContext context
 
   /**
    * Mocks for badge plugin
@@ -119,105 +104,82 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   @Override
   @Before
   void setUp() throws Exception {
-    // initialize the step recorder
-    stepRecorder = new StepRecorder()
-    StepRecorderAssert.init(stepRecorder)
-
     // add the test folder to the script roots for the BasePipelineTest and call the super function
     scriptRoots += 'test'
 
-    envVars = new EnvActionImplMock(stepRecorder)
-    envVars.setProperty("PATH", "/usr/bin")
+
     super.setUp()
 
-    // initialize the RunWrapper Mock
-    runWrapper = new RunWrapperMock(mock(Run))
 
-    // initialize the DSL Mock
-    this.dslMock = new DSLMock()
 
-    // give the dslMock the refernce to the pipeline helper to allow access to registered libraries
-    dslMock.setHelper(helper)
-
-    // set binding for steps and assign it the the DSL cpsScriptMock
-    binding.setVariable("steps", this.dslMock.getMock())
-
-    // set the environment variables
-    binding.setVariable('env', envVars)
-
-    // set the workspace
-    binding.setVariable(EnvironmentConstants.WORKSPACE, WORKSPACE_PATH)
-
-    // set the currentBuild to the RunWrapper cpsScriptMock
-    this.binding.setVariable("currentBuild", runWrapper)
+    context = new LibraryIntegrationTestContext(helper, binding)
 
     // add badge plugin mocks
-    this.badgePluginMock = new BadgePluginMock(helper, stepRecorder)
+    this.badgePluginMock = new BadgePluginMock(context)
 
     // add credentials plugin mocks
-    this.credentialsPluginMock = new CredentialsPluginMock(helper, stepRecorder, envVars)
+    this.credentialsPluginMock = new CredentialsPluginMock(context)
 
     // add basic step mocks
-    this.basicStepsMock = new BasicStepsMock(helper, stepRecorder, envVars)
+    this.basicStepsMock = new BasicStepsMock(context)
 
     // add config file provider plugin mock
-    this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(helper, stepRecorder, envVars, WORKSPACE_TMP_PATH)
+    this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(context)
 
     // add job properties mock
-    this.jobPropertiesMock = new JobPropertiesMock(helper, stepRecorder, binding)
+    this.jobPropertiesMock = new JobPropertiesMock(context)
 
     // add pipeline utility steps plugin mock
-    pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(helper, stepRecorder, dslMock)
+    this.pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(context)
 
     // add callbacks for DSL functions and pass them to the step recorder if necessary
-    helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
-    helper.registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> stepRecorder.record(ANSIBLE_PLAYBOOK, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
 
-    helper.registerAllowedMethod(CHECKOUT, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(CHECKOUT, incomingCall) })
-    helper.registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(CHECKSTYLE, map) })
+    context.getPipelineTestHelper().registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(CHECKSTYLE, map) })
 
-    helper.registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
 
-    helper.registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> stepRecorder.record(EMAILEXT, incomingCall) })
-    helper.registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
-      stepRecorder.record(ERROR, incomingCall)
+    context.getPipelineTestHelper().registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> context.getStepRecorder().record(EMAILEXT, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
+      context.getStepRecorder().record(ERROR, incomingCall)
       throw new AbortException(incomingCall)
     })
-    helper.registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
 
-    helper.registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(FINDBUGS, map) })
+    context.getPipelineTestHelper().registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(FINDBUGS, map) })
 
-    helper.registerAllowedMethod("getName", [], canonicalNameCallback)
-    helper.registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)
+    context.getPipelineTestHelper().registerAllowedMethod("getName", [], canonicalNameCallback)
+    context.getPipelineTestHelper().registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)
 
-    helper.registerAllowedMethod(JUNIT, [String.class], { String incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
-    helper.registerAllowedMethod(JUNIT, [Map.class], { Map incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(JUNIT, [String.class], { String incomingCall -> context.getStepRecorder().record(JUNIT, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(JUNIT, [Map.class], { Map incomingCall -> context.getStepRecorder().record(JUNIT, incomingCall) })
 
 
-    helper.registerAllowedMethod(OPENTASKS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(OPENTASKS, map) })
+    context.getPipelineTestHelper().registerAllowedMethod(OPENTASKS, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(OPENTASKS, map) })
 
-    helper.registerAllowedMethod(PMD, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(PMD, map) })
+    context.getPipelineTestHelper().registerAllowedMethod(PMD, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(PMD, map) })
 
-    helper.registerAllowedMethod(SH, [String.class], { String incomingCommand -> stepRecorder.record(SH, incomingCommand) })
-    helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
-    helper.registerAllowedMethod(SLEEP, [LinkedHashMap.class], { values -> })
-    helper.registerAllowedMethod(SSH_AGENT, [List.class, Closure.class], sshAgentCallback)
-    helper.registerAllowedMethod(STAGE, [String.class, Closure.class], stageCallback)
-    helper.registerAllowedMethod(STASH, [Map.class], { Map incomingCall -> stepRecorder.record(STASH, incomingCall) })
-    helper.registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(STEP, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(SH, [String.class], { String incomingCommand -> context.getStepRecorder().record(SH, incomingCommand) })
+    context.getPipelineTestHelper().registerAllowedMethod(SH, [Map.class], shellMapCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(SLEEP, [LinkedHashMap.class], { values -> })
+    context.getPipelineTestHelper().registerAllowedMethod(SSH_AGENT, [List.class, Closure.class], sshAgentCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(STAGE, [String.class, Closure.class], stageCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(STASH, [Map.class], { Map incomingCall -> context.getStepRecorder().record(STASH, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> context.getStepRecorder().record(STEP, incomingCall) })
 
-    helper.registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
-    helper.registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
-      stepRecorder.record(TIMESTAMPS, true)
+    context.getPipelineTestHelper().registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
+      context.getStepRecorder().record(TIMESTAMPS, true)
       closure.call()
     })
-    helper.registerAllowedMethod(TOOL, [String.class], toolCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(TOOL, [String.class], toolCallback)
 
-    helper.registerAllowedMethod(UNSTASH, [Map.class], { Map incomingCall -> stepRecorder.record(UNSTASH, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(UNSTASH, [Map.class], { Map incomingCall -> context.getStepRecorder().record(UNSTASH, incomingCall) })
 
-    helper.registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
+    context.getPipelineTestHelper().registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
 
-    helper.registerAllowedMethod(WRITE_FILE, [Map.class], { Map incomingCall -> stepRecorder.record(WRITE_FILE, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(WRITE_FILE, [Map.class], { Map incomingCall -> context.getStepRecorder().record(WRITE_FILE, incomingCall) })
 
     // register the current workspace as library
     def projectPath = new File("").getAbsolutePath()
@@ -228,7 +190,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       .targetPath(projectPath)
       .retriever(SelfSourceRetriever.localSourceRetriever(projectPath))
       .build()
-    helper.registerSharedLibrary(library)
+    context.getPipelineTestHelper().registerSharedLibrary(library)
   }
 
   /**
@@ -236,7 +198,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   def timeoutCallback = {
     Map params, Closure body ->
-      stepRecorder.record(TIMEOUT, params)
+      context.getStepRecorder().record(TIMEOUT, params)
       body.run()
   }
 
@@ -245,7 +207,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   def dirCallback = {
     String dir, Closure body ->
-      stepRecorder.record(DIR, dir)
+      context.getStepRecorder().record(DIR, dir)
       body.run()
   }
 
@@ -254,7 +216,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   def stageCallback = {
     String name, Closure body ->
-      stepRecorder.record(STAGE, name)
+      context.getStepRecorder().record(STAGE, name)
       body.run()
   }
 
@@ -266,7 +228,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   def fileExistsCallback = {
     String path ->
       try {
-        File file = this.dslMock.locateTestResource(path)
+        File file = this.context.getDslMock().locateTestResource(path)
         return file.exists()
       } catch (AbortException ex) {
         return false
@@ -280,7 +242,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * @return A dummy response depending on the incoming command
    */
   def shellMapCallback = { Map incomingCommand ->
-    stepRecorder.record(SH, incomingCommand)
+    context.getStepRecorder().record(SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
     String script = incomingCommand.script ?: ""
     // return default values for several commands
@@ -321,7 +283,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * Mocks the 'sshagent' step
    */
   def sshAgentCallback = { List list, Closure closure ->
-    stepRecorder.record(SSH_AGENT, list)
+    context.getStepRecorder().record(SSH_AGENT, list)
     closure.run()
   }
 
@@ -331,14 +293,14 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * @return The formatted versionNumber number
    */
   def versionNumberMock = { Map map ->
-    stepRecorder.record(VERSIONNUMBER, map)
+    context.getStepRecorder().record(VERSIONNUMBER, map)
     String projectStartDate = map.projectStartDate ?: "1970-01-01"
     String versionNumberString = map.versionNumberString ?: ""
     VersionNumberStep versionNumberStep = new VersionNumberStep(versionNumberString)
     versionNumberStep.projectStartDate = projectStartDate
     VersionNumberBuildInfo versionNumberBuildInfo = new VersionNumberBuildInfo(0, 0, 0, 0, 0)
     Calendar timeStamp = Calendar.getInstance()
-    String result = VersionNumberCommon.formatVersionNumber(versionNumberString, versionNumberStep.getProjectStartDate(), versionNumberBuildInfo, this.envVars.getEnvironment(), timeStamp)
+    String result = VersionNumberCommon.formatVersionNumber(versionNumberString, versionNumberStep.getProjectStartDate(), versionNumberBuildInfo, this.context.getEnvVars().getEnvironment(), timeStamp)
     return result
   }
 
@@ -349,7 +311,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * @return The value of the environment variable
    */
   protected getEnv(String var) {
-    return this.envVars.getProperty(var)
+    return this.context.getEnvVars().getProperty(var)
   }
 
   /**
@@ -371,7 +333,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * @param value The value of the environment variable
    */
   protected setEnv(String var, String value) {
-    this.envVars.setProperty(var, value)
+    this.context.getEnvVars().setProperty(var, value)
   }
 
   /**
@@ -394,7 +356,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       ret = script.execute()
     } catch (e) {
       e.printStackTrace()
-      dslMock.printLogMessages()
+      this.context.getDslMock().printLogMessages()
       throw e
     }
     return ret
@@ -417,7 +379,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   def ansiColorCallback = {
     String colorMode, Closure body ->
-      stepRecorder.record(ANSI_COLOR, colorMode)
+      context.getStepRecorder().record(ANSI_COLOR, colorMode)
       this.setEnv('TERM', colorMode)
       body.run()
       this.setEnv('TERM', null)
@@ -427,7 +389,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * Mocks the 'tool' step
    */
   def toolCallback = { String tool ->
-    stepRecorder.record(TOOL, tool)
+    context.getStepRecorder().record(TOOL, tool)
     switch (tool) {
       case TOOL_MAVEN:
         return TOOL_MAVEN_PREFIX.concat(tool)

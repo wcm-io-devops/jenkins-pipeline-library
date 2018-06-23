@@ -197,12 +197,12 @@ class GitToolsMirrorSshIT extends LibraryIntegrationTestBase {
 
   def fileExistsCallback = {
     String file ->
-      stepRecorder.record(FILE_EXISTS, file)
+      context.getStepRecorder().record(FILE_EXISTS, file)
       return repoExists
   }
 
   def shellMapCallback = { Map incomingCommand ->
-    stepRecorder.record(SH, incomingCommand)
+    context.getStepRecorder().record(SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
     Boolean returnStatus = incomingCommand.returnStatus ?: false
     String script = incomingCommand.script ?: ""

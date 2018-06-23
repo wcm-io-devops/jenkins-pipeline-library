@@ -44,7 +44,7 @@ class WrapColorIT extends LibraryIntegrationTestBase {
 
     StepRecorderAssert.assertTwice(StepConstants.ANSI_COLOR)
 
-    List<String> actualLogOutputs = this.dslMock.getLogMessages()
+    List<String> actualLogOutputs = this.context.getDslMock().getLogMessages()
     Assert.assertEquals(expectedLogOutputs, actualLogOutputs)
     Assert.assertNull(null, this.getEnv('TERM'))
   }
@@ -62,7 +62,7 @@ class WrapColorIT extends LibraryIntegrationTestBase {
 
     StepRecorderAssert.assertOnce(StepConstants.ANSI_COLOR)
 
-    List<String> actualLogOutputs = this.dslMock.getLogMessages()
+    List<String> actualLogOutputs = this.context.getDslMock().getLogMessages()
     Assert.assertEquals(expectedLogOutputs, actualLogOutputs)
     Assert.assertNull(this.getEnv('TERM'))
   }
@@ -83,7 +83,7 @@ class WrapColorIT extends LibraryIntegrationTestBase {
 
     StepRecorderAssert.assertOnce(StepConstants.ANSI_COLOR)
 
-    List<String> actualLogOutputs = this.dslMock.getLogMessages()
+    List<String> actualLogOutputs = this.context.getDslMock().getLogMessages()
     Assert.assertEquals(expectedLogOutputs, actualLogOutputs)
     Assert.assertNull(null, this.getEnv('TERM'))
   }

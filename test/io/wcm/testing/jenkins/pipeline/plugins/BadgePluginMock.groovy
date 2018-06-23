@@ -19,8 +19,7 @@
  */
 package io.wcm.testing.jenkins.pipeline.plugins
 
-import com.lesfurets.jenkins.unit.PipelineTestHelper
-import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.*
 
@@ -29,56 +28,47 @@ import static io.wcm.testing.jenkins.pipeline.StepConstants.*
  */
 class BadgePluginMock {
 
-  /**
-   * Reference to PipelineTestHelper
-   */
-  PipelineTestHelper helper
+  LibraryIntegrationTestContext context
 
-  /**
-   * Utility for recording executed steps
-   */
-  protected StepRecorder stepRecorder
+  BadgePluginMock(LibraryIntegrationTestContext context) {
+    this.context = context
 
-  BadgePluginMock(PipelineTestHelper helper, StepRecorder stepRecorder) {
-    this.helper = helper
-    this.stepRecorder = stepRecorder
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_BADGE, [String.class, String.class], addBadgeCallBack )
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack )
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class, String.class], addBadgeCallBack)
 
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class], addBadgeCallBack )
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack )
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class], addBadgeCallBack)
-    helper.registerAllowedMethod(ADD_BADGE, [String.class, String.class, String.class, String.class], addBadgeCallBack)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_ERROR_BADGE, [String.class], addErrorBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class], addErrorBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class,String.class], addErrorBadgeCallback)
 
-    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class], addErrorBadgeCallback)
-    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class], addErrorBadgeCallback)
-    helper.registerAllowedMethod(ADD_ERROR_BADGE, [String.class,String.class,String.class], addErrorBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_HTML_BADGE, [String.class], addHtmlBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_HTML_BADGE, [String.class,String.class], addHtmlBadgeCallback)
 
-    helper.registerAllowedMethod(ADD_HTML_BADGE, [String.class], addHtmlBadgeCallback)
-    helper.registerAllowedMethod(ADD_HTML_BADGE, [String.class,String.class], addHtmlBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_INFO_BADGE, [String.class], addInfoBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class], addInfoBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class,String.class], addInfoBadgeCallback)
 
-    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class], addInfoBadgeCallback)
-    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class], addInfoBadgeCallback)
-    helper.registerAllowedMethod(ADD_INFO_BADGE, [String.class,String.class,String.class], addInfoBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_SHORT_TEXT, [String.class], addShortTextCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class], addShortTextCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class], addShortTextCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class], addShortTextCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class], addShortTextCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class,String.class], addShortTextCallback)
 
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class], addShortTextCallback)
-    helper.registerAllowedMethod(ADD_SHORT_TEXT, [String.class,String.class,Integer.class,String.class,String.class,String.class], addShortTextCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_WARNING_BADGE, [String.class], addWarningBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class], addWarningBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class,String.class], addWarningBadgeCallback)
 
-    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class], addWarningBadgeCallback)
-    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class], addWarningBadgeCallback)
-    helper.registerAllowedMethod(ADD_WARNING_BADGE, [String.class,String.class,String.class], addWarningBadgeCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(REMOVE_BADGES, [], removeBadgesCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(REMOVE_BADGES, [String.class], removeBadgesCallback)
 
-    helper.registerAllowedMethod(REMOVE_BADGES, [], removeBadgesCallback)
-    helper.registerAllowedMethod(REMOVE_BADGES, [String.class], removeBadgesCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(REMOVE_HTML_BADGES, [], removeHtmlBadgesCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(REMOVE_HTML_BADGES, [String.class], removeHtmlBadgesCallback)
 
-    helper.registerAllowedMethod(REMOVE_HTML_BADGES, [], removeHtmlBadgesCallback)
-    helper.registerAllowedMethod(REMOVE_HTML_BADGES, [String.class], removeHtmlBadgesCallback)
-
-    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class], createSummaryCallback)
-    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class], createSummaryCallback)
-    helper.registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class,String.class], createSummaryCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(CREATE_SUMMARY, [String.class], createSummaryCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class], createSummaryCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(CREATE_SUMMARY, [String.class,String.class,String.class], createSummaryCallback)
   }
 
   /**
@@ -92,7 +82,7 @@ class BadgePluginMock {
         id: getArgAt(a,2),
         link: getArgAt(a,3),
       ]
-      stepRecorder.record(ADD_BADGE, recordData)
+      context.getStepRecorder().record(ADD_BADGE, recordData)
   }
 
   /**
@@ -105,7 +95,7 @@ class BadgePluginMock {
         id: getArgAt(a,1),
         link: getArgAt(a,2),
       ]
-      stepRecorder.record(ADD_ERROR_BADGE, recordData)
+      context.getStepRecorder().record(ADD_ERROR_BADGE, recordData)
   }
 
   /**
@@ -117,7 +107,7 @@ class BadgePluginMock {
         html: getArgAt(a,0),
         id: getArgAt(a,1),
       ]
-      stepRecorder.record(ADD_HTML_BADGE, recordData)
+      context.getStepRecorder().record(ADD_HTML_BADGE, recordData)
   }
 
   /**
@@ -130,7 +120,7 @@ class BadgePluginMock {
         id: getArgAt(a,1),
         link: getArgAt(a,2),
       ]
-      stepRecorder.record(ADD_INFO_BADGE, recordData)
+      context.getStepRecorder().record(ADD_INFO_BADGE, recordData)
   }
 
   /**
@@ -146,7 +136,7 @@ class BadgePluginMock {
         color: getArgAt(a,4),
         link: getArgAt(a,5),
       ]
-      stepRecorder.record(ADD_SHORT_TEXT, recordData)
+      context.getStepRecorder().record(ADD_SHORT_TEXT, recordData)
   }
 
   /**
@@ -159,7 +149,7 @@ class BadgePluginMock {
         id: getArgAt(a,1),
         link: getArgAt(a,2),
       ]
-      stepRecorder.record(ADD_WARNING_BADGE, recordData)
+      context.getStepRecorder().record(ADD_WARNING_BADGE, recordData)
   }
 
   /**
@@ -170,7 +160,7 @@ class BadgePluginMock {
       Map recordData = [
         id: getArgAt(a,0),
       ]
-      stepRecorder.record(REMOVE_BADGES, recordData)
+      context.getStepRecorder().record(REMOVE_BADGES, recordData)
   }
 
   /**
@@ -181,7 +171,7 @@ class BadgePluginMock {
       Map recordData = [
         id: getArgAt(a,0),
       ]
-      stepRecorder.record(REMOVE_HTML_BADGES, recordData)
+      context.getStepRecorder().record(REMOVE_HTML_BADGES, recordData)
   }
 
   /**
@@ -194,6 +184,6 @@ class BadgePluginMock {
         id: getArgAt(a,1),
         text: getArgAt(a,2),
       ]
-      stepRecorder.record(CREATE_SUMMARY, recordData)
+      context.getStepRecorder().record(CREATE_SUMMARY, recordData)
   }
 }

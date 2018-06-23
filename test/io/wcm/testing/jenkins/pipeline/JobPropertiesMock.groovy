@@ -40,60 +40,45 @@ import static io.wcm.testing.jenkins.pipeline.StepConstants.UPSTREAM
 
 class JobPropertiesMock {
 
-  /**
-   * Reference to PipelineTestHelper
-   */
-  protected PipelineTestHelper helper
-
-  /**
-   * Utility for recording executed steps
-   */
-  protected StepRecorder stepRecorder
-
-  /**
-   * Reference to the binding
-   */
-  protected Binding binding
+  LibraryIntegrationTestContext context
 
   /**
    * Current build parameters
    */
   protected Map params
 
-  JobPropertiesMock(PipelineTestHelper helper, StepRecorder stepRecorder, Binding binding) {
-    this.helper = helper
-    this.stepRecorder = stepRecorder
-    this.binding = binding
+  JobPropertiesMock(LibraryIntegrationTestContext context) {
+    this.context = context
 
     // set build parameters
     params = [:]
-    binding.setVariable('params', params)
+    context.getBinding().setVariable('params', params)
 
-    helper.registerAllowedMethod(BOOLEAN_PARAM, [Map.class], booleanParamCallback)
-    helper.registerAllowedMethod(BUILD_DISCARDER, [Object.class], { Map incomingCall -> stepRecorder.record(BUILD_DISCARDER, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(BOOLEAN_PARAM, [Map.class], booleanParamCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(BUILD_DISCARDER, [Object.class], { Map incomingCall -> context.getStepRecorder().record(BUILD_DISCARDER, incomingCall) })
 
-    helper.registerAllowedMethod(CHOICE, [Map.class], choiceParamCallback)
-    helper.registerAllowedMethod(CRON, [String.class], cronCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(CHOICE, [Map.class], choiceParamCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(CRON, [String.class], cronCallback)
 
-    helper.registerAllowedMethod(DISABLE_CONCURRENT_BUILDS, [], {
-      stepRecorder.record(DISABLE_CONCURRENT_BUILDS, null)
+    context.getPipelineTestHelper().registerAllowedMethod(DISABLE_CONCURRENT_BUILDS, [], {
+      context.getStepRecorder().record(DISABLE_CONCURRENT_BUILDS, null)
     })
 
-    helper.registerAllowedMethod(LOG_ROTATOR, [Map.class], {
+    context.getPipelineTestHelper().registerAllowedMethod(LOG_ROTATOR, [Map.class], {
       Map incomingCall ->
-        stepRecorder.record(LOG_ROTATOR, incomingCall)
+        context.getStepRecorder().record(LOG_ROTATOR, incomingCall)
         return [(LOG_ROTATOR): incomingCall]
     })
 
-    helper.registerAllowedMethod(PARAMETERS, [List.class], { List incomingCall -> stepRecorder.record(PARAMETERS, incomingCall) })
-    helper.registerAllowedMethod(PIPELINE_TRIGGERS, [List.class], { List incomingCall -> stepRecorder.record(PIPELINE_TRIGGERS, incomingCall) })
-    helper.registerAllowedMethod(POLLSCM, [String.class], pollSCMCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(PARAMETERS, [List.class], { List incomingCall -> context.getStepRecorder().record(PARAMETERS, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(PIPELINE_TRIGGERS, [List.class], { List incomingCall -> context.getStepRecorder().record(PIPELINE_TRIGGERS, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod(POLLSCM, [String.class], pollSCMCallback)
 
-    helper.registerAllowedMethod(STRING, [Map.class], stringParamCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(STRING, [Map.class], stringParamCallback)
 
-    helper.registerAllowedMethod(TEXT, [Map.class], textParamCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(TEXT, [Map.class], textParamCallback)
 
-    helper.registerAllowedMethod(UPSTREAM, [Map.class], upstreamCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(UPSTREAM, [Map.class], upstreamCallback)
   }
 
   /**
@@ -101,7 +86,7 @@ class JobPropertiesMock {
    */
   def booleanParamCallback = {
     Map config ->
-      stepRecorder.record(BOOLEAN_PARAM, config)
+      context.getStepRecorder().record(BOOLEAN_PARAM, config)
       return "booleanParam($config)"
   }
 
@@ -110,7 +95,7 @@ class JobPropertiesMock {
    */
   def choiceParamCallback = {
     Map config ->
-      stepRecorder.record(CHOICE, config)
+      context.getStepRecorder().record(CHOICE, config)
       return "choice($config)"
   }
 
@@ -119,7 +104,7 @@ class JobPropertiesMock {
    */
   def stringParamCallback = {
     Map config ->
-      stepRecorder.record(STRING, config)
+      context.getStepRecorder().record(STRING, config)
       return "string($config)"
   }
 
@@ -128,7 +113,7 @@ class JobPropertiesMock {
    */
   def textParamCallback = {
     Map config ->
-      stepRecorder.record(TEXT, config)
+      context.getStepRecorder().record(TEXT, config)
       return "text($config)"
   }
 
@@ -137,7 +122,7 @@ class JobPropertiesMock {
    */
   def pollSCMCallback = {
     String config ->
-      stepRecorder.record(POLLSCM, config)
+      context.getStepRecorder().record(POLLSCM, config)
       return "pollSCM($config)"
   }
 
@@ -146,7 +131,7 @@ class JobPropertiesMock {
    */
   def cronCallback = {
     String config ->
-      stepRecorder.record(CRON, config)
+      context.getStepRecorder().record(CRON, config)
       return "cron($config)"
   }
 
@@ -155,7 +140,7 @@ class JobPropertiesMock {
    */
   def upstreamCallback = {
     Map config ->
-      stepRecorder.record(UPSTREAM, config)
+      context.getStepRecorder().record(UPSTREAM, config)
       return "upstream($config)"
   }
 
@@ -173,7 +158,7 @@ class JobPropertiesMock {
    */
   void setParams(Map params) {
     this.params = params
-    this.binding.setVariable("params", params)
+    this.context.getBinding().setVariable("params", params)
   }
 
 }
