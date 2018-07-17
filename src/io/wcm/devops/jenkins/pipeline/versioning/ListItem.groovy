@@ -34,7 +34,6 @@ class ListItem implements List, Item, Serializable {
 
   ArrayList<Item> list = []
 
-  @Override
   @NonCPS
   int compareTo(Item item) {
     if (item == null) {
@@ -74,13 +73,11 @@ class ListItem implements List, Item, Serializable {
     }
   }
 
-  @Override
   @NonCPS
   int getType() {
     return LIST_ITEM
   }
 
-  @Override
   @NonCPS
   boolean isNull() {
     return (size() == 0)
@@ -141,7 +138,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   int size() {
     return list.size()
@@ -150,7 +146,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean isEmpty() {
     return list.isEmpty()
@@ -159,7 +154,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean contains(Object o) {
     return list.contains(o)
@@ -168,7 +162,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   Iterator iterator() {
     return list.iterator()
@@ -177,7 +170,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   Object[] toArray() {
     return list.toArray()
@@ -186,7 +178,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean add(Object o) {
     return list.add(o)
@@ -195,7 +186,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean remove(Object o) {
     return list.remove(o)
@@ -204,7 +194,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean addAll(Collection c) {
     return list.addAll(c)
@@ -213,7 +202,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean addAll(int index, Collection c) {
     return list.addAll(index, c)
@@ -222,7 +210,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   void clear() {
     list.clear()
@@ -231,7 +218,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   Object get(int index) {
     return list.get(index)
@@ -240,7 +226,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   Object set(int index, Object element) {
     return list.set(index, element)
@@ -249,7 +234,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   void add(int index, Object element) {
     list.add(index, element)
@@ -258,7 +242,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   Object remove(int index) {
     return list.remove(index)
@@ -267,7 +250,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   int indexOf(Object o) {
     return list.indexOf(o)
@@ -276,7 +258,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   int lastIndexOf(Object o) {
     return list.lastIndexOf(o)
@@ -285,7 +266,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   ListIterator listIterator() {
     return list.listIterator()
@@ -294,7 +274,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   ListIterator listIterator(int index) {
     return list.listIterator(index)
@@ -303,7 +282,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   List subList(int fromIndex, int toIndex) {
     return list.subList(fromIndex, toIndex)
@@ -312,7 +290,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean retainAll(Collection c) {
     return list.retainAll(c)
@@ -321,7 +298,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean removeAll(Collection c) {
     return list.removeAll(c)
@@ -330,7 +306,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   boolean containsAll(Collection c) {
     return list.containsAll(c)
@@ -339,7 +314,6 @@ class ListItem implements List, Item, Serializable {
   /**
    * Adapter function for internal list object
    */
-  @Override
   @NonCPS
   Object[] toArray(Object[] a) {
     return list.toArray(a)
