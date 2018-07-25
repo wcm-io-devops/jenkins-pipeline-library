@@ -35,6 +35,12 @@ class LibraryIntegrationTestContext {
   public final static String WORKSPACE_PATH = "/path/to/workspace"
   public final static String WORKSPACE_TMP_PATH = WORKSPACE_PATH.concat("@tmp/")
 
+  public final static String TOOL_JDK_PREFIX = "/some/tool/path/jdk/"
+  public final static String TOOL_MAVEN_PREFIX = "/some/tool/path/maven/"
+
+  public final static String TOOL_JDK = "sun-java8-jdk"
+  public final static String TOOL_MAVEN = "apache-maven3"
+
   /**
    * Reference to PipelineTestHelper
    */

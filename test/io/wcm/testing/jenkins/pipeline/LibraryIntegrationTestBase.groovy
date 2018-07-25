@@ -24,6 +24,8 @@ import hudson.AbortException
 import hudson.model.Run
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.global.lib.SelfSourceRetriever
+import io.wcm.testing.jenkins.pipeline.plugins.AnsiColorPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.AnsiblePluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.BadgePluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.ConfigFileProviderPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.PipelineUtilityStepsPluginMock
@@ -53,13 +55,33 @@ import static org.mockito.Mockito.mock
  */
 class LibraryIntegrationTestBase extends BasePipelineTest {
 
-  public final static String WORKSPACE_PATH = "/path/to/workspace"
-  public final static String WORKSPACE_TMP_PATH = WORKSPACE_PATH.concat("@tmp/")
-  public final static String TOOL_JDK_PREFIX = "/some/tool/path/jdk/"
-  public final static String TOOL_MAVEN_PREFIX = "/some/tool/path/maven/"
+  /**
+   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_PATH instead
+   */
+  public final static String WORKSPACE_PATH = LibraryIntegrationTestContext.WORKSPACE_PATH
 
-  public final static String TOOL_JDK = "sun-java8-jdk"
-  public final static String TOOL_MAVEN = "apache-maven3"
+  /**
+   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_TMP_PATH instead
+   */
+  public final static String WORKSPACE_TMP_PATH = LibraryIntegrationTestContext.WORKSPACE_TMP_PATH
+
+  /**
+   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK_PREFIX instead
+   */
+  public final static String TOOL_JDK_PREFIX = LibraryIntegrationTestContext.TOOL_JDK_PREFIX
+  /**
+   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX instead
+   */
+  public final static String TOOL_MAVEN_PREFIX = LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX
+
+  /**
+   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK instead
+   */
+  public final static String TOOL_JDK = LibraryIntegrationTestContext.TOOL_JDK
+  /**
+   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN instead
+   */
+  public final static String TOOL_MAVEN = LibraryIntegrationTestContext.TOOL_MAVEN
 
   /**
    * Path to the log file
@@ -101,6 +123,30 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   PipelineUtilityStepsPluginMock pipelineUtilityStepsPluginMock
 
+  /**
+   * Mocks the AnsiColor plugin
+   */
+  AnsiColorPluginMock ansiColorPluginMock
+
+  /**
+   * Mocks the Ansible plugin
+   */
+  AnsiblePluginMock ansiblePluginMock
+
+  /**
+   * @deprecated please use context.getStepRecorder() instead
+   *
+   * Reference to the StepRecorder instance
+   */
+  StepRecorder stepRecorder
+
+  /**
+   * @deprecated please use context.getRunWrapperMock() instead
+   *
+   * Reference to the runWrapper
+   */
+  RunWrapperMock runWrapper
+
   @Override
   @Before
   void setUp() throws Exception {
@@ -113,6 +159,9 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
 
 
     context = new LibraryIntegrationTestContext(helper, binding)
+
+    this.stepRecorder = context.getStepRecorder()
+    this.runWrapper = context.getRunWrapperMock()
 
     // add badge plugin mocks
     this.badgePluginMock = new BadgePluginMock(context)
@@ -132,20 +181,15 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     // add pipeline utility steps plugin mock
     this.pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(context)
 
-    // add callbacks for DSL functions and pass them to the step recorder if necessary
-    context.getPipelineTestHelper().registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
-    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
+    // add AnsiColor plugin mock
+    this.ansiColorPluginMock = new AnsiColorPluginMock(context)
+
+    // add Ansible plugin mock
+    this.ansiblePluginMock = new AnsiblePluginMock(context)
 
     context.getPipelineTestHelper().registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(CHECKSTYLE, map) })
 
-    context.getPipelineTestHelper().registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
-
     context.getPipelineTestHelper().registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> context.getStepRecorder().record(EMAILEXT, incomingCall) })
-    context.getPipelineTestHelper().registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
-      context.getStepRecorder().record(ERROR, incomingCall)
-      throw new AbortException(incomingCall)
-    })
-    context.getPipelineTestHelper().registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
 
     context.getPipelineTestHelper().registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(FINDBUGS, map) })
 
@@ -155,31 +199,24 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     context.getPipelineTestHelper().registerAllowedMethod(JUNIT, [String.class], { String incomingCall -> context.getStepRecorder().record(JUNIT, incomingCall) })
     context.getPipelineTestHelper().registerAllowedMethod(JUNIT, [Map.class], { Map incomingCall -> context.getStepRecorder().record(JUNIT, incomingCall) })
 
-
     context.getPipelineTestHelper().registerAllowedMethod(OPENTASKS, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(OPENTASKS, map) })
 
     context.getPipelineTestHelper().registerAllowedMethod(PMD, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(PMD, map) })
 
     context.getPipelineTestHelper().registerAllowedMethod(SH, [String.class], { String incomingCommand -> context.getStepRecorder().record(SH, incomingCommand) })
     context.getPipelineTestHelper().registerAllowedMethod(SH, [Map.class], shellMapCallback)
-    context.getPipelineTestHelper().registerAllowedMethod(SLEEP, [LinkedHashMap.class], { values -> })
+
     context.getPipelineTestHelper().registerAllowedMethod(SSH_AGENT, [List.class, Closure.class], sshAgentCallback)
     context.getPipelineTestHelper().registerAllowedMethod(STAGE, [String.class, Closure.class], stageCallback)
-    context.getPipelineTestHelper().registerAllowedMethod(STASH, [Map.class], { Map incomingCall -> context.getStepRecorder().record(STASH, incomingCall) })
-    context.getPipelineTestHelper().registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> context.getStepRecorder().record(STEP, incomingCall) })
 
-    context.getPipelineTestHelper().registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
+
     context.getPipelineTestHelper().registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
       context.getStepRecorder().record(TIMESTAMPS, true)
       closure.call()
     })
-    context.getPipelineTestHelper().registerAllowedMethod(TOOL, [String.class], toolCallback)
-
-    context.getPipelineTestHelper().registerAllowedMethod(UNSTASH, [Map.class], { Map incomingCall -> context.getStepRecorder().record(UNSTASH, incomingCall) })
 
     context.getPipelineTestHelper().registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
 
-    context.getPipelineTestHelper().registerAllowedMethod(WRITE_FILE, [Map.class], { Map incomingCall -> context.getStepRecorder().record(WRITE_FILE, incomingCall) })
 
     // register the current workspace as library
     def projectPath = new File("").getAbsolutePath()
@@ -193,23 +230,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     context.getPipelineTestHelper().registerSharedLibrary(library)
   }
 
-  /**
-   * Callback for timeout step
-   */
-  def timeoutCallback = {
-    Map params, Closure body ->
-      context.getStepRecorder().record(TIMEOUT, params)
-      body.run()
-  }
 
-  /**
-   * Callback for dir step
-   */
-  def dirCallback = {
-    String dir, Closure body ->
-      context.getStepRecorder().record(DIR, dir)
-      body.run()
-  }
 
   /**
    * Callback for stage step
@@ -218,21 +239,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     String name, Closure body ->
       context.getStepRecorder().record(STAGE, name)
       body.run()
-  }
-
-  /**
-   * Mocks the 'fileExists' step
-   *
-   * @return true when file exists, false when file does not exist
-   */
-  def fileExistsCallback = {
-    String path ->
-      try {
-        File file = this.context.getDslMock().locateTestResource(path)
-        return file.exists()
-      } catch (AbortException ex) {
-        return false
-      }
   }
 
   /**
@@ -374,28 +380,5 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   protected void afterLoadingScript() {}
 
-  /**
-   * Mocks the 'configFileProvider' step. For each ManagedFile the environment variable is set to a dummy filepath
-   */
-  def ansiColorCallback = {
-    String colorMode, Closure body ->
-      context.getStepRecorder().record(ANSI_COLOR, colorMode)
-      this.setEnv('TERM', colorMode)
-      body.run()
-      this.setEnv('TERM', null)
-  }
 
-  /**
-   * Mocks the 'tool' step
-   */
-  def toolCallback = { String tool ->
-    context.getStepRecorder().record(TOOL, tool)
-    switch (tool) {
-      case TOOL_MAVEN:
-        return TOOL_MAVEN_PREFIX.concat(tool)
-      case TOOL_JDK:
-        return TOOL_JDK_PREFIX.concat(tool)
-    }
-    return ""
-  }
 }

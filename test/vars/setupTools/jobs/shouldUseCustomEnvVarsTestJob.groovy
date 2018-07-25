@@ -19,8 +19,8 @@
  */
 package vars.setupTools.jobs
 
-import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
@@ -32,8 +32,8 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  */
 def execute() {
   setupTools((TOOLS): [
-      [(TOOL_NAME): LibraryIntegrationTestBase.TOOL_JDK, (TOOL_TYPE): Tool.JDK, (TOOL_ENVVAR): "customJdkEnvVar"],
-      [(TOOL_NAME): LibraryIntegrationTestBase.TOOL_MAVEN, (TOOL_TYPE): Tool.MAVEN, (TOOL_ENVVAR): "customMavenEnvVar"],
+    [(TOOL_NAME): LibraryIntegrationTestContext.TOOL_JDK, (TOOL_TYPE): Tool.JDK, (TOOL_ENVVAR): "customJdkEnvVar"],
+    [(TOOL_NAME): LibraryIntegrationTestContext.TOOL_MAVEN, (TOOL_TYPE): Tool.MAVEN, (TOOL_ENVVAR): "customMavenEnvVar"],
   ])
 }
 
