@@ -19,45 +19,31 @@
  */
 package io.wcm.testing.jenkins.pipeline.plugins.credentials
 
-import com.lesfurets.jenkins.unit.PipelineTestHelper
-import io.wcm.testing.jenkins.pipeline.EnvActionImplMock
-import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.USERNAME_PASSWORD
 import static io.wcm.testing.jenkins.pipeline.StepConstants.WITH_CREDENTIALS
 
+/**
+ * Mock for Credentials Plugin
+ */
 class CredentialsPluginMock {
-
-  /**
-   * Reference to PipelineTestHelper
-   */
-  protected PipelineTestHelper helper
-
-  /**
-   * Utility for recording executed steps
-   */
-  protected StepRecorder stepRecorder
-
-  /**
-   * Environment
-   */
-  protected EnvActionImplMock envVars
 
   /**
    * Mocked username password credentials
    */
   protected Map mockedUsernamePasswordCredentials = [:]
 
-  CredentialsPluginMock(PipelineTestHelper helper, StepRecorder stepRecorder, EnvActionImplMock envVars) {
-    this.helper = helper
-    this.stepRecorder = stepRecorder
-    this.envVars = envVars
+  LibraryIntegrationTestContext context
 
-    helper.registerAllowedMethod(USERNAME_PASSWORD, [Map.class], usernamePasswordCallback)
-    helper.registerAllowedMethod(WITH_CREDENTIALS, [List.class, Closure.class], withCredentialsCallback)
+  CredentialsPluginMock(LibraryIntegrationTestContext context) {
+    this.context = context
+
+    context.getPipelineTestHelper().registerAllowedMethod(USERNAME_PASSWORD, [Map.class], usernamePasswordCallback)
+    context.getPipelineTestHelper().registerAllowedMethod(WITH_CREDENTIALS, [List.class, Closure.class], withCredentialsCallback)
   }
 
-  public mockUsernamePassword(String credentialsId, String username, String password) {
+  void mockUsernamePassword(String credentialsId, String username, String password) {
     UsernamePasswordMock mockedCredentials = new UsernamePasswordMock(credentialsId: credentialsId, username: username, password: password)
     this.mockedUsernamePasswordCredentials[credentialsId] = mockedCredentials
   }
@@ -70,7 +56,7 @@ class CredentialsPluginMock {
       String credentialsId = recordData['credentialsId']
       String passwordVariable = recordData['passwordVariable']
       String usernameVariable = recordData['usernameVariable']
-      stepRecorder.record(USERNAME_PASSWORD, recordData)
+      context.getStepRecorder().record(USERNAME_PASSWORD, recordData)
       return new UsernamePasswordMock(credentialsId: credentialsId, passwordVariable: passwordVariable, usernameVariable: usernameVariable)
   }
 
@@ -93,15 +79,15 @@ class CredentialsPluginMock {
           }
           modifiedEnvVars.push(credential.getUsernameVariable())
           modifiedEnvVars.push(credential.getPasswordVariable())
-          this.envVars.setProperty(credential.getUsernameVariable(), username)
-          this.envVars.setProperty(credential.getPasswordVariable(), password)
+          this.context.getEnvVars().setProperty(credential.getUsernameVariable(), username)
+          this.context.getEnvVars().setProperty(credential.getPasswordVariable(), password)
         }
       }
       // call the body
       body.call()
       // reset environment variables
       for (String modifiedEnvVar in modifiedEnvVars) {
-        this.envVars.setProperty(modifiedEnvVar, null)
+        this.context.getEnvVars().setProperty(modifiedEnvVar, null)
       }
   }
 }

@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2018 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package vars.setupTools.jobs
+package io.wcm.testing.jenkins.pipeline.plugins
 
-import io.wcm.devops.jenkins.pipeline.model.Tool
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.testing.jenkins.pipeline.StepConstants.STAGE
 
-/**
- * Runs the setupTools step with custom environment variables
- *
- * @return The script
- * @see vars.setupTools.SetupToolsIT
- */
-def execute() {
-  setupTools((TOOLS): [
-    [(TOOL_NAME): LibraryIntegrationTestContext.TOOL_JDK, (TOOL_TYPE): Tool.JDK, (TOOL_ENVVAR): "customJdkEnvVar"],
-    [(TOOL_NAME): LibraryIntegrationTestContext.TOOL_MAVEN, (TOOL_TYPE): Tool.MAVEN, (TOOL_ENVVAR): "customMavenEnvVar"],
-  ])
+class PipelineStageStepPluginMock {
+
+  PipelineStageStepPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(STAGE, [String.class, Closure.class], { String name, Closure body ->
+      context.getStepRecorder().record(STAGE, name)
+      body.run()
+    })
+  }
+
 }
-
-return this

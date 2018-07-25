@@ -40,7 +40,7 @@ class ExecMavenReleaseIT extends LibraryIntegrationTestBase {
   @Override
   void setUp() throws Exception {
     super.setUp()
-    this.dslMock.mockResource("effective-pom.tmp", "mavenRelease/valid-effective-pom.xml")
+    this.context.getDslMock().mockResource("effective-pom.tmp", "mavenRelease/valid-effective-pom.xml")
   }
 
   @Test
@@ -85,7 +85,7 @@ class ExecMavenReleaseIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldFailDueToWrongMavenReleasePluginVersion() {
-    this.dslMock.mockResource("effective-pom.tmp", "mavenRelease/invalid-maven-release-version-pom.xml")
+    this.context.getDslMock().mockResource("effective-pom.tmp", "mavenRelease/invalid-maven-release-version-pom.xml")
     expectedEx.expect(AbortException.class)
     expectedEx.expectMessage("org.apache.maven.plugins:maven-release-plugin version requirement not met.")
 

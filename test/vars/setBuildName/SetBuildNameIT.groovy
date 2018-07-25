@@ -32,7 +32,7 @@ class SetBuildNameIT extends LibraryIntegrationTestBase {
     this.setEnv("GIT_BRANCH", "I_AM_THE_GITBRANCH")
     loadAndExecuteScript("vars/setBuildName/jobs/setBuildNameJob.groovy")
 
-    assertEquals("#1_I_AM_THE_GITBRANCH", this.runWrapper.getDisplayName())
+    assertEquals("#1_I_AM_THE_GITBRANCH", this.context.getRunWrapperMock().getDisplayName())
   }
 
   @Test
@@ -40,7 +40,7 @@ class SetBuildNameIT extends LibraryIntegrationTestBase {
     this.setEnv("BUILD_NUMBER", "1")
     loadAndExecuteScript("vars/setBuildName/jobs/setBuildNameJob.groovy")
 
-    assertEquals("#1", this.runWrapper.getDisplayName())
+    assertEquals("#1", this.context.getRunWrapperMock().getDisplayName())
   }
 
 

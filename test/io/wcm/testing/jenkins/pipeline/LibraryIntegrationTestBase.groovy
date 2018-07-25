@@ -24,8 +24,22 @@ import hudson.AbortException
 import hudson.model.Run
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.global.lib.SelfSourceRetriever
+import io.wcm.testing.jenkins.pipeline.plugins.AnsiColorPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.AnsiblePluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.BadgePluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.CheckstylePluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.ConfigFileProviderPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.EmailExtPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.FindBugsPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.JUnitPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.PMDPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.PipelineStageStepPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.PipelineUtilityStepsPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.SSHAgentPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.TaskScannerPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.TimestamperPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.VersionNumberPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.WorkflowDurableTaskStepPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.credentials.CredentialsPluginMock
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
@@ -52,28 +66,33 @@ import static org.mockito.Mockito.mock
  */
 class LibraryIntegrationTestBase extends BasePipelineTest {
 
-  public final static String WORKSPACE_PATH = "/path/to/workspace"
-  public final static String WORKSPACE_TMP_PATH = WORKSPACE_PATH.concat("@tmp/")
-  public final static String TOOL_JDK_PREFIX = "/some/tool/path/jdk/"
-  public final static String TOOL_MAVEN_PREFIX = "/some/tool/path/maven/"
-
-  public final static String TOOL_JDK = "sun-java8-jdk"
-  public final static String TOOL_MAVEN = "apache-maven3"
+  /**
+   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_PATH instead
+   */
+  public final static String WORKSPACE_PATH = LibraryIntegrationTestContext.WORKSPACE_PATH
 
   /**
-   * Mock for the pipeline DSL object
+   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_TMP_PATH instead
    */
-  protected DSLMock dslMock
+  public final static String WORKSPACE_TMP_PATH = LibraryIntegrationTestContext.WORKSPACE_TMP_PATH
 
   /**
-   * Mock for the RunWrapper which provides whitelisted access to the currentBuild
+   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK_PREFIX instead
    */
-  protected RunWrapperMock runWrapper
+  public final static String TOOL_JDK_PREFIX = LibraryIntegrationTestContext.TOOL_JDK_PREFIX
+  /**
+   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX instead
+   */
+  public final static String TOOL_MAVEN_PREFIX = LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX
 
   /**
-   * Environment variables
+   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK instead
    */
-  protected EnvActionImplMock envVars
+  public final static String TOOL_JDK = LibraryIntegrationTestContext.TOOL_JDK
+  /**
+   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN instead
+   */
+  public final static String TOOL_MAVEN = LibraryIntegrationTestContext.TOOL_MAVEN
 
   /**
    * Path to the log file
@@ -81,9 +100,9 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   protected File logFile = null
 
   /**
-   * Utility for recording executed steps
+   * Context for IT Tests
    */
-  protected StepRecorder stepRecorder
+  LibraryIntegrationTestContext context
 
   /**
    * Mocks for badge plugin
@@ -106,124 +125,130 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   JobPropertiesMock jobPropertiesMock
 
   /**
-   *  Mocks the Config File Provider Plugin
+   *  Mocks the Config File Provider plugin
    */
   ConfigFileProviderPluginMock configFileProviderPluginMock
+
+  /**
+   * Mocks the pipeline utility steps plugin
+   */
+  PipelineUtilityStepsPluginMock pipelineUtilityStepsPluginMock
+
+  /**
+   * Mocks the AnsiColor plugin
+   */
+  AnsiColorPluginMock ansiColorPluginMock
+
+  /**
+   * Mocks the Ansible plugin
+   */
+  AnsiblePluginMock ansiblePluginMock
+
+  /**
+   * @deprecated please use context.getStepRecorder() instead
+   *
+   * Reference to the StepRecorder instance
+   */
+  StepRecorder stepRecorder
+
+  /**
+   * @deprecated please use context.getRunWrapperMock() instead
+   *
+   * Reference to the runWrapper
+   */
+  RunWrapperMock runWrapper
+
+  /**
+   * Mocks the Checkstyle plugin
+   */
+  CheckstylePluginMock checkstylePluginMock
+
+  /**
+   * Mocks the Email-ext plugin
+   */
+  EmailExtPluginMock emailExtPluginMock
+
+  /**
+   * Mocks the FindBugs plugin
+   */
+  FindBugsPluginMock findBugsPluginMock
+
+  /**
+   * Mocks the JUnit olugin
+   */
+  JUnitPluginMock jUnitPluginMock
+
+  /**
+   * Mocks the Task Scanner plugin
+   */
+  TaskScannerPluginMock taskScannerPluginMock
+
+  /**
+   * Mocks the SSH Agent plugin
+   */
+  SSHAgentPluginMock sshAgentPluginMock
+
+  /**
+   * Mocks the PMD plugin
+   */
+  PMDPluginMock pmdPluginMock
+
+  /**
+   * Mocks the Timestamper plugin
+   */
+  TimestamperPluginMock timestamperPluginMock
+
+  /**
+   * Mocks the Version Number plugin
+   */
+  VersionNumberPluginMock versionNumberPluginMock
+
+  /**
+   * Mocks the Pipeline Stage Step plugin
+   */
+  PipelineStageStepPluginMock pipelineStageStepPluginMock
+
+  /**
+   * Mocks the workflow-durable-task-step plugin
+   */
+  WorkflowDurableTaskStepPluginMock workflowDurableTaskStepPluginMock
 
   @Override
   @Before
   void setUp() throws Exception {
-    // initialize the step recorder
-    stepRecorder = new StepRecorder()
-    StepRecorderAssert.init(stepRecorder)
-
     // add the test folder to the script roots for the BasePipelineTest and call the super function
     scriptRoots += 'test'
 
-    envVars = new EnvActionImplMock(stepRecorder)
-    envVars.setProperty("PATH", "/usr/bin")
     super.setUp()
 
-    // initialize the RunWrapper Mock
-    runWrapper = new RunWrapperMock(mock(Run))
+    context = new LibraryIntegrationTestContext(helper, binding)
 
-    // initialize the DSL Mock
-    this.dslMock = new DSLMock()
-
-    // give the dslMock the refernce to the pipeline helper to allow access to registered libraries
-    dslMock.setHelper(helper)
-
-    // set binding for steps and assign it the the DSL cpsScriptMock
-    binding.setVariable("steps", this.dslMock.getMock())
-
-    // set the environment variables
-    binding.setVariable('env', envVars)
-
-    // set the workspace
-    binding.setVariable(EnvironmentConstants.WORKSPACE, WORKSPACE_PATH)
-
-    // set the currentBuild to the RunWrapper cpsScriptMock
-    this.binding.setVariable("currentBuild", runWrapper)
+    this.stepRecorder = context.getStepRecorder()
+    this.runWrapper = context.getRunWrapperMock()
 
     // add badge plugin mocks
-    this.badgePluginMock = new BadgePluginMock(helper, stepRecorder)
+    this.ansiblePluginMock = new AnsiblePluginMock(context)
+    this.ansiColorPluginMock = new AnsiColorPluginMock(context)
+    this.basicStepsMock = new BasicStepsMock(context)
+    this.badgePluginMock = new BadgePluginMock(context)
+    this.checkstylePluginMock = new CheckstylePluginMock(context)
+    this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(context)
+    this.credentialsPluginMock = new CredentialsPluginMock(context)
+    this.emailExtPluginMock = new EmailExtPluginMock(context)
+    this.findBugsPluginMock = new FindBugsPluginMock(context)
+    this.jobPropertiesMock = new JobPropertiesMock(context)
+    this.jUnitPluginMock = new JUnitPluginMock(context)
+    this.pipelineStageStepPluginMock = new PipelineStageStepPluginMock(context)
+    this.pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(context)
+    this.pmdPluginMock = new PMDPluginMock(context)
+    this.sshAgentPluginMock = new SSHAgentPluginMock(context)
+    this.taskScannerPluginMock = new TaskScannerPluginMock(context)
+    this.timestamperPluginMock = new TimestamperPluginMock(context)
+    this.versionNumberPluginMock = new VersionNumberPluginMock(context)
+    this.workflowDurableTaskStepPluginMock = new WorkflowDurableTaskStepPluginMock(context)
 
-    // add credentials plugin mocks
-    this.credentialsPluginMock = new CredentialsPluginMock(helper, stepRecorder, envVars)
-
-    // add basic step mocks
-    this.basicStepsMock = new BasicStepsMock(helper, stepRecorder, envVars)
-
-    // add config file provider plugin mock
-    this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(helper, stepRecorder, envVars, WORKSPACE_TMP_PATH)
-
-    // add job properties mock
-    this.jobPropertiesMock = new JobPropertiesMock(helper, stepRecorder, binding)
-
-    // add callbacks for DSL functions and pass them to the step recorder if necessary
-    helper.registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
-    helper.registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> stepRecorder.record(ANSIBLE_PLAYBOOK, incomingCall) })
-
-    helper.registerAllowedMethod(CHECKOUT, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(CHECKOUT, incomingCall) })
-    helper.registerAllowedMethod(CHECKSTYLE, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(CHECKSTYLE, map) })
-
-    helper.registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
-
-    helper.registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> stepRecorder.record(EMAILEXT, incomingCall) })
-    helper.registerAllowedMethod(ERROR, [String.class], { String incomingCall ->
-      stepRecorder.record(ERROR, incomingCall)
-      throw new AbortException(incomingCall)
-    })
-    helper.registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
-
-    helper.registerAllowedMethod(FIND_FILES, [Map.class], {
-      Map params ->
-        stepRecorder.record(FIND_FILES, params)
-        return this.findFiles(params['glob'])
-    })
-    helper.registerAllowedMethod(FIND_FILES, [], {
-      stepRecorder.record(FIND_FILES, null)
-      return this.findFiles()
-    })
-
-    helper.registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(FINDBUGS, map) })
-
-    helper.registerAllowedMethod("getName", [], canonicalNameCallback)
-    helper.registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)
-
-    helper.registerAllowedMethod(JUNIT, [String.class], { String incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
-    helper.registerAllowedMethod(JUNIT, [Map.class], { Map incomingCall -> stepRecorder.record(JUNIT, incomingCall) })
-
-
-    helper.registerAllowedMethod(OPENTASKS, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(OPENTASKS, map) })
-
-    helper.registerAllowedMethod(PMD, [LinkedHashMap.class], { LinkedHashMap map -> stepRecorder.record(PMD, map) })
-
-    helper.registerAllowedMethod(READ_JSON, [Map.class], readJSONCallback)
-    helper.registerAllowedMethod(READ_MAVEN_POM, [Map.class], readMavenPomCallback)
-    helper.registerAllowedMethod(READ_YAML, [Map.class], readYamlCallback)
-
-    helper.registerAllowedMethod(SH, [String.class], { String incomingCommand -> stepRecorder.record(SH, incomingCommand) })
-    helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
-    helper.registerAllowedMethod(SLEEP, [LinkedHashMap.class], { values -> })
-    helper.registerAllowedMethod(SSH_AGENT, [List.class, Closure.class], sshAgentCallback)
-    helper.registerAllowedMethod(STAGE, [String.class, Closure.class], stageCallback)
-    helper.registerAllowedMethod(STASH, [Map.class], { Map incomingCall -> stepRecorder.record(STASH, incomingCall) })
-    helper.registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> stepRecorder.record(STEP, incomingCall) })
-
-
-    helper.registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
-    helper.registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
-      stepRecorder.record(TIMESTAMPS, true)
-      closure.call()
-    })
-    helper.registerAllowedMethod(TOOL, [String.class], toolCallback)
-
-    helper.registerAllowedMethod(UNSTASH, [Map.class], { Map incomingCall -> stepRecorder.record(UNSTASH, incomingCall) })
-
-    helper.registerAllowedMethod(VERSIONNUMBER, [LinkedHashMap.class], versionNumberMock)
-
-    helper.registerAllowedMethod(WRITE_FILE, [Map.class], { Map incomingCall -> stepRecorder.record(WRITE_FILE, incomingCall) })
+    context.getPipelineTestHelper().registerAllowedMethod("getName", [], canonicalNameCallback)
+    context.getPipelineTestHelper().registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)
 
     // register the current workspace as library
     def projectPath = new File("").getAbsolutePath()
@@ -234,119 +259,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       .targetPath(projectPath)
       .retriever(SelfSourceRetriever.localSourceRetriever(projectPath))
       .build()
-    helper.registerSharedLibrary(library)
-  }
-
-  /**
-   * Callback for timeout step
-   */
-  def timeoutCallback = {
-    Map params, Closure body ->
-      stepRecorder.record(TIMEOUT, params)
-      body.run()
-  }
-
-  /**
-   * Callback for dir step
-   */
-  def dirCallback = {
-    String dir, Closure body ->
-      stepRecorder.record(DIR, dir)
-      body.run()
-  }
-
-  /**
-   * Callback for stage step
-   */
-  def stageCallback = {
-    String name, Closure body ->
-      stepRecorder.record(STAGE, name)
-      body.run()
-  }
-
-  /**
-   * Mocks the 'fileExists' step
-   *
-   * @return true when file exists, false when file does not exist
-   */
-  def fileExistsCallback = {
-    String path ->
-      try {
-        File file = this.dslMock.locateTestResource(path)
-        return file.exists()
-      } catch (AbortException ex) {
-        return false
-      }
-  }
-
-  /**
-   * Mocks the 'readYaml' step
-   *
-   * @see <a href="https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Utility+Steps+Plugin">Pipeline Utility Steps Plugin</a>
-   *
-   * return The Maven model
-   */
-  def readYamlCallback = {
-    Map incomingCommand ->
-      String file = incomingCommand.file
-      String text = incomingCommand.text
-      return dslMock.readYaml(file, text)
-  }
-
-  /**
-   * Mocks the 'readJSON' step
-   *
-   * @see <a href="https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Utility+Steps+Plugin">Pipeline Utility Steps Plugin</a>
-   *
-   * return The file/text as json
-   */
-  def readJSONCallback = {
-    Map incomingCommand ->
-      String file = incomingCommand.file
-      String text = incomingCommand.text
-      return dslMock.readJSON(file, text)
-  }
-
-  /**
-   * Mocks the 'readMavenPom' step
-   * Emulates the readMavenPom step of the Pipeline Utility Steps Plugin
-   *
-   * @see <a href="https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Utility+Steps+Plugin">Pipeline Utility Steps Plugin</a>
-   *
-   * return The Maven model
-   */
-  def readMavenPomCallback = {
-    Map incomingCommand ->
-      String path = incomingCommand.file
-      File file = this.dslMock.locateTestResource(path)
-      InputStream inputStream = new FileInputStream(file)
-      Model ret = new MavenXpp3Reader().read(inputStream)
-      inputStream.close()
-      return ret
-  }
-
-  /**
-   * Mocks the 'sh' step when executed with named arguments (Map)
-   * Used to cpsScriptMock some shell commands executed during integration testing
-   *
-   * @return A dummy response depending on the incoming command
-   */
-  def shellMapCallback = { Map incomingCommand ->
-    stepRecorder.record(SH, incomingCommand)
-    Boolean returnStdout = incomingCommand.returnStdout ?: false
-    String script = incomingCommand.script ?: ""
-    // return default values for several commands
-    if (returnStdout) {
-      switch (script) {
-        case "git config remote.origin.url": return "http://remote.origin.url/group/project.git"
-          break
-        case "git rev-parse HEAD": return "0HFGC0"
-          break
-        case "git branch": return "* (detached from 0HFGC0)"
-          break
-        default: return ""
-      }
-    }
+    context.getPipelineTestHelper().registerSharedLibrary(library)
   }
 
   /**
@@ -370,81 +283,13 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   }
 
   /**
-   * Mocks the 'sshagent' step
-   */
-  def sshAgentCallback = { List list, Closure closure ->
-    stepRecorder.record(SSH_AGENT, list)
-    closure.run()
-  }
-
-  /**
-   * Mocks the 'versionNumber' step
-   *
-   * @return The formatted versionNumber number
-   */
-  def versionNumberMock = { Map map ->
-    stepRecorder.record(VERSIONNUMBER, map)
-    String projectStartDate = map.projectStartDate ?: "1970-01-01"
-    String versionNumberString = map.versionNumberString ?: ""
-    VersionNumberStep versionNumberStep = new VersionNumberStep(versionNumberString)
-    versionNumberStep.projectStartDate = projectStartDate
-    VersionNumberBuildInfo versionNumberBuildInfo = new VersionNumberBuildInfo(0, 0, 0, 0, 0)
-    Calendar timeStamp = Calendar.getInstance()
-    String result = VersionNumberCommon.formatVersionNumber(versionNumberString, versionNumberStep.getProjectStartDate(), versionNumberBuildInfo, this.envVars.getEnvironment(), timeStamp)
-    return result
-  }
-
-  /**
-   * Mocks findFiles from pipeline-utility-steps plugin
-   *
-   * @param glob (optional) Ant style pattern of file paths that should match. If this property is set all descendants of the current working directory will be searched for a match and returned, if it is omitted only the direct descendants of the directory will be returned.
-   * @return Returns a list of found files
-   */
-  FileWrapper[] findFiles(String glob = null) {
-    if (glob == null) {
-      glob = "*"
-    }
-    String[] includes = [glob]
-    String[] excludes = ["**/target/**/*"]
-    DirectoryScanner ds = new DirectoryScanner()
-    File baseDir = new File("").getAbsoluteFile()
-    ds.setBasedir(baseDir)
-    ds.setIncludes(includes)
-    ds.setExcludes(excludes)
-    ds.scan()
-
-    String[] files = ds.getIncludedFiles()
-    FileWrapper[] ret = new FileWrapper[files.length]
-    for (int i = 0; i < files.size(); i++) {
-      Path path = baseDir.toPath().resolve(files[i])
-      File file = path.toFile()
-      String name = file.getName()
-      ret[i] = new FileWrapper(name, file.toString(), file.isDirectory(), file.length(), file.lastModified())
-    }
-
-    return ret
-  }
-
-  /**
    * Returns the value of an environment variable
    *
    * @param var The name of the environment variable to return
    * @return The value of the environment variable
    */
   protected getEnv(String var) {
-    return this.envVars.getProperty(var)
-  }
-
-  /**
-   * Utility function to get an argument from dynamic arguments
-   *
-   * @param args The object containing the arguments
-   * @param index The index of the argument that should be parsed
-   * @param defaultValue
-   * @return The found arg or defaultValue when arg is not present
-   */
-  protected Object getArgAt(Object args, Integer index, defaultValue = null) {
-    return (args.length > index ? args.getAt(index) : null)
+    return this.context.getEnvVars().getProperty(var)
   }
 
   /**
@@ -454,7 +299,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * @param value The value of the environment variable
    */
   protected setEnv(String var, String value) {
-    this.envVars.setProperty(var, value)
+    this.context.getEnvVars().setProperty(var, value)
   }
 
   /**
@@ -477,7 +322,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       ret = script.execute()
     } catch (e) {
       e.printStackTrace()
-      dslMock.printLogMessages()
+      this.context.getDslMock().printLogMessages()
       throw e
     }
     return ret
@@ -495,28 +340,5 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   protected void afterLoadingScript() {}
 
-  /**
-   * Mocks the 'configFileProvider' step. For each ManagedFile the environment variable is set to a dummy filepath
-   */
-  def ansiColorCallback = {
-    String colorMode, Closure body ->
-      stepRecorder.record(ANSI_COLOR, colorMode)
-      this.setEnv('TERM', colorMode)
-      body.run()
-      this.setEnv('TERM', null)
-  }
 
-  /**
-   * Mocks the 'tool' step
-   */
-  def toolCallback = { String tool ->
-    stepRecorder.record(TOOL, tool)
-    switch (tool) {
-      case TOOL_MAVEN:
-        return TOOL_MAVEN_PREFIX.concat(tool)
-      case TOOL_JDK:
-        return TOOL_JDK_PREFIX.concat(tool)
-    }
-    return ""
-  }
 }

@@ -20,8 +20,9 @@
 package vars.setupTools
 
 import hudson.AbortException
-import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 
@@ -32,8 +33,8 @@ class SetupToolsIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldUseCustomEnvVars() {
-    String expectedMavenPath = TOOL_MAVEN_PREFIX.concat(TOOL_MAVEN)
-    String expectedJdkPath = TOOL_JDK_PREFIX.concat(TOOL_JDK)
+    String expectedMavenPath = LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX.concat(LibraryIntegrationTestContext.TOOL_MAVEN)
+    String expectedJdkPath = LibraryIntegrationTestContext.TOOL_JDK_PREFIX.concat(LibraryIntegrationTestContext.TOOL_JDK)
     loadAndExecuteScript("vars/setupTools/jobs/shouldUseCustomEnvVarsTestJob.groovy")
 
     assertEquals(expectedMavenPath, this.getEnv("customMavenEnvVar"))
@@ -44,8 +45,8 @@ class SetupToolsIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldUseDefaultEnvVars() {
-    String expectedMavenPath = TOOL_MAVEN_PREFIX.concat(TOOL_MAVEN)
-    String expectedJdkPath = TOOL_JDK_PREFIX.concat(TOOL_JDK)
+    String expectedMavenPath = LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX.concat(LibraryIntegrationTestContext.TOOL_MAVEN)
+    String expectedJdkPath = LibraryIntegrationTestContext.TOOL_JDK_PREFIX.concat(LibraryIntegrationTestContext.TOOL_JDK)
     loadAndExecuteScript("vars/setupTools/jobs/shouldUseDefaultEnvVarsTestJob.groovy")
 
     assertEquals(expectedMavenPath, this.getEnv(Tool.MAVEN.getEnvVar()))

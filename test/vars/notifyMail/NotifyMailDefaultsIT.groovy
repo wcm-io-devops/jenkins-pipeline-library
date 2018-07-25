@@ -41,36 +41,36 @@ class NotifyMailDefaultsIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldNotNotifyOnSuccess() {
-    this.runWrapper.setResult(Result.SUCCESS.toString())
+    this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertNone(EMAILEXT)
   }
 
   @Test
   void shouldNotNotifyOnAbort() {
-    this.runWrapper.setResult(Result.ABORTED.toString())
+    this.context.getRunWrapperMock().setResult(Result.ABORTED.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertNone(EMAILEXT)
   }
 
   @Test
   void shouldNotNotifyOnNotBuild() {
-    this.runWrapper.setResult(Result.NOT_BUILT.toString())
+    this.context.getRunWrapperMock().setResult(Result.NOT_BUILT.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertNone(EMAILEXT)
   }
 
   @Test
   void shouldNotifyOnFixed() {
-    this.runWrapper.setResult(Result.SUCCESS.toString())
-    this.runWrapper.setPreviousBuildResult(Result.FAILURE.toString())
+    this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
+    this.context.getRunWrapperMock().setPreviousBuildResult(Result.FAILURE.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertOnce(EMAILEXT)
   }
 
   @Test
   void shouldNotifyOnUnstable() {
-    this.runWrapper.setResult(Result.UNSTABLE.toString())
+    this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     LinkedHashMap extmailCall = assertOnce(EMAILEXT)
     assertCorrectExtmailCall(extmailCall)
@@ -78,23 +78,23 @@ class NotifyMailDefaultsIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldNotifyOnStillUnstable() {
-    this.runWrapper.setResult(Result.UNSTABLE.toString())
-    this.runWrapper.setPreviousBuildResult(Result.UNSTABLE.toString())
+    this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
+    this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertOnce(EMAILEXT)
   }
 
   @Test
   void shouldNotifyOnFailure() {
-    this.runWrapper.setResult(Result.FAILURE.toString())
+    this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertOnce(EMAILEXT)
   }
 
   @Test
   void shouldNotifyOnStillFailing() {
-    this.runWrapper.setResult(Result.FAILURE.toString())
-    this.runWrapper.setPreviousBuildResult(Result.FAILURE.toString())
+    this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
+    this.context.getRunWrapperMock().setPreviousBuildResult(Result.FAILURE.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDefaultsJob.groovy")
     assertOnce(EMAILEXT)
   }

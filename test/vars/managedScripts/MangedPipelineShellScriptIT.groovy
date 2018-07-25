@@ -130,7 +130,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   }
 
   def shellMapCallback = { Map incomingCommand ->
-    stepRecorder.record(SH, incomingCommand)
+    context.getStepRecorder().record(SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
     Boolean returnStatus = incomingCommand.returnStatus ?: false
     String script = incomingCommand.script ?: ""

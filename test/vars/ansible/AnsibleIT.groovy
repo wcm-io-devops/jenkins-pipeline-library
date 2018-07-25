@@ -203,18 +203,18 @@ class AnsibleIT extends LibraryIntegrationTestBase {
 
   // cpsScriptMock the curl command
   def shellMapCallback = { Map incomingCommand ->
-    stepRecorder.record(StepConstants.SH, incomingCommand)
+    context.getStepRecorder().record(StepConstants.SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
     String script = incomingCommand.script ?: ""
     // return default values for several commands
     if (returnStdout) {
       switch (script) {
         case "curl --silent 'https://galaxy.ansible.com/api/v1/roles/?owner__username=williamyeh&name=oracle-java'":
-          File mockedResponse = this.dslMock.locateTestResource("tools/ansible/williamyeh.oracle-java.json")
+          File mockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/williamyeh.oracle-java.json")
           return mockedResponse.getText("UTF-8")
           break
         case "curl --silent 'https://galaxy.ansible.com/api/v1/roles/?owner__username=tecris&name=maven'":
-          File mockedResponse = this.dslMock.locateTestResource("tools/ansible/tecris.maven.json")
+          File mockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/tecris.maven.json")
           return mockedResponse.getText("UTF-8")
           break
         default: throw new Exception()

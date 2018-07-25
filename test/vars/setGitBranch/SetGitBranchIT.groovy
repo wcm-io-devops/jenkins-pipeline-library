@@ -58,7 +58,7 @@ class SetGitBranchIT extends LibraryIntegrationTestBase {
   }
 
   def shellMapCallback = { Map incomingCommand ->
-    stepRecorder.record(StepConstants.SH, incomingCommand)
+    context.getStepRecorder().record(StepConstants.SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
     String script = incomingCommand.script ?: ""
     // return default values for several commands
