@@ -21,11 +21,12 @@ package io.wcm.testing.jenkins.pipeline.plugins
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.ANSIBLE_PLAYBOOK
+import static io.wcm.testing.jenkins.pipeline.StepConstants.FINDBUGS
 
-class AnsiblePluginMock {
+class FindBugsPluginMock {
 
-  AnsiblePluginMock(LibraryIntegrationTestContext context) {
-    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
+  FindBugsPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(FINDBUGS, [LinkedHashMap.class], { LinkedHashMap map -> context.getStepRecorder().record(FINDBUGS, map) })
   }
+
 }

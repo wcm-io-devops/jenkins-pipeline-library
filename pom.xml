@@ -227,6 +227,8 @@
           </execution>
         </executions>
         <configuration>
+          <failOnMissingHeader>true</failOnMissingHeader>
+          <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
           <includes>
             <include>**/*.groovy</include>
             <include>**/*.xml</include>

@@ -30,7 +30,6 @@ class AnsiColorPluginMock {
   AnsiColorPluginMock(LibraryIntegrationTestContext context) {
     this.context = context
 
-    // add callbacks for DSL functions and pass them to the step recorder if necessary
     context.getPipelineTestHelper().registerAllowedMethod(ANSI_COLOR, [String.class, Closure.class], ansiColorCallback)
   }
 

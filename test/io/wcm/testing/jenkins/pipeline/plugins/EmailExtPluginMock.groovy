@@ -21,11 +21,11 @@ package io.wcm.testing.jenkins.pipeline.plugins
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.ANSIBLE_PLAYBOOK
+import static io.wcm.testing.jenkins.pipeline.StepConstants.EMAILEXT
 
-class AnsiblePluginMock {
+class EmailExtPluginMock {
 
-  AnsiblePluginMock(LibraryIntegrationTestContext context) {
-    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
+  EmailExtPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(EMAILEXT, [Map.class], { Map incomingCall -> context.getStepRecorder().record(EMAILEXT, incomingCall) })
   }
 }

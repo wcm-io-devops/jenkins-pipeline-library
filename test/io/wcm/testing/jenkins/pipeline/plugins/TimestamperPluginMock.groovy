@@ -21,11 +21,15 @@ package io.wcm.testing.jenkins.pipeline.plugins
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.ANSIBLE_PLAYBOOK
+import static io.wcm.testing.jenkins.pipeline.StepConstants.TIMESTAMPS
 
-class AnsiblePluginMock {
+class TimestamperPluginMock {
 
-  AnsiblePluginMock(LibraryIntegrationTestContext context) {
-    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
+  TimestamperPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(TIMESTAMPS, [Closure.class], { Closure closure ->
+      context.getStepRecorder().record(TIMESTAMPS, true)
+      closure.call()
+    })
   }
+
 }

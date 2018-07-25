@@ -27,10 +27,7 @@ import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper
 
 import java.nio.file.Path
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.FIND_FILES
-import static io.wcm.testing.jenkins.pipeline.StepConstants.READ_JSON
-import static io.wcm.testing.jenkins.pipeline.StepConstants.READ_MAVEN_POM
-import static io.wcm.testing.jenkins.pipeline.StepConstants.READ_YAML
+import static io.wcm.testing.jenkins.pipeline.StepConstants.*
 
 class PipelineUtilityStepsPluginMock {
 

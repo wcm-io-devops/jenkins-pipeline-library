@@ -21,11 +21,15 @@ package io.wcm.testing.jenkins.pipeline.plugins
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.ANSIBLE_PLAYBOOK
+import static io.wcm.testing.jenkins.pipeline.StepConstants.STAGE
 
-class AnsiblePluginMock {
+class PipelineStageStepPluginMock {
 
-  AnsiblePluginMock(LibraryIntegrationTestContext context) {
-    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
+  PipelineStageStepPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(STAGE, [String.class, Closure.class], { String name, Closure body ->
+      context.getStepRecorder().record(STAGE, name)
+      body.run()
+    })
   }
+
 }

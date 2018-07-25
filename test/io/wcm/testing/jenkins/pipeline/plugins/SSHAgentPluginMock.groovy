@@ -21,11 +21,14 @@ package io.wcm.testing.jenkins.pipeline.plugins
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.ANSIBLE_PLAYBOOK
+import static io.wcm.testing.jenkins.pipeline.StepConstants.SSH_AGENT
 
-class AnsiblePluginMock {
+class SSHAgentPluginMock {
 
-  AnsiblePluginMock(LibraryIntegrationTestContext context) {
-    context.getPipelineTestHelper().registerAllowedMethod(ANSIBLE_PLAYBOOK, [Map.class], { Map incomingCall -> context.getStepRecorder().record(ANSIBLE_PLAYBOOK, incomingCall) })
+  SSHAgentPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(SSH_AGENT, [List.class, Closure.class], { List list, Closure closure ->
+      context.getStepRecorder().record(SSH_AGENT, list)
+      closure.run()
+    })
   }
 }

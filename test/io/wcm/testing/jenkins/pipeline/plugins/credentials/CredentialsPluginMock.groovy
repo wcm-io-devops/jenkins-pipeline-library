@@ -19,10 +19,7 @@
  */
 package io.wcm.testing.jenkins.pipeline.plugins.credentials
 
-import com.lesfurets.jenkins.unit.PipelineTestHelper
-import io.wcm.testing.jenkins.pipeline.EnvActionImplMock
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
-import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.USERNAME_PASSWORD
 import static io.wcm.testing.jenkins.pipeline.StepConstants.WITH_CREDENTIALS

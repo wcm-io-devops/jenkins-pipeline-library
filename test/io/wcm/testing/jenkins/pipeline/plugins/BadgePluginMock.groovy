@@ -186,4 +186,16 @@ class BadgePluginMock {
       ]
       context.getStepRecorder().record(CREATE_SUMMARY, recordData)
   }
+
+  /**
+   * Utility function to get an argument from dynamic arguments
+   *
+   * @param args The object containing the arguments
+   * @param index The index of the argument that should be parsed
+   * @param defaultValue
+   * @return The found arg or defaultValue when arg is not present
+   */
+  protected Object getArgAt(Object args, Integer index, defaultValue = null) {
+    return (args.length > index ? args.getAt(index) : null)
+  }
 }
