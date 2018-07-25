@@ -102,7 +102,7 @@ class RoleRequirements implements Serializable {
         Map scmConfig = [
             (SCM): [
                 (SCM_URL)       : role.getSrc(),
-                (SCM_BRANCHES)  : [[name: role.getVersion()]],
+                (SCM_BRANCHES)  : [[name: "*/"+role.getVersion()]],
                 (SCM_EXTENSIONS): [
                     [$class: 'LocalBranch'],
                     [$class: 'RelativeTargetDirectory', relativeTargetDir: role.getName()],
