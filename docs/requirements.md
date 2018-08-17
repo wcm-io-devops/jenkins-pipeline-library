@@ -1,7 +1,7 @@
 # Requirements
 
-:bulb: You can use the Ansible Role:
-[wcm-io-devops.jenkins-pipeline-library](https://github.com/wcm-io-devops/ansible-jenkins-pipeline-library)
+:bulb: You can use the Ansible role:
+[wcm_io_devops.jenkins_pipeline_library](https://github.com/wcm-io-devops/ansible-jenkins-pipeline-library)
 to automatically setup/configure a Jenkins instance to work with the
 pipeline library.
 
