@@ -487,6 +487,7 @@
             <goals>deploy</goals>
             <pushChanges>false</pushChanges>
             <localCheckout>true</localCheckout>
+            <tagNameFormat>@{project.version}</tagNameFormat>
           </configuration>
           <dependencies>
             <dependency>
