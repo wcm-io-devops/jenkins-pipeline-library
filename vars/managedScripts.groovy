@@ -107,5 +107,11 @@ Object _execShellScript(Logger log, String scriptPath, CommandBuilder commandBui
   } else {
     ret = sh(script: command)
   }
+  // delete script from workspace
+  CommandBuilderImpl rmBuilder = new CommandBuilderImpl((DSL) steps, "rm")
+  rmBuilder.addPathArgument(scriptPath)
+  String rmCommand = rmBuilder.build()
+  sh(rmCommand)
+
   return ret
 }

@@ -23,6 +23,7 @@ import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import org.junit.Test
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertStepCalls
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertTwice
 import static org.junit.Assert.assertEquals
 
@@ -31,7 +32,7 @@ class MavenIT extends LibraryIntegrationTestBase {
   @Test
   void purgeSnapshotsFromRepositoryCustom() {
     Object scriptResult = loadAndExecuteScript("vars/maven/jobs/purgeSnapshotsCustomTestJob.groovy")
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3)
 
     Map expectedManagedScriptShellCommand = [
         'script': "./.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh --repo='custom/path/to/repo' --dryrun --loglvl=8"
@@ -43,7 +44,7 @@ class MavenIT extends LibraryIntegrationTestBase {
   @Test
   void purgeSnapshotsFromRepositoryCustomMap() {
     Object scriptResult = loadAndExecuteScript("vars/maven/jobs/purgeSnapshotsCustomMapTestJob.groovy")
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3)
 
     Map expectedManagedScriptShellCommand = [
         'script': "./.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh --repo='custom/path/to/repo/from/map' --dryrun --loglvl=2"
@@ -55,7 +56,7 @@ class MavenIT extends LibraryIntegrationTestBase {
   @Test
   void purgeSnapshotsFromRepositoryDefaults() {
     Object scriptResult = loadAndExecuteScript("vars/maven/jobs/purgeSnapshotsDefaultsTestJob.groovy")
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3)
 
     Map expectedManagedScriptShellCommand = [
         'script': "./.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh"
