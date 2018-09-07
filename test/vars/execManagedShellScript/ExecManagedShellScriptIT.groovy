@@ -23,6 +23,7 @@ import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import org.junit.Test
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertStepCalls
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertTwice
 import static org.junit.Assert.assertEquals
 
@@ -31,25 +32,28 @@ class ExecManagedShellScriptIT extends LibraryIntegrationTestBase {
   @Test
   void shouldCallWithOneListItem() {
     loadAndExecuteScript("vars/execManagedShellScript/jobs/execMangedShellScriptVariant1Test.groovy")
-    List<String> actualShellCalls = (List) assertTwice(SH)
-    assertEquals("chmod +x /path/to/workspace@tmp/some-file-id-variant1", actualShellCalls.get(0))
-    assertEquals([returnStdout: true, script: "/path/to/workspace@tmp/some-file-id-variant1 oneArg"], actualShellCalls.get(1))
+    List<String> actualShellCalls = (List) assertStepCalls(SH,3)
+    assertEquals("chmod +x .jenkinsShellScript_some-file-id-variant1", actualShellCalls.get(0))
+    assertEquals([returnStdout: true, script: "./.jenkinsShellScript_some-file-id-variant1 oneArg"], actualShellCalls.get(1))
+    assertEquals("rm .jenkinsShellScript_some-file-id-variant1", actualShellCalls.get(2))
   }
 
   @Test
   void shouldCallWithMultipleListItems() {
     loadAndExecuteScript("vars/execManagedShellScript/jobs/execMangedShellScriptVariant2Test.groovy")
-    List<String> actualShellCalls = (List) assertTwice(SH)
-    assertEquals("chmod +x /path/to/workspace@tmp/some-file-id-variant2", actualShellCalls.get(0))
-    assertEquals([returnStdout: true, script: "/path/to/workspace@tmp/some-file-id-variant2 argOne argTwo argThree=value"], actualShellCalls.get(1))
+    List<String> actualShellCalls = (List) assertStepCalls(SH,3)
+    assertEquals("chmod +x .jenkinsShellScript_some-file-id-variant2", actualShellCalls.get(0))
+    assertEquals([returnStdout: true, script: "./.jenkinsShellScript_some-file-id-variant2 argOne argTwo argThree=value"], actualShellCalls.get(1))
+    assertEquals("rm .jenkinsShellScript_some-file-id-variant2", actualShellCalls.get(2))
   }
 
   @Test
   void shouldCallWithArgLine() {
     loadAndExecuteScript("vars/execManagedShellScript/jobs/execMangedShellScriptVariant3Test.groovy")
-    List<String> actualShellCalls = (List) assertTwice(SH)
-    assertEquals("chmod +x /path/to/workspace@tmp/some-file-id-variant3", actualShellCalls.get(0))
-    assertEquals([returnStdout: true, script: "/path/to/workspace@tmp/some-file-id-variant3 customArgLine prop1=value1 -Dtest"], actualShellCalls.get(1))
+    List<String> actualShellCalls = (List) assertStepCalls(SH,3)
+    assertEquals("chmod +x .jenkinsShellScript_some-file-id-variant3", actualShellCalls.get(0))
+    assertEquals([returnStdout: true, script: "./.jenkinsShellScript_some-file-id-variant3 customArgLine prop1=value1 -Dtest"], actualShellCalls.get(1))
+    assertEquals("rm .jenkinsShellScript_some-file-id-variant3", actualShellCalls.get(2))
   }
 
 }

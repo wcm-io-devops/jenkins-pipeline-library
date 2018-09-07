@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
+
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
-import org.jenkinsci.plugins.workflow.cps.DSL
 
 /**
  * Adapter when called with list of arguments
@@ -44,32 +44,7 @@ String call(String fileId, List<String> args) {
  */
 String call(String fileId, String argLine) {
     Logger log = new Logger(this)
-    log.info("Executing managed script with id: '$fileId' and argLine: '$argLine'")
-    log.deprecated('execManagedShellScript', 'managedScripts.execJenkinsShellScript')
+    log.deprecated("execManagedShellScript","managedScripts.execJenkinsShellScript")
 
-    // creating an environment variable
-    String envVar = "SCRIPT_$fileId"
-
-    // get the managed file via the configFileProvider step
-    configFileProvider([configFile(fileId: fileId, variable: envVar)]) {
-        // retrieve the path to the provided managed script
-        String managedScriptPath = env.getProperty(envVar)
-
-        // make script executable
-        CommandBuilderImpl chmodBuilder = new CommandBuilderImpl((DSL) steps, "chmod")
-        chmodBuilder.addArgument("+x")
-        chmodBuilder.addPathArgument(managedScriptPath)
-        String chmodCommand = chmodBuilder.build()
-        sh(chmodCommand)
-
-        // build shell command for executing managed script
-        CommandBuilderImpl commandBuilder = new CommandBuilderImpl((DSL) steps)
-        commandBuilder.addPathArgument(managedScriptPath)
-        commandBuilder.addArgument(argLine)
-        String command = commandBuilder.build()
-
-        // execute the command
-        log.info("Executing command: $command")
-        return sh(returnStdout: true, script: command).trim()
-    }
+    return managedScripts.execJenkinsShellScript(fileId, new CommandBuilderImpl(this.steps).addArgument(argLine), true)
 }

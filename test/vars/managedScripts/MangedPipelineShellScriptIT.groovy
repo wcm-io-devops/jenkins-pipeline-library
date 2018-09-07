@@ -26,6 +26,7 @@ import org.junit.Test
 import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
 import static io.wcm.testing.jenkins.pipeline.StepConstants.WRITE_FILE
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertStepCalls
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertTwice
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNull
@@ -43,7 +44,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecutePipelineShellScriptWithoutCommandBuilder() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithoutCommandBuilderTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(writeFileCommand, shellCommands)
 
@@ -61,7 +62,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecutePipelineShellScriptWithDefaults() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithDefaultsTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(writeFileCommand, shellCommands)
 
@@ -79,7 +80,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecutePipelineShellScriptWithReturnStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithReturnStatusTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(writeFileCommand, shellCommands)
 
@@ -97,7 +98,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecutePipelineShellScriptWithReturnStdoutStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithReturnStdoutStatusTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(writeFileCommand, shellCommands)
 
@@ -115,7 +116,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecutePipelineShellScriptWithReturnStdout() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/pipelineShellScript/shouldExecutePipelineShellScriptWithReturnStdoutTestJob.groovy")
     Map writeFileCommand = assertOnce(WRITE_FILE)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(writeFileCommand, shellCommands)
 
@@ -167,6 +168,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
       "", writeFileCommand.getOrDefault('text', null))
 
     assertEquals("chmod +x .libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh",shellCommands.get(0))
+    assertEquals("rm .libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh",shellCommands.get(2))
   }
 
 }

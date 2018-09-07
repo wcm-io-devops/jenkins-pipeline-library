@@ -27,6 +27,7 @@ import org.junit.Test
 import static io.wcm.testing.jenkins.pipeline.StepConstants.CONFIGFILEPROVIDER
 import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertStepCalls
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertTwice
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNull
@@ -44,7 +45,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecuteJenkinsShellScriptWithoutCommandBuilder() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithoutCommandBuilderTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(configFileCommand, shellCommands, 'jenkins-script-id-5')
 
@@ -62,7 +63,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecuteJenkinsShellScriptWithDefaults() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithDefaultsTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(configFileCommand, shellCommands, 'jenkins-script-id-1')
 
@@ -80,7 +81,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecuteJenkinsShellScriptWithReturnStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithReturnStatusTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(configFileCommand, shellCommands,'jenkins-script-id-2')
 
@@ -98,7 +99,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecuteJenkinsShellScriptWithReturnStdoutStatus() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithReturnStdoutStatusTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(configFileCommand, shellCommands, 'jenkins-script-id-3')
 
@@ -116,7 +117,7 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
   void shouldExecuteJenkinsShellScriptWithReturnStdout() {
     Object scriptResult = loadAndExecuteScript("vars/managedScripts/jobs/jenkinsShellScript/shouldExecuteJenkinsShellScriptWithReturnStdoutTestJob.groovy")
     List configFileCommand = assertOnce(CONFIGFILEPROVIDER)
-    List shellCommands = assertTwice(SH)
+    List shellCommands = assertStepCalls(SH,3 )
 
     commonAssertions(configFileCommand, shellCommands, 'jenkins-script-id-4')
 
@@ -168,6 +169,8 @@ class MangedJenkinsShellScriptIT extends LibraryIntegrationTestBase {
     assertEquals(expectedScriptPath, managedScript.getTargetLocation())
 
     assertEquals("chmod +x $expectedScriptPath".toString(),shellCommands.get(0))
+
+    assertEquals("rm $expectedScriptPath".toString(),shellCommands.get(2))
   }
 
 }
