@@ -24,8 +24,6 @@ import com.cloudbees.groovy.cps.NonCPS
 /**
  * Jenkins groovy sandbox compatible version of
  * https://github.com/apache/maven/blob/master/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java / ListItem
- *
- * Extending ArrayList<Item> like the Original is not possible due to the sandbox so List interface was implemented.
  */
 class ListItem extends ArrayList<Item> implements Item {
 
