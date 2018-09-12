@@ -28,7 +28,7 @@ import io.wcm.devops.jenkins.pipeline.utils.ListUtils
  *
  * Extending ArrayList<Item> like the Original is not possible due to the sandbox so List interface was implemented.
  */
-class ListItem implements List, Item, Serializable {
+class ListItem implements List, Item {
 
   static final long serialVersionUID = 1L
 
