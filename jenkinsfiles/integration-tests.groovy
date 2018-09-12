@@ -144,12 +144,37 @@ node() {
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.logging") {
     integrationTestUtils.runTest("Logger") {
       Logger test = new Logger(this)
+      // call all logger init functions
+      Logger.init(this.steps, [:])
+      Logger.init(this,steps, "info")
+      Logger.init(this.steps, 0)
+      Logger.init(this, [:])
+      Logger.init(this, "info")
+      Logger.init(this, 0)
+      // set loglevel to all
+      Logger.setLevel(LogLevel.ALL)
+
+      LogLevel testLogLevel = LogLevel.ALL
+      testLogLevel = LogLevel.DEBUG
+      testLogLevel = LogLevel.DEPRECATED
+      testLogLevel = LogLevel.ERROR
+      testLogLevel = LogLevel.WARN
+      testLogLevel = LogLevel.DEBUG
+
       test.trace("trace")
       test.debug("debug")
       test.info("info")
       test.warn("warn")
       test.error("error")
       test.fatal("fatal")
+
+      test.trace("trace", this)
+      test.debug("debug", this)
+      test.deprecated("deprecatedItem", "deprecatedMessage")
+      test.info("info", this)
+      test.warn("warn", this)
+      test.error("error", this)
+      test.fatal("fatal", this)
     }
     integrationTestUtils.runTest("LogLevel") {
       LogLevel test = LogLevel.FATAL
