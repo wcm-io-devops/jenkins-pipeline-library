@@ -11,6 +11,7 @@ The Pipeline Library is currently tested with the following versions:
   *  ace-editor 1.1
   *  authentication-tokens 1.3
   *  apache-httpcomponents-client-4-api 4.5.5-2.1
+  *  badge 1.5
   *  branch-api 2.0.20
   *  cloudbees-folder 6.4
   *  config-file-provider 2.18
