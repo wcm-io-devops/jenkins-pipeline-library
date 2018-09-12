@@ -326,7 +326,7 @@ class Logger implements Serializable {
   void deprecated(String message) {
     try {
       Logger.dsl.addWarningBadge(message)
-    } catch (Exception ex) {
+    } catch (Throwable ex) {
       // no badge plugin available
     }
     log(LogLevel.DEPRECATED, message)
