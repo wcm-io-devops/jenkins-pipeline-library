@@ -151,6 +151,15 @@ node() {
       Logger.init(this, [:])
       Logger.init(this, "info")
       Logger.init(this, 0)
+      Logger.setLevel(LogLevel.ALL)
+      Logger.setLevel(LogLevel.DEBUG)
+      Logger.setLevel(LogLevel.WARN)
+      Logger.setLevel(LogLevel.ERROR)
+      Logger.setLevel(LogLevel.DEPRECATED)
+      Logger.setLevel(LogLevel.FATAL)
+      Logger.setLevel(LogLevel.INFO)
+      Logger.setLevel(LogLevel.NONE)
+      Logger.setLevel(LogLevel.TRACE)
       // set loglevel to all
       Logger.setLevel(LogLevel.ALL)
 
