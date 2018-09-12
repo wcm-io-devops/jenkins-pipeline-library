@@ -36,7 +36,7 @@ class StringItem implements Item, Serializable {
    * A comparable value for the empty-string qualifier. This one is used to determine if a given qualifier makes
    * the version older than one without a qualifier, or more recent.
    */
-  private static final String RELEASE_VERSION_INDEX = String.valueOf(_QUALIFIERS.indexOf(""))
+  private static final String RELEASE_VERSION_INDEX = String.valueOf(ListUtils.indexOf(_QUALIFIERS, ""))
 
   String value = null
 
