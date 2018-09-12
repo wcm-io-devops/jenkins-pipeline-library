@@ -145,9 +145,9 @@ node() {
     integrationTestUtils.runTest("Logger") {
       Logger test = new Logger(this)
       // call all logger init functions
-      Logger.init(this.steps, [:])
-      Logger.init(this,steps, "info")
-      Logger.init(this.steps, 0)
+      Logger.init((DSL) this.steps, [:])
+      Logger.init((DSL) this.steps, "info")
+      Logger.init((DSL) this.steps, 0)
       Logger.init(this, [:])
       Logger.init(this, "info")
       Logger.init(this, 0)
