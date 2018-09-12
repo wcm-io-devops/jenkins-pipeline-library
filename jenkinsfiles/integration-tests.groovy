@@ -284,7 +284,7 @@ node() {
       integrationTestUtils.assertEquals(false, typeUtils.isList("noList"))
     }
   }
-  /*integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
     List<String> versionQualifier =
         ["1-alpha2snapshot", "1-alpha2", "1-alpha-123", "1-beta-2", "1-beta123", "1-m2", "1-m11", "1-rc", "1-cr2",
          "1-rc123", "1-SNAPSHOT", "1", "1-sp", "1-sp2", "1-sp123", "1-abc", "1-def", "1-pom-1", "1-1-snapshot",
@@ -315,7 +315,7 @@ node() {
     integrationTestUtils.runTest("StringItem") {
       StringItem stringItem = new StringItem("2", false)
     }
-  }*/
+  }
 
   stage("Result overview") {
     integrationTestUtils.logTestResults(IntegrationTestHelper.getResults())
