@@ -293,6 +293,18 @@ node() {
     List<String> versionNumber =
         ["2.0", "2-1", "2.0.a", "2.0.0.a", "2.0.2", "2.0.123", "2.1.0", "2.1-a", "2.1b", "2.1-c", "2.1-1", "2.1.0.1",
          "2.2", "2.123", "11.a2", "11.a11", "11.b2", "11.b11", "11.m2", "11.m11", "11", "11.a", "11b", "11c", "11m"]
+
+
+    integrationTestUtils.runTest("IntegerItem") {
+      IntegerItem integerItem = new IntegerItem("1")
+    }
+    integrationTestUtils.runTest("ListItem") {
+      ListItem listItem = new ListItem()
+    }
+    integrationTestUtils.runTest("StringItem") {
+      StringItem stringItem = new StringItem("2", false)
+    }
+
     versionQualifier.each {
       String value ->
         integrationTestUtils.runTest("ComparableVersion '$value' (qualifier)") {
@@ -306,15 +318,7 @@ node() {
         }
     }
 
-    integrationTestUtils.runTest("IntegerItem") {
-      IntegerItem integerItem = new IntegerItem("1")
-    }
-    integrationTestUtils.runTest("ListItem") {
-      ListItem listItem = new ListItem()
-    }
-    integrationTestUtils.runTest("StringItem") {
-      StringItem stringItem = new StringItem("2", false)
-    }
+
   }
 
   stage("Result overview") {
