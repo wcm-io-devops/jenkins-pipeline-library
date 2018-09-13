@@ -14,6 +14,7 @@ import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
+import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileParser
 import io.wcm.devops.jenkins.pipeline.model.PatternMatchable
 import io.wcm.devops.jenkins.pipeline.model.Result
@@ -139,11 +140,36 @@ node() {
       integrationTestUtils.assertEquals("id", managedFile.getId())
       integrationTestUtils.assertEquals(null, managedFile.getName())
       integrationTestUtils.assertEquals(null, managedFile.getComment())
-
+    }
+    integrationTestUtils.runTest("ManagedFileConstants") {
+      log.info(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH,  ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH)
+      log.info(ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV,  ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV)
+      log.info(ManagedFileConstants.MAVEN_SETTINS_PATH,  ManagedFileConstants.MAVEN_SETTINS_PATH)
+      log.info(ManagedFileConstants.MAVEN_SETTING_ENV,  ManagedFileConstants.MAVEN_SETTING_ENV)
+      log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH,  ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH)
+      log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV,  ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV)
+      log.info(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV,  ManagedFileConstants.NPM_CONF_USERCONFIG_ENV)
+      log.info(ManagedFileConstants.NPMRC_PATH,  ManagedFileConstants.NPMRC_PATH)
+      log.info(ManagedFileConstants.NPMRC_ENV,  ManagedFileConstants.NPMRC_ENV)
+      log.info(ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV,  ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV)
+      log.info(ManagedFileConstants.BUNDLE_CONFIG_ENV,  ManagedFileConstants.BUNDLE_CONFIG_ENV)
+      log.info(ManagedFileConstants.BUNDLE_CONFIG_PATH,  ManagedFileConstants.BUNDLE_CONFIG_PATH)
 
     }
     integrationTestUtils.runTest("ManagedFileParser") {
       ManagedFileParser managedFileParser = new ManagedFileParser()
+      String managedFileJsonString = '''
+        [
+          {
+            "pattern": "jsonPattern",
+            "id": "jsonId",
+            "comment": "jsonComment",
+            "name": "jsonName"
+          }
+        ]
+      '''
+      JSON managedFileJson = readJSON(text: managedFileJsonString)
+      managedFileParser.parse(managedFileJson)
     }
   }
 
