@@ -79,13 +79,13 @@ node() {
       integrationTestUtils.assertEquals("pattern", credential.getPattern())
       integrationTestUtils.assertEquals("id", credential.getId())
       integrationTestUtils.assertEquals("comment", credential.getComment())
-      integrationTestUtils.assertEquals(null, credential.getUserName())
+      integrationTestUtils.assertNull(credential.getUserName())
 
       credential = new Credential("pattern", "id")
       integrationTestUtils.assertEquals("pattern", credential.getPattern())
       integrationTestUtils.assertEquals("id", credential.getId())
-      integrationTestUtils.assertEquals(null, credential.getComment())
-      integrationTestUtils.assertEquals(null, credential.getUserName())
+      integrationTestUtils.assertNull(credential.getComment())
+      integrationTestUtils.assertNull(credential.getUserName())
     }
     integrationTestUtils.runTest("CredentialConstants") {
       log.info(CredentialConstants.SCM_CREDENTIALS_PATH, CredentialConstants.SCM_CREDENTIALS_PATH)
@@ -133,13 +133,13 @@ node() {
       integrationTestUtils.assertEquals("pattern", managedFile.getPattern())
       integrationTestUtils.assertEquals("id", managedFile.getId())
       integrationTestUtils.assertEquals("name", managedFile.getName())
-      integrationTestUtils.assertEquals(null, managedFile.getComment())
+      integrationTestUtils.assertNull(managedFile.getComment())
 
       managedFile = new ManagedFile("pattern", "id")
       integrationTestUtils.assertEquals("pattern", managedFile.getPattern())
       integrationTestUtils.assertEquals("id", managedFile.getId())
-      integrationTestUtils.assertEquals(null, managedFile.getName())
-      integrationTestUtils.assertEquals(null, managedFile.getComment())
+      integrationTestUtils.assertNull(managedFile.getName())
+      integrationTestUtils.assertNull(managedFile.getComment())
     }
     integrationTestUtils.runTest("ManagedFileConstants") {
       log.info(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH,  ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH)
@@ -175,7 +175,22 @@ node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.model") {
     integrationTestUtils.runTest("Result") {
-      Result testResult = Result.ABORTED
+      Result testResult
+      testResult = Result.NOT_BUILD
+      testResult = Result.ABORTED
+      testResult = Result.FAILURE
+      testResult = Result.UNSTABLE
+      testResult = Result.SUCCESS
+      testResult = Result.STILL_FAILING
+      testResult = Result.STILL_UNSTABLE
+      testResult = Result.FIXED
+      testResult = Result.fromString("STILL FAILING")
+      log.info(Result.FIXED.toString(), Result.FIXED)
+
+      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseOrEqualTo(Result.NOT_BUILD))
+      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseThan(Result.ABORTED))
+      integrationTestUtils.assertTrue(Result.SUCCESS.isBetterThan(Result.ABORTED))
+      integrationTestUtils.assertTrue(Result.SUCCESS.isBetterOrEqualTo(Result.SUCCESS))
     }
     integrationTestUtils.runTest("Tool") {
       Tool tool = Tool.MAVEN
