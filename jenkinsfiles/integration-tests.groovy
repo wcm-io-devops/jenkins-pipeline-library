@@ -12,6 +12,7 @@ library identifier: 'pipeline-library-example@master', retriever: modernSCM([
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileParser
 import io.wcm.devops.jenkins.pipeline.model.PatternMatchable
@@ -104,6 +105,16 @@ node() {
       '''
       JSON credentialJson = readJSON(text: jsonString)
       credentialParser.parse(credentialJson)
+    }
+  }
+
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.environment") {
+    integrationTestUtils.runTest("EnvironmentConstants") {
+      log.info(EnvironmentConstants.BRANCH_NAME,  EnvironmentConstants.BRANCH_NAME)
+      log.info(EnvironmentConstants.GIT_BRANCH,  EnvironmentConstants.GIT_BRANCH)
+      log.info(EnvironmentConstants.SCM_URL,  EnvironmentConstants.SCM_URL)
+      log.info(EnvironmentConstants.TERM,  EnvironmentConstants.TERM)
+      log.info(EnvironmentConstants.WORKSPACE,  EnvironmentConstants.WORKSPACE)
     }
   }
 
