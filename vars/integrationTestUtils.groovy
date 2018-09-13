@@ -23,7 +23,7 @@ import io.wcm.devops.jenkins.pipeline.utils.IntegrationTestHelper
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
- * Assert utitlity function
+ * Assert utility function
  *
  * @param expected Expected object/value
  * @param actual Actual object/value
@@ -32,6 +32,33 @@ void assertEquals(expected, actual) {
     if (expected != actual) {
         error("Assertion error -> expected: '$expected', got '$actual'")
     }
+}
+
+/**
+ * Assert utility function function
+ *
+ * @param actual Actual object/value
+ */
+void assertNull(actual) {
+    this.assertEquals(null, actual)
+}
+
+/**
+ * Assert utility function function
+ *
+ * @param actual Actual object/value
+ */
+void assertTrue(actual) {
+    this.assertEquals(true, actual)
+}
+
+/**
+ * Assert utility function function
+ *
+ * @param actual Actual object/value
+ */
+void assertFalse(actual) {
+    this.assertEquals(false, actual)
 }
 
 /**
