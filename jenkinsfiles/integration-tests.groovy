@@ -187,10 +187,10 @@ node() {
       testResult = Result.fromString("STILL FAILING")
       log.info(Result.FIXED.toString(), Result.FIXED)
 
-      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseOrEqualTo(Result.NOT_BUILD))
-      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseThan(Result.ABORTED))
-      integrationTestUtils.assertTrue(Result.SUCCESS.isBetterThan(Result.ABORTED))
-      integrationTestUtils.assertTrue(Result.SUCCESS.isBetterOrEqualTo(Result.SUCCESS))
+      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseOrEqualTo(Result.NOT_BUILD), "result assertion 1")
+      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseThan(Result.ABORTED), "result assertion 2")
+      integrationTestUtils.assertTrue(Result.SUCCESS.isBetterThan(Result.ABORTED), "result assertion 3")
+      integrationTestUtils.assertTrue(Result.SUCCESS.isBetterOrEqualTo(Result.SUCCESS), "result assertion 4")
     }
     integrationTestUtils.runTest("Tool") {
       Tool tool = Tool.MAVEN
