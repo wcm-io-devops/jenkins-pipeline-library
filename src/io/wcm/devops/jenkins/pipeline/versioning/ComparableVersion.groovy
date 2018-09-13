@@ -41,7 +41,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
   Logger log = new Logger(this)
 
   ComparableVersion(String version) {
-    log.trace("Constructor")
     parseVersion(version)
   }
 
