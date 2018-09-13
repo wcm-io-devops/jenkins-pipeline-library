@@ -193,7 +193,17 @@ node() {
       integrationTestUtils.assertTrue(Result.SUCCESS.isBetterOrEqualTo(Result.SUCCESS), "result assertion 4")
     }
     integrationTestUtils.runTest("Tool") {
-      Tool tool = Tool.MAVEN
+      Tool tool
+      tool = Tool.MAVEN
+      tool = Tool.JDK
+      tool = Tool.ANSIBLE
+      tool = Tool.GIT
+      tool = Tool.GROOVY
+      tool = Tool.MSBUILD
+      tool = Tool.ANT
+      tool = Tool.PYTHON
+      tool = Tool.DOCKER
+      tool = Tool.NODEJS
     }
   }
 
