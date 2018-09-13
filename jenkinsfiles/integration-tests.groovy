@@ -19,6 +19,7 @@ import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileParser
 import io.wcm.devops.jenkins.pipeline.model.PatternMatchable
 import io.wcm.devops.jenkins.pipeline.model.Result
 import io.wcm.devops.jenkins.pipeline.model.Tool
+import io.wcm.devops.jenkins.pipeline.scm.GitRepository
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 import io.wcm.devops.jenkins.pipeline.shell.GitCommandBuilderImpl
 import io.wcm.devops.jenkins.pipeline.shell.MavenCommandBuilderImpl
@@ -204,6 +205,27 @@ node() {
       tool = Tool.PYTHON
       tool = Tool.DOCKER
       tool = Tool.NODEJS
+    }
+  }
+
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.scm") {
+    integrationTestUtils.runTest("GitRepository") {
+      GitRepository gitRepo = new GitRepository(this, "https://github.com/wcm-io-devops/jenkins-pipeline-library.git")
+      integrationTestUtils.assertEquals(GitRepository.PROTOCOL_HTTPS, gitRepo.getProtocol())
+      integrationTestUtils.assertNotEquals(GitRepository.PROTOCOL_HTTP, gitRepo.getProtocol())
+      integrationTestUtils.assertNotEquals(GitRepository.PROTOCOL_SSH, gitRepo.getProtocol())
+
+      gitRepo.getGroup()
+      gitRepo.getProject()
+      gitRepo.getProjectName()
+      gitRepo.getProtocolPrefix()
+      gitRepo.getServer()
+      gitRepo.getUsername()
+      gitRepo.isSsh()
+      gitRepo.isHttp()
+      gitRepo.isHttps()
+      gitRepo.getUrl()
+      gitRepo.isValid()
     }
   }
 
