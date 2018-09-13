@@ -66,8 +66,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
     List stack = []
     stack.push(list)
 
-    log.trace("parseVersion pos 2")
-
     boolean isDigit = false
     int startIndex = 0
 
@@ -75,7 +73,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
       char c = version.charAt(i)
 
       if (c == '.') {
-        log.trace("parseVersion pos 2.1")
         if (i == startIndex) {
           list.add(IntegerItem.ZERO)
         } else {
@@ -83,7 +80,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
         }
         startIndex = i + 1
       } else if (c == '-') {
-        log.trace("parseVersion pos 2.2")
         if (i == startIndex) {
           list.add(IntegerItem.ZERO)
         } else {
@@ -94,7 +90,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
         list.add(list = new ListItem())
         stack.push(list)
       } else if (c =~ '^\\d$') {
-        log.trace("parseVersion pos 2.3")
         if (!isDigit && i > startIndex) {
           list.add(new StringItem(version.substring(startIndex, i), true))
           startIndex = i
@@ -106,7 +101,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
         isDigit = true
       } else {
         if (isDigit && i > startIndex) {
-          log.trace("parseVersion pos 2.4")
           list.add(parseItem(true, version.substring(startIndex, i)))
           startIndex = i
 
@@ -118,19 +112,15 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
       }
     }
 
-    log.trace("parseVersion pos 3")
-
     if (version.length() > startIndex) {
       list.add(parseItem(isDigit, version.substring(startIndex)))
     }
 
-    log.trace("parseVersion pos 4")
     for (Integer i = stack.size() - 1; i >= 0; i--) {
       list = (ListItem) stack[i]
       list.normalize()
     }
 
-    log.trace("parseVersion pos 5")
     canonical = items.toString()
   }
 
