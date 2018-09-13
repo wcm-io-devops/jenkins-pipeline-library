@@ -5,8 +5,8 @@
  */
 @Library('pipeline-library') pipelineLibrary
 library identifier: 'pipeline-library-example@master', retriever: modernSCM([
-    $class: 'GitSCMSource',
-    remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
+  $class: 'GitSCMSource',
+  remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
 ])
 
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
@@ -38,6 +38,7 @@ import io.wcm.devops.jenkins.pipeline.versioning.ComparableVersion
 import io.wcm.devops.jenkins.pipeline.versioning.IntegerItem
 import io.wcm.devops.jenkins.pipeline.versioning.ListItem
 import io.wcm.devops.jenkins.pipeline.versioning.StringItem
+import net.sf.json.JSON
 import org.jenkinsci.plugins.workflow.cps.DSL
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_ARGUMENTS
@@ -53,8 +54,8 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_USER
 // job properties
 
 properties([
-    disableConcurrentBuilds(),
-    pipelineTriggers([pollSCM('H * * * * ')])
+  disableConcurrentBuilds(),
+  pipelineTriggers([pollSCM('H * * * * ')])
 ])
 
 Logger.init(this, LogLevel.INFO)
@@ -64,11 +65,45 @@ node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.credentials") {
     integrationTestUtils.runTest("Credential") {
-      Credential credential = new Credential("pattern", "id", "comment", "userName")
+      Credential credential
+
+      credential = new Credential("pattern", "id", "comment", "userName")
       integrationTestUtils.assertEquals("pattern", credential.getPattern())
+      integrationTestUtils.assertEquals("id", credential.getId())
+      integrationTestUtils.assertEquals("comment", credential.getComment())
+      integrationTestUtils.assertEquals("userName", credential.getUserName())
+
+      credential = new Credential("pattern", "id", "comment")
+      integrationTestUtils.assertEquals("pattern", credential.getPattern())
+      integrationTestUtils.assertEquals("id", credential.getId())
+      integrationTestUtils.assertEquals("comment", credential.getComment())
+      integrationTestUtils.assertEquals(null, credential.getUserName())
+
+      credential = new Credential("pattern", "id")
+      integrationTestUtils.assertEquals("pattern", credential.getPattern())
+      integrationTestUtils.assertEquals("id", credential.getId())
+      integrationTestUtils.assertEquals(null, credential.getComment())
+      integrationTestUtils.assertEquals(null, credential.getUserName())
+    }
+    integrationTestUtils.runTest("CredentialConstants") {
+      log.info(CredentialConstants.SCM_CREDENTIALS_PATH, CredentialConstants.SCM_CREDENTIALS_PATH)
+      log.info(CredentialConstants.HTTP_CREDENTIALS_PATH, CredentialConstants.HTTP_CREDENTIALS_PATH)
+      log.info(CredentialConstants.SCM_CREDENTIALS_PATH, CredentialConstants.SSH_CREDENTIALS_PATH)
     }
     integrationTestUtils.runTest("CredentialParser") {
       CredentialParser credentialParser = new CredentialParser()
+      String jsonString = '''
+        [
+          {
+            "pattern": "jsonPattern",
+            "id": "jsonId",
+            "comment": "jsonComment",
+            "username": "jsonUsername"
+          }
+        ]
+      '''
+      JSON credentialJson = readJSON(text: jsonString)
+      credentialParser.parse(credentialJson)
     }
   }
 
@@ -112,15 +147,15 @@ node() {
     integrationTestUtils.runTest("ScpCommandBuilderImpl") {
       ScpCommandBuilderImpl scpCommandBuilder = new ScpCommandBuilderImpl((DSL) this.steps)
       Map configTemplate = [
-          (SCP_HOST)          : "testhost",
-          (SCP_PORT)          : null,
-          (SCP_USER)          : null,
-          (SCP_ARGUMENTS)     : [],
-          (SCP_RECURSIVE)     : false,
-          (SCP_SOURCE)        : "/path/to/source/*",
-          (SCP_DESTINATION)   : "/path/to/destination",
-          (SCP_EXECUTABLE)    : null,
-          (SCP_HOST_KEY_CHECK): false
+        (SCP_HOST)          : "testhost",
+        (SCP_PORT)          : null,
+        (SCP_USER)          : null,
+        (SCP_ARGUMENTS)     : [],
+        (SCP_RECURSIVE)     : false,
+        (SCP_SOURCE)        : "/path/to/source/*",
+        (SCP_DESTINATION)   : "/path/to/destination",
+        (SCP_EXECUTABLE)    : null,
+        (SCP_HOST_KEY_CHECK): false
       ]
 
       scpCommandBuilder.applyConfig(configTemplate)
@@ -194,49 +229,49 @@ node() {
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.maps") {
     integrationTestUtils.runTest("MapUtils") {
       Map map1 = [
-          node1: [
-              subnode11: [
-                  prop111: "value111",
-                  prop112: "value112",
-              ],
-              prop1    : 1
+        node1: [
+          subnode11: [
+            prop111: "value111",
+            prop112: "value112",
           ],
-          node2: [
-              prop1    : 21,
-              subnode21: [
-                  prop21: "value21"
-              ]
+          prop1    : 1
+        ],
+        node2: [
+          prop1    : 21,
+          subnode21: [
+            prop21: "value21"
           ]
+        ]
       ]
       Map map2 = [
-          node1: [
-              subnode11: [
-                  prop111: "value111NEW",
-                  prop113: "value113"
-              ],
-              prop2    : 12
+        node1: [
+          subnode11: [
+            prop111: "value111NEW",
+            prop113: "value113"
           ],
-          node2: [
-              prop1: "21NEW",
-          ]
+          prop2    : 12
+        ],
+        node2: [
+          prop1: "21NEW",
+        ]
       ]
 
       Map expected = [
-          node1: [
-              subnode11: [
-                  prop111: "value111NEW",
-                  prop112: "value112",
-                  prop113: "value113"
-              ],
-              prop1    : 1,
-              prop2    : 12
+        node1: [
+          subnode11: [
+            prop111: "value111NEW",
+            prop112: "value112",
+            prop113: "value113"
           ],
-          node2: [
-              prop1    : "21NEW",
-              subnode21: [
-                  prop21: "value21"
-              ]
+          prop1    : 1,
+          prop2    : 12
+        ],
+        node2: [
+          prop1    : "21NEW",
+          subnode21: [
+            prop21: "value21"
           ]
+        ]
       ]
 
       Map actual = MapUtils.merge(map1, map2)
@@ -286,13 +321,13 @@ node() {
   }
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
     List<String> versionQualifier =
-        ["1-alpha2snapshot", "1-alpha2", "1-alpha-123", "1-beta-2", "1-beta123", "1-m2", "1-m11", "1-rc", "1-cr2",
-         "1-rc123", "1-SNAPSHOT", "1", "1-sp", "1-sp2", "1-sp123", "1-abc", "1-def", "1-pom-1", "1-1-snapshot",
-         "1-1", "1-2", "1-123"]
+      ["1-alpha2snapshot", "1-alpha2", "1-alpha-123", "1-beta-2", "1-beta123", "1-m2", "1-m11", "1-rc", "1-cr2",
+       "1-rc123", "1-SNAPSHOT", "1", "1-sp", "1-sp2", "1-sp123", "1-abc", "1-def", "1-pom-1", "1-1-snapshot",
+       "1-1", "1-2", "1-123"]
 
     List<String> versionNumber =
-        ["2.0", "2-1", "2.0.a", "2.0.0.a", "2.0.2", "2.0.123", "2.1.0", "2.1-a", "2.1b", "2.1-c", "2.1-1", "2.1.0.1",
-         "2.2", "2.123", "11.a2", "11.a11", "11.b2", "11.b11", "11.m2", "11.m11", "11", "11.a", "11b", "11c", "11m"]
+      ["2.0", "2-1", "2.0.a", "2.0.0.a", "2.0.2", "2.0.123", "2.1.0", "2.1-a", "2.1b", "2.1-c", "2.1-1", "2.1.0.1",
+       "2.2", "2.123", "11.a2", "11.a11", "11.b2", "11.b11", "11.m2", "11.m11", "11", "11.a", "11b", "11c", "11m"]
 
 
     integrationTestUtils.runTest("IntegerItem") {
