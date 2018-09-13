@@ -120,7 +120,27 @@ node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.managedfiles") {
     integrationTestUtils.runTest("ManagedFile") {
-      ManagedFile managedFile = new ManagedFile("pattern", "id", "comment")
+      ManagedFile managedFile
+
+      managedFile = new ManagedFile("pattern", "id", "name", "comment")
+      integrationTestUtils.assertEquals("pattern", managedFile.getPattern())
+      integrationTestUtils.assertEquals("id", managedFile.getId())
+      integrationTestUtils.assertEquals("name", managedFile.getName())
+      integrationTestUtils.assertEquals("comment", managedFile.getComment())
+
+      managedFile = new ManagedFile("pattern", "id", "name")
+      integrationTestUtils.assertEquals("pattern", managedFile.getPattern())
+      integrationTestUtils.assertEquals("id", managedFile.getId())
+      integrationTestUtils.assertEquals("name", managedFile.getName())
+      integrationTestUtils.assertEquals(null, managedFile.getComment())
+
+      managedFile = new ManagedFile("pattern", "id")
+      integrationTestUtils.assertEquals("pattern", managedFile.getPattern())
+      integrationTestUtils.assertEquals("id", managedFile.getId())
+      integrationTestUtils.assertEquals(null, managedFile.getName())
+      integrationTestUtils.assertEquals(null, managedFile.getComment())
+
+
     }
     integrationTestUtils.runTest("ManagedFileParser") {
       ManagedFileParser managedFileParser = new ManagedFileParser()
