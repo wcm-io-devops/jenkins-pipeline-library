@@ -54,10 +54,8 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
 
   @NonCPS
   void parseVersion(String version) {
-    log.trace("parseVersion '$version'")
     this.value = version
 
-    log.trace("parseVersion pos 1")
     items = new ListItem()
     version = version.toLowerCase()
 
