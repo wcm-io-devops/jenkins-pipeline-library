@@ -383,13 +383,6 @@ node() {
       // set loglevel to all
       Logger.setLevel(LogLevel.ALL)
 
-      LogLevel testLogLevel = LogLevel.ALL
-      testLogLevel = LogLevel.DEBUG
-      testLogLevel = LogLevel.DEPRECATED
-      testLogLevel = LogLevel.ERROR
-      testLogLevel = LogLevel.WARN
-      testLogLevel = LogLevel.DEBUG
-
       test.trace("trace")
       test.debug("debug")
       test.info("info")
@@ -408,6 +401,13 @@ node() {
     integrationTestUtils.runTest("LogLevel") {
       LogLevel test = LogLevel.FATAL
       integrationTestUtils.assertEquals(LogLevel.FATAL, test)
+
+      LogLevel testLogLevel = LogLevel.ALL
+      testLogLevel = LogLevel.DEBUG
+      testLogLevel = LogLevel.DEPRECATED
+      testLogLevel = LogLevel.ERROR
+      testLogLevel = LogLevel.WARN
+      testLogLevel = LogLevel.DEBUG
     }
   }
 
