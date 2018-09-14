@@ -314,6 +314,9 @@ node() {
 
       scpCommandBuilder = new ScpCommandBuilderImpl((DSL) this.steps, "scp")
       scpCommandBuilder.setExecutable("scp")
+      scpCommandBuilder.setHost("host")
+      scpCommandBuilder.setDestinationPath("destinationPath")
+      scpCommandBuilder.setSourcePath("sourcePath")
       scpCommandBuilder.addArgument("arg0")
       scpCommandBuilder.addArgument("arg1","arg1Value")
       scpCommandBuilder.addArguments(["arg2", "arg3"])
