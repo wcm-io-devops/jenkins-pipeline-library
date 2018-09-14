@@ -24,11 +24,11 @@ package io.wcm.devops.jenkins.pipeline.utils
  */
 class ConfigConstants {
 
-  public static final ANSI_COLOR = "ansiColor"
-  public static final ANSI_COLOR_XTERM = "xterm"
-  public static final ANSI_COLOR_GNOME_TERMINAL = "gnome-terminal"
-  public static final ANSI_COLOR_VGA = "vga"
-  public static final ANSI_COLOR_CSS = "css"
+  public static final String ANSI_COLOR = "ansiColor"
+  public static final String ANSI_COLOR_XTERM = "xterm"
+  public static final String ANSI_COLOR_GNOME_TERMINAL = "gnome-terminal"
+  public static final String ANSI_COLOR_VGA = "vga"
+  public static final String ANSI_COLOR_CSS = "css"
 
   public static final String ANSIBLE = "ansible"
   public static final String ANSIBLE_COLORIZED = "colorized"
