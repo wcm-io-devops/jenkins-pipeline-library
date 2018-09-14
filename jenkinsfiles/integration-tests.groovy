@@ -45,6 +45,7 @@ import net.sf.json.JSON
 import org.jenkinsci.plugins.workflow.cps.DSL
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
 
 // job properties
 
