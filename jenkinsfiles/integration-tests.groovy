@@ -44,15 +44,7 @@ import io.wcm.devops.jenkins.pipeline.versioning.StringItem
 import net.sf.json.JSON
 import org.jenkinsci.plugins.workflow.cps.DSL
 
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_ARGUMENTS
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_DESTINATION
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_EXECUTABLE
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_HOST
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_HOST_KEY_CHECK
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_PORT
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_RECURSIVE
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_SOURCE
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCP_USER
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 // job properties
 
