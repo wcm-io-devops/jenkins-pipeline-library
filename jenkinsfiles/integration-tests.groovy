@@ -340,9 +340,24 @@ node() {
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.tools") {
     integrationTestUtils.runTest("ansible.Role") {
       Role role1 = new Role("src")
+      role1.isValid()
+      role1.isGalaxyRole()
+      role1.isScmRole()
+      log.info(Role.SCM_GIT,Role.SCM_GIT)
     }
     integrationTestUtils.runTest("ansible.RoleRequirements") {
-      RoleRequirements roleRequirements = new RoleRequirements([])
+      List ymlContent = [
+        [
+          src: "https://github.com/wcm-io-devops/ansible-jenkins-pipeline-library.git",
+          scm: "git",
+          name: "wcm_io_devops.jenkins_pipeline_library",
+          version: "1.0.0",
+        ]
+      ]
+      RoleRequirements roleRequirements = new RoleRequirements(ymlContent)
+      roleRequirements.parse()
+      roleRequirements.getCheckoutConfigs()
+      roleRequirements.getRoles()
     }
   }
 
