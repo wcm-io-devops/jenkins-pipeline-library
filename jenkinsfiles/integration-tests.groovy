@@ -279,7 +279,7 @@ node() {
       mavenCommandBuilder.addDefine("define1")
       mavenCommandBuilder.addDefine("define2","define2Value")
       mavenCommandBuilder.addDefines("-Ddefine3 -Ddefine4=define4Value")
-      mavenCommandBuilder.addDefines([ define5: defineValue5, define6: null ])
+      mavenCommandBuilder.addDefines([ define5: "defineValue5", define6: null ])
       mavenCommandBuilder.applyConfig((MAVEN) : [
         (MAVEN_ARGUMENTS): [ "-B", "-U" ],
         (MAVEN_DEFINES): ["name": "value", "flag": null],
