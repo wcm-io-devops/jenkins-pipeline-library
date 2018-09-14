@@ -231,10 +231,19 @@ node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.shell") {
     integrationTestUtils.runTest("CommandBuilderImpl") {
-      CommandBuilderImpl commandBuilder = new CommandBuilderImpl((DSL) this.steps, "somecommand")
-      commandBuilder.addArguments(["1", "2"])
-      commandBuilder.addPathArgument("argName", "argValue")
+      CommandBuilderImpl commandBuilder
+      commandBuilder = new CommandBuilderImpl((DSL) this.steps, "somecommand")
+      commandBuilder. setExecutable("someexecutable")
+      commandBuilder.addArgument("arg0")
+      commandBuilder.addArgument("arg1","arg1Value")
+      commandBuilder.addArguments(["arg2", "arg3"])
+      commandBuilder.addArguments("arg4 arg5")
+      commandBuilder.addPathArgument("pathArg0")
+      commandBuilder.addPathArgument("pathArg1", "pathArg1Value")
       commandBuilder.build()
+      commandBuilder.reset()
+
+      commandBuilder = new CommandBuilderImpl((DSL) this.steps)
     }
     integrationTestUtils.runTest("GitCommandBuilderImpl") {
       GitCommandBuilderImpl gitCommandBuilder = new GitCommandBuilderImpl((DSL) this.steps)
