@@ -44,7 +44,7 @@ class Logger implements Serializable {
   /**
    * The log level
    */
-  static LogLevel level = LogLevel.fromString("trace")
+  static LogLevel level = LogLevel.fromInteger(2)
 
   /**
    * The name of the logger
