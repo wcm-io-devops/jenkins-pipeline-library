@@ -174,7 +174,7 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
   @NonCPS
   MavenCommandBuilderImpl addDefine(String defineName) {
     if (defineName == null) return this
-    this.addArgument("-D".concat(defineName))
+    this.addArgument("-D$defineName".toString())
     return this
   }
 
@@ -222,7 +222,7 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
     if (defineValue == null) {
       this.addDefine(defineName)
     } else {
-      this.addArgument("-D".concat(defineName).concat("=").concat(defineValue.toString()))
+      this.addArgument("-D${defineName}=${defineValue}".toString())
     }
     return this
   }
