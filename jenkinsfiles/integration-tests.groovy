@@ -82,6 +82,7 @@ node() {
       integrationTestUtils.assertNull(credential.getUserName())
     }
     integrationTestUtils.runTest("CredentialConstants") {
+      CredentialConstants credentialConstants = new CredentialConstants()
       log.info(CredentialConstants.SCM_CREDENTIALS_PATH, CredentialConstants.SCM_CREDENTIALS_PATH)
       log.info(CredentialConstants.HTTP_CREDENTIALS_PATH, CredentialConstants.HTTP_CREDENTIALS_PATH)
       log.info(CredentialConstants.SCM_CREDENTIALS_PATH, CredentialConstants.SSH_CREDENTIALS_PATH)
@@ -105,6 +106,7 @@ node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.environment") {
     integrationTestUtils.runTest("EnvironmentConstants") {
+      EnvironmentConstants environmentConstants = new EnvironmentConstants()
       log.info(EnvironmentConstants.BRANCH_NAME,  EnvironmentConstants.BRANCH_NAME)
       log.info(EnvironmentConstants.GIT_BRANCH,  EnvironmentConstants.GIT_BRANCH)
       log.info(EnvironmentConstants.SCM_URL,  EnvironmentConstants.SCM_URL)
@@ -136,6 +138,7 @@ node() {
       integrationTestUtils.assertNull(managedFile.getComment())
     }
     integrationTestUtils.runTest("ManagedFileConstants") {
+      ManagedFileConstants managedFileConstants = new ManagedFileConstants()
       log.info(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH,  ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH)
       log.info(ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV,  ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV)
       log.info(ManagedFileConstants.MAVEN_SETTINS_PATH,  ManagedFileConstants.MAVEN_SETTINS_PATH)
@@ -480,6 +483,7 @@ node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils") {
     integrationTestUtils.runTest("ConfigConstants") {
+      ConfigConstants configConstants = new ConfigConstants()
       log.info(ConfigConstants.ANSI_COLOR, ConfigConstants.ANSI_COLOR)
       log.info(ConfigConstants.ANSI_COLOR_XTERM, ConfigConstants.ANSI_COLOR_XTERM)
       log.info(ConfigConstants.ANSI_COLOR_GNOME_TERMINAL, ConfigConstants.ANSI_COLOR_GNOME_TERMINAL)
