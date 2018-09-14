@@ -589,10 +589,13 @@ node() {
     }
     integrationTestUtils.runTest("TypeUtils") {
       TypeUtils typeUtils = new TypeUtils()
-      integrationTestUtils.assertEquals(true, typeUtils.isMap([:]))
-      integrationTestUtils.assertEquals(false, typeUtils.isMap("noMap"))
-      integrationTestUtils.assertEquals(true, typeUtils.isList([]))
-      integrationTestUtils.assertEquals(false, typeUtils.isList("noList"))
+      integrationTestUtils.assertTrue(typeUtils.isMap([:]))
+      integrationTestUtils.assertFalse(typeUtils.isMap("noMap"))
+      integrationTestUtils.assertTrue(typeUtils.isList([]))
+      integrationTestUtils.assertFalse(typeUtils.isList("noList"))
+      integrationTestUtils.assertTrue(typeUtils.isComparableVersion(new ComparableVersion("1.0")))
+      integrationTestUtils.assertFalse(typeUtils.isComparableVersion("noComparableVersion"))
+
     }
   }
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
