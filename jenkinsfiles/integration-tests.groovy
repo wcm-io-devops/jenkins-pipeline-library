@@ -272,17 +272,20 @@ node() {
       mavenCommandBuilder.addDefine("define2","define2Value")
       mavenCommandBuilder.addDefines("-Ddefine3 -Ddefine4=define4Value")
       mavenCommandBuilder.addDefines([ define5: "defineValue5", define6: null ])
-      mavenCommandBuilder.applyConfig((MAVEN) : [
-        (MAVEN_ARGUMENTS): [ "-B", "-U" ],
-        (MAVEN_DEFINES): ["name": "value", "flag": null],
-        (MAVEN_EXECUTABLE): "/path/to/maven/bin",
-        (MAVEN_GLOBAL_SETTINGS): "managed-file-id",
-        (MAVEN_GOALS): ["goal1", "goal2"],
-        (MAVEN_INJECT_PARAMS): false,
-        (MAVEN_POM): "/path/to/pom.xml",
-        (MAVEN_PROFILES): ["profile1", "profile2"],
-        (MAVEN_SETTINGS): "managed-file-id",
-      ])
+      Map mvnConfig = [
+        (MAVEN) : [
+          (MAVEN_ARGUMENTS): [ "-B", "-U" ],
+          (MAVEN_DEFINES): ["name": "value", "flag": null],
+          (MAVEN_EXECUTABLE): "/path/to/maven/bin",
+          (MAVEN_GLOBAL_SETTINGS): "managed-file-id",
+          (MAVEN_GOALS): ["goal1", "goal2"],
+          (MAVEN_INJECT_PARAMS): false,
+          (MAVEN_POM): "/path/to/pom.xml",
+          (MAVEN_PROFILES): ["profile1", "profile2"],
+          (MAVEN_SETTINGS): "managed-file-id",
+        ]
+      ]
+      mavenCommandBuilder.applyConfig(mvnConfig)
       mavenCommandBuilder.build()
       mavenCommandBuilder.reset()
 
