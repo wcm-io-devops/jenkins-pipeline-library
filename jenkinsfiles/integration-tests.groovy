@@ -247,15 +247,57 @@ node() {
     }
     integrationTestUtils.runTest("GitCommandBuilderImpl") {
       GitCommandBuilderImpl gitCommandBuilder = new GitCommandBuilderImpl((DSL) this.steps)
-      gitCommandBuilder.addArguments(["1", "2"])
-      gitCommandBuilder.addPathArgument("argName", "argValue")
+      gitCommandBuilder.setExecutable("git")
+      gitCommandBuilder.addArgument("arg0")
+      gitCommandBuilder.addArgument("arg1","arg1Value")
+      gitCommandBuilder.addArguments(["arg2", "arg3"])
+      gitCommandBuilder.addArguments("arg4 arg5")
+      gitCommandBuilder.addPathArgument("pathArg0")
+      gitCommandBuilder.addPathArgument("pathArg1", "pathArg1Value")
       gitCommandBuilder.build()
+      gitCommandBuilder.reset()
     }
     integrationTestUtils.runTest("MavenCommandBuilderImpl") {
-      MavenCommandBuilderImpl mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps)
-      mavenCommandBuilder.addArguments(["1", "2"])
-      mavenCommandBuilder.addPathArgument("argName", "argValue")
+      MavenCommandBuilderImpl mavenCommandBuilder
+      mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps)
+      mavenCommandBuilder.setExecutable("mvn")
+      mavenCommandBuilder.addArgument("arg0")
+      mavenCommandBuilder.addArgument("arg1","arg1Value")
+      mavenCommandBuilder.addArguments(["arg2", "arg3"])
+      mavenCommandBuilder.addArguments("arg4 arg5")
+      mavenCommandBuilder.addPathArgument("pathArg0")
+      mavenCommandBuilder.addPathArgument("pathArg1", "pathArg1Value")
+      mavenCommandBuilder.setGlobalSettings("globalSettingsPath")
+      mavenCommandBuilder.setGlobalSettingsId("globalSettingsId")
+      mavenCommandBuilder.setSettings("settingsPath")
+      mavenCommandBuilder.setSettingsId("settingsId")
+      mavenCommandBuilder.addProfiles("profile1,profile2")
+      mavenCommandBuilder.addProfiles(["profile3","profile4"])
+      mavenCommandBuilder.setGoals("goal1 goal2")
+      mavenCommandBuilder.setGoals(["goal3","goal4"])
+      mavenCommandBuilder.setPom("pompath/pom.xml")
+      mavenCommandBuilder.addDefine("define1")
+      mavenCommandBuilder.addDefine("define2","define2Value")
+      mavenCommandBuilder.addDefines("-Ddefine3 -Ddefine4=define4Value")
+      mavenCommandBuilder.addDefines([ define5: defineValue5, define6: null ])
+      mavenCommandBuilder.applyConfig((MAVEN) : [
+        (MAVEN_ARGUMENTS): [ "-B", "-U" ],
+        (MAVEN_DEFINES): ["name": "value", "flag": null],
+        (MAVEN_EXECUTABLE): "/path/to/maven/bin",
+        (MAVEN_GLOBAL_SETTINGS): "managed-file-id",
+        (MAVEN_GOALS): ["goal1", "goal2"],
+        (MAVEN_INJECT_PARAMS): false,
+        (MAVEN_POM): "/path/to/pom.xml",
+        (MAVEN_PROFILES): ["profile1", "profile2"],
+        (MAVEN_SETTINGS): "managed-file-id",
+      ])
       mavenCommandBuilder.build()
+      mavenCommandBuilder.reset()
+
+      mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, "mvn")
+
+      mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, [:])
+      mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, [:], "mvn")
     }
     integrationTestUtils.runTest("ScpCommandBuilderImpl") {
       ScpCommandBuilderImpl scpCommandBuilder = new ScpCommandBuilderImpl((DSL) this.steps)
@@ -272,7 +314,21 @@ node() {
       ]
 
       scpCommandBuilder.applyConfig(configTemplate)
+
       integrationTestUtils.assertEquals('scp -P 22 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /path/to/source/* testhost:"/path/to/destination"', scpCommandBuilder.build())
+
+      scpCommandBuilder = new ScpCommandBuilderImpl((DSL) this.steps, "scp")
+      scpCommandBuilder.setExecutable("scp")
+      scpCommandBuilder.addArgument("arg0")
+      scpCommandBuilder.addArgument("arg1","arg1Value")
+      scpCommandBuilder.addArguments(["arg2", "arg3"])
+      scpCommandBuilder.addArguments("arg4 arg5")
+      scpCommandBuilder.addPathArgument("pathArg0")
+      scpCommandBuilder.addPathArgument("pathArg1", "pathArg1Value")
+      scpCommandBuilder.build()
+      scpCommandBuilder.reset()
+      Credential scpCredential1 = new Credential("pattern","id","comment", "username")
+      scpCommandBuilder.setCredential(scpCredential1)
     }
     integrationTestUtils.runTest("ShellUtils") {
       String actual = ShellUtils.escapePath("folder with spaces/subfolder with spaces/filename with spaces.txt")
