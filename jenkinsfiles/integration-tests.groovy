@@ -329,6 +329,9 @@ node() {
       scpCommandBuilder.setCredential(scpCredential1)
     }
     integrationTestUtils.runTest("ShellUtils") {
+      ShellUtils.trimDoubleQuote('""val"ue""')
+      ShellUtils.trimSingleQuote("''val'ue''")
+      ShellUtils.escapeShellCharacters("\\ '\"!#\$&(),;<>?[]^`{|}")
       String actual = ShellUtils.escapePath("folder with spaces/subfolder with spaces/filename with spaces.txt")
       integrationTestUtils.assertEquals('folder\\ with\\ spaces/subfolder\\ with\\ spaces/filename\\ with\\ spaces.txt', actual)
     }
