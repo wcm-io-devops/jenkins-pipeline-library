@@ -47,7 +47,6 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
   @Override
   @NonCPS
   int compareTo(ComparableVersion comparableVersion) {
-    log.trace("compareTo")
     return items.compareTo(comparableVersion.items)
   }
 
