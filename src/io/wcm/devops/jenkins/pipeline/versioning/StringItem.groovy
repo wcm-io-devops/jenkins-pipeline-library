@@ -95,7 +95,7 @@ class StringItem implements Item, Serializable {
   @Override
   @NonCPS
   int getType() {
-    return STRING_ITEM
+    return Item.STRING_ITEM
   }
 
   @Override

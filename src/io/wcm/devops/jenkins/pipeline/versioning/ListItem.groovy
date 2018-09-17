@@ -72,7 +72,7 @@ class ListItem extends ArrayList<Item> implements Item {
   @Override
   @NonCPS
   int getType() {
-    return LIST_ITEM
+    return Item.LIST_ITEM
   }
 
   @Override
