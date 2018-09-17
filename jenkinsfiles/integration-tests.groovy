@@ -59,20 +59,9 @@ Logger log = new Logger(this)
 
 // test functions
 
-Comparable newComparable(String version) {
-  ComparableVersion ret = new ComparableVersion(version)
-  String canonical = ret.getCanonical()
-  String parsedCanonical = new ComparableVersion(canonical).getCanonical()
-//
-//  integrationTestUtils.assertEquals("canonical( " + version + " ) = " + canonical + " -> canonical: " + parsedCanonical, canonical,
-//    parsedCanonical)
-
-  return ret
-}
-
 def assertEqualVersion(String v1, String v2) {
-  Comparable c1 = newComparable(v1)
-  Comparable c2 = newComparable(v2)
+  ComparableVersion c1 = new ComparableVersion(v1)
+  ComparableVersion c2 = new ComparableVersion(v2)
   integrationTestUtils.assertTrue(c1.compareTo(c2) == 0, "expected " + v1 + " == " + v2)
   //assertTrue(c2.compareTo(c1) == 0, "expected " + v2 + " == " + v1)
   //assertTrue(c1.hashCode() == c2.hashCode(), "expected same hashcode for " + v1 + " and " + v2)
