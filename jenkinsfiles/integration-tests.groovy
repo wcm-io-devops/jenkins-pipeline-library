@@ -57,6 +57,25 @@ properties([
 Logger.init(this, LogLevel.INFO)
 Logger log = new Logger(this)
 
+// test functions
+
+def assertEqualVersion(String v1, String v2) {
+  Logger equalsLogger = new Logger("assertEqualVersion")
+  equalsLogger.debug("'$v1' == '$v2'")
+  ComparableVersion c1 = new ComparableVersion(v1)
+  ComparableVersion c2 = new ComparableVersion(v2)
+  integrationTestUtils.assertTrue(c1.compareTo(c2) == 0, "expected " + v1 + " == " + v2)
+}
+
+def assertVersionsOrder(String v1, String v2) {
+  Logger versionsOrderLogger = new Logger("assertVersionsOrder")
+  ComparableVersion c1 = new ComparableVersion(v1)
+  ComparableVersion c2 = new ComparableVersion(v2)
+  integrationTestUtils.assertTrue(c1.compareTo(c2) < 0, "expected " + v1 + " < " + v2)
+  integrationTestUtils.assertTrue(c2.compareTo(c1) > 0, "expected " + v2 + " > " + v1)
+}
+
+
 node() {
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.credentials") {
@@ -603,6 +622,9 @@ node() {
     }
   }
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
+
+
+
     List<String> versionQualifier =
       ["1-alpha2snapshot", "1-alpha2", "1-alpha-123", "1-beta-2", "1-beta123", "1-m2", "1-m11", "1-rc", "1-cr2",
        "1-rc123", "1-SNAPSHOT", "1", "1-sp", "1-sp2", "1-sp123", "1-abc", "1-def", "1-pom-1", "1-1-snapshot",
@@ -636,7 +658,81 @@ node() {
         }
     }
 
+    integrationTestUtils.runTest("ComparableVersion versions should be equal") {
+      assertEqualVersion("1", "1")
+      assertEqualVersion("1", "1.0")
+      assertEqualVersion("1", "1.0.0")
+      assertEqualVersion("1.0", "1.0.0")
+      assertEqualVersion("1", "1-0")
+      assertEqualVersion("1", "1.0-0")
+      assertEqualVersion("1.0", "1.0-0")
 
+      assertEqualVersion("1a", "1-a")
+      assertEqualVersion("1a", "1.0-a")
+      assertEqualVersion("1a", "1.0.0-a")
+      assertEqualVersion("1.0a", "1-a")
+      assertEqualVersion("1.0.0a", "1-a")
+      assertEqualVersion("1x", "1-x")
+      assertEqualVersion("1x", "1.0-x")
+      assertEqualVersion("1x", "1.0.0-x")
+      assertEqualVersion("1.0x", "1-x")
+      assertEqualVersion("1.0.0x", "1-x")
+
+      // aliases
+      assertEqualVersion("1ga", "1")
+      assertEqualVersion("1final", "1")
+      assertEqualVersion("1cr", "1rc")
+
+      // special "aliases" a, b and m for alpha, beta and milestone
+      assertEqualVersion("1a1", "1-alpha-1")
+      assertEqualVersion("1b2", "1-beta-2")
+      assertEqualVersion("1m3", "1-milestone-3")
+
+      // case insensitive
+      assertEqualVersion("1X", "1x")
+      assertEqualVersion("1A", "1a")
+      assertEqualVersion("1B", "1b")
+      assertEqualVersion("1M", "1m")
+      assertEqualVersion("1Ga", "1")
+      assertEqualVersion("1GA", "1")
+      assertEqualVersion("1Final", "1")
+      assertEqualVersion("1FinaL", "1")
+      assertEqualVersion("1FINAL", "1")
+      assertEqualVersion("1Cr", "1Rc")
+      assertEqualVersion("1cR", "1rC")
+      assertEqualVersion("1m3", "1Milestone3")
+      assertEqualVersion("1m3", "1MileStone3")
+      assertEqualVersion("1m3", "1MILESTONE3")
+    }
+    integrationTestUtils.runTest("ComparableVersion version order assertions") {
+      assertVersionsOrder("1", "2")
+      assertVersionsOrder("1.5", "2")
+      assertVersionsOrder("1", "2.5")
+      assertVersionsOrder("1.0", "1.1")
+      assertVersionsOrder("1.1", "1.2")
+      assertVersionsOrder("1.0.0", "1.1")
+      assertVersionsOrder("1.0.1", "1.1")
+      assertVersionsOrder("1.1", "1.2.0")
+
+      assertVersionsOrder("1.0-alpha-1", "1.0")
+      assertVersionsOrder("1.0-alpha-1", "1.0-alpha-2")
+      assertVersionsOrder("1.0-alpha-1", "1.0-beta-1")
+
+      assertVersionsOrder("1.0-beta-1", "1.0-SNAPSHOT")
+      assertVersionsOrder("1.0-SNAPSHOT", "1.0")
+      assertVersionsOrder("1.0-alpha-1-SNAPSHOT", "1.0-alpha-1")
+
+      assertVersionsOrder("1.0", "1.0-1")
+      assertVersionsOrder("1.0-1", "1.0-2")
+      assertVersionsOrder("1.0.0", "1.0-1")
+
+      assertVersionsOrder("2.0-1", "2.0.1")
+      assertVersionsOrder("2.0.1-klm", "2.0.1-lmn")
+      assertVersionsOrder("2.0.1", "2.0.1-xyz")
+
+      assertVersionsOrder("2.0.1", "2.0.1-123")
+      assertVersionsOrder("2.0.1-xyz", "2.0.1-123")
+    }
   }
 
   stage("Result overview") {

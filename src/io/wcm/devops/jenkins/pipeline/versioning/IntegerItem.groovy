@@ -68,7 +68,7 @@ class IntegerItem implements Item, Serializable {
   @Override
   @NonCPS
   int getType() {
-    return INTEGER_ITEM
+    return Item.INTEGER_ITEM
   }
 
   @Override
