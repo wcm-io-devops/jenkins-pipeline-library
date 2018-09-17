@@ -73,18 +73,18 @@ It is recommended to use folder based shared library!
   * Default Version = `master` (use either master or a tag)
   * `Load implicitly` should be off, so you have to explicitly load the
     pipeline library
-  * 'Allow default version to be overridden' should be on.
-  * 'Include @Library changes in job recent changes' is up to you and
+  * `Allow default version to be overridden` should be on.
+  * `Include @Library changes in job recent changes` is up to you and
     your requirements
   * Retrieval Method is `Modern SCM` and we are checking out from a git
     repository
-  * 'Discover branches' allows you to specify a branch in the 'Default
-    version' field.
-  * 'Discover tags' allows you to specify a tag in the 'Default
-    version' field.
-  * 'Check out to matching local branch' will set the name of the
-    checkout branch to the value of 'Default version' field.
-  * 'Ignore on push notifications' will avoid build triggered by changes
+  * `Discover branches` allows you to specify a branch in the `Default
+    version` field.
+  * `Discover tags` allows you to specify a tag in the `Default version`
+    field.
+  * `Check out to matching local branch` will set the name of the
+    checkout branch to the value of `Default version` field.
+  * `Ignore on push notifications` will avoid build triggered by changes
     on the pipeline library.
 
 ## Step 2: Use the library in a job
