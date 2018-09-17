@@ -61,11 +61,11 @@ Logger log = new Logger(this)
 
 Comparable newComparable(String version) {
   ComparableVersion ret = new ComparableVersion(version)
-  String canonical = ret.getCanonical()
-  String parsedCanonical = new ComparableVersion(canonical).getCanonical()
-
-  integrationTestUtils.assertEquals("canonical( " + version + " ) = " + canonical + " -> canonical: " + parsedCanonical, canonical,
-    parsedCanonical)
+//  String canonical = ret.getCanonical()
+//  String parsedCanonical = new ComparableVersion(canonical).getCanonical()
+//
+//  integrationTestUtils.assertEquals("canonical( " + version + " ) = " + canonical + " -> canonical: " + parsedCanonical, canonical,
+//    parsedCanonical)
 
   return ret
 }
