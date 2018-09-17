@@ -1,0 +1,36 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<scriptApproval plugin="script-security@1.46">
+  <approvedScriptHashes/>
+  <approvedSignatures>
+    <string>field io.wcm.devops.jenkins.pipeline.utils.logging.Logger name</string>
+    <string>field io.wcm.devops.jenkins.pipeline.versioning.IntegerItem INTEGER_ZER0</string>
+    <string>method java.util.List indexOf java.lang.Object</string>
+    <string>new io.wcm.devops.jenkins.pipeline.utils.TypeUtils</string>
+    <string>new io.wcm.devops.jenkins.pipeline.utils.logging.Logger java.lang.Object</string>
+    <string>new io.wcm.devops.jenkins.pipeline.versioning.IntegerItem</string>
+    <string>new java.util.ArrayList</string>
+    <string>staticField de.provision.cicd.jenkins.pipeline.tools.JDK SUN_JAVA8_JDK</string>
+    <string>staticField de.provision.cicd.jenkins.pipeline.tools.Maven APACHE_MAVEN3</string>
+    <string>staticField de.provision.cicd.jenkins.pipeline.tools.NodeJs NODEJS_6</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel ALL</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel DEBUG</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel DEPRECATED</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel ERROR</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel FATAL</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel INFO</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel NONE</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel TRACE</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel WARN</string>
+    <string>staticField io.wcm.devops.jenkins.pipeline.versioning.StringItem _QUALIFIERS</string>
+    <string>staticMethod io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel $INIT java.lang.Object[]</string>
+    <string>staticMethod io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel fromInteger java.lang.Integer</string>
+    <string>staticMethod io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel fromString java.lang.String</string>
+    <string>staticMethod io.wcm.devops.jenkins.pipeline.utils.logging.Logger getClassName java.lang.Object</string>
+    <string>staticMethod org.jenkinsci.plugins.pipeline.modeldefinition.Utils markStageSkippedForConditional java.lang.String</string>
+  </approvedSignatures>
+  <aclApprovedSignatures/>
+  <approvedClasspathEntries/>
+  <pendingScripts/>
+  <pendingSignatures/>
+  <pendingClasspathEntries/>
+</scriptApproval>
