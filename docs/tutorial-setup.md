@@ -64,23 +64,28 @@ It is recommended to use folder based shared library!
 * Goto https://jenkins.company.com and create a new folder named
 "tutorial".
 * In the configure screen click on "Add" in the Pipeline Libraries
-  section.
-  ![sharedLibrary001](assets/tutorial-setup/shared-library-001.png) and
-  configure the pipeline as in the following screenshot:
+  section.  
+  ![sharedLibrary001](assets/tutorial-setup/shared-library-001.png)
+* configure the pipeline as in the following screenshot:  
   ![sharedLibrary002](assets/tutorial-setup/shared-library-002.png)
 * Explanation:
   * Name = `pipeline-library` (you can of course use your own name here)
   * Default Version = `master` (use either master or a tag)
-  * Retrival Method is `Modern SCM` and we are checking out from a git
+  * `Load implicitly` should be off, so you have to explicitly load the
+    pipeline library
+  * 'Allow default version to be overridden' should be on.
+  * 'Include @Library changes in job recent changes' is up to you and
+    your requirements
+  * Retrieval Method is `Modern SCM` and we are checking out from a git
     repository
-  * Make sure to check `Ignore on push notifications`, enable `Don't
-    trigger a build on commit notifications` and add `Advanced clone
-    behaviors` with `Shallow clone` enabled
-  * The GIT extensions ensure that a new master version of the pipeline
-    library will not
-    * make your Jenkins going crazy by building every using job with an SCM
-      trigger
-    * show the changelog of the pipeline library in your using jobs
+  * 'Discover branches' allows you to specify a branch in the 'Default
+    version' field.
+  * 'Discover tags' allows you to specify a tag in the 'Default
+    version' field.
+  * 'Check out to matching local branch' will set the name of the
+    checkout branch to the value of 'Default version' field.
+  * 'Ignore on push notifications' will avoid build triggered by changes
+    on the pipeline library.
 
 ## Step 2: Use the library in a job
 
