@@ -60,7 +60,8 @@ Logger log = new Logger(this)
 // test functions
 
 def assertEqualVersion(String v1, String v2) {
-  log.debug("assertEqualVersion '$v1' == '$v2'")
+  Logger equalsLogger = new Logger("assertEqualVersion")
+  equalsLogger.debug("'$v1' == '$v2'")
   ComparableVersion c1 = new ComparableVersion(v1)
   ComparableVersion c2 = new ComparableVersion(v2)
   integrationTestUtils.assertTrue(c1.compareTo(c2) == 0, "expected " + v1 + " == " + v2)
