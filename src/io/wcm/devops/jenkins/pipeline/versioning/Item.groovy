@@ -25,9 +25,9 @@ package io.wcm.devops.jenkins.pipeline.versioning
  */
 interface Item extends Serializable {
 
-  int INTEGER_ITEM = 0
-  int STRING_ITEM = 1
-  int LIST_ITEM = 2
+  public static int INTEGER_ITEM = 0
+  public static int STRING_ITEM = 1
+  public static int LIST_ITEM = 2
 
   int compareTo(Item item)
 
