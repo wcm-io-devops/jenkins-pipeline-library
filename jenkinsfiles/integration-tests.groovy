@@ -63,10 +63,6 @@ def assertEqualVersion(String v1, String v2) {
   ComparableVersion c1 = new ComparableVersion(v1)
   ComparableVersion c2 = new ComparableVersion(v2)
   integrationTestUtils.assertTrue(c1.compareTo(c2) == 0, "expected " + v1 + " == " + v2)
-  //assertTrue(c2.compareTo(c1) == 0, "expected " + v2 + " == " + v1)
-  //assertTrue(c1.hashCode() == c2.hashCode(), "expected same hashcode for " + v1 + " and " + v2)
-  //assertTrue(c1.equals(c2), "expected " + v1 + ".equals( " + v2 + " )")
-  //assertTrue(c2.equals(c1), "expected " + v2 + ".equals( " + v1 + " )")
 }
 
 node() {
@@ -653,49 +649,49 @@ node() {
 
     integrationTestUtils.runTest("ComparableVersion versions should be equal") {
         assertEqualVersion("1", "1")
-//      assertEqualVersion("1", "1.0")
-//      assertEqualVersion("1", "1.0.0")
-//      assertEqualVersion("1.0", "1.0.0")
-//      assertEqualVersion("1", "1-0")
-//      assertEqualVersion("1", "1.0-0")
-//      assertEqualVersion("1.0", "1.0-0")
-//
-//      assertEqualVersion("1a", "1-a")
-//      assertEqualVersion("1a", "1.0-a")
-//      assertEqualVersion("1a", "1.0.0-a")
-//      assertEqualVersion("1.0a", "1-a")
-//      assertEqualVersion("1.0.0a", "1-a")
-//      assertEqualVersion("1x", "1-x")
-//      assertEqualVersion("1x", "1.0-x")
-//      assertEqualVersion("1x", "1.0.0-x")
-//      assertEqualVersion("1.0x", "1-x")
-//      assertEqualVersion("1.0.0x", "1-x")
-//
-//      // aliases
-//      assertEqualVersion("1ga", "1")
-//      assertEqualVersion("1final", "1")
-//      assertEqualVersion("1cr", "1rc")
-//
-//      // special "aliases" a, b and m for alpha, beta and milestone
-//      assertEqualVersion("1a1", "1-alpha-1")
-//      assertEqualVersion("1b2", "1-beta-2")
-//      assertEqualVersion("1m3", "1-milestone-3")
-//
-//      // case insensitive
-//      assertEqualVersion("1X", "1x")
-//      assertEqualVersion("1A", "1a")
-//      assertEqualVersion("1B", "1b")
-//      assertEqualVersion("1M", "1m")
-//      assertEqualVersion("1Ga", "1")
-//      assertEqualVersion("1GA", "1")
-//      assertEqualVersion("1Final", "1")
-//      assertEqualVersion("1FinaL", "1")
-//      assertEqualVersion("1FINAL", "1")
-//      assertEqualVersion("1Cr", "1Rc")
-//      assertEqualVersion("1cR", "1rC")
-//      assertEqualVersion("1m3", "1Milestone3")
-//      assertEqualVersion("1m3", "1MileStone3")
-//      assertEqualVersion("1m3", "1MILESTONE3")
+        assertEqualVersion("1", "1.0")
+        assertEqualVersion("1", "1.0.0")
+        assertEqualVersion("1.0", "1.0.0")
+        assertEqualVersion("1", "1-0")
+        assertEqualVersion("1", "1.0-0")
+        assertEqualVersion("1.0", "1.0-0")
+
+        assertEqualVersion("1a", "1-a")
+        assertEqualVersion("1a", "1.0-a")
+        assertEqualVersion("1a", "1.0.0-a")
+        assertEqualVersion("1.0a", "1-a")
+        assertEqualVersion("1.0.0a", "1-a")
+        assertEqualVersion("1x", "1-x")
+        assertEqualVersion("1x", "1.0-x")
+        assertEqualVersion("1x", "1.0.0-x")
+        assertEqualVersion("1.0x", "1-x")
+        assertEqualVersion("1.0.0x", "1-x")
+
+        // aliases
+        assertEqualVersion("1ga", "1")
+        assertEqualVersion("1final", "1")
+        assertEqualVersion("1cr", "1rc")
+
+        // special "aliases" a, b and m for alpha, beta and milestone
+        assertEqualVersion("1a1", "1-alpha-1")
+        assertEqualVersion("1b2", "1-beta-2")
+        assertEqualVersion("1m3", "1-milestone-3")
+
+        // case insensitive
+        assertEqualVersion("1X", "1x")
+        assertEqualVersion("1A", "1a")
+        assertEqualVersion("1B", "1b")
+        assertEqualVersion("1M", "1m")
+        assertEqualVersion("1Ga", "1")
+        assertEqualVersion("1GA", "1")
+        assertEqualVersion("1Final", "1")
+        assertEqualVersion("1FinaL", "1")
+        assertEqualVersion("1FINAL", "1")
+        assertEqualVersion("1Cr", "1Rc")
+        assertEqualVersion("1cR", "1rC")
+        assertEqualVersion("1m3", "1Milestone3")
+        assertEqualVersion("1m3", "1MileStone3")
+        assertEqualVersion("1m3", "1MILESTONE3")
     }
   }
 
