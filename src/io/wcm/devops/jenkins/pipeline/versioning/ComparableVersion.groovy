@@ -145,9 +145,4 @@ class ComparableVersion implements Comparable<ComparableVersion>, Serializable {
     return value
   }
 
-  @NonCPS
-  String getCanonical() {
-    return canonical
-  }
-
 }
