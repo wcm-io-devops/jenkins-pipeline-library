@@ -663,7 +663,10 @@ node() {
     }
 
     integrationTestUtils.runTest("ComparableVersion versions should be equal") {
-      newComparable("1.0-alpha");
+      newComparable("1.0-alpha")
+      ComparableVersion v1 = new ComparableVersion("1")
+      ComparableVersion v2 = new ComparableVersion("1")
+      integrationTestUtils.assertTrue(v1 == v2)
 //      assertEqualVersion("1", "1")
 //      assertEqualVersion("1", "1.0")
 //      assertEqualVersion("1", "1.0.0")
