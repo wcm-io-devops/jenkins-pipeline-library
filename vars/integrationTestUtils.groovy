@@ -23,15 +23,67 @@ import io.wcm.devops.jenkins.pipeline.utils.IntegrationTestHelper
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
- * Assert utitlity function
+ * Assert utility function
  *
  * @param expected Expected object/value
  * @param actual Actual object/value
+ * @param msg Additional message that will be logged
  */
-void assertEquals(expected, actual) {
+void assertEquals(expected, actual, String msg = null) {
     if (expected != actual) {
-        error("Assertion error -> expected: '$expected', got '$actual'")
+        if (msg != null) {
+            error("Assertion error -> expected: '$expected', got '$actual'. Message: '$msg'")
+        } else {
+            error("Assertion error -> expected: '$expected', got '$actual'.")
+        }
     }
+}
+
+/**
+ * Assert utility function
+ *
+ * @param expected Expected object/value
+ * @param actual Actual object/value
+ * @param msg Additional message that will be logged
+ */
+void assertNotEquals(expected, actual, String msg = null) {
+    if (expected == actual) {
+        if (msg != null) {
+            error("Assertion error -> expected: '$expected', got '$actual'. Message: '$msg'")
+        } else {
+            error("Assertion error -> expected: '$expected', got '$actual'.")
+        }
+    }
+}
+
+/**
+ * Assert utility function function
+ *
+ * @param actual Actual object/value
+ * @param msg Additional message that will be logged
+ */
+void assertNull(actual, String msg = null) {
+    this.assertEquals(null, actual, msg)
+}
+
+/**
+ * Assert utility function function
+ *
+ * @param actual Actual object/value
+ * @param msg Additional message that will be logged
+ */
+void assertTrue(actual, String msg = null) {
+    this.assertEquals(true, actual, msg)
+}
+
+/**
+ * Assert utility function function
+ *
+ * @param actual Actual object/value
+ * @param msg Additional message that will be logged
+ */
+void assertFalse(actual, String msg = null) {
+    this.assertEquals(false, actual, msg)
 }
 
 /**

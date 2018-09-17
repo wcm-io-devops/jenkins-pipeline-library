@@ -87,6 +87,7 @@ class ShellUtils implements Serializable {
     // remove ending double quote
     matcher = str =~ '^(.*)"$'
     str = matcher ? matcher[0][1] : str
+    matcher = null
     return str
   }
 
@@ -103,6 +104,7 @@ class ShellUtils implements Serializable {
     str = matcher ? matcher[0][1] : str
     matcher = str =~ "^(.*)'\$"
     str = matcher ? matcher[0][1] : str
+    matcher = null
     return str
   }
 

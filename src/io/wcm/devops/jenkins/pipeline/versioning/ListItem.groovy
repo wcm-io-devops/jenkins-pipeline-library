@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2018 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +20,14 @@
 package io.wcm.devops.jenkins.pipeline.versioning
 
 import com.cloudbees.groovy.cps.NonCPS
-import io.wcm.devops.jenkins.pipeline.utils.ListUtils
 
 /**
  * Jenkins groovy sandbox compatible version of
  * https://github.com/apache/maven/blob/master/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java / ListItem
- *
- * Extending ArrayList<Item> like the Original is not possible due to the sandbox so List interface was implemented.
  */
-class ListItem implements List, Item, Serializable {
+class ListItem extends ArrayList<Item> implements Item {
 
   static final long serialVersionUID = 1L
-
-  ArrayList<Item> list = []
 
   @Override
   @NonCPS
@@ -93,7 +88,7 @@ class ListItem implements List, Item, Serializable {
 
       if (lastItem.isNull()) {
         // remove null trailing items: 0, "", empty list
-        ListUtils.removeAt(list, i)
+        remove(i)
       } else if (!(isListItem(lastItem))) {
         break
       }
@@ -136,212 +131,5 @@ class ListItem implements List, Item, Serializable {
   @NonCPS
   Boolean isListItem(Object object) {
     return false
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  int size() {
-    return list.size()
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean isEmpty() {
-    return list.isEmpty()
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean contains(Object o) {
-    return list.contains(o)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  Iterator iterator() {
-    return list.iterator()
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  Object[] toArray() {
-    return list.toArray()
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean add(Object o) {
-    return list.add(o)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean remove(Object o) {
-    return list.remove(o)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean addAll(Collection c) {
-    return list.addAll(c)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean addAll(int index, Collection c) {
-    return list.addAll(index, c)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  void clear() {
-    list.clear()
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  Object get(int index) {
-    return list.get(index)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  Object set(int index, Object element) {
-    return list.set(index, element)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  void add(int index, Object element) {
-    list.add(index, element)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  Object remove(int index) {
-    return list.remove(index)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  int indexOf(Object o) {
-    return list.indexOf(o)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  int lastIndexOf(Object o) {
-    return list.lastIndexOf(o)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  ListIterator listIterator() {
-    return list.listIterator()
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  ListIterator listIterator(int index) {
-    return list.listIterator(index)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  List subList(int fromIndex, int toIndex) {
-    return list.subList(fromIndex, toIndex)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean retainAll(Collection c) {
-    return list.retainAll(c)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean removeAll(Collection c) {
-    return list.removeAll(c)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  boolean containsAll(Collection c) {
-    return list.containsAll(c)
-  }
-
-  /**
-   * Adapter function for internal list object
-   */
-  @Override
-  @NonCPS
-  Object[] toArray(Object[] a) {
-    return list.toArray(a)
   }
 }

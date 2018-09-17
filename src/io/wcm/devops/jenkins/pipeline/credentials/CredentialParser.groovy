@@ -34,7 +34,8 @@ import net.sf.json.JSONObject
  *      {
  *          "pattern": "subdomain\.domain\.tld[:/]group1",
  *          "id": "Id of the credential in the jenkins instance",
- *          "comment": "Comment for the credential"
+ *          "comment": "Comment for the credential",
+ *          "username": "Username for the credential"
  *      },
  *      { .. }
  * ]
