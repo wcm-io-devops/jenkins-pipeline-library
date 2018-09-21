@@ -329,6 +329,33 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   }
 
   /**
+   * Utility function to load and execute a script (e.g. test pipeline)
+   * The function calls the utility function 'beforeLoadingScript' before loading the script via the JenkinsPipelineUnit
+   * framework. To enable the test to redirect executed steps defined in the implicitely loaded library the function
+   * 'afterLoadingScript' is executed afterwards
+   *
+   * @param scriptPath The Path to the test job
+   * @param config This map will be passed to the execute function of the script
+   * @return The return value of the executed script
+   */
+  protected loadAndExecuteScript(String scriptPath, Map config) {
+    def ret
+    try {
+      // call helper function to enable tests to execute code before loading the script
+      beforeLoadingScript()
+      def script = loadScript(scriptPath)
+      // call helper function to enable tests to redirect pipeline steps into own callbacks
+      afterLoadingScript()
+      ret = script.execute(config)
+    } catch (e) {
+      e.printStackTrace()
+      this.context.getDslMock().printLogMessages()
+      throw e
+    }
+    return ret
+  }
+
+  /**
    * Utility function to enable tests to put code in front of the loading of the script
    */
   protected void beforeLoadingScript() {}
