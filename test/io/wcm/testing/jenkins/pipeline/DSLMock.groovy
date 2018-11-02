@@ -208,6 +208,17 @@ class DSLMock {
    */
   Map<String, File> locateTestResources(String resourcePath) {
     Map<String, File> foundResources = new HashMap<>()
+    // check if resource is mocked and return the mocked resource when found
+    String mockedResourcePath = this.mockedResources.get(resourcePath)
+    if (mockedResourcePath) {
+      resourcePath = mockedResourcePath
+      File mockedLibraryResource = new File("test/resources/".concat(resourcePath))
+      if (mockedLibraryResource.exists()) {
+        foundResources.put("test-resource", mockedLibraryResource)
+        return foundResources
+      }
+    }
+
     // try to load resource from registered libraries
     if (helper) {
       helper.libraries.each {
@@ -222,16 +233,9 @@ class DSLMock {
       }
     }
 
-    // try to lookup using mocked resources
-    String mockedResourcePath = this.mockedResources.get(resourcePath)
-    if (mockedResourcePath) {
-      resourcePath = mockedResourcePath
-    }
-
     // lookup in local path when helper not present or no resource was found
     if (foundResources.size() == 0 && resourcePath != null) {
       File libraryResource = new File("test/resources/".concat(resourcePath))
-      String absolutePath = libraryResource.getAbsolutePath()
       if (libraryResource.exists()) {
         foundResources.put("test-resource", libraryResource)
       }
