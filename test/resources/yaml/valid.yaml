@@ -1,0 +1,12 @@
+foo: bar
+list1:
+  - entry1
+  - entry2
+  - entry3
+list2:
+- entry1:
+    key: value1
+- entry2:
+    key: value2
+- entry3:
+    key: value3
