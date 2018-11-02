@@ -112,9 +112,9 @@ class DSLMock {
       }
     })
 
-    when(mock.invokeMethod(eq("readYaml"), any())).then(new Answer<List>() {
+    when(mock.invokeMethod(eq("readYaml"), any())).then(new Answer<Object>() {
       @Override
-      List answer(InvocationOnMock invocationOnMock) throws Throwable {
+      Object answer(InvocationOnMock invocationOnMock) throws Throwable {
         Object[] args = invocationOnMock.getArguments()
         def functionArgs = args[1][0]
 
@@ -160,7 +160,7 @@ class DSLMock {
     return json
   }
 
-  List<Object> readYaml(String file = null, String text = null) {
+  Object readYaml(String file = null, String text = null) {
     String yamlText = ""
     ReadYamlStep step = new ReadYamlStep()
     step.setFile((String) file)
@@ -173,7 +173,6 @@ class DSLMock {
       throw new IllegalArgumentException("At least one of file or text needs to be provided to readJSON.")
     }
 
-    //JSON json = null
     if (!isBlank(step.getFile())) {
       File ymlFile = locateTestResource(step.getFile())
       FilePath path = new FilePath(ymlFile)
