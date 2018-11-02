@@ -167,10 +167,10 @@ class DSLMock {
     step.setText((String) text)
 
     if (isNotBlank(step.getFile()) && isNotBlank(step.getText())) {
-      throw new IllegalArgumentException("At most one of file or text must be provided to readJSON.")
+      throw new IllegalArgumentException("At most one of file or text must be provided to readYaml.")
     }
     if (isBlank(step.getFile()) && isBlank(step.getText())) {
-      throw new IllegalArgumentException("At least one of file or text needs to be provided to readJSON.")
+      throw new IllegalArgumentException("At least one of file or text needs to be provided to readYaml.")
     }
 
     if (!isBlank(step.getFile())) {
