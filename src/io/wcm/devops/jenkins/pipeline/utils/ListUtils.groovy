@@ -20,6 +20,7 @@
 package io.wcm.devops.jenkins.pipeline.utils
 
 import com.cloudbees.groovy.cps.NonCPS
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 
 /**
  * Utility functions for Lists because of missing white list functions
@@ -36,6 +37,7 @@ class ListUtils implements Serializable {
    * @return the manipulated list
    */
   @NonCPS
+  @SuppressFBWarnings("SE_NO_SERIALVERSIONID")
   public static List removeAt(List list, Integer idx) {
     Integer walkIdx = -1
     // walk through list and remove the item at the given index

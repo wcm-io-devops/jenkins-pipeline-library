@@ -28,6 +28,7 @@ import org.jenkinsci.plugins.workflow.cps.DSL
 /**
  * Utility for building maven commands executed via the sh pipeline step
  */
+@SuppressFBWarnings("RANGE_ARRAY_INDEX") // constructor marked with this issue, but there is no array, maybe a bug in findbugs
 class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwareCommandBuilder {
 
   private static final long serialVersionUID = 1L
@@ -62,8 +63,6 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
   /**
    * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
    * @param executable The executable, default: 'maven'
-   *
-   * @deprecated
    */
   MavenCommandBuilderImpl(DSL dsl, Map params, String executable = null) {
     commandBuilder = new CommandBuilderImpl(dsl, executable ?: EXECUTABLE)

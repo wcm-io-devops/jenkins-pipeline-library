@@ -42,7 +42,6 @@
   <properties>
     <failsafe.rerunFailingTestsCount>0</failsafe.rerunFailingTestsCount>
     <surefire.rerunFailingTestsCount>0</surefire.rerunFailingTestsCount>
-    <findbugs.failOnError>false</findbugs.failOnError>
   </properties>
 
   <inceptionYear>2017</inceptionYear>
