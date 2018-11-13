@@ -32,7 +32,7 @@ beginning of your pipeline script:
 import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-// initialize the logger with WorkflowScript reference (this 
+// initialize the logger with WorkflowScript reference (this)
 Logger.init(this, [ logLevel: LogLevel.INFO ])
 ```
 
@@ -43,7 +43,7 @@ object in a pipeline script
 
 ### Colorized output
 
-Since version 0.11 of the pipeline library the Logger supports xterm color output.
+The pipeline library the Logger supports xterm color output.
 The text remains black but the log level part like `[WARN]` will echoed using colors.
 
 The colors used are from the 88/256 colors table.

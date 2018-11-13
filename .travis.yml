@@ -29,10 +29,8 @@ install: "mvn -s ./.travis.maven-settings.xml clean"
 
 script:
 - "mvn -s ./.travis.maven-settings.xml -U -Dmaven.javadoc.skip=true install"
-# Remove wcm.io artefacts from repository before cache
-- rm -rf $HOME/.m2/repository/io/wcm
 
-# exlude release tags like 1.0.0
+# exclude release tags like 1.0.0
 branches:
   except:
   - /^\d+(\.\d+\.\d+)?(\..*|\-.*)?$/
@@ -41,14 +39,6 @@ branches:
 cache:
   directories:
   - '$HOME/.m2/repository'
-
-# this will not work yet with a google groups mailing list - see https://github.com/travis-ci/travis-ci/issues/2513
-#notifications:
-#  email:
-#    recipients:
-#      - wcm-io-dev@googlegroups.com
-#    on_success: change
-#    on_failure: always
 
 # codecov.io integration
 after_success:
