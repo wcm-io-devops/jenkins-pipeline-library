@@ -357,8 +357,7 @@
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>assembly/resources.xml</descriptor>
-                <descriptor>assembly/vars.xml</descriptor>
+                <descriptor>assembly/complete.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
