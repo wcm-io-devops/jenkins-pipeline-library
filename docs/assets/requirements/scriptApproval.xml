@@ -9,9 +9,6 @@
     <string>new io.wcm.devops.jenkins.pipeline.utils.logging.Logger java.lang.Object</string>
     <string>new io.wcm.devops.jenkins.pipeline.versioning.IntegerItem</string>
     <string>new java.util.ArrayList</string>
-    <string>staticField de.provision.cicd.jenkins.pipeline.tools.JDK SUN_JAVA8_JDK</string>
-    <string>staticField de.provision.cicd.jenkins.pipeline.tools.Maven APACHE_MAVEN3</string>
-    <string>staticField de.provision.cicd.jenkins.pipeline.tools.NodeJs NODEJS_6</string>
     <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel ALL</string>
     <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel DEBUG</string>
     <string>staticField io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel DEPRECATED</string>
