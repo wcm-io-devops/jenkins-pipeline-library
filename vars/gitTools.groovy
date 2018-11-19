@@ -86,16 +86,10 @@ void mirrorRepositoryToWorkspace(GitRepository srcRepo, List<String> srcCredenti
         // check remotes
         String remotes = this._getRemotes()
 
-        // check that fetch origin is correct
-        Matcher fetchMatcher = remotes =~ /origin\s+${srcRepo.getUrl()}\s+\(fetch\)/
-
-        if (!fetchMatcher) {
+        if (this.getFetchOrigin(remotes) != srcRepo.getUrl()) {
           log.fatal("Unable to verify that remote fetch target is pointing to '${srcRepo.getUrl()}'! Found remotes: \n$remotes")
           error("Unable to verify that remote fetch target is pointing to '${srcRepo.getUrl()}'! Found remotes: \n$remotes")
         }
-
-        // unset matcher vars because they are not serializable
-        fetchMatcher = null
 
         log.info("existing mirror found in workspace, update using fetch")
         cloneCommandBuilder.addArguments(["fetch", "-p origin"])
@@ -132,23 +126,15 @@ void mirrorRepositoryToRemote(String srcRepoPath, GitRepository targetRepo, List
 
       String remotes = this._getRemotes()
 
-      // check that push origin is correct
-      Matcher fetchMatcher = remotes =~ /origin\s+${targetRepo.getUrl()}\s+\(fetch\)/
-      Matcher pushMatcher = remotes =~ /origin\s+${targetRepo.getUrl()}\s+\(push\)/
-
-      if (fetchMatcher) {
+      if (this.getFetchOrigin(remotes) == targetRepo.getUrl()) {
         log.fatal("Unable to verify that remote fetch target is NOT pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
         error("Unable to verify that remote fetch target is NOT pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
       }
 
-      if (!pushMatcher) {
+      if (this.getPushOrigin(remotes) != targetRepo.getUrl()) {
         log.fatal("Unable to verify that remote push target is pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
         error("Unable to verify that remote push target is pointing to '${targetRepo.getUrl()}'! Found remotes: \n$remotes")
       }
-
-      // unset matcher vars because they are not serializable
-      pushMatcher = null
-      fetchMatcher = null
 
       // push to target url
       CommandBuilder pushCommand = new GitCommandBuilderImpl(this.steps)
@@ -168,6 +154,44 @@ String _getRemotes() {
   CommandBuilder getRemotePushTarget = new GitCommandBuilderImpl(this.steps)
   getRemotePushTarget.addArguments(["remote", "-v",])
   return sh(script: getRemotePushTarget.build(), returnStdout: true).trim()
+}
+
+/**
+ * Utility function to retrieve the fetch origin
+ * @param remotes String containing the remotes, when null the remotes will be automatically retrieved via _getRemotes
+ *
+ * @return The fetch origin, null when not found
+ */
+String getFetchOrigin(String remotes = null) {
+  String ret = null
+  if (remotes == null) {
+    remotes = _getRemotes()
+  }
+  Matcher fetchMatcher = remotes =~ /origin\s+(.*)\s+\(fetch\)/
+  if (fetchMatcher) {
+    ret = fetchMatcher[0][1]
+  }
+  fetchMatcher == null
+  return ret
+}
+
+/**
+ * Utility function to retrieve the push origin
+ * @param remotes String containing the remotes, when null the remotes will be automatically retrieved via _getRemotes
+ *
+ * @return The push origin, null when not found
+ */
+String getPushOrigin(String remotes = null) {
+  String ret = null
+  if (remotes == null) {
+    remotes = _getRemotes()
+  }
+  Matcher pushMatcher = remotes =~ /origin\s+(.+)\s+\(push\)/
+  if (pushMatcher) {
+    ret = pushMatcher[0][1]
+  }
+  pushMatcher = null
+  return ret
 }
 
 /**
