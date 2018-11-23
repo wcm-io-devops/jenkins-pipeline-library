@@ -47,6 +47,9 @@ import org.jenkinsci.plugins.workflow.cps.DSL
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
 
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertEquals
+
 // job properties
 
 properties([
@@ -486,6 +489,38 @@ node() {
       integrationTestUtils.assertEquals(expected, actual)
       MapUtils.merge(map1)
       MapUtils.merge(map1, map2, map1)
+
+      Map config = [
+        (ANSIBLE)   : [
+          (ANSIBLE_EXTRA_PARAMETERS): [""],
+        ],
+      ]
+      Map configRef = [
+        (ANSIBLE)   : [
+          (ANSIBLE_EXTRA_PARAMETERS): [""],
+        ],
+      ]
+
+      Map ansibleGalaxyCfg = [
+        (ANSIBLE): [
+          (ANSIBLE_EXTRA_PARAMETERS): ["-v"],
+        ]
+      ]
+
+      Map ansiblePlayBookCfg = [
+        (ANSIBLE): [
+          (ANSIBLE_PLAYBOOK)     : "playbook",
+          (ANSIBLE_EXTRA_VARS)   : [:],
+          (ANSIBLE_INJECT_PARAMS): true,
+          (ANSIBLE_SKIPPED_TAGS) : [],
+        ]
+      ]
+
+      ansibleGalaxyCfg = MapUtils.merge(config, ansibleGalaxyCfg)
+      ansiblePlayBookCfg = MapUtils.merge(config, ansiblePlayBookCfg)
+
+      integrationTestUtils.assertEquals(configRef, config)
+      integrationTestUtils.assertEquals([""],config[ANSIBLE][ANSIBLE_EXTRA_PARAMETERS])
     }
   }
 

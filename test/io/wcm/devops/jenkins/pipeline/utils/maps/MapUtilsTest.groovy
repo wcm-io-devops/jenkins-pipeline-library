@@ -22,6 +22,7 @@ package io.wcm.devops.jenkins.pipeline.utils.maps
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 class MapUtilsTest {
 
@@ -223,6 +224,41 @@ class MapUtilsTest {
 
     Map actual = MapUtils.merge(map1, map2, map3)
     assertEquals(expected, actual)
+  }
+
+  @Test
+  void shouldNotManipulateSourceMaps() {
+    Map config = [
+      (ANSIBLE)   : [
+        (ANSIBLE_EXTRA_PARAMETERS): [""],
+      ],
+    ]
+    Map configRef = [
+      (ANSIBLE)   : [
+        (ANSIBLE_EXTRA_PARAMETERS): [""],
+      ],
+    ]
+
+    Map ansibleGalaxyCfg = [
+      (ANSIBLE): [
+        (ANSIBLE_EXTRA_PARAMETERS): ["-v"],
+      ]
+    ]
+
+    Map ansiblePlayBookCfg = [
+      (ANSIBLE): [
+        (ANSIBLE_PLAYBOOK)     : "playbook",
+        (ANSIBLE_EXTRA_VARS)   : [:],
+        (ANSIBLE_INJECT_PARAMS): true,
+        (ANSIBLE_SKIPPED_TAGS) : [],
+      ]
+    ]
+
+    ansibleGalaxyCfg = MapUtils.merge(config, ansibleGalaxyCfg)
+    ansiblePlayBookCfg = MapUtils.merge(config, ansiblePlayBookCfg)
+
+    assertEquals(configRef, config)
+    assertEquals([""],config[ANSIBLE][ANSIBLE_EXTRA_PARAMETERS])
   }
 
 }
