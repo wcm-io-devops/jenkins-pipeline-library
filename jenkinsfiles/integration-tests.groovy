@@ -46,10 +46,6 @@ import org.jenkinsci.plugins.workflow.cps.DSL
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
-
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertEquals
-
 // job properties
 
 properties([
