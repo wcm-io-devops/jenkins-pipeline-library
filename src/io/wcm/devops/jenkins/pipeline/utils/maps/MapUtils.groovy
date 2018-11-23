@@ -53,7 +53,6 @@ class MapUtils implements Serializable {
   @SuppressFBWarnings('SE_NO_SERIALVERSIONID')
   static transient Map merge(Map... maps) {
     Map result
-
     if (maps.length == 0) {
       result = [:]
     } else if (maps.length == 1) {
@@ -62,6 +61,12 @@ class MapUtils implements Serializable {
       result = [:]
       maps.each { map ->
         map.each { k, v ->
+          try {
+            v = v.clone()
+          } catch (Exception ex) {
+            // do nothing here
+          }
+
           log.trace("result[k]: ", result[k])
           log.trace("v: ", v)
           /*log.trace("isList result[k]: ", TypeUtils.isList(result[k]))
