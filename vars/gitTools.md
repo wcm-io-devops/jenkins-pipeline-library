@@ -6,6 +6,8 @@ This part of the pipeline provides utility steps for common GIT operations.
 * [`mirrorRepository`](#mirrorrepositorystring-srcurl-string-targeturl-liststring-srccredentialids--null-liststring-targetcredentialids--null)
 * [`mirrorRepositoryToRemote`](#mirrorrepositorytoremotestring-srcrepopath-gitrepository-targetrepo-liststring-targetcredentialids--null)
 * [`mirrorRepositoryToWorkspace`](#mirrorrepositorytoworkspacegitrepository-srcrepo-liststring-srccredentialids--null)
+* [`getFetchOrigin`](#string-getfetchoriginstring-remotes--null)
+* [`getPushOrigin`](#string-getpushoriginstring-remotes--null)
 
 #### `mirrorRepository(String srcUrl, String targetUrl, List<String> srcCredentialIds = null, List<String> targetCredentialIds = null)`
 
@@ -28,3 +30,16 @@ lookup of the SSH or http(s) credentials will be performed.
 Mirrors the `srcRepo` to the current workspace.
 When no `srcCredentialIds` are provided a auto lookup of the SSH or http(s) credentials will be performed.
 
+#### `String getFetchOrigin(String remotes = null)`
+
+Utility function to get the fetch origin from a git remote list (`git
+remote -v`). When no `remotes` are provided the step will try to
+retrieve them by using the internal function `_getRemotes` which
+basically executes a `git remote -v`.
+
+#### `String getPushOrigin(String remotes = null)`
+
+Utility function to get the push origin from a git remote list (`git
+remote -v`). When no `remotes` are provided the step will try to
+retrieve them by using the internal function `_getRemotes` which
+basically executes a `git remote -v`.
