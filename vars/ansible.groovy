@@ -146,21 +146,23 @@ void execPlaybook(Map config) {
     log.trace("tags: $tags")
     log.trace("credentialsId: $credentialsId")
 
-    ansiblePlaybook(
-        colorized: colorized,
-        extras: extras,
-        forks: forks,
-        installation: installation,
-        inventory: inventory,
-        limit: limit,
-        playbook: playbook,
-        skippedTags: skippedTags,
-        startAtTask: startAtTask,
-        sudo: sudo,
-        sudoUser: sudoUser,
-        tags: tags,
-        credentialsId: credentialsId,
-    )
+    withEnv(['PYTHONUNBUFFERED=1']) {
+        ansiblePlaybook(
+          colorized: colorized,
+          extras: extras,
+          forks: forks,
+          installation: installation,
+          inventory: inventory,
+          limit: limit,
+          playbook: playbook,
+          skippedTags: skippedTags,
+          startAtTask: startAtTask,
+          sudo: sudo,
+          sudoUser: sudoUser,
+          tags: tags,
+          credentialsId: credentialsId,
+        )
+    }
 }
 
 /**
