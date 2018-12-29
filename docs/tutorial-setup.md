@@ -315,13 +315,15 @@ node() {
 }
 ```
 
+Now update the [`testAutoLookup.groovy`](https://github.com/wcm-io-devops/jenkins-pipeline-library-example/blob/doc-fixes/vars/testAutoLookup.groovy) to include the IDs and ScmUrl that you defined in your settings.
+
 `testAutolookup` will try to lookup
 * Credentials
 * Maven Settings
 * NPM Settings and
 * Bundler Settings
 
-for the scm url `git@git.company.com/client/project.git`
+for the configured scm url.
 
 Now run the job and the output should look like this:
 
