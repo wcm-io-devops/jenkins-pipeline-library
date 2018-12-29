@@ -140,7 +140,7 @@ The example lib consists out of
 ### SCM credentials
 
 The file
-[`credentials.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library/pipeline-library-example/blob/master/resources/credentials/scm/credentials.json)
+[`credentials.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library-example/blob/master/resources/credentials/scm/credentials.json)
 contains the user data for checking out from your company git server.
 
 Since GIT checkout can be done via SSH and HTTPS there are two
@@ -149,7 +149,7 @@ credentials configured.
 ### Maven global settings
 
 The
-[`global-settings.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library/pipeline-library-example/blob/master/resources/mangedfiles/maven/global-settings.json)
+[`global-settings.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library-example/blob/master/resources/managedfiles/maven/global-settings.json)
 specifies the global maven settings `maven-global-settings-for-company`
 (stored in Jenkins via Config File Provider plugin), which is valid for
 all maven builds.
