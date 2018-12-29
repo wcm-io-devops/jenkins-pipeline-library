@@ -291,7 +291,7 @@ Add your library with the name `pipeline-library-example` and version
 described in [step 2](#step-2-use-the-library-in-a-job)
 
 Go to the configuration page of the test job
-https://jenkins.company.com/job/tutorial/job/Test/configure and change
+https://jenkins.company.com/job/tutorial/job/Demo/configure and change
 the pipeline script to
 
 ```groovy
