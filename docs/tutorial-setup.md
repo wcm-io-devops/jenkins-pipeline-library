@@ -140,7 +140,7 @@ The example lib consists out of
 ### SCM credentials
 
 The file
-[`credentials.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library/pipeline-library-example/blob/master/resources/credentials/scm/credentials.json)
+[`credentials.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library-example/blob/master/resources/credentials/scm/credentials.json)
 contains the user data for checking out from your company git server.
 
 Since GIT checkout can be done via SSH and HTTPS there are two
@@ -149,7 +149,7 @@ credentials configured.
 ### Maven global settings
 
 The
-[`global-settings.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library/pipeline-library-example/blob/master/resources/mangedfiles/maven/global-settings.json)
+[`global-settings.json`](https://github.com/wcm-io-devops/jenkins-pipeline-library-example/blob/master/resources/managedfiles/maven/global-settings.json)
 specifies the global maven settings `maven-global-settings-for-company`
 (stored in Jenkins via Config File Provider plugin), which is valid for
 all maven builds.
@@ -291,7 +291,7 @@ Add your library with the name `pipeline-library-example` and version
 described in [step 2](#step-2-use-the-library-in-a-job)
 
 Go to the configuration page of the test job
-https://jenkins.company.com/job/tutorial/job/Test/configure and change
+https://jenkins.company.com/job/tutorial/job/Demo/configure and change
 the pipeline script to
 
 ```groovy
@@ -315,13 +315,15 @@ node() {
 }
 ```
 
+Now update the [`testAutoLookup.groovy`](https://github.com/wcm-io-devops/jenkins-pipeline-library-example/blob/doc-fixes/vars/testAutoLookup.groovy) to include the IDs and ScmUrl that you defined in your settings.
+
 `testAutolookup` will try to lookup
 * Credentials
 * Maven Settings
 * NPM Settings and
 * Bundler Settings
 
-for the scm url `git@git.company.com/client/project.git`
+for the configured scm url.
 
 Now run the job and the output should look like this:
 
