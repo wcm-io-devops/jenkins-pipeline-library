@@ -207,6 +207,11 @@
       <artifactId>mailer</artifactId>
       <version>1.21</version>
     </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>extended-choice-parameter</artifactId>
+      <version>0.76</version>
+    </dependency>
   </dependencies>
 
   <build>
