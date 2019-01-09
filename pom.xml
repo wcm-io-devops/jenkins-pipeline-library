@@ -431,6 +431,7 @@
                   <excludes>
                     <exclude>com.google.guava:guava</exclude>
                     <exclude>commons-logging:commons-logging</exclude>
+                    <exclude>commons-codec:commons-codec</exclude>
                     <exclude>com.google.code.findbugs:jsr305</exclude>
                     <exclude>org.kohsuke:access-modifier-annotation</exclude>
                     <exclude>net.java.dev.jna:jna</exclude>
