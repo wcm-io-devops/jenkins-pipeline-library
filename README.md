@@ -137,6 +137,7 @@ The pipeline library comes with the following steps:
     * [`wrap.color`](vars/wrap.md#colormap-config-closure-body)
 
 ## Utilities
+* [Build Parameter Factory](src/io/wcm/devops/jenkins/pipeline/job/BuildParameterFactory.groovy)
 * [Integration Testing](vars/integrationTestUtils.md)
 * [Logging](docs/logging.md)
     * [`Logger`](src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
