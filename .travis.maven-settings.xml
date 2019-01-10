@@ -50,6 +50,12 @@
           <id>repo.jenkins-ci.org</id>
           <url>http://repo.jenkins-ci.org/public/</url>
         </repository>
+        <!-- fix m.g.o-public repository -->
+        <repository>
+          <id>m.g.o-public</id>
+          <url>https://maven.java.net/content/groups/public/</url>
+          <layout>default</layout>
+        </repository>
 
       </repositories>
 

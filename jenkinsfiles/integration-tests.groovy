@@ -13,6 +13,7 @@ import io.wcm.devops.jenkins.pipeline.credentials.Credential
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.job.BuildParameterFactory
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileParser
@@ -130,6 +131,14 @@ node() {
       log.info(EnvironmentConstants.SCM_URL,  EnvironmentConstants.SCM_URL)
       log.info(EnvironmentConstants.TERM,  EnvironmentConstants.TERM)
       log.info(EnvironmentConstants.WORKSPACE,  EnvironmentConstants.WORKSPACE)
+    }
+  }
+
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.job") {
+    integrationTestUtils.runTest("BuildParameterFactory") {
+      BuildParameterFactory buildParameterFactory = new BuildParameterFactory(this)
+      def checkboxParam = buildParameterFactory.createMultiCheckboxParameter("multiCheckboxParam","select multiple values",["val11","val12","val13"],["val11","val12","val13"])
+      def multiselectParam = buildParameterFactory.createMultiSelectParameter("multiSelectParam","select multiple values",["val21","val22","val23"],["val22"])
     }
   }
 
