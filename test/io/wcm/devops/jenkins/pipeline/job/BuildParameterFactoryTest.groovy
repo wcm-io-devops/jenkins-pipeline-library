@@ -20,20 +20,21 @@
 package io.wcm.devops.jenkins.pipeline.job
 
 import com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterDefinition
-import org.junit.Before
+import io.wcm.testing.jenkins.pipeline.CpsScriptTestBase
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 
-class BuildParameterFactoryTest {
+class BuildParameterFactoryTest extends CpsScriptTestBase {
 
   BuildParameterFactory factory
 
   ExtendedChoiceParameterDefinition underTest
 
-  @Before
+  @Override
   void setUp() throws Exception {
-    factory = new BuildParameterFactory()
+    super.setUp()
+    factory = new BuildParameterFactory(this.script)
   }
 
   @Test

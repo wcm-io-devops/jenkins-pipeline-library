@@ -30,19 +30,30 @@ class BuildParameterFactory {
   public static final String PARAMETER_TYPE_MULTI_SELECT = "PT_MULTI_SELECT"
   public static final String PARAMETER_TYPE_CHECK_BOX = "PT_CHECKBOX"
   public static final String SELECTOR_DELIMITER = ","
-
   public static final Integer DEFAULT_VISIBLE_ITEM_COUNT = 5
 
   /**
-   * Creates a multi select parameter
-   *
-   * @param name The name of the parameter
-   * @param description The description of the parameter
-   * @param options The available options
-   * @param defaultValues The default selected values
-   * @param visibleItemCount Maximum visible items
-   * @return The created ExtendedChoiceParameterDefinition
+   * Reference to the CpsScript/WorkflowScript
    */
+  Script script
+
+  /**
+   *
+   * @param script Reference to the CpsScript/Workflow dcript
+   */
+  BuildParameterFactory(Script script) {
+    this.script = script
+  }
+/**
+ * Creates a multi select parameter
+ *
+ * @param name The name of the parameter
+ * @param description The description of the parameter
+ * @param options The available options
+ * @param defaultValues The default selected values
+ * @param visibleItemCount Maximum visible items
+ * @return The created ExtendedChoiceParameterDefinition
+ */
   ExtendedChoiceParameterDefinition createMultiSelectParameter(String name, String description, List<String> options, List<String> defaultValues = [], Integer visibleItemCount = BuildParameterFactory.DEFAULT_VISIBLE_ITEM_COUNT) {
     return createParameter(PARAMETER_TYPE_MULTI_SELECT, name, description, options, defaultValues, visibleItemCount)
   }
@@ -73,7 +84,7 @@ class BuildParameterFactory {
    *
    * @return The created ExtendedChoiceParameterDefinition
    */
-  private ExtendedChoiceParameterDefinition createParameter(String type, String name, String description, List<String> options, List<String> defaultValues = [], Integer visibleItemCount = BuildParameterFactory.DEFAULT_VISIBLE_ITEM_COUNT) {
+  private ExtendedChoiceParameterDefinition createParameter(String type, String name, String description, List<String> options, List<String> defaultValues, Integer visibleItemCount) {
     return new ExtendedChoiceParameterDefinition(
       name,
       type,
