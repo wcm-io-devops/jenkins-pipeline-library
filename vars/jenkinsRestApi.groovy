@@ -66,7 +66,6 @@ List<Job> findJobsByNameRegex(Map remote) {
 
   for (Job job in allJobs) {
     matcher = job.name =~ regex
-    log.debug("matching: '${job.name}'")
     if (matcher) {
       matchedJobs.push(job)
     }
