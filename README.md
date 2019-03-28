@@ -121,6 +121,8 @@ The pipeline library comes with the following steps:
   * [`mirrorRepository`](vars/gitTools.md#mirrorrepositorystring-srcurl-string-targeturl-liststring-srccredentialids--null-liststring-targetcredentialids--null)
   * [`mirrorRepositoryToRemote`](vars/gitTools.md#mirrorrepositorytoremotestring-srcrepopath-gitrepository-targetrepo-liststring-targetcredentialids--null)
   * [`mirrorRepositoryToWorkspace`](vars/gitTools.md#mirrorrepositorytoworkspacegitrepository-srcrepo-liststring-srccredentialids--null)
+* [jenkinsRestApi](vars/jenkinsRestApi.md)
+  * [`jenkinsRestApi.findJobsByNameRegex`](vars/jenkinsRestApi.md#list-job-findjobsbynameregexmap-remote)
 * [managedScripts](vars/managedScripts.md)
     * [`managedScripts.execJenkinsShellScript`](vars/managedScripts.md#execjenkinsshellscriptstring-scriptid-commandbuilder-commandbuilder-null-returnstdout--false-returnstatus--false)
     * [`managedScripts.execPipelineShellScript`](vars/managedScripts.md#execpipelineshellscriptstring-scriptpath-commandbuilder-commandbuilder-null-returnstdout--false-returnstatus--false)

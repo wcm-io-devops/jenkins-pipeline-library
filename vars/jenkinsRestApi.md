@@ -4,25 +4,39 @@ Utility functions for Jenkins REST API.
 
 # Table of contents
 
-* [`findJobsByNameRegex`](#list-job-findjobsbynameregexstring-regex-string-remotehosturl-string-credentialsid-integer-depth--3)
+* [`findJobsByNameRegex(Map remote)`](#list-job-findjobsbynameregexmap-remote)
+  * [Input](#input)
+  * [Example](#example)
 * [Related classes](#related-classes)
 
-## `List <Job> findJobsByNameRegex(String regex, String remoteHostUrl, String credentialsId, Integer depth = 3)`
+## `List <Job> findJobsByNameRegex(Map remote)`
 
-This function will retrieve and return all Jobs from the Jenkins running
-under `remoteHostUrl` and match the names against `regex`. For
-authentication the `credentialsId` are required.
+This function will retrieve and return all matching Jobs from a Jenkins
+instance.
 
-If you have the Cloudbees Folder Plugin installed the maximum depth can
-be controlled with the `depth` parameter.
+### Input
+
+| Key           | Type                     | Description                                                                  |
+|:--------------|:-------------------------|:-----------------------------------------------------------------------------|
+| regex         | String, **Mandatory**    | The regular expression the job name must match to                            |
+| baseUrl       | String, **Mandatory**    | The baseUrl of the remove jenkins instance                                   |
+| credentialsId | String, **Mandatory**    | The id of the credentials to use for authentication on remote                |
+| depth         | Integer, defaults to `3` | The maximum depth to retrieve when Cloudbees Folder Plugin is used on remote |
 
 ### Example
 
 ```groovy
 import io.wcm.devops.jenkins.pipeline.model.jenkins.api.Job
-List<Job> jobs = jenkinsRestApi.findJobsByNameRegex("example-.*-job-name", "https://jenkins.example.org", "org.example.jenkins.credentials")
-```
 
+Map remote = [
+    regex: ".*",
+    baseUrl: "https://jenkins.example.org",
+    credentialsId: "org.example.jenkins.credentials",
+    depth: 4
+]
+
+List<Job> foundJobs = jenkinsRestApi.findJobsByNameRegex(remote)
+```
 
 ## Related classes
 * [`Job`](../src/io/wcm/devops/jenkins/pipeline/model/jenkins/api/Job.groovy)

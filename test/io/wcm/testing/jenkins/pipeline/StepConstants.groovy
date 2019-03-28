@@ -65,6 +65,8 @@ class StepConstants {
   public final static String JACOCOPUBLISHER = "JacocoPublisher"
   public final static String JUNIT = "junit"
 
+  public final static String HTTP_REQUEST = "httpRequest"
+
   public final static String LOG_ROTATOR = "logRotator"
 
   public final static String MANAGED_SCRIPTS_EXEC_JENKINS_SHELL_SCRIPT = "execJenkinsShellScript"
