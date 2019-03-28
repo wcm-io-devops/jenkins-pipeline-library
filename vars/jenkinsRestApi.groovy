@@ -55,7 +55,6 @@ List<Job> findJobsByNameRegex(Map remote) {
   }
   String apiUrl = "$baseUrl/api/json?tree=$treeQuery"
 
-  log.info("treeQuery: $treeQuery")
   def response = httpRequest(acceptType: 'APPLICATION_JSON', authentication: credentialsId, timeout: 30, url: apiUrl, consoleLogResponseBody: false, validResponseCodes: '200')
   Map responseJson = readJSON(text: response.getContent())
 
