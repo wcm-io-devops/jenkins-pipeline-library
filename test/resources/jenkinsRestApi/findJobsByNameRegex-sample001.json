@@ -1,0 +1,27 @@
+{
+  "_class": "hudson.model.Hudson",
+  "jobs": [
+    {
+      "_class": "hudson.model.FreeStyleProject",
+      "name": "job001",
+      "url": "https://jenkins.example.org/job/job001/",
+    },
+    {
+      "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+      "name": "folder",
+      "url": "https://jenkins.example.org/job/folder/",
+      "jobs": [
+        {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "job002",
+          "url": "https://jenkins.example.org/job/folder/job/job002/",
+        },
+        {
+          "_class": "hudson.model.FreeStyleProject",
+          "name": "job003",
+          "url": "https://jenkins.example.org/job/folder/job/job003/",
+        }
+      ]
+    }
+  ]
+}
