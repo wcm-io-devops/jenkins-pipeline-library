@@ -61,6 +61,7 @@ class StepConstants {
   public final static String FILE_EXISTS = "fileExists"
   public final static String FIND_FILES = "findFiles"
   public final static String FINDBUGS = "findbugs"
+  public final static String FINGERPRINT = "fingerprint"
 
   public final static String JACOCOPUBLISHER = "JacocoPublisher"
   public final static String JUNIT = "junit"

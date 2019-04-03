@@ -131,6 +131,11 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   ConfigFileProviderPluginMock configFileProviderPluginMock
 
   /**
+   *  Mocks the Core steps
+   */
+  CoreStepsMock coreStepsMock
+
+  /**
    * Mocks the pipeline utility steps plugin
    */
   PipelineUtilityStepsPluginMock pipelineUtilityStepsPluginMock
@@ -239,6 +244,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     this.badgePluginMock = new BadgePluginMock(context)
     this.checkstylePluginMock = new CheckstylePluginMock(context)
     this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(context)
+    this.coreStepsMock = new CoreStepsMock(context)
     this.credentialsPluginMock = new CredentialsPluginMock(context)
     this.emailExtPluginMock = new EmailExtPluginMock(context)
     this.findBugsPluginMock = new FindBugsPluginMock(context)
