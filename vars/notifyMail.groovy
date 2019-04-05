@@ -142,6 +142,13 @@ void call(Map config = [:]) {
     )
 }
 
+/**
+ * Merges the status specific configuration with the default configuration when applicable
+ *
+ * @param notifyConfig The notify config
+ * @param statusCfg The status config
+ * @return The merge configuration
+ */
 Map _mergeStatusConfig(Map notifyConfig, def statusCfg) {
   Map ret = notifyConfig
   TypeUtils typeUtils = new TypeUtils()
@@ -151,6 +158,12 @@ Map _mergeStatusConfig(Map notifyConfig, def statusCfg) {
   return ret
 }
 
+/**
+ * Utility function to get the default recipient providers
+ *
+ * @param notifyConfig The notify config
+ * @return The recipient providers
+ */
 List _getRecipientProviders(Map notifyConfig) {
   // configure the recipient providers
   // see https://jenkins.io/doc/pipeline/steps/email-ext/
@@ -161,15 +174,8 @@ List _getRecipientProviders(Map notifyConfig) {
     // Sends email to all the people who caused a change in the change set.
     [$class: 'DevelopersRecipientProvider'],
 
-    // Sends email to the list of users suspected of causing a unit test to begin failing
-    //[$class: 'FailingTestSuspectsRecipientProvider'],
-
     // Sends email to the list of users suspected of causing the build to begin failing.
     [$class: 'FirstFailingBuildSuspectsRecipientProvider'],
-
-    // Sends email to the list of recipients defined in the "Project Recipient List."
-    // seems to work only when project based ACLs are present
-    //[$class: 'ListRecipientProvider'],
 
     // Sends email to the user who initiated the build.
     [$class: 'RequesterRecipientProvider'],
