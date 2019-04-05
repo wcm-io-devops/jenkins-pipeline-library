@@ -156,11 +156,11 @@ notifyMail(
 ```
 
 ### `attachLog` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_ATTACH_LOG`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`Boolean`|
-|Default|`false`|
+|                                                                                                                     ||
+|:---------|:----------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_ATTACH_LOG`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                                 |
+| Default  | `false`                                                                                                   |
 
 Controls if the log should be attached to the mail.
 
@@ -168,53 +168,53 @@ Controls if the log should be attached to the mail.
 
 
 ### `attachmentsPattern` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_ATTACHMENTS_PATTERN`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`, comma separated list of ANT patterns|
-|Default|`''`|
+|                                                                                                                              ||
+|:---------|:-------------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_ATTACHMENTS_PATTERN`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`, comma separated list of ANT patterns                                                                     |
+| Default  | `''`                                                                                                               |
 
 The pattern(s) for the attachments which should be send along with the email.
 
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
 ### `body` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_BODY`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`|
-|Default|`${DEFAULT_CONTENT}`|
+|                                                                                                               ||
+|:---------|:----------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_BODY`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`                                                                                            |
+| Default  | `${DEFAULT_CONTENT}`                                                                                |
 
 The body of the mail. The pipeline script assumes that you have a configured email template in place so default values is used `${DEFAULT_CONTENT}`
 
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
 ### `compressLog` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_COMPRESS_LOG`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`Boolean`|
-|Default|`false`|
+|                                                                                                                       ||
+|:---------|:------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_COMPRESS_LOG`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                                   |
+| Default  | `false`                                                                                                     |
 
 When set to `true` the log is attached to the mail as compressed zip.
 
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
 ### `enabled` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_ENABLED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`Boolean`|
-|Default|`true`|
+|                                                                                                                  ||
+|:---------|:-------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_ENABLED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                              |
+| Default  | `true`                                                                                                 |
 
 Disables the notifications when set to `false`
 
 ### `mimeType` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_MIME_TYPE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`|
-|Default|`null`|
+|                                                                                                                    ||
+|:---------|:---------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_MIME_TYPE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`                                                                                                 |
+| Default  | `null`                                                                                                   |
 
 The mimeType of the mail. The pipeline script assumes that you have
 configured the mimeType in the "Extended E-mail Notification" section of
@@ -294,11 +294,11 @@ one time in a row see [onStillUnstable](#onstillunstable-optional)
 | Default  | `true`                                                                                                           |
 
 ### `recipientProviders` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_RECIPIENT_PROVIDERS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`List` of `Map` with `RecipientProvider` classes|
-|Default|`[[$class: 'CulpritsRecipientProvider'],[$class: 'DevelopersRecipientProvider'],[$class: 'FailingTestSuspectsRecipientProvider'], [$class: 'FirstFailingBuildSuspectsRecipientProvider'],[$class: 'RequesterRecipientProvider'][$class: 'UpstreamComitterRecipientProvider']]`|
+|                                                                                                                                                                                                                                                                                          ||
+|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_RECIPIENT_PROVIDERS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)                                                                                                                                                             |
+| Type     | `List` of `Map` with `RecipientProvider` classes                                                                                                                                                                                                                               |
+| Default  | `[[$class: 'CulpritsRecipientProvider'],[$class: 'DevelopersRecipientProvider'],[$class: 'FailingTestSuspectsRecipientProvider'], [$class: 'FirstFailingBuildSuspectsRecipientProvider'],[$class: 'RequesterRecipientProvider'][$class: 'UpstreamComitterRecipientProvider']]` |
 
 The list of recipient providers used to determine who should receive a
 notification. Per default all recipent providers (except `ListProvider`)
@@ -307,22 +307,22 @@ are used.
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
 ### `subject` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_SUBJECT`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`|
-|Default|`${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}`|
+|                                                                                                                  ||
+|:---------|:-------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_SUBJECT`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`                                                                                               |
+| Default  | `${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}`                                  |
 
 The subject for the mail.
 
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
 ### `to` (optional)
-|||
-|---|---|
-|Constant|[`ConfigConstants.NOTIFY_TO`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`, comma separated list of email adresses|
-|Default|`null`|
+|                                                                                                             ||
+|:---------|:--------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_TO`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`, comma separated list of email adresses                                                  |
+| Default  | `null`                                                                                            |
 
 Recipients that should always get a notification. This list has to be a
 comma separated String of mail adresses.
