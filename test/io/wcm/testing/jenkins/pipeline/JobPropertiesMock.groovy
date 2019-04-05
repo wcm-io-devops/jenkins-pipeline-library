@@ -34,6 +34,8 @@ import static io.wcm.testing.jenkins.pipeline.StepConstants.PARAMETERS
 import static io.wcm.testing.jenkins.pipeline.StepConstants.PIPELINE_TRIGGERS
 import static io.wcm.testing.jenkins.pipeline.StepConstants.PIPELINE_TRIGGERS
 import static io.wcm.testing.jenkins.pipeline.StepConstants.POLLSCM
+import static io.wcm.testing.jenkins.pipeline.StepConstants.PROPERTIES
+import static io.wcm.testing.jenkins.pipeline.StepConstants.PROPERTIES
 import static io.wcm.testing.jenkins.pipeline.StepConstants.STRING
 import static io.wcm.testing.jenkins.pipeline.StepConstants.TEXT
 import static io.wcm.testing.jenkins.pipeline.StepConstants.UPSTREAM
@@ -53,6 +55,8 @@ class JobPropertiesMock {
     // set build parameters
     params = [:]
     context.getBinding().setVariable('params', params)
+
+    context.getPipelineTestHelper().registerAllowedMethod(PROPERTIES, [List.class], { List incomingCall -> context.getStepRecorder().record(PROPERTIES, incomingCall) })
 
     context.getPipelineTestHelper().registerAllowedMethod(BOOLEAN_PARAM, [Map.class], booleanParamCallback)
     context.getPipelineTestHelper().registerAllowedMethod(BUILD_DISCARDER, [Object.class], { Map incomingCall -> context.getStepRecorder().record(BUILD_DISCARDER, incomingCall) })

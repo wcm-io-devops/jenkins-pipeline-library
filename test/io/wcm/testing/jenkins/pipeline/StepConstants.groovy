@@ -37,6 +37,7 @@ class StepConstants {
 
   public final static String BOOLEAN_PARAM = "booleanParam"
   public final static String BUILD_DISCARDER = "buildDiscarder"
+  public final static String BUILD_BLOCKER_PROPERTY = "BuildBlockerProperty"
 
   public final static String CHECKOUT = "checkout"
   public final static String CHECKSTYLE = "checkstyle"
@@ -83,6 +84,7 @@ class StepConstants {
   public final static String PIPELINE_TRIGGERS = "pipelineTriggers"
   public final static String PMD = "pmd"
   public final static String POLLSCM = "pollSCM"
+  public final static String PROPERTIES = "properties"
 
 
   public final static String READ_JSON = "readJSON"
