@@ -96,6 +96,7 @@ class NotifyMailCustomIT extends LibraryIntegrationTestBase {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.FAILURE.toString())
     loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomJob.groovy")
+    assertNone(EMAILEXT)
   }
 
   void assertCorrectExtmailCall(Map extmailCall) {
