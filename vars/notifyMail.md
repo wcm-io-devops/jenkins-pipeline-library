@@ -58,7 +58,7 @@ notifyMail(
           (NOTIFY_TO) : "build-failure@example.com",
           (NOTIFY_ATTACH_LOG) : true,
         ],
-        (NOTIFY_ON_FIXED) : false: [
+        (NOTIFY_ON_FIXED) : [
           (NOTIFY_TO) : "build-fixed@example.com",
         ]
     ]
