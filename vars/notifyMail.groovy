@@ -19,7 +19,11 @@
  */
 
 import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
+import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
+
+import java.lang.reflect.Type
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
@@ -33,6 +37,7 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  */
 void call(Map config = [:]) {
     Logger log = new Logger(this)
+    TypeUtils typeUtils = new TypeUtils()
     // retrieve the configuration and set defaults
     Map notifyConfig = (Map) config[NOTIFY] ?: [:]
 
@@ -42,48 +47,14 @@ void call(Map config = [:]) {
         return
     }
 
-    String subject = notifyConfig[NOTIFY_SUBJECT] ?: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}'
-    String body = notifyConfig[NOTIFY_BODY] ?: '${DEFAULT_CONTENT}'
-    String to = notifyConfig[NOTIFY_TO]
-
-    String attachmentsPattern = notifyConfig[NOTIFY_ATTACHMENTS_PATTERN] ?: ''
-    Boolean attachLog = notifyConfig[NOTIFY_ATTACH_LOG] != null ? notifyConfig[NOTIFY_ATTACH_LOG] : false
-    Boolean compressLog = notifyConfig[NOTIFY_COMPRESS_LOG] != null ? notifyConfig[NOTIFY_COMPRESS_LOG] : false
-    String mimeType = notifyConfig[NOTIFY_MIME_TYPE] != null ? notifyConfig[NOTIFY_MIME_TYPE] : null
-
-    Boolean onSuccess = notifyConfig[NOTIFY_ON_SUCCESS] != null ? notifyConfig[NOTIFY_ON_SUCCESS] : false
-    Boolean onUnstable = notifyConfig[NOTIFY_ON_UNSTABLE] != null ? notifyConfig[NOTIFY_ON_UNSTABLE] : true
-    Boolean onStillUnstable = notifyConfig[NOTIFY_ON_STILL_UNSTABLE] != null ? notifyConfig[NOTIFY_ON_STILL_UNSTABLE] : true
-    Boolean onFixed = notifyConfig[NOTIFY_ON_FIXED] != null ? notifyConfig[NOTIFY_ON_FIXED] : true
-    Boolean onFailure = notifyConfig[NOTIFY_ON_FAILURE] != null ? notifyConfig[NOTIFY_ON_FAILURE] : true
-    Boolean onStillFailing = notifyConfig[NOTIFY_ON_STILL_FAILING] != null ? notifyConfig[NOTIFY_ON_STILL_FAILING] : true
-    Boolean onAbort = notifyConfig[NOTIFY_ON_ABORT] != null ? notifyConfig[NOTIFY_ON_ABORT] : false
-
-    // configure the recipient providers
-    // see https://jenkins.io/doc/pipeline/steps/email-ext/
-    List recipientProviders = notifyConfig[NOTIFY_RECIPIENT_PROVIDERS] != null ? notifyConfig[NOTIFY_RECIPIENT_PROVIDERS] : [
-            // list of users who committed change since last non broken build till now
-            [$class: 'CulpritsRecipientProvider'],
-
-            // Sends email to all the people who caused a change in the change set.
-            [$class: 'DevelopersRecipientProvider'],
-
-            // Sends email to the list of users suspected of causing a unit test to begin failing
-            //[$class: 'FailingTestSuspectsRecipientProvider'],
-
-            // Sends email to the list of users suspected of causing the build to begin failing.
-            [$class: 'FirstFailingBuildSuspectsRecipientProvider'],
-
-            // Sends email to the list of recipients defined in the "Project Recipient List."
-            // seems to work only when project based ACLs are present
-            //[$class: 'ListRecipientProvider'],
-
-            // Sends email to the user who initiated the build.
-            [$class: 'RequesterRecipientProvider'],
-
-            // Sends email to the list of users who committed changes in upstream builds that triggered this build.
-            [$class: 'UpstreamComitterRecipientProvider']
-    ]
+    // parse status configurations
+    def onSuccess = notifyConfig[NOTIFY_ON_SUCCESS] != null ? notifyConfig[NOTIFY_ON_SUCCESS] : false
+    def onUnstable = notifyConfig[NOTIFY_ON_UNSTABLE] != null ? notifyConfig[NOTIFY_ON_UNSTABLE] : true
+    def onStillUnstable = notifyConfig[NOTIFY_ON_STILL_UNSTABLE] != null ? notifyConfig[NOTIFY_ON_STILL_UNSTABLE] : true
+    def onFixed = notifyConfig[NOTIFY_ON_FIXED] != null ? notifyConfig[NOTIFY_ON_FIXED] : true
+    def onFailure = notifyConfig[NOTIFY_ON_FAILURE] != null ? notifyConfig[NOTIFY_ON_FAILURE] : true
+    def onStillFailing = notifyConfig[NOTIFY_ON_STILL_FAILING] != null ? notifyConfig[NOTIFY_ON_STILL_FAILING] : true
+    def onAbort = notifyConfig[NOTIFY_ON_ABORT] != null ? notifyConfig[NOTIFY_ON_ABORT] : false
 
     // retrieve the current and previous build result
     String currentBuildResult = currentBuild.result
@@ -103,22 +74,30 @@ void call(Map config = [:]) {
     // set the environment variable
     env.setProperty(NotificationTriggerHelper.ENV_TRIGGER, trigger)
 
-    // replace notification trigger variable because extmail step does not know about it
-    subject = triggerHelper.replaceEnvVar(subject, trigger)
-    body = triggerHelper.replaceEnvVar(body, trigger)
+    def calculatedStatusConfig = [:]
 
-    log.trace("value of envVar ${env.NOTIFICATION_TRIGGER}")
-
-    // check if notification is configured for trigger
+    // check if notification is configured for trigger and apply custom configurations if configured
     switch (true) {
-        case triggerHelper.isSuccess() && onSuccess:
-        case triggerHelper.isFixed() && onFixed:
-        case triggerHelper.isUnstable() && onUnstable:
-        case triggerHelper.isStillUnstable() && onStillUnstable:
-        case triggerHelper.isFailure() && onFailure:
-        case triggerHelper.isStillFailing() && onStillFailing:
-        case triggerHelper.isAborted() && onAbort:
-            // no nothing
+        case triggerHelper.isSuccess() && (onSuccess != false):
+            calculatedStatusConfig = onSuccess
+        break
+        case triggerHelper.isFixed() && (onFixed != false):
+            calculatedStatusConfig = onFixed
+        break
+        case triggerHelper.isUnstable() && (onUnstable != false):
+            calculatedStatusConfig = onUnstable
+            break
+        case triggerHelper.isStillUnstable() && (onStillUnstable != false):
+            calculatedStatusConfig = onStillUnstable
+            break
+        case triggerHelper.isFailure() && (onFailure != false):
+            calculatedStatusConfig = onFailure
+            break
+        case triggerHelper.isStillFailing() && (onStillFailing != false):
+            calculatedStatusConfig = onStillFailing
+            break
+        case triggerHelper.isAborted() && (onAbort != false):
+            calculatedStatusConfig = onAbort
             break
         default:
             // return by default when previous block was not evaluated as true
@@ -126,6 +105,27 @@ void call(Map config = [:]) {
             return
             break
     }
+    // merge notify config with status specific configuration (if applicable)
+    notifyConfig = _mergeStatusConfig(notifyConfig,calculatedStatusConfig)
+
+    // parse recipient providers
+    recipientProviders = _getRecipientProviders(notifyConfig)
+
+    // parse values
+    String subject = notifyConfig[NOTIFY_SUBJECT] ?: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}'
+    String body = notifyConfig[NOTIFY_BODY] ?: '${DEFAULT_CONTENT}'
+    String to = notifyConfig[NOTIFY_TO]
+
+    String attachmentsPattern = notifyConfig[NOTIFY_ATTACHMENTS_PATTERN] ?: ''
+    Boolean attachLog = notifyConfig[NOTIFY_ATTACH_LOG] != null ? notifyConfig[NOTIFY_ATTACH_LOG] : false
+    Boolean compressLog = notifyConfig[NOTIFY_COMPRESS_LOG] != null ? notifyConfig[NOTIFY_COMPRESS_LOG] : false
+    String mimeType = notifyConfig[NOTIFY_MIME_TYPE] != null ? notifyConfig[NOTIFY_MIME_TYPE] : null
+
+    // replace notification trigger variable because extmail step does not know about it
+    subject = triggerHelper.replaceEnvVar(subject, trigger)
+    body = triggerHelper.replaceEnvVar(body, trigger)
+
+    log.trace("value of envVar ${env.NOTIFICATION_TRIGGER}")
 
     log.info("Sending notification for: " + trigger)
 
@@ -140,6 +140,48 @@ void call(Map config = [:]) {
             recipientProviders: recipientProviders,
             to: to
     )
+}
 
+/**
+ * Merges the status specific configuration with the default configuration when applicable
+ *
+ * @param notifyConfig The notify config
+ * @param statusCfg The status config
+ * @return The merge configuration
+ */
+Map _mergeStatusConfig(Map notifyConfig, def statusCfg) {
+  Map ret = notifyConfig
+  TypeUtils typeUtils = new TypeUtils()
+  if (typeUtils.isMap(statusCfg)) {
+    ret = MapUtils.merge(ret, statusCfg)
+  }
+  return ret
+}
 
+/**
+ * Utility function to get the default recipient providers
+ *
+ * @param notifyConfig The notify config
+ * @return The recipient providers
+ */
+List _getRecipientProviders(Map notifyConfig) {
+  // configure the recipient providers
+  // see https://jenkins.io/doc/pipeline/steps/email-ext/
+  List ret = notifyConfig[NOTIFY_RECIPIENT_PROVIDERS] != null ? notifyConfig[NOTIFY_RECIPIENT_PROVIDERS] : [
+    // list of users who committed change since last non broken build till now
+    [$class: 'CulpritsRecipientProvider'],
+
+    // Sends email to all the people who caused a change in the change set.
+    [$class: 'DevelopersRecipientProvider'],
+
+    // Sends email to the list of users suspected of causing the build to begin failing.
+    [$class: 'FirstFailingBuildSuspectsRecipientProvider'],
+
+    // Sends email to the user who initiated the build.
+    [$class: 'RequesterRecipientProvider'],
+
+    // Sends email to the list of users who committed changes in upstream builds that triggered this build.
+    [$class: 'UpstreamComitterRecipientProvider']
+  ]
+  return ret
 }
