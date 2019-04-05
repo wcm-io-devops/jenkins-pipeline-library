@@ -58,13 +58,17 @@ notifyMail(
           (NOTIFY_TO) : "build-failure@example.com",
           (NOTIFY_ATTACH_LOG) : true,
         ],
-        (NOTIFY_ON_FIXED) : false,
+        (NOTIFY_ON_FIXED) : false: [
           (NOTIFY_TO) : "build-fixed@example.com",
+        ]
     ]
 )
 ```
 
-So you are able to configure for each build result custom options.
+So you are able to configure for each build result custom options. You
+can use each non build result specific configuration options again in
+these configs maps (because placing a `(NOTIFY_ON_FAILURE)` inside a
+`(NOTIFY_ON_FAILURE)` wouldn't make sence).
 
 :bulb: Please be aware that the build result specific
 configuration is merged with the "root" configuration! This especially
