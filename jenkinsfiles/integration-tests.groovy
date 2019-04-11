@@ -9,6 +9,8 @@ library identifier: 'pipeline-library-example@master', retriever: modernSCM([
   remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
 ])
 
+
+import groovy.transform.Field
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
@@ -77,6 +79,14 @@ def assertVersionsOrder(String v1, String v2) {
 
 
 node() {
+
+  integrationTestUtils.integrationTestUtils.runTestsOnPackage("annotations") {
+    integrationTestUtils.runTest("@Field") {
+      @Field String myFieldVariable = "myFieldVariableValue"
+      @Field String myFieldVariableAccess = "${myFieldVariable}-used"
+      integrationTestUtils.assertEquals("myFieldVariableValue-used", myFieldVariableAccess)
+    }
+  }
 
   integrationTestUtils.integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.credentials") {
     integrationTestUtils.runTest("Credential") {
