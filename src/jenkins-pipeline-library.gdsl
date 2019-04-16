@@ -1,5 +1,7 @@
+import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
+
 /**
- * gdsl for pipeline steps that do not need a allocated node
+ * gdsl for jenkins pipeline steps
  */
 def pipelineCtx = context(scope: scriptScope())
 contributor(pipelineCtx) {
@@ -20,5 +22,16 @@ contributor(pipelineCtx) {
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.devops.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
+  property(name: "ansible", type: 'ansible.groovy')
 }
 
+def ansibleCtx = context(
+  scope: scriptScope(),
+  ctype: "ansible.groovy"
+)
+
+contributor(ansibleCtx) {
+  method(name: 'execPlaybook', type: 'void', params: [config: Map], doc: 'Executes a ansible playbook with the given configuration.')
+  method(name: 'checkoutRequirements', type: 'void', params: [ requirementsYmlPath: String ], doc: 'Checks out ansible galaxy requirements based upon a provided path to a requirements YAML file.')
+  method(name: 'getGalaxyRoleInfo', type: 'Object', params: [ role: Role ], doc: 'Calls the ansible galaxy API for role information')
+}
