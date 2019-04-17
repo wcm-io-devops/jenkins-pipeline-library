@@ -48,6 +48,7 @@ contributor(pipelineCtx) {
   property(name: "integrationTestUtils", type: 'integrationTestUtils')
   property(name: "jenkinsRestApi", type: 'jenkinsRestApi')
   property(name: "managedScripts", type: 'managedScripts')
+  property(name: "maven", type: 'maven')
 }
 
 def ansible = context(
@@ -124,4 +125,16 @@ contributor(managedScripts) {
   method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder'], doc: 'Executes a managed shell script from the pipeline library.')
   method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
   method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean, returnStatus: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
+}
+
+def maven = context(
+  ctype: "maven"
+)
+
+contributor(maven) {
+  method(name: 'purgeSnapshots', type: 'void', params: [config: Map], doc: 'Adapter function to allow execution by providing a config map.')
+  method(name: 'purgeSnapshots', type: 'void', params: [:], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+  method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+  method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+  method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean, logLevel: 'io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel'], doc: 'Purges SNAPSHOT artifacts from the given repository.')
 }
