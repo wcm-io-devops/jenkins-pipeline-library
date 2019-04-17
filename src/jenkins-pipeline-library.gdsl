@@ -1,13 +1,32 @@
-import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
-
+/*-
+ * #%L
+ * wcm.io
+ * %%
+ * Copyright (C) 2017 - 2019 wcm.io DevOps
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 /**
- * gdsl for jenkins pipeline steps
+ * gdsl for jenkins pipeline library
+ *
+ * format reference:  https://confluence.jetbrains.com/display/GRVY/Scripting+IDE+for+DSL+awareness#ScriptingIDEforDSLawareness-DescribingGroovyDSLinternallanguageinitsownterms
  */
 def pipelineCtx = context(scope: scriptScope())
 contributor(pipelineCtx) {
   method(name: 'checkoutScm', type: 'void', params: [config: Map], doc: 'Check out from scm with provided configuration')
-  method(name: 'execManagedShellScript', type: String, params: [fileId: String, args: 'List<String>'], doc: 'Executes the managed shell script and returns the stdout')
-  method(name: 'execManagedShellScript', type: String, params: [fileId: String, argsLine: String], doc: 'Executes the managed shell script and returns the stdout')
+  method(name: 'conditionalStage', type: 'void', params: [stageName: String, condition: Boolean], doc: 'Conditionally executes a stage and marks it as skipped if supported')
+  method(name: 'conditionalStage', type: 'void', params: [stageName: String, condition: Boolean, throwException: Boolean], doc: 'Conditionally executes a stage and marks it as skipped if supported')
   method(name: 'execMaven', type: 'void', params: [config: Map], doc: 'Executes maven with the given configuration')
   method(name: 'execMavenRelease', type: 'void', params: [config: Map], doc: 'Performs a maven release with the given configuration')
   method(name: 'execNpm', type: 'void', params: [config: Map], doc: 'Executed NPM with the given configuration')
@@ -20,18 +39,89 @@ contributor(pipelineCtx) {
   method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
   method(name: 'setupTools', type: 'void', params: [config: Map], doc: 'Setup tools configured in the provided configuration')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: 'io.wcm.devops.jenkins.pipeline.ssh.SSHTarget', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTargets: 'List<io.wcm.devops.jenkins.pipeline.ssh.SSHTarget>', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.devops.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
-  property(name: "ansible", type: 'ansible.groovy')
+
+  property(name: "ansible", type: 'ansible')
+  property(name: "credentials", type: 'credentials')
+  property(name: "gitTools", type: 'gitTools')
+  property(name: "integrationTestUtils", type: 'integrationTestUtils')
+  property(name: "jenkinsRestApi", type: 'jenkinsRestApi')
+  property(name: "managedScripts", type: 'managedScripts')
+  property(name: "maven", type: 'maven')
+  property(name: "wrap", type: 'wrap')
 }
 
-def ansibleCtx = context(
-  scope: scriptScope(),
-  ctype: "ansible.groovy"
-)
-
-contributor(ansibleCtx) {
+def ansible = context(ctype: "ansible")
+contributor(ansible) {
   method(name: 'execPlaybook', type: 'void', params: [config: Map], doc: 'Executes a ansible playbook with the given configuration.')
-  method(name: 'checkoutRequirements', type: 'void', params: [ requirementsYmlPath: String ], doc: 'Checks out ansible galaxy requirements based upon a provided path to a requirements YAML file.')
-  method(name: 'getGalaxyRoleInfo', type: 'Object', params: [ role: Role ], doc: 'Calls the ansible galaxy API for role information')
+  method(name: 'checkoutRequirements', type: 'void', params: [requirementsYmlPath: String], doc: 'Checks out ansible galaxy requirements based upon a provided path to a requirements YAML file.')
+  method(name: 'getGalaxyRoleInfo', type: 'Object', params: [role: 'io.wcm.devops.jenkins.pipeline.tools.ansible.Role'], doc: 'Calls the ansible galaxy API for role information')
+}
+
+def credentials = context(  ctype: "credentials")
+contributor(credentials) {
+  method(name: 'lookupHttpCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve HTTP credentials for the given uri by using jenkins pipeline configuration.')
+  method(name: 'lookupScmCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SCM credentials for the given uri by using jenkins pipeline configuration.')
+  method(name: 'lookupSshCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SSH credentials for the given uri by using jenkins pipeline configuration.')
+}
+
+def gitTools = context(ctype: "gitTools")
+contributor(gitTools) {
+  method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String], doc: 'Mirrors a GIT repository from src to remote.')
+  method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String, srcCredentialIds: List], doc: 'Mirrors a GIT repository from src to remote.')
+  method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a GIT repository to the current workspace.')
+  method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository', srcCredentialIds: List], doc: 'Mirrors a GIT repository to the current workspace.')
+  method(name: 'mirrorRepositoryToRemote', type: 'void', params: [srcRepoPath: String, targetRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a local bare cloned repository to a target server.')
+  method(name: 'getFetchOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the fetch origin.')
+  method(name: 'getFetchOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the fetch origin.')
+  method(name: 'getPushOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the push origin.')
+  method(name: 'getPushOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the push origin.')
+}
+
+def integrationTestUtils = context(ctype: "integrationTestUtils")
+contributor(integrationTestUtils) {
+  method(name: 'assertEquals', type: 'void', params: [expected: Object, actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertNotEquals', type: 'void', params: [expected: Object, actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertNull', type: 'void', params: [actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertTrue', type: 'void', params: [actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertFalse', type: 'void', params: [actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'logTestResults', type: 'void', params: [results: Map], doc: 'Logs the test result.')
+  method(name: 'processFailedTests', type: 'void', params: [results: Map], doc: 'Processes the test results and fails when an error is found.')
+  method(name: 'runTest', type: 'void', params: [className: String, closure: Closure], doc: 'Utility function for running a test.')
+  method(name: 'runTestsOnPackage', type: 'void', params: [packageName: String, closure: Closure], doc: 'Wrapper function for reporting the test results for a package.')
+}
+
+def jenkinsRestApi = context(ctype: "jenkinsRestApi")
+contributor(jenkinsRestApi) {
+  method(name: 'findJobsByNameRegex', type: 'List<io.wcm.devops.jenkins.pipeline.model.jenkins.api.Job>', params: [remote: Map], doc: 'Returns all jobs from the given jenkins instance which matches the given regex.')
+}
+
+def managedScripts = context(ctype: "managedScripts")
+contributor(managedScripts) {
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder'], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean, returnStatus: Boolean], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String], doc: 'Executes a managed shell script from the pipeline library.')
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder'], doc: 'Executes a managed shell script from the pipeline library.')
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean, returnStatus: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
+}
+
+def maven = context(ctype: "maven")
+contributor(maven) {
+  method(name: 'purgeSnapshots', type: 'void', params: [config: Map], doc: 'Adapter function to allow execution by providing a config map.')
+  method(name: 'purgeSnapshots', type: 'void', params: [:], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+  method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+  method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+  method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean, logLevel: 'io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel'], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+}
+
+def wrap = context(ctype: "wrap")
+contributor(wrap) {
+  method(name: 'color', type: 'void', params: [config: Map, closure: Closure], doc: 'Enables color output in Jenkins console by using the ansiColor step.')
 }
