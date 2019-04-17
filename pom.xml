@@ -488,10 +488,6 @@
           </configuration>
         </plugin>
         <plugin>
-          <artifactId>maven-changes-plugin</artifactId>
-          <version>2.12.1</version>
-        </plugin>
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
