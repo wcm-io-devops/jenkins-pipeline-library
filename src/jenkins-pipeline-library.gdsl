@@ -54,30 +54,21 @@ contributor(pipelineCtx) {
   property(name: "wrap", type: 'wrap')
 }
 
-def ansible = context(
-  ctype: "ansible"
-)
-
+def ansible = context(ctype: "ansible")
 contributor(ansible) {
   method(name: 'execPlaybook', type: 'void', params: [config: Map], doc: 'Executes a ansible playbook with the given configuration.')
   method(name: 'checkoutRequirements', type: 'void', params: [requirementsYmlPath: String], doc: 'Checks out ansible galaxy requirements based upon a provided path to a requirements YAML file.')
   method(name: 'getGalaxyRoleInfo', type: 'Object', params: [role: 'io.wcm.devops.jenkins.pipeline.tools.ansible.Role'], doc: 'Calls the ansible galaxy API for role information')
 }
 
-def credentials = context(
-  ctype: "credentials"
-)
-
+def credentials = context(  ctype: "credentials")
 contributor(credentials) {
   method(name: 'lookupHttpCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve HTTP credentials for the given uri by using jenkins pipeline configuration.')
   method(name: 'lookupScmCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SCM credentials for the given uri by using jenkins pipeline configuration.')
   method(name: 'lookupSshCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SSH credentials for the given uri by using jenkins pipeline configuration.')
 }
 
-def gitTools = context(
-  ctype: "gitTools"
-)
-
+def gitTools = context(ctype: "gitTools")
 contributor(gitTools) {
   method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String], doc: 'Mirrors a GIT repository from src to remote.')
   method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String, srcCredentialIds: List], doc: 'Mirrors a GIT repository from src to remote.')
@@ -90,10 +81,7 @@ contributor(gitTools) {
   method(name: 'getPushOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the push origin.')
 }
 
-def integrationTestUtils = context(
-  ctype: "integrationTestUtils"
-)
-
+def integrationTestUtils = context(ctype: "integrationTestUtils")
 contributor(integrationTestUtils) {
   method(name: 'assertEquals', type: 'void', params: [expected: Object, actual: Object, msg: String], doc: 'Assert utility function.')
   method(name: 'assertNotEquals', type: 'void', params: [expected: Object, actual: Object, msg: String], doc: 'Assert utility function.')
@@ -106,18 +94,12 @@ contributor(integrationTestUtils) {
   method(name: 'runTestsOnPackage', type: 'void', params: [packageName: String, closure: Closure], doc: 'Wrapper function for reporting the test results for a package.')
 }
 
-def jenkinsRestApi = context(
-  ctype: "jenkinsRestApi"
-)
-
+def jenkinsRestApi = context(ctype: "jenkinsRestApi")
 contributor(jenkinsRestApi) {
   method(name: 'findJobsByNameRegex', type: 'List<io.wcm.devops.jenkins.pipeline.model.jenkins.api.Job>', params: [remote: Map], doc: 'Returns all jobs from the given jenkins instance which matches the given regex.')
 }
 
-def managedScripts = context(
-  ctype: "managedScripts"
-)
-
+def managedScripts = context(ctype: "managedScripts")
 contributor(managedScripts) {
   method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
   method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder'], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
@@ -130,10 +112,7 @@ contributor(managedScripts) {
   method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean, returnStatus: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
 }
 
-def maven = context(
-  ctype: "maven"
-)
-
+def maven = context(ctype: "maven")
 contributor(maven) {
   method(name: 'purgeSnapshots', type: 'void', params: [config: Map], doc: 'Adapter function to allow execution by providing a config map.')
   method(name: 'purgeSnapshots', type: 'void', params: [:], doc: 'Purges SNAPSHOT artifacts from the given repository.')
@@ -142,10 +121,7 @@ contributor(maven) {
   method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean, logLevel: 'io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel'], doc: 'Purges SNAPSHOT artifacts from the given repository.')
 }
 
-def wrap = context(
-  ctype: "wrap"
-)
-
+def wrap = context(ctype: "wrap")
 contributor(wrap) {
   method(name: 'color', type: 'void', params: [config: Map, closure: Closure], doc: 'Enables color output in Jenkins console by using the ansiColor step.')
 }
