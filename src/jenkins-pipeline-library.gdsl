@@ -41,10 +41,13 @@ contributor(pipelineCtx) {
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.devops.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
+
   property(name: "ansible", type: 'ansible')
   property(name: "credentials", type: 'credentials')
   property(name: "gitTools", type: 'gitTools')
   property(name: "integrationTestUtils", type: 'integrationTestUtils')
+  property(name: "jenkinsRestApi", type: 'jenkinsRestApi')
+  property(name: "managedScripts", type: 'managedScripts')
 }
 
 def ansible = context(
@@ -97,4 +100,28 @@ contributor(integrationTestUtils) {
   method(name: 'processFailedTests', type: 'void', params: [results: Map], doc: 'Processes the test results and fails when an error is found.')
   method(name: 'runTest', type: 'void', params: [className: String, closure: Closure], doc: 'Utility function for running a test.')
   method(name: 'runTestsOnPackage', type: 'void', params: [packageName: String, closure: Closure], doc: 'Wrapper function for reporting the test results for a package.')
+}
+
+def jenkinsRestApi = context(
+  ctype: "jenkinsRestApi"
+)
+
+contributor(jenkinsRestApi) {
+  method(name: 'findJobsByNameRegex', type: 'List<io.wcm.devops.jenkins.pipeline.model.jenkins.api.Job>', params: [remote: Map], doc: 'Returns all jobs from the given jenkins instance which matches the given regex.')
+}
+
+def managedScripts = context(
+  ctype: "managedScripts"
+)
+
+contributor(managedScripts) {
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder'], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+  method(name: 'execJenkinsShellScript', type: 'Object', params: [scriptId: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean, returnStatus: Boolean], doc: 'Executes a managed shell script from the ConfigFileProvider Plugin.')
+
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String], doc: 'Executes a managed shell script from the pipeline library.')
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder'], doc: 'Executes a managed shell script from the pipeline library.')
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
+  method(name: 'execPipelineShellScript', type: 'Object', params: [scriptPath: String, commandBuilder: 'io.wcm.devops.jenkins.pipeline.shell.CommandBuilder', returnStdout: Boolean, returnStatus: Boolean], doc: 'Executes a managed shell script from the pipeline library.')
 }
