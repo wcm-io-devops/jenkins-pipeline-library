@@ -43,6 +43,8 @@
     <failsafe.rerunFailingTestsCount>0</failsafe.rerunFailingTestsCount>
     <surefire.rerunFailingTestsCount>0</surefire.rerunFailingTestsCount>
     <enforcer.skip>true</enforcer.skip>
+    <animal.sniffer.skip>true</animal.sniffer.skip>
+    <java.level>8</java.level>
   </properties>
 
   <inceptionYear>2017</inceptionYear>
