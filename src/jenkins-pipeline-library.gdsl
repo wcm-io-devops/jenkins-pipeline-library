@@ -44,6 +44,7 @@ contributor(pipelineCtx) {
   property(name: "ansible", type: 'ansible')
   property(name: "credentials", type: 'credentials')
   property(name: "gitTools", type: 'gitTools')
+  property(name: "integrationTestUtils", type: 'integrationTestUtils')
 }
 
 def ansible = context(
@@ -72,12 +73,28 @@ def gitTools = context(
 
 contributor(gitTools) {
   method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String], doc: 'Mirrors a GIT repository from src to remote.')
-  method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String, srcCredentialIds: List ], doc: 'Mirrors a GIT repository from src to remote.')
+  method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String, srcCredentialIds: List], doc: 'Mirrors a GIT repository from src to remote.')
   method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a GIT repository to the current workspace.')
-  method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository', srcCredentialIds: List ], doc: 'Mirrors a GIT repository to the current workspace.')
+  method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository', srcCredentialIds: List], doc: 'Mirrors a GIT repository to the current workspace.')
   method(name: 'mirrorRepositoryToRemote', type: 'void', params: [srcRepoPath: String, targetRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a local bare cloned repository to a target server.')
   method(name: 'getFetchOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the fetch origin.')
   method(name: 'getFetchOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the fetch origin.')
   method(name: 'getPushOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the push origin.')
   method(name: 'getPushOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the push origin.')
+}
+
+def integrationTestUtils = context(
+  ctype: "integrationTestUtils"
+)
+
+contributor(integrationTestUtils) {
+  method(name: 'assertEquals', type: 'void', params: [expected: Object, actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertNotEquals', type: 'void', params: [expected: Object, actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertNull', type: 'void', params: [actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertTrue', type: 'void', params: [actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'assertFalse', type: 'void', params: [actual: Object, msg: String], doc: 'Assert utility function.')
+  method(name: 'logTestResults', type: 'void', params: [results: Map], doc: 'Logs the test result.')
+  method(name: 'processFailedTests', type: 'void', params: [results: Map], doc: 'Processes the test results and fails when an error is found.')
+  method(name: 'runTest', type: 'void', params: [className: String, closure: Closure], doc: 'Utility function for running a test.')
+  method(name: 'runTestsOnPackage', type: 'void', params: [packageName: String, closure: Closure], doc: 'Wrapper function for reporting the test results for a package.')
 }
