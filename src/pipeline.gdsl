@@ -67,6 +67,7 @@ contributor(ctx) {
   method(name: 'milestone', type: 'Object', params: [ordinal:'java.lang.Integer'], doc: 'The milestone step forces all builds to go through in order')
   method(name: 'milestone', type: 'Object', namedParams: [parameter(name: 'ordinal', type: 'java.lang.Integer'), parameter(name: 'label', type: 'java.lang.String'), ], doc: 'The milestone step forces all builds to go through in order')
   method(name: 'node', type: 'Object', params: [label:java.lang.String, body:'Closure'], doc: 'Allocate node')
+  method(name: 'node', type: 'Object', params: [body:'Closure'], doc: 'Allocate node')
   method(name: 'nodesByLabel', type: 'Object', params: [label:'java.lang.String'], doc: 'List of nodes by Label, by default excludes offline nodes.')
   method(name: 'nodesByLabel', type: 'Object', namedParams: [parameter(name: 'label', type: 'java.lang.String'), parameter(name: 'offline', type: 'boolean'), ], doc: 'List of nodes by Label, by default excludes offline nodes.')
   method(name: 'properties', type: 'Object', params: [properties:'Map'], doc: 'Set job properties')
@@ -121,6 +122,15 @@ contributor(ctx) {
   property(name: 'currentBuild', type: 'org.jenkinsci.plugins.workflow.cps.RunWrapperBinder')
   property(name: 'scm', type: 'org.jenkinsci.plugins.workflow.multibranch.SCMVar')
   property(name: 'manager', type: 'org.jvnet.hudson.plugins.groovypostbuild.WorkflowManager')
+
+  //manually added methods and properties
+
+  method(name: 'disableConcurrentBuilds', type: 'Object', params: [:])
+  method(name: 'pipelineTriggers', type: 'Object', params: [triggers: List])
+  method(name: 'file', type: 'Object', namedParams: [parameter(name: 'credentialsId', type: 'java.lang.String'),parameter(name: 'variable', type: 'java.lang.String')], doc: 'creates a file credential object for the withCredentials step.')
+  method(name: 'usernamePassword', type: 'Object', namedParams: [parameter(name: 'credentialsId', type: 'java.lang.String'),parameter(name: 'passwordVariable', type: 'java.lang.String'),parameter(name: 'usernameVariable', type: 'java.lang.String')], doc: 'creates a usernamePassword object for the withCredentials step.')
+  method(name: 'properties', type: 'Object', params: [properties:'List'], doc: 'Set job properties')
+  method(name: 'string', type: 'Object', namedParams: [parameter(name: 'credentialsId', type: 'java.lang.String'),parameter(name: 'variable', type: 'java.lang.String')], doc: 'creates a string credential object for the withCredentials step.')
 
 }
 //Steps that require a node context
@@ -201,6 +211,13 @@ contributor(nodeCtx) {
     method(name: 'withDockerRegistry', type: 'Object', params: [registry:Map, body:'Closure'], doc: 'Advanced/Deprecated Sets up Docker registry endpoint')
     method(name: 'withDockerRegistry', type: 'Object', params: [body:Closure], namedParams: [parameter(name: 'registry', type: 'Map'), parameter(name: 'toolName', type: 'java.lang.String'), ], doc: 'Sets up Docker registry endpoint')
     method(name: 'withDockerServer', type: 'Object', params: [server:Map, body:'Closure'], doc: 'Advanced/Deprecated Sets up Docker server endpoint')
+
+    //manually added methods and properties
+
+    method(name: 'configFile', type: 'void', namedParams: [parameter(name: 'fileId', type: 'java.lang.String'), parameter(name: 'variable', type: 'java.lang.String'), ], doc: 'Creates a config file used by the configfileProvider step')
+    method(name: 'configFileProvider', type: 'void', params: [configFiles: List, body:'Closure'], doc: 'Config File provider plugin')
+    method(name: 'withCredentials', type: 'void', params: [ credentialsList : List, body:'Closure'], doc: 'Provides the configured credentials in the body')
+    method(name: 'withEnv', type: 'void', params: [ envVars:List, body:'Closure'], doc: 'Set environment variables')
   }
 }
 

@@ -25,8 +25,8 @@
 def pipelineCtx = context(scope: scriptScope())
 contributor(pipelineCtx) {
   method(name: 'checkoutScm', type: 'void', params: [config: Map], doc: 'Check out from scm with provided configuration')
-  method(name: 'conditionalStage', type: 'void', params: [stageName: String, condition: Boolean], doc: 'Conditionally executes a stage and marks it as skipped if supported')
-  method(name: 'conditionalStage', type: 'void', params: [stageName: String, condition: Boolean, throwException: Boolean], doc: 'Conditionally executes a stage and marks it as skipped if supported')
+  method(name: 'conditionalStage', type: 'void', params: [stageName: String, condition: Boolean, body: 'Closure'], doc: 'Conditionally executes a stage and marks it as skipped if supported')
+  method(name: 'conditionalStage', type: 'void', params: [stageName: String, condition: Boolean, throwException: Boolean, body: 'Closure'], doc: 'Conditionally executes a stage and marks it as skipped if supported')
   method(name: 'execMaven', type: 'void', params: [config: Map], doc: 'Executes maven with the given configuration')
   method(name: 'execMavenRelease', type: 'void', params: [config: Map], doc: 'Performs a maven release with the given configuration')
   method(name: 'execNpm', type: 'void', params: [config: Map], doc: 'Executed NPM with the given configuration')
@@ -46,6 +46,7 @@ contributor(pipelineCtx) {
 
   property(name: "ansible", type: 'ansible')
   property(name: "credentials", type: 'credentials')
+  property(name: "execMaven", type: "execMaven")
   property(name: "gitTools", type: 'gitTools')
   property(name: "integrationTestUtils", type: 'integrationTestUtils')
   property(name: "jenkinsRestApi", type: 'jenkinsRestApi')
@@ -66,6 +67,11 @@ contributor(credentials) {
   method(name: 'lookupHttpCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve HTTP credentials for the given uri by using jenkins pipeline configuration.')
   method(name: 'lookupScmCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SCM credentials for the given uri by using jenkins pipeline configuration.')
   method(name: 'lookupSshCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SSH credentials for the given uri by using jenkins pipeline configuration.')
+}
+
+def execMaven = context(  ctype: "execMaven")
+contributor(execMaven) {
+  method(name: 'autoLookupMavenSettings', type: 'io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile', params: [jsonPath:String, scmUrl: String, log: 'io.wcm.devops.jenkins.pipeline.utils.logging.Logger' ], doc: 'Searches for a matching maven setting for the scmUrl in the provided json')
 }
 
 def gitTools = context(ctype: "gitTools")
