@@ -39,6 +39,8 @@ contributor(pipelineCtx) {
   method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
   method(name: 'setupTools', type: 'void', params: [config: Map], doc: 'Setup tools configured in the provided configuration')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: 'io.wcm.devops.jenkins.pipeline.ssh.SSHTarget', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
+  method(name: 'sshAgentWrapper', type: 'void', params: [sshTargets: 'List<io.wcm.devops.jenkins.pipeline.ssh.SSHTarget>', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, credentialAware: 'io.wcm.devops.jenkins.pipeline.credentials.CredentialAware', body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
   method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
 
@@ -49,6 +51,7 @@ contributor(pipelineCtx) {
   property(name: "jenkinsRestApi", type: 'jenkinsRestApi')
   property(name: "managedScripts", type: 'managedScripts')
   property(name: "maven", type: 'maven')
+  property(name: "wrap", type: 'wrap')
 }
 
 def ansible = context(
@@ -137,4 +140,12 @@ contributor(maven) {
   method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String], doc: 'Purges SNAPSHOT artifacts from the given repository.')
   method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean], doc: 'Purges SNAPSHOT artifacts from the given repository.')
   method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean, logLevel: 'io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel'], doc: 'Purges SNAPSHOT artifacts from the given repository.')
+}
+
+def wrap = context(
+  ctype: "wrap"
+)
+
+contributor(wrap) {
+  method(name: 'color', type: 'void', params: [config: Map, closure: Closure], doc: 'Enables color output in Jenkins console by using the ansiColor step.')
 }
