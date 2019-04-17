@@ -43,6 +43,7 @@ contributor(pipelineCtx) {
   method(name: 'transferScp', type: 'void', params: [config: Map], doc: 'Transfers files via scp by using the provided configuration')
   property(name: "ansible", type: 'ansible')
   property(name: "credentials", type: 'credentials')
+  property(name: "gitTools", type: 'gitTools')
 }
 
 def ansible = context(
@@ -63,4 +64,20 @@ contributor(credentials) {
   method(name: 'lookupHttpCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve HTTP credentials for the given uri by using jenkins pipeline configuration.')
   method(name: 'lookupScmCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SCM credentials for the given uri by using jenkins pipeline configuration.')
   method(name: 'lookupSshCredential', type: 'io.wcm.devops.jenkins.pipeline.credentials.Credential', params: [uri: String], doc: 'Tries to retrieve SSH credentials for the given uri by using jenkins pipeline configuration.')
+}
+
+def gitTools = context(
+  ctype: "gitTools"
+)
+
+contributor(gitTools) {
+  method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String], doc: 'Mirrors a GIT repository from src to remote.')
+  method(name: 'mirrorRepository', type: 'void', params: [srcUrl: String, targetUrl: String, srcCredentialIds: List ], doc: 'Mirrors a GIT repository from src to remote.')
+  method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a GIT repository to the current workspace.')
+  method(name: 'mirrorRepositoryToWorkspace', type: 'void', params: [srcRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository', srcCredentialIds: List ], doc: 'Mirrors a GIT repository to the current workspace.')
+  method(name: 'mirrorRepositoryToRemote', type: 'void', params: [srcRepoPath: String, targetRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a local bare cloned repository to a target server.')
+  method(name: 'getFetchOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the fetch origin.')
+  method(name: 'getFetchOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the fetch origin.')
+  method(name: 'getPushOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the push origin.')
+  method(name: 'getPushOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the push origin.')
 }
