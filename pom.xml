@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>2.37</version>
+    <version>3.42</version>
     <relativePath />
   </parent>
 
@@ -42,6 +42,7 @@
   <properties>
     <failsafe.rerunFailingTestsCount>0</failsafe.rerunFailingTestsCount>
     <surefire.rerunFailingTestsCount>0</surefire.rerunFailingTestsCount>
+    <enforcer.skip>true</enforcer.skip>
   </properties>
 
   <inceptionYear>2017</inceptionYear>
@@ -387,74 +388,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0-M1</version>
-        <executions>
-          <execution>
-            <id>display-info</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>display-info</goal>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>[3.1.0,)</version>
-                  <message>3.1.0 required by frontend-maven-plugin at least.</message>
-                </requireMavenVersion>
-                <requirePluginVersions>
-                  <banSnapshots>false</banSnapshots>
-                </requirePluginVersions>
-                <enforceBytecodeVersion>
-                  <maxJdkVersion>1.8</maxJdkVersion>
-                  <ignoredScopes>
-                    <ignoredScope>test</ignoredScope>
-                  </ignoredScopes>
-                  <excludes>
-                    <exclude>org.jenkins-ci.main:jenkins-core</exclude>
-                    <exclude>org.jenkins-ci.main:cli</exclude>
-                    <exclude>org.jenkins-ci.main:jenkins-test-harness</exclude>
-                    <exclude>com.google.code.findbugs:annotations</exclude>
-                  </excludes>
-                </enforceBytecodeVersion>
-                <bannedDependencies>
-                  <excludes>
-                    <exclude>org.sonatype.sisu:sisu-guice</exclude>
-                    <exclude>log4j:log4j:*:jar:compile</exclude>
-                    <exclude>log4j:log4j:*:jar:runtime</exclude>
-                    <exclude>commons-logging:commons-logging:*:jar:compile</exclude>
-                    <exclude>commons-logging:commons-logging:*:jar:runtime</exclude>
-                  </excludes>
-                </bannedDependencies>
-                <requireReleaseDeps>
-                  <message>No Snapshots Allowed For Release Versions</message>
-                  <onlyWhenRelease>true</onlyWhenRelease>
-                </requireReleaseDeps>
-                <requireUpperBoundDeps>
-                  <excludes>
-                    <exclude>com.google.guava:guava</exclude>
-                    <exclude>commons-logging:commons-logging</exclude>
-                    <exclude>commons-codec:commons-codec</exclude>
-                    <exclude>com.google.code.findbugs:jsr305</exclude>
-                    <exclude>org.kohsuke:access-modifier-annotation</exclude>
-                    <exclude>net.java.dev.jna:jna</exclude>
-                  </excludes>
-                </requireUpperBoundDeps>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>extra-enforcer-rules</artifactId>
-            <version>1.0-beta-4</version>
-            <scope>compile</scope>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
 
