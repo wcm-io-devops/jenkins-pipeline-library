@@ -36,7 +36,14 @@ class AnsibleIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  public void shouldCheckoutRequirements() {
+  void shouldCheckoutRequirements() {
+
+    File role1MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_pipeline_library.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_pipeline_library"] ,role1MockedResponse.getText("UTF-8"), 200)
+
+    File role2MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_plugins.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_plugins",] ,role2MockedResponse.getText("UTF-8"), 200)
+
     loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRequirementsTestJob.groovy")
     List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 4)
 
@@ -48,29 +55,29 @@ class AnsibleIT extends LibraryIntegrationTestBase {
         "doGenerateSubmoduleConfigurations": false,
         "extensions"                       : [
             [$class: 'LocalBranch'],
-            [$class: 'RelativeTargetDirectory', relativeTargetDir: 'williamyeh.oracle-java'],
-            [$class: 'ScmName', name: 'williamyeh.oracle-java']
+            [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_pipeline_library'],
+            [$class: 'ScmName', name: 'wcm_io_devops.jenkins_pipeline_library']
         ],
         "submoduleCfg"                     : [],
         "userRemoteConfigs"                : [
-            [url: "https://github.com/William-Yeh/ansible-oracle-java.git"]
+            [url: "https://github.com/wcm-io-devops/ansible-jenkins-pipeline-library.git"]
         ]
     ]
 
     Map expectedCheckoutCall1 = [
         '$class'                           : "GitSCM",
         "branches"                         : [
-            ["name": "*/v3.5.2"]
+            ["name": "*/1.2.0"]
         ],
         "doGenerateSubmoduleConfigurations": false,
         "extensions"                       : [
             [$class: 'LocalBranch'],
-            [$class: 'RelativeTargetDirectory', relativeTargetDir: 'tecris.maven'],
-            [$class: 'ScmName', name: 'tecris.maven']
+            [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_plugins'],
+            [$class: 'ScmName', name: 'wcm_io_devops.jenkins_plugins']
         ],
         "submoduleCfg"                     : [],
         "userRemoteConfigs"                : [
-            [url: "https://github.com/tecris/ansible-maven.git"]
+            [url: "https://github.com/wcm-io-devops/ansible-jenkins-plugins.git"]
         ]
     ]
 
@@ -115,7 +122,7 @@ class AnsibleIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  public void shouldRunAnsibleWithMinimalConfiguration() {
+  void shouldRunAnsibleWithMinimalConfiguration() {
     loadAndExecuteScript("vars/ansible/jobs/ansibleExecPlaybookMinimalTestJob.groovy")
     Map actualPlaybookCall = StepRecorderAssert.assertOnce(StepConstants.ANSIBLE_PLAYBOOK)
 
@@ -139,7 +146,7 @@ class AnsibleIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  public void shouldRunAnsibleWithCustomConfiguration() {
+  void shouldRunAnsibleWithCustomConfiguration() {
     loadAndExecuteScript("vars/ansible/jobs/ansibleExecPlaybookCustomConfigurationTestJob.groovy")
     Map actualPlaybookCall = StepRecorderAssert.assertOnce(StepConstants.ANSIBLE_PLAYBOOK)
 
@@ -163,7 +170,7 @@ class AnsibleIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  public void shouldInjectBuildParams() {
+  void shouldInjectBuildParams() {
     this.getJobPropertiesMock().setParams([choiceParam: "choice1", boolParam: true, stringParam: "text"])
     loadAndExecuteScript("vars/ansible/jobs/ansibleExecPlaybookInjectParamsTestJob.groovy")
     Map actualPlaybookCall = StepRecorderAssert.assertOnce(StepConstants.ANSIBLE_PLAYBOOK)
@@ -189,15 +196,25 @@ class AnsibleIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  public void shouldGetGalaxyRoleInfo() {
+  void shouldGetGalaxyRoleInfo() {
+    File mockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_pipeline_library.json")
+    this.httpRequestPluginMock.mockResponse(mockedResponse.getText("UTF-8"), 200)
+
     JSONObject result = loadAndExecuteScript("vars/ansible/jobs/ansibleGetGalaxyRoleInfoTestJob.groovy")
-    Assert.assertEquals("William-Yeh", result["github_user"])
-    Assert.assertEquals("ansible-oracle-java", result["github_repo"])
+
+    StepRecorderAssert.assertOnce(StepConstants.HTTP_REQUEST)
+    Assert.assertEquals("wcm-io-devops", result["github_user"])
+    Assert.assertEquals("ansible-jenkins-pipeline-library", result["github_repo"])
   }
 
   @Test
-  public void shouldNotGetGalaxyRoleInfo() {
+  void shouldNotGetGalaxyRoleInfo() {
+    File mockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/not.existingrole.json")
+    this.httpRequestPluginMock.mockResponse(mockedResponse.getText("UTF-8"), 200)
+
     JSONObject result = loadAndExecuteScript("vars/ansible/jobs/ansibleGetGalaxyRoleInfoWithErrorsTestJob.groovy")
+
+    StepRecorderAssert.assertOnce(StepConstants.HTTP_REQUEST)
     Assert.assertNull(result)
   }
 
@@ -209,10 +226,6 @@ class AnsibleIT extends LibraryIntegrationTestBase {
     // return default values for several commands
     if (returnStdout) {
       switch (script) {
-        case "curl --silent 'https://galaxy.ansible.com/api/v1/roles/?owner__username=williamyeh&name=oracle-java'":
-          File mockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/williamyeh.oracle-java.json")
-          return mockedResponse.getText("UTF-8")
-          break
         case "curl --silent 'https://galaxy.ansible.com/api/v1/roles/?owner__username=tecris&name=maven'":
           File mockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/tecris.maven.json")
           return mockedResponse.getText("UTF-8")
