@@ -55,7 +55,7 @@ List<Job> findJobsByNameRegex(Map remote) {
   }
   String apiUrl = "$baseUrl/api/json?tree=$treeQuery"
 
-  def response = httpRequest(acceptType: 'APPLICATION_JSON', authentication: credentialsId, timeout: 30, url: apiUrl, consoleLogResponseBody: false, validResponseCodes: '200')
+  def response = httpRequest(acceptType: 'APPLICATION_JSON', authentication: credentialsId, timeout: 30, url: apiUrl, consoleLogResponseBody: false, validResponseCodes: '200', quiet: true)
   Map responseJson = readJSON(text: response.getContent())
 
   Job jenkinsRoot = new Job(responseJson)
