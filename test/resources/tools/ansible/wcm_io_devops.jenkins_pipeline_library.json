@@ -1,0 +1,147 @@
+{
+  "count": 1,
+  "next": null,
+  "next_link": null,
+  "previous": null,
+  "previous_link": null,
+  "results": [
+    {
+      "id": 29198,
+      "url": "/api/v1/roles/29198/",
+      "related": {
+        "imports": "/api/v1/roles/29198/imports/",
+        "dependencies": "/api/v1/roles/29198/dependencies/",
+        "content_type": "/api/v1/content_types/11/"
+      },
+      "summary_fields": {
+        "videos": [],
+        "provider_namespace": {
+          "name": "wcm-io-devops",
+          "id": 3746
+        },
+        "repository": {
+          "open_issues_count": 0,
+          "travis_status_url": "https://travis-ci.org/wcm-io-devops/ansible-jenkins-pipeline-library.svg?branch=master",
+          "travis_build_url": "https://travis-ci.org/wcm-io-devops/ansible-jenkins-pipeline-library/builds/521745414",
+          "name": "jenkins_pipeline_library",
+          "format": "role",
+          "deprecated": false,
+          "original_name": "ansible-jenkins-pipeline-library",
+          "quality_score": 5.0,
+          "stargazers_count": 1,
+          "watchers_count": 4,
+          "forks_count": 0,
+          "community_survey_count": 0,
+          "community_score": null,
+          "id": 78672
+        },
+        "tags": [
+          "jenkins",
+          "pipeline",
+          "wcmio"
+        ],
+        "versions": [
+          {
+            "release_date": "2019-04-11T16:00:20Z",
+            "id": 91660,
+            "name": "2.164.1-2"
+          },
+          {
+            "release_date": "2018-12-18T11:38:24Z",
+            "id": 83661,
+            "name": "2.150.1-1"
+          },
+          {
+            "release_date": "2018-08-28T14:56:45Z",
+            "id": 73358,
+            "name": "2.107.3-1"
+          },
+          {
+            "release_date": "2018-08-28T14:40:53Z",
+            "id": 73359,
+            "name": "2.121.2-1"
+          },
+          {
+            "release_date": "2018-08-28T15:14:40Z",
+            "id": 73360,
+            "name": "2.107.3-2"
+          },
+          {
+            "release_date": "2018-08-29T11:04:12Z",
+            "id": 73573,
+            "name": "2.121.3-1"
+          },
+          {
+            "release_date": "2018-11-14T09:04:39Z",
+            "id": 80025,
+            "name": "2.138.3-1"
+          },
+          {
+            "release_date": "2018-09-17T11:52:50Z",
+            "id": 74590,
+            "name": "2.138.1-1"
+          },
+          {
+            "release_date": "2019-04-10T08:45:50Z",
+            "id": 91481,
+            "name": "2.164.1-1"
+          },
+          {
+            "release_date": "2019-02-27T13:31:44Z",
+            "id": 88827,
+            "name": "2.150.3-1"
+          }
+        ],
+        "namespace": {
+          "name": "wcm_io_devops",
+          "company": "pro!vision GmbH",
+          "html_url": "https://github.com/wcm-io-devops",
+          "email": null,
+          "avatar_url": "https://avatars3.githubusercontent.com/u/12764855?v=4",
+          "location": "Berlin",
+          "is_vendor": false,
+          "id": 3781
+        },
+        "platforms": [
+          {
+            "release": "stretch",
+            "name": "Debian"
+          }
+        ],
+        "dependencies": [
+          "geerlingguy.jenkins",
+          "wcm_io_devops.jenkins_plugins",
+          "wcm_io_devops.jenkins_script_security"
+        ],
+        "content_type": {
+          "id": 11,
+          "name": "role",
+          "description": "Role"
+        }
+      },
+      "created": "2018-08-28T14:13:15.547625Z",
+      "modified": "2019-04-18T14:20:39.738160Z",
+      "name": "jenkins_pipeline_library",
+      "role_type": "ANS",
+      "is_valid": true,
+      "min_ansible_version": "2.4",
+      "license": "Apache",
+      "company": "pro!vision",
+      "description": "Ansible role for setting up a Jenkins instance for the jenkins-pipeline-library.",
+      "travis_status_url": "https://travis-ci.org/wcm-io-devops/ansible-jenkins-pipeline-library.svg?branch=master",
+      "download_count": 161,
+      "imported": "2019-04-18T10:20:39.667718-04:00",
+      "active": true,
+      "open_issues_count": 0,
+      "commit_url": "https://api.github.com/repos/wcm-io-devops/ansible-jenkins-pipeline-library/git/commits/b1db991c517b2760368ff3f9fadd06f88f006385",
+      "github_user": "wcm-io-devops",
+      "forks_count": 0,
+      "github_branch": "master",
+      "github_repo": "ansible-jenkins-pipeline-library",
+      "issue_tracker_url": "https://wcm-io.atlassian.net",
+      "commit_message": "Introduce setting of Jenkins repository url (jenkins_pipeline_library_jenkins_repo_url and jenkins_pipeline_library_jenkins_repo_key_url) in order to avoid non stable updates.",
+      "commit": "b1db991c517b2760368ff3f9fadd06f88f006385",
+      "stargazers_count": 1
+    }
+  ]
+}

@@ -34,7 +34,6 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * The scm uris for ansible galaxy roles will be looked up by using
  * getGalaxyRoleInfo
  *
- * @see getGalaxyRoleInfo
  */
 void checkoutRequirements(String requirementsYmlPath) {
     Logger log = new Logger("ansible:checkoutRequirements -> ")
@@ -52,16 +51,12 @@ void checkoutRequirements(String requirementsYmlPath) {
                 log.debug("building scm url")
                 String githubUser = roleApiInfo['github_user']
                 String githubRepo = roleApiInfo['github_repo']
-                String githubBranch= roleApiInfo['github_branch']
 
                 String scmUrl = "https://github.com/${githubUser}/${githubRepo}.git"
+
                 // set values into role for checkout
                 role.setScm(Role.SCM_GIT)
                 role.setSrc(scmUrl)
-
-                if (githubBranch != "") {
-                    role.setVersion(githubBranch)
-                }
             }
         }
     }
@@ -173,46 +168,21 @@ void execPlaybook(Map config) {
  */
 Object getGalaxyRoleInfo(Role role) {
     Logger log = new Logger("ansible:getGalaxyRoleInfo -> ")
-    if (role.isGalaxyRole() == false) {
+    if (!role.isGalaxyRole()) {
         log.debug("Role with name: " + role.getName() + " is not a galaxy role")
         return null
     }
-    log.info("Getting role info for ${role.getName()}")
-    String apiUrl = "https://galaxy.ansible.com/api/v1/roles/"
+    log.info("Getting role info for ${role.getName()} (namespace: '${role.getNamespace()}', role name: '${role.getRoleName()}')")
 
-    //roles/?owner__username=tecris&name=maven"
+    String roleApiUrl = "https://galaxy.ansible.com/api/v1/roles/?owner__username=${role.getNamespace()}&name=${role.getRoleName()}"
 
-    def matcher = role.getName() =~ /(.+)\.(.+)/
-    log.debug("matcher: $matcher")
-
-    if (!matcher) {
-        log.warn("unable to extract username name role name, return and to nothing")
-        return null
-    }
-
-    String ownerUsername = matcher[0][1]
-    String name = matcher[0][2]
-    // directly reset matcher because it is not serializable
-    matcher = null
-    String roleApiUrl = "$apiUrl?owner__username=$ownerUsername&name=$name"
-    String apiResultStr
-
-    // execute the shell
-    try {
-        apiResultStr = sh(returnStdout: true, script: "curl --silent '$roleApiUrl'")
-    } catch (Exception ex) {
-        log.error("Unable to get role info for ${role.getName()}")
-        return null
-    }
-
-    log.trace("api curl result: $apiResultStr")
-    Object apiResultJson = readJSON(text: apiResultStr)
-    log.trace("api json result: $apiResultJson")
+    def response = httpRequest(acceptType: 'APPLICATION_JSON', timeout: 30, url: roleApiUrl, consoleLogResponseBody: false, validResponseCodes: '200', quiet: true)
+    Map apiResultJson = (Map) readJSON(text: response.getContent())
 
     Integer size = apiResultJson.results.size()
     // we expect only one result here because username and role should only give one result
     if (size != 1) {
-        log.warn("Expected one role result but found: $size")
+        log.warn("Expected one role result for ${role.getName()}, but found: $size")
         return null
     }
 

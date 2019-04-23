@@ -21,6 +21,7 @@
 package io.wcm.devops.jenkins.pipeline.tools.ansible
 
 import com.cloudbees.groovy.cps.NonCPS
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
  * Object for ansible roles
@@ -39,6 +40,12 @@ class Role implements Serializable {
 
   String version = "master"
 
+  String namespace = null
+
+  String roleName = null
+
+  Logger log = new Logger(this)
+
   /**
    * The src, either a galaxy role name or a scm path
    *
@@ -47,20 +54,31 @@ class Role implements Serializable {
   Role(String src) {
     this.src = src
     this.name = src
+    this.parse()
   }
 
-  @NonCPS
-  public Boolean isValid() {
+  Boolean isValid() {
     return this.src != null
   }
 
-  @NonCPS
-  public Boolean isScmRole() {
+  Boolean isScmRole() {
     return this.scm == Role.SCM_GIT
   }
 
+  Boolean isGalaxyRole() {
+    return this.scm == null && this.namespace != null && this.roleName != null
+  }
+
   @NonCPS
-  public Boolean isGalaxyRole() {
-    return this.scm == null
+  void parse() {
+    def matcher = this.name =~ /(.+)\.(.+)/
+    if (!matcher) {
+      this.log.warn("Unable to extract namespace and rolename from ${this.name}")
+    } else {
+      this.namespace = matcher[0][1]
+      this.roleName = matcher[0][2]
+    }
+    // unset matcher
+    matcher = null
   }
 }

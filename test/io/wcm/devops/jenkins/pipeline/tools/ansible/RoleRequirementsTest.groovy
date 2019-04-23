@@ -46,8 +46,8 @@ class RoleRequirementsTest extends DSLTestBase {
     Role role1 = roles.get(0)
     assertTrue(role1.isGalaxyRole())
     assertFalse(role1.isScmRole())
-    assertEquals("williamyeh.oracle-java", role1.getSrc())
-    assertEquals("williamyeh.oracle-java", role1.getName())
+    assertEquals("wcm_io_devops.jenkins_pipeline_library", role1.getSrc())
+    assertEquals("wcm_io_devops.jenkins_pipeline_library", role1.getName())
     assertEquals(null, role1.getScm())
     assertEquals("master", role1.getVersion())
 
@@ -55,10 +55,10 @@ class RoleRequirementsTest extends DSLTestBase {
     Role role2 = roles.get(1)
     assertTrue(role2.isGalaxyRole())
     assertFalse(role2.isScmRole())
-    assertEquals("tecris.maven", role2.getSrc())
-    assertEquals("tecris.maven", role2.getName())
+    assertEquals("wcm_io_devops.jenkins_plugins", role2.getSrc())
+    assertEquals("wcm_io_devops.jenkins_plugins", role2.getName())
     assertEquals(null, role2.getScm())
-    assertEquals("v3.5.2", role2.getVersion())
+    assertEquals("1.2.0", role2.getVersion())
 
     // test scm role without version
     Role role3 = roles.get(2)

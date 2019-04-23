@@ -1,6 +1,6 @@
-- src: williamyeh.oracle-java
-- src: tecris.maven
-  version: v3.5.2
+- src: wcm_io_devops.jenkins_pipeline_library
+- src: wcm_io_devops.jenkins_plugins
+  version: 1.2.0
 - src: https://github.com/wcm-io-devops/ansible-aem-cms.git
   name: aem-cms
   scm: git

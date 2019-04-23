@@ -30,27 +30,59 @@ class HTTPRequestPluginMock {
 
   LibraryIntegrationTestContext context
 
-  String mockedContent
-
-  Integer mockedStatusCode
+  List<HTTPRequestPluginResponseMock> responseMocks
 
   HTTPRequestPluginMock(LibraryIntegrationTestContext context) {
     this.context = context
     context.getPipelineTestHelper().registerAllowedMethod(HTTP_REQUEST, [Map.class], httpRequestCallback)
-    this.mockedContent = ""
-    this.mockedStatusCode = 200
+    responseMocks = new ArrayList<HTTPRequestPluginResponseMock>()
   }
 
   void mockResponse(String content, Integer statusCode) {
-    this.mockedContent = content
-    this.mockedStatusCode = statusCode
+    responseMocks.push(new HTTPRequestPluginResponseMock(null, content, statusCode))
+  }
+
+  void mockResponse(Map expectedParams, String content, Integer statusCode) {
+    responseMocks.push(new HTTPRequestPluginResponseMock(expectedParams, content, statusCode))
   }
 
   def httpRequestCallback = {
     Map incomingParameters ->
       this.context.getStepRecorder().record(HTTP_REQUEST, incomingParameters)
-      ResponseContentSupplierMock contentSupplier = new ResponseContentSupplierMock(mockedContent, mockedStatusCode)
-      return contentSupplier
+
+      // search for first matching response
+      for (HTTPRequestPluginResponseMock responseMock in responseMocks) {
+        if (responseMock.match(incomingParameters) ) {
+          return responseMock.getResponseContentSupplierMock()
+        }
+      }
+      return null
+  }
+}
+
+class HTTPRequestPluginResponseMock {
+
+  Map expectedParams
+
+  ResponseContentSupplierMock responseContentSupplierMock
+
+  HTTPRequestPluginResponseMock(Map expectedParams, String content, Integer statusCode) {
+    this.expectedParams = expectedParams
+    this.responseContentSupplierMock = new ResponseContentSupplierMock(content, statusCode)
+  }
+
+  /**
+   * Checks if all expected params match to the incoming parameters
+   * @param Map incomingParams The incoming parameters from the call
+   * @return True when the expectedParams matched the incomingParams
+   */
+  Boolean match(Map incomingParams) {
+    for (expectedParam in expectedParams) {
+      if (incomingParams[expectedParam.key] != expectedParam.value) {
+        return false
+      }
+    }
+    return true
   }
 }
 

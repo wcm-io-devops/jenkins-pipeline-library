@@ -28,9 +28,11 @@ class RoleTest {
 
   @Test
   void shouldParseGalaxyRole() {
-    Role underTest = new Role("some.rolename")
-    assertEquals("some.rolename", underTest.getSrc())
-    assertEquals("some.rolename", underTest.getName())
+    Role underTest = new Role("namespace.roleName")
+    assertEquals("namespace.roleName", underTest.getSrc())
+    assertEquals("namespace.roleName", underTest.getName())
+    assertEquals("namespace",underTest.getNamespace())
+    assertEquals("roleName",underTest.getRoleName())
     assertNull(underTest.getScm())
     assertEquals("master", underTest.getVersion())
     assertTrue(underTest.isValid())
@@ -48,6 +50,8 @@ class RoleTest {
     assertEquals("testName", underTest.getName())
     assertEquals("git", underTest.getScm())
     assertEquals("master", underTest.getVersion())
+    assertNull(underTest.getNamespace())
+    assertNull(underTest.getRoleName())
     assertTrue(underTest.isValid())
     assertFalse(underTest.isGalaxyRole())
     assertTrue(underTest.isScmRole())
@@ -64,6 +68,8 @@ class RoleTest {
     assertEquals("testName", underTest.getName())
     assertEquals("git", underTest.getScm())
     assertEquals("testVersion", underTest.getVersion())
+    assertNull(underTest.getNamespace())
+    assertNull(underTest.getRoleName())
     assertTrue(underTest.isValid())
     assertFalse(underTest.isGalaxyRole())
     assertTrue(underTest.isScmRole())

@@ -29,7 +29,7 @@ import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
  */
 def execute() {
 
-  Role existingRole = new Role("williamyeh.oracle-java")
+  Role existingRole = new Role("wcm_io_devops.jenkins_pipeline_library")
   return ansible.getGalaxyRoleInfo(existingRole)
 }
 
