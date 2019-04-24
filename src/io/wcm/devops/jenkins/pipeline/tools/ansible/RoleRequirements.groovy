@@ -54,7 +54,7 @@ class RoleRequirements implements Serializable {
    * @see Role
    */
   @NonCPS
-  public void parse() {
+  void parse() {
     if (_parsed == true) {
       return
     }
@@ -64,13 +64,15 @@ class RoleRequirements implements Serializable {
       String name = requirement.name ?: null
       String version = requirement.version ?: null
 
+      // use name when src is null
+      src = src != null ? src : name
+
       Role role = new Role(src)
       if (scm != null) role.setScm(scm)
       if (name != null) role.setName(name)
       if (version != null) role.setVersion(version)
 
       if (role.isValid()) {
-        log.trace("adding role")
         _roles.push(role)
       }
     }
@@ -83,7 +85,7 @@ class RoleRequirements implements Serializable {
    * @return
    */
   @NonCPS
-  public List<Role> getRoles() {
+  List<Role> getRoles() {
     this.parse()
     return this._roles
   }
@@ -93,22 +95,22 @@ class RoleRequirements implements Serializable {
    * @return A list of checkout configurations for scmCheckout
    */
   @NonCPS
-  public List<Map> getCheckoutConfigs() {
+  List<Map> getCheckoutConfigs() {
     List ret = []
     for (Role role in this.getRoles()) {
       log.debug("getCheckoutConfigs role: " + role.getSrc())
       if (role.isScmRole()) {
         log.debug("getCheckoutConfigs role is scmRole!")
         Map scmConfig = [
-            (SCM): [
-                (SCM_URL)       : role.getSrc(),
-                (SCM_BRANCHES)  : [[name: "*/"+role.getVersion()]],
-                (SCM_EXTENSIONS): [
-                    [$class: 'LocalBranch'],
-                    [$class: 'RelativeTargetDirectory', relativeTargetDir: role.getName()],
-                    [$class: 'ScmName', name: role.getName()]
-                ]
+          (SCM): [
+            (SCM_URL)       : role.getSrc(),
+            (SCM_BRANCHES)  : [[name: role.getVersion()]],
+            (SCM_EXTENSIONS): [
+              [$class: 'LocalBranch'],
+              [$class: 'RelativeTargetDirectory', relativeTargetDir: role.getName()],
+              [$class: 'ScmName', name: role.getName()]
             ]
+          ]
         ]
         ret.push(scmConfig)
       }

@@ -1,0 +1,112 @@
+{
+  "count": 1,
+  "next": null,
+  "next_link": null,
+  "previous": null,
+  "previous_link": null,
+  "results": [
+    {
+      "id": 29193,
+      "url": "/api/v1/roles/29193/",
+      "related": {
+        "imports": "/api/v1/roles/29193/imports/",
+        "dependencies": "/api/v1/roles/29193/dependencies/",
+        "content_type": "/api/v1/content_types/11/"
+      },
+      "summary_fields": {
+        "videos": [],
+        "provider_namespace": {
+          "name": "wcm-io-devops",
+          "id": 3746
+        },
+        "repository": {
+          "open_issues_count": 0,
+          "travis_status_url": "https://travis-ci.org/wcm-io-devops/ansible-jenkins-facts.svg?branch=master",
+          "travis_build_url": "https://travis-ci.org/wcm-io-devops/ansible-jenkins-facts/builds/521842975",
+          "name": "jenkins_facts",
+          "format": "role",
+          "deprecated": false,
+          "original_name": "ansible-jenkins-facts",
+          "quality_score": 5.0,
+          "stargazers_count": 0,
+          "watchers_count": 3,
+          "forks_count": 0,
+          "community_survey_count": 0,
+          "community_score": null,
+          "id": 78668
+        },
+        "tags": [
+          "jenkins",
+          "wcmio"
+        ],
+        "versions": [
+          {
+            "release_date": "2018-12-17T14:19:56Z",
+            "id": 83655,
+            "name": "1.1.0"
+          },
+          {
+            "release_date": "2018-08-28T12:51:46Z",
+            "id": 73328,
+            "name": "1.0.0"
+          },
+          {
+            "release_date": "2019-01-12T22:42:35Z",
+            "id": 85401,
+            "name": "1.1.1"
+          },
+          {
+            "release_date": "2019-04-11T15:49:17Z",
+            "id": 91658,
+            "name": "1.2.0"
+          }
+        ],
+        "namespace": {
+          "name": "wcm_io_devops",
+          "company": "pro!vision GmbH",
+          "html_url": "https://github.com/wcm-io-devops",
+          "email": null,
+          "avatar_url": "https://avatars3.githubusercontent.com/u/12764855?v=4",
+          "location": "Berlin",
+          "is_vendor": false,
+          "id": 3781
+        },
+        "platforms": [
+          {
+            "release": "stretch",
+            "name": "Debian"
+          }
+        ],
+        "dependencies": [],
+        "content_type": {
+          "id": 11,
+          "name": "role",
+          "description": "Role"
+        }
+      },
+      "created": "2018-08-28T12:37:10.719040Z",
+      "modified": "2019-04-18T18:30:25.454512Z",
+      "name": "jenkins_facts",
+      "role_type": "ANS",
+      "is_valid": true,
+      "min_ansible_version": "2.4",
+      "license": "Apache",
+      "company": "pro!vision",
+      "description": "Role for gathing facts from Jenkins instances.",
+      "travis_status_url": "https://travis-ci.org/wcm-io-devops/ansible-jenkins-facts.svg?branch=master",
+      "download_count": 585,
+      "imported": "2019-04-18T14:30:25.371888-04:00",
+      "active": true,
+      "open_issues_count": 0,
+      "commit_url": "https://api.github.com/repos/wcm-io-devops/ansible-jenkins-facts/git/commits/65ee919d67f290d81b0f0424d9a45d50f97199c1",
+      "github_user": "wcm-io-devops",
+      "forks_count": 0,
+      "github_branch": "master",
+      "github_repo": "ansible-jenkins-facts",
+      "issue_tracker_url": "https://wcm-io.atlassian.net",
+      "commit_message": "Introduced jenkins_facts_script_timeout and jenkins_facts_uri_timeout to avoid timeouts on slow instances",
+      "commit": "65ee919d67f290d81b0f0424d9a45d50f97199c1",
+      "stargazers_count": 0
+    }
+  ]
+}

@@ -52,19 +52,23 @@ class Role implements Serializable {
    * @param src
    */
   Role(String src) {
+    log.trace("constructor, src: ", src)
     this.src = src
     this.name = src
     this.parse()
   }
 
+  @NonCPS
   Boolean isValid() {
     return this.src != null
   }
 
+  @NonCPS
   Boolean isScmRole() {
     return this.scm == Role.SCM_GIT
   }
 
+  @NonCPS
   Boolean isGalaxyRole() {
     return this.scm == null && this.namespace != null && this.roleName != null
   }
