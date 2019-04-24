@@ -44,13 +44,16 @@ class AnsibleIT extends LibraryIntegrationTestBase {
     File role2MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_plugins.json")
     this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_plugins",] ,role2MockedResponse.getText("UTF-8"), 200)
 
+    File role3MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_facts.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_facts",] ,role3MockedResponse.getText("UTF-8"), 200)
+
     loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRequirementsTestJob.groovy")
-    List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 4)
+    List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 5)
 
     Map expectedCheckoutCall0 = [
         '$class'                           : "GitSCM",
         "branches"                         : [
-            ["name": "*/master"]
+            ["name": "master"]
         ],
         "doGenerateSubmoduleConfigurations": false,
         "extensions"                       : [
@@ -65,9 +68,26 @@ class AnsibleIT extends LibraryIntegrationTestBase {
     ]
 
     Map expectedCheckoutCall1 = [
+      '$class'                           : "GitSCM",
+      "branches"                         : [
+        ["name": "master"]
+      ],
+      "doGenerateSubmoduleConfigurations": false,
+      "extensions"                       : [
+        [$class: 'LocalBranch'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_facts'],
+        [$class: 'ScmName', name: 'wcm_io_devops.jenkins_facts']
+      ],
+      "submoduleCfg"                     : [],
+      "userRemoteConfigs"                : [
+        [url: "https://github.com/wcm-io-devops/ansible-jenkins-facts.git"]
+      ]
+    ]
+
+    Map expectedCheckoutCall2 = [
         '$class'                           : "GitSCM",
         "branches"                         : [
-            ["name": "*/1.2.0"]
+            ["name": "1.2.0"]
         ],
         "doGenerateSubmoduleConfigurations": false,
         "extensions"                       : [
@@ -81,10 +101,10 @@ class AnsibleIT extends LibraryIntegrationTestBase {
         ]
     ]
 
-    Map expectedCheckoutCall2 = [
+    Map expectedCheckoutCall3 = [
         '$class'                           : "GitSCM",
         "branches"                         : [
-            ["name": "*/master"]
+            ["name": "master"]
         ],
         "doGenerateSubmoduleConfigurations": false,
         "extensions"                       : [
@@ -98,10 +118,10 @@ class AnsibleIT extends LibraryIntegrationTestBase {
         ]
     ]
 
-    Map expectedCheckoutCall3 = [
+    Map expectedCheckoutCall4 = [
         '$class'                           : "GitSCM",
         "branches"                         : [
-            ["name": "*/develop"]
+            ["name": "develop"]
         ],
         "doGenerateSubmoduleConfigurations": false,
         "extensions"                       : [
@@ -119,6 +139,7 @@ class AnsibleIT extends LibraryIntegrationTestBase {
     Assert.assertEquals(expectedCheckoutCall1, checkoutCalls.get(1))
     Assert.assertEquals(expectedCheckoutCall2, checkoutCalls.get(2))
     Assert.assertEquals(expectedCheckoutCall3, checkoutCalls.get(3))
+    Assert.assertEquals(expectedCheckoutCall4, checkoutCalls.get(4))
   }
 
   @Test

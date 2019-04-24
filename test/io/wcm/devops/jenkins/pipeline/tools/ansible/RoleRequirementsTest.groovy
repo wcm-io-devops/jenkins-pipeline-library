@@ -39,20 +39,29 @@ class RoleRequirementsTest extends DSLTestBase {
 
   @Test
   void shouldParseRoles() {
-    assertEquals(4, underTest.getRoles().size())
+    assertEquals(5, underTest.getRoles().size())
     List roles = underTest.getRoles()
 
     // test galaxy role without version
-    Role role1 = roles.get(0)
+    Role role0 = roles.get(0)
+    assertTrue(role0.isGalaxyRole())
+    assertFalse(role0.isScmRole())
+    assertEquals("wcm_io_devops.jenkins_pipeline_library", role0.getSrc())
+    assertEquals("wcm_io_devops.jenkins_pipeline_library", role0.getName())
+    assertEquals(null, role0.getScm())
+    assertEquals("master", role0.getVersion())
+
+    // test galaxy role with name instead of src
+    Role role1 = roles.get(1)
     assertTrue(role1.isGalaxyRole())
     assertFalse(role1.isScmRole())
-    assertEquals("wcm_io_devops.jenkins_pipeline_library", role1.getSrc())
-    assertEquals("wcm_io_devops.jenkins_pipeline_library", role1.getName())
+    assertEquals("wcm_io_devops.jenkins_facts", role1.getSrc())
+    assertEquals("wcm_io_devops.jenkins_facts", role1.getName())
     assertEquals(null, role1.getScm())
     assertEquals("master", role1.getVersion())
 
     // test galaxy role with version
-    Role role2 = roles.get(1)
+    Role role2 = roles.get(2)
     assertTrue(role2.isGalaxyRole())
     assertFalse(role2.isScmRole())
     assertEquals("wcm_io_devops.jenkins_plugins", role2.getSrc())
@@ -61,7 +70,7 @@ class RoleRequirementsTest extends DSLTestBase {
     assertEquals("1.2.0", role2.getVersion())
 
     // test scm role without version
-    Role role3 = roles.get(2)
+    Role role3 = roles.get(3)
     assertFalse(role3.isGalaxyRole())
     assertTrue(role3.isScmRole())
     assertEquals("https://github.com/wcm-io-devops/ansible-aem-cms.git", role3.getSrc())
@@ -70,7 +79,7 @@ class RoleRequirementsTest extends DSLTestBase {
     assertEquals("master", role3.getVersion())
 
     // test scm role without version
-    Role role4 = roles.get(3)
+    Role role4 = roles.get(4)
     assertFalse(role4.isGalaxyRole())
     assertTrue(role4.isScmRole())
     assertEquals("https://github.com/wcm-io-devops/ansible-aem-service.git", role4.getSrc())
@@ -87,7 +96,7 @@ class RoleRequirementsTest extends DSLTestBase {
     Map expectedConfig1 = [
         (SCM): [
             (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-cms.git",
-            (SCM_BRANCHES)  : [[name: "*/master"]],
+            (SCM_BRANCHES)  : [[name: "master"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-cms'],
@@ -99,7 +108,7 @@ class RoleRequirementsTest extends DSLTestBase {
     Map expectedConfig2 = [
         (SCM): [
             (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-service.git",
-            (SCM_BRANCHES)  : [[name: "*/develop"]],
+            (SCM_BRANCHES)  : [[name: "develop"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-service'],
