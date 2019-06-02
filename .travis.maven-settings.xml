@@ -44,11 +44,11 @@
         <!-- jenkins ci repositories -->
         <repository>
           <id>jenkins-releases</id>
-          <url>http://repo.jenkins-ci.org/releases/</url>
+          <url>https://repo.jenkins-ci.org/releases/</url>
         </repository>
         <repository>
           <id>repo.jenkins-ci.org</id>
-          <url>http://repo.jenkins-ci.org/public/</url>
+          <url>https://repo.jenkins-ci.org/public/</url>
         </repository>
         <!-- fix m.g.o-public repository -->
         <repository>
@@ -77,7 +77,7 @@
         <!-- jenkins ci plugin repository -->
         <pluginRepository>
           <id>repo.jenkins-ci.org</id>
-          <url>http://repo.jenkins-ci.org/public/</url>
+          <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
 
       </pluginRepositories>
