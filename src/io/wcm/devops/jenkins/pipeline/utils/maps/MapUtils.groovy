@@ -128,7 +128,7 @@ class MapUtils implements Serializable {
     switch (mergeMode) {
       case MapMergeMode.SKIP: return existing
       case MapMergeMode.REPLACE: return incoming
-      case MapMergeMode.MERGE:
+      // merge all other options
       default:
         return MapUtils.merge(existing, incoming)
         break
@@ -156,8 +156,6 @@ class MapUtils implements Serializable {
     switch (mergeMode) {
       case MapMergeMode.SKIP: return existing
     // all other options are using the incoming value
-      case MapMergeMode.REPLACE:
-      case MapMergeMode.MERGE:
       default:
         return incoming
         break
