@@ -61,7 +61,7 @@ contributor(ansible) {
   method(name: 'checkoutRequirements', type: 'void', params: [requirementsYmlPath: String], doc: 'Checks out ansible galaxy requirements based upon a provided path to a requirements YAML file.')
   method(name: 'getGalaxyRoleInfo', type: 'Object', params: [role: 'io.wcm.devops.jenkins.pipeline.tools.ansible.Role'], doc: 'Calls the ansible galaxy API for role information')
   method(name: 'installRequirements', type: 'void', params: [config: Map], doc: 'Executes ansible galaxy with the given configuration.')
-  method(name: 'withInstallation', type: 'void', params: [config: Map], doc: 'Provides the Ansible installation for the closure.')
+  method(name: 'withInstallation', type: 'void', params: [config: Map, body: Closure], doc: 'Provides the Ansible installation for the closure.')
 }
 
 def credentials = context(  ctype: "credentials")
