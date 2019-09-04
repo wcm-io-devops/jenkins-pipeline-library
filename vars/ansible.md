@@ -7,32 +7,37 @@ The ansible part of the library implements
 
 ## Table of contents
 
+* [Common configuration options](#common-configuration-options)
 * [`checkoutRequirements(String requirementsYmlPath)`](#checkoutrequirementsstring-requirementsymlpath)
-    * [Example of a `requirements.yml`](#example-of-a-requirementsyml)
-    * [Process](#process)
+  * [Example of a `requirements.yml`](#example-of-a-requirementsyml)
+  * [Process](#process)
 * [`execPlaybook(Map config)`](#execplaybookmap-config)
-    * [Features](#features)
-        * [`--extra-vars` as JSON](#--extra-vars-as-json)
-        * [Inject Build parameters into `--extra-vars`](#inject-build-parameters-into---extra-vars)
-        * [Extra parameters](#extra-parameters)
-    * [Configuration Options](#configuration-options)
-        * [`colorized` (optional)](#colorized-optional)
-        * [`credentialsId` (optional)](#credentialsid-optional)
-        * [`extraParameters` (optional)](#extraparameters-optional)
-        * [`extraVars` (optional)](#extravars-optional)
-        * [`forks` (optional)](#forks-optional)
-        * [`injectParams` (optional)](#injectparams-optional)
-        * [`installation`](#installation)
-        * [`inventory`](#inventory)
-        * [`limit` (optional)](#limit-optional)
-        * [`skippedTags` (optional)](#skippedtags-optional)
-        * [`startAtTask` (optional)](#startattask-optional)
-        * [`tags` (optional)](#tags-optional)
-        * [`sudo` (optional)](#sudo-optional)
-        * [`sudoUser` (optional)](#sudouser-optional)
-        * [`playbook`](#playbook)
+  * [Features](#features)
+    * [`--extra-vars` as JSON](#--extra-vars-as-json)
+    * [Inject Build parameters into `--extra-vars`](#inject-build-parameters-into---extra-vars)
+    * [Extra parameters](#extra-parameters)
+    * [Configuration Options](#execplaybook-configuration-options)
 * [`getGalaxyRoleInfo(Role role)`](#getgalaxyroleinforole-role)
     * [Example](#example)
+* [`installRequirements(Map config`)](#installrequirementsmap-config)
+  * [Configuration Options](#installrequirements-configuration-options)
+
+## Common configuration options
+
+These configuration options can be used for each build step that
+consumes the config map.
+
+All configuration options must be inside the `ansible`
+([`ConfigConstants.ANSIBLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
+map element to be evaluated and used by the step.
+
+### `installation`
+
+|||
+|---|---|
+|Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
 
 ## `checkoutRequirements(String requirementsYmlPath)`
 
@@ -77,7 +82,7 @@ This `requirements.yml` will result in a checkout of four repositories:
 
 ## `execPlaybook(Map config)`
 
-This step can be used to execute a Ansible Playbook.
+This step is used to execute a Ansible Playbook.
 
 ### Features
 #### `--extra-vars` as JSON
@@ -175,6 +180,8 @@ ansible-playbook -v [...]
 
 ### Configuration Options
 
+<a id="execplaybook-configuration-options" />
+
 Complete list of all configuration options.
 
 All configuration options must be inside the `ansible`
@@ -190,7 +197,7 @@ ansible.execPlaybook(
             (ANSIBLE_EXTRA_PARAMETERS): ["-list","-of","-params"],
             (ANSIBLE_EXTRA_VARS)      : [ "<name1>" : "<value1>", "<name2>" : "<value2>" ],
             (ANSIBLE_FORKS)           : 5,
-            (ANSIBLE_INSTALLATION)    : "<ansible-installation>",
+            (ANSIBLE_INSTALLATION)    : '<ansible-installation-id>',
             (ANSIBLE_INVENTORY)       : "<path/to/inventory>",
             (ANSIBLE_LIMIT)           : "<limit>",
             (ANSIBLE_PLAYBOOK)        : "<path/to/playbook>",
@@ -242,7 +249,7 @@ This example will add `-v` to the command line.
 ```groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-Map config = {
+Map config = [
     (ANSIBLE) : [
         (ANSIBLE_EXTRA_PARAMETERS) : ["-v"]
         // ...
@@ -305,13 +312,7 @@ When enabled **all** build parameters are injected into `--extra-vars`*
 
 #### `installation`
 
-|||
-|---|---|
-|Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`|
-|Default|`null`|
-
-Controls which ansible installation will be used for playbook execution.
+see [Common configuration options](#common-configuration-options)
 
 #### `inventory`
 
@@ -410,3 +411,49 @@ Role role = new Role("tecris.maven")
 
 Object apiInfo = ansible.getGalaxyRoleInfo(role)
 ```
+
+## `installRequirements(Map config)`
+
+This step is used to install requirements specified by a `yml`.
+
+<a id="installrequirements-configuration-options" />
+
+### Configuration Options
+
+Complete list of all configuration options.
+
+All configuration options must be inside the `ansible`
+([`ConfigConstants.ANSIBLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
+map element to be evaluated and used by the step.
+
+```groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+ansible.installRoles(
+        (ANSIBLE): [
+            (ANSIBLE_INSTALLATION)       : '<ansible-installation-id>',
+            (ANSIBLE_REQUIREMENTS_FORCE) : false,
+            (ANSIBLE_REQUIREMENTS_PATH)  : '<requirements-path>' 
+        ]
+    )
+```
+
+#### `installation` (optional)
+
+See [Common configuration options](#common-configuration-options)
+
+#### `requirementsForce` (optional)
+
+|                                                                                                                              ||
+|:---------|:-------------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.ANSIBLE_REQUIREMENTS_FORCE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                                          |
+| Default  | `false`                                                                                                             |
+
+#### `requirementsPath`
+
+|                                                                                                                             ||
+|:---------|:------------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.ANSIBLE_REQUIREMENTS_PATH`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`                                                                                                          |
+| Default  | `null`                                                                                                            |

@@ -20,6 +20,8 @@
 
 
 import groovy.json.JsonOutput
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
 import io.wcm.devops.jenkins.pipeline.tools.ansible.RoleRequirements
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
@@ -141,7 +143,7 @@ void execPlaybook(Map config) {
     log.trace("tags: $tags")
     log.trace("credentialsId: $credentialsId")
 
-    withEnv(['PYTHONUNBUFFERED=1']) {
+    _ansibleWrapper {
         ansiblePlaybook(
           colorized: colorized,
           extras: extras,
@@ -157,6 +159,50 @@ void execPlaybook(Map config) {
           tags: tags,
           credentialsId: credentialsId,
         )
+    }
+}
+
+void withInstallation(Map config, Closure body) {
+    Logger log = new Logger("withInstallation")
+    Map ansibleCfg = config[ANSIBLE] ?: null
+
+    String ansibleInstallation = ansibleCfg[ANSIBLE_INSTALLATION] ?: null
+
+    def ansibleToolPath = tool(name: ansibleInstallation, type: 'org.jenkinsci.plugins.ansible.AnsibleInstallation')
+
+    withEnv(["PATH=${ansibleToolPath}:${env.PATH}"]) {
+        body()
+    }
+}
+
+/**
+ *
+ *
+ * @param config
+ */
+void installRequirements(Map config) {
+    Logger log = new Logger("installRequirements")
+    Map ansibleCfg = config[ANSIBLE] ?: null
+
+    String requirementsPath = ansibleCfg[ANSIBLE_REQUIREMENTS_PATH] ?: null
+    Boolean requirementsForce = ansibleCfg[ANSIBLE_REQUIREMENTS_FORCE] != null ? ansibleCfg[ANSIBLE_REQUIREMENTS_FORCE] : false
+
+    this.withInstallation(config) {
+        CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps, "ansible-galaxy")
+        commandBuilder.addArgument("install")
+        commandBuilder.addPathArgument("-r", requirementsPath)
+        if (requirementsForce) {
+            commandBuilder.addArgument("--force")
+        }
+        log.debug("command", commandBuilder.build())
+        sh(commandBuilder.build())
+    }
+
+}
+
+void _ansibleWrapper(Closure body) {
+    withEnv(['PYTHONUNBUFFERED=1']) {
+        body()
     }
 }
 

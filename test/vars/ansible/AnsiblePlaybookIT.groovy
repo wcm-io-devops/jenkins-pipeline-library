@@ -23,10 +23,11 @@ package vars.ansible
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
+import net.sf.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 
-class AnsibleIT extends LibraryIntegrationTestBase {
+class AnsiblePlaybookIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
