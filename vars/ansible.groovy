@@ -162,6 +162,12 @@ void execPlaybook(Map config) {
     }
 }
 
+/**
+ * Provides the configured ansible tool for the closure/body
+ *
+ * @param config The configuration for the ansible tool
+ * @param body The closure you want to execute
+ */
 void withInstallation(Map config, Closure body) {
     Logger log = new Logger("withInstallation")
     Map ansibleCfg = config[ANSIBLE] ?: null
@@ -176,9 +182,9 @@ void withInstallation(Map config, Closure body) {
 }
 
 /**
+ * Installs ansible requirements
  *
- *
- * @param config
+ * @param config The configuration used to install the roles
  */
 void installRequirements(Map config) {
     Logger log = new Logger("installRequirements")

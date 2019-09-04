@@ -79,6 +79,7 @@ class BasicStepsMock {
 
   def withEnvCallback = {
     List vars, Closure body ->
+      this.context.stepRecorder.record(StepConstants.WITH_ENV, vars)
       List<String> modifiedEnvVars = []
       for (String var in vars) {
         List varParts = var.split("=")
@@ -148,6 +149,8 @@ class BasicStepsMock {
     }
 
     switch (name) {
+      case LibraryIntegrationTestContext.TOOL_ANSIBLE:
+        return LibraryIntegrationTestContext.TOOL_ANSIBLE_PREFIX.concat(name)
       case LibraryIntegrationTestContext.TOOL_MAVEN:
         return LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX.concat(name)
       case LibraryIntegrationTestContext.TOOL_JDK:
