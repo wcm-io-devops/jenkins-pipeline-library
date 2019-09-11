@@ -46,8 +46,8 @@ class ConfigConstants {
   public static final String ANSIBLE_SUDO = "sudo"
   public static final String ANSIBLE_SUDO_USER = "sudoUser"
   public static final String ANSIBLE_PLAYBOOK = "playbook"
-  public static final String ANSIBLE_REQUIREMENTS_PATH = "requirementsPath"
-  public static final String ANSIBLE_REQUIREMENTS_FORCE = "requirementsForce"
+  public static final String ANSIBLE_GALAXY_ROLE_FILE = "galaxyRoleFilePath"
+  public static final String ANSIBLE_GALAXY_FORCE = "galaxyForce"
 
   public static final String MAVEN = "maven"
   public static final String MAVEN_ARGUMENTS = "arguments"

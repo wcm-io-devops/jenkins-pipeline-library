@@ -28,10 +28,10 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * @see vars.execMaven.ExecMavenIT
  */
 def execute() {
-  ansible.installRequirements(
+  ansible.installRoles(
     (ANSIBLE): [
       (ANSIBLE_INSTALLATION)      : "ansible-installation",
-      (ANSIBLE_REQUIREMENTS_PATH) : "tools/ansible/requirements.yml",
+      (ANSIBLE_GALAXY_ROLE_FILE) : "tools/ansible/requirements.yml",
     ]
   )
 }

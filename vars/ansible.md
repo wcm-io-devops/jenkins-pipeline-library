@@ -432,8 +432,8 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 ansible.installRoles(
         (ANSIBLE): [
             (ANSIBLE_INSTALLATION)       : '<ansible-installation-id>',
-            (ANSIBLE_REQUIREMENTS_FORCE) : false,
-            (ANSIBLE_REQUIREMENTS_PATH)  : '<requirements-path>' 
+            (ANSIBLE_GALAXY_FORCE) : false,
+            (ANSIBLE_GALAXY_ROLE_FILE)  : '<requirements-path>' 
         ]
     )
 ```
@@ -446,7 +446,7 @@ See [Common configuration options](#common-configuration-options)
 
 |                                                                                                                              ||
 |:---------|:-------------------------------------------------------------------------------------------------------------------|
-| Constant | [`ConfigConstants.ANSIBLE_REQUIREMENTS_FORCE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Constant | [`ConfigConstants.ANSIBLE_GALAXY_FORCE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
 | Type     | `Boolean`                                                                                                          |
 | Default  | `false`                                                                                                             |
 
@@ -454,6 +454,6 @@ See [Common configuration options](#common-configuration-options)
 
 |                                                                                                                             ||
 |:---------|:------------------------------------------------------------------------------------------------------------------|
-| Constant | [`ConfigConstants.ANSIBLE_REQUIREMENTS_PATH`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Constant | [`ConfigConstants.ANSIBLE_GALAXY_ROLE_FILE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
 | Type     | `String`                                                                                                          |
 | Default  | `null`                                                                                                            |

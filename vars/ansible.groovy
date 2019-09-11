@@ -186,12 +186,12 @@ void withInstallation(Map config, Closure body) {
  *
  * @param config The configuration used to install the roles
  */
-void installRequirements(Map config) {
-    Logger log = new Logger("installRequirements")
+void installRoles(Map config) {
+    Logger log = new Logger("installRoles")
     Map ansibleCfg = config[ANSIBLE] ?: null
 
-    String requirementsPath = ansibleCfg[ANSIBLE_REQUIREMENTS_PATH] ?: null
-    Boolean requirementsForce = ansibleCfg[ANSIBLE_REQUIREMENTS_FORCE] != null ? ansibleCfg[ANSIBLE_REQUIREMENTS_FORCE] : false
+    String requirementsPath = ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null
+    Boolean requirementsForce = ansibleCfg[ANSIBLE_GALAXY_FORCE] != null ? ansibleCfg[ANSIBLE_GALAXY_FORCE] : false
 
     this.withInstallation(config) {
         CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps, "ansible-galaxy")

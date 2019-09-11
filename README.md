@@ -106,7 +106,7 @@ The pipeline library comes with the following steps:
   * [`ansible.checkoutRequirements`](vars/ansible.md#checkoutrequirementsstring-requirementsymlpath)
   * [`ansible.execPlaybook`](vars/ansible.md#execplaybookmap-config)
   * [`ansible.getGalaxyRoleInfo`](vars/ansible.md#getgalaxyroleinforole-role)
-  * [`ansible.installRequirements`](vars/ansible.md#installrequirementsmap-config)
+  * [`ansible.installRoles`](vars/ansible.md#installrequirementsmap-config)
 * [`checkoutScm`](vars/checkoutScm.md)
 * [`conditionalStage`](vars/conditionalStage.md)
 * [credentials](vars/credentials.md)
