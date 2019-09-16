@@ -21,13 +21,13 @@
 package vars.ansible
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
+import net.sf.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 
-class AnsibleIT extends LibraryIntegrationTestBase {
+class AnsibleInstallRolesIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
@@ -35,23 +35,31 @@ class AnsibleIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldWrapInstallation() {
-    loadAndExecuteScript("vars/ansible/jobs/ansibleWrapInstallationTestJob.groovy")
+  void shouldInstallRolesDefault() {
 
+    loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRolesDefaultTestJob.groovy")
     Map toolCall = StepRecorderAssert.assertOnce(StepConstants.TOOL)
     String shellCall = StepRecorderAssert.assertOnce(StepConstants.SH)
-    String withEnvCall = StepRecorderAssert.assertOnce(StepConstants.WITH_ENV)
 
     Assert.assertEquals([
       name: "ansible-installation",
       type: "org.jenkinsci.plugins.ansible.AnsibleInstallation"
-    ], toolCall)
+    ],toolCall)
+    Assert.assertEquals("ansible-galaxy install -r tools/ansible/requirements.yml",shellCall)
+  }
 
-    String expectedAnsibleInstallation = LibraryIntegrationTestContext.TOOL_ANSIBLE_PREFIX + LibraryIntegrationTestContext.TOOL_ANSIBLE
+  @Test
+  void shouldInstallRolesCustom() {
 
-    Assert.assertEquals("[PATH=${expectedAnsibleInstallation}:/usr/bin]".toString(), withEnvCall)
-    Assert.assertEquals("ansible --version", shellCall)
+    loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRolesCustomTestJob.groovy")
+    Map toolCall = StepRecorderAssert.assertOnce(StepConstants.TOOL)
+    String shellCall = StepRecorderAssert.assertOnce(StepConstants.SH)
 
+    Assert.assertEquals([
+      name: "ansible-installation",
+      type: "org.jenkinsci.plugins.ansible.AnsibleInstallation"
+    ],toolCall)
+    Assert.assertEquals("ansible-galaxy install -r tools/ansible/requirements.yml --force",shellCall)
   }
 
 }
