@@ -27,7 +27,7 @@ import net.sf.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 
-class AnsibleInstallRequirementsIT extends LibraryIntegrationTestBase {
+class AnsibleInstallRolesIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
@@ -35,9 +35,9 @@ class AnsibleInstallRequirementsIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldInstallRequirementsDefault() {
+  void shouldInstallRolesDefault() {
 
-    loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRequirementsDefaultTestJob.groovy")
+    loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRolesDefaultTestJob.groovy")
     Map toolCall = StepRecorderAssert.assertOnce(StepConstants.TOOL)
     String shellCall = StepRecorderAssert.assertOnce(StepConstants.SH)
 
@@ -49,9 +49,9 @@ class AnsibleInstallRequirementsIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldInstallRequirementsCustom() {
+  void shouldInstallRolesCustom() {
 
-    loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRequirementsCustomTestJob.groovy")
+    loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRolesCustomTestJob.groovy")
     Map toolCall = StepRecorderAssert.assertOnce(StepConstants.TOOL)
     String shellCall = StepRecorderAssert.assertOnce(StepConstants.SH)
 

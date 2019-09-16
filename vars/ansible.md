@@ -19,8 +19,8 @@ The ansible part of the library implements
     * [Configuration Options](#execplaybook-configuration-options)
 * [`getGalaxyRoleInfo(Role role)`](#getgalaxyroleinforole-role)
     * [Example](#example)
-* [`installRequirements(Map config`)](#installrequirementsmap-config)
-  * [Configuration Options](#installrequirements-configuration-options)
+* [`installRoles(Map config`)](#installrolesmap-config)
+  * [Configuration Options](#installroles-configuration-options)
 
 ## Common configuration options
 
@@ -412,11 +412,11 @@ Role role = new Role("tecris.maven")
 Object apiInfo = ansible.getGalaxyRoleInfo(role)
 ```
 
-## `installRequirements(Map config)`
+## `installRoles(Map config)`
 
-This step is used to install requirements specified by a `yml`.
+This step is used to install Ansible roles specified by a `yml`.
 
-<a id="installrequirements-configuration-options" />
+<a id="installroles-configuration-options" />
 
 ### Configuration Options
 
