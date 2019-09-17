@@ -104,6 +104,11 @@ void execPlaybook(Map config) {
     Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS] ?: [:]
     Boolean injectParams = ansibleCfg[ANSIBLE_INJECT_PARAMS] != null ? ansibleCfg[ANSIBLE_INJECT_PARAMS] : false
 
+    if (playbook == null) {
+        log.warn("no ansible playbook defined, skipping")
+        return
+    }
+
     // create copies
     Map internalExtraVars = MapUtils.merge(extraVars)
     List internalExtraParameters = []
