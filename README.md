@@ -103,9 +103,10 @@ Have a look at [requirements](docs/requirements.md) to get the library running.
 The pipeline library comes with the following steps:
 
 * [ansible](vars/ansible.md)
-    * [`ansible.checkoutRequirements`](vars/ansible.md#checkoutrequirementsstring-requirementsymlpath)
-    * [`ansible.execPlaybook`](vars/ansible.md#execplaybookmap-config)
-    * [`ansible.getGalaxyRoleInfo`](vars/ansible.md#getgalaxyroleinforole-role)
+  * [`ansible.checkoutRequirements`](vars/ansible.md#checkoutrequirementsstring-requirementsymlpath)
+  * [`ansible.execPlaybook`](vars/ansible.md#execplaybookmap-config)
+  * [`ansible.getGalaxyRoleInfo`](vars/ansible.md#getgalaxyroleinforole-role)
+  * [`ansible.installRoles`](vars/ansible.md#installrolesmap-config)
 * [`checkoutScm`](vars/checkoutScm.md)
 * [`conditionalStage`](vars/conditionalStage.md)
 * [credentials](vars/credentials.md)

@@ -20,6 +20,8 @@
 
 
 import groovy.json.JsonOutput
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
+import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
 import io.wcm.devops.jenkins.pipeline.tools.ansible.RoleRequirements
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
@@ -102,6 +104,11 @@ void execPlaybook(Map config) {
     Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS] ?: [:]
     Boolean injectParams = ansibleCfg[ANSIBLE_INJECT_PARAMS] != null ? ansibleCfg[ANSIBLE_INJECT_PARAMS] : false
 
+    if (playbook == null) {
+        log.warn("no ansible playbook defined, skipping")
+        return
+    }
+
     // create copies
     Map internalExtraVars = MapUtils.merge(extraVars)
     List internalExtraParameters = []
@@ -141,7 +148,7 @@ void execPlaybook(Map config) {
     log.trace("tags: $tags")
     log.trace("credentialsId: $credentialsId")
 
-    withEnv(['PYTHONUNBUFFERED=1']) {
+    _ansibleWrapper {
         ansiblePlaybook(
           colorized: colorized,
           extras: extras,
@@ -157,6 +164,56 @@ void execPlaybook(Map config) {
           tags: tags,
           credentialsId: credentialsId,
         )
+    }
+}
+
+/**
+ * Provides the configured ansible tool for the closure/body
+ *
+ * @param config The configuration for the ansible tool
+ * @param body The closure you want to execute
+ */
+void withInstallation(Map config, Closure body) {
+    Logger log = new Logger("withInstallation")
+    Map ansibleCfg = config[ANSIBLE] ?: null
+
+    String ansibleInstallation = ansibleCfg[ANSIBLE_INSTALLATION] ?: null
+
+    def ansibleToolPath = tool(name: ansibleInstallation, type: 'org.jenkinsci.plugins.ansible.AnsibleInstallation')
+
+    withEnv(["PATH=${ansibleToolPath}:${env.PATH}"]) {
+        body()
+    }
+}
+
+/**
+ * Installs ansible requirements
+ *
+ * @param config The configuration used to install the roles
+ */
+void installRoles(Map config) {
+    Logger log = new Logger("installRoles")
+    Map ansibleCfg = config[ANSIBLE] ?: null
+
+    String requirementsPath = ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null
+    Boolean requirementsForce = ansibleCfg[ANSIBLE_GALAXY_FORCE] != null ? ansibleCfg[ANSIBLE_GALAXY_FORCE] : false
+
+    this.withInstallation(config) {
+        CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps, "ansible-galaxy")
+        commandBuilder.addArgument("install")
+        commandBuilder.addPathArgument("-r", requirementsPath)
+        if (requirementsForce) {
+            commandBuilder.addArgument("--force")
+        }
+        log.debug("command", commandBuilder.build())
+        sh(commandBuilder.build())
+    }
+
+}
+
+void _ansibleWrapper(Closure body) {
+    withEnv(['PYTHONUNBUFFERED=1']) {
+        body()
     }
 }
 

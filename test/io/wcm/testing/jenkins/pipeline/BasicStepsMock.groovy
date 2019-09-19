@@ -69,6 +69,7 @@ class BasicStepsMock {
 
     this.context.getPipelineTestHelper().registerAllowedMethod(TIMEOUT, [Map.class, Closure.class], timeoutCallback)
     this.context.getPipelineTestHelper().registerAllowedMethod(TOOL, [String.class], toolCallback)
+    this.context.getPipelineTestHelper().registerAllowedMethod(TOOL, [Map.class], toolMapCallback)
 
     this.context.getPipelineTestHelper().registerAllowedMethod(UNSTASH, [Map.class], { Map incomingCall -> context.getStepRecorder().record(UNSTASH, incomingCall) })
 
@@ -78,6 +79,7 @@ class BasicStepsMock {
 
   def withEnvCallback = {
     List vars, Closure body ->
+      this.context.stepRecorder.record(StepConstants.WITH_ENV, vars)
       List<String> modifiedEnvVars = []
       for (String var in vars) {
         List varParts = var.split("=")
@@ -130,12 +132,29 @@ class BasicStepsMock {
    * Mocks the 'tool' step
    */
   def toolCallback = { String tool ->
-    context.getStepRecorder().record(TOOL, tool)
-    switch (tool) {
+    return this.toolMapCallback(name: tool)
+  }
+
+  /**
+   * Mocks the 'tool' step with named parameters
+   */
+  def toolMapCallback = { Map toolCfg ->
+    String name = toolCfg.name
+    String type = toolCfg.type
+
+    if (type != null) {
+      context.getStepRecorder().record(TOOL, toolCfg)
+    } else {
+      context.getStepRecorder().record(TOOL, name)
+    }
+
+    switch (name) {
+      case LibraryIntegrationTestContext.TOOL_ANSIBLE:
+        return LibraryIntegrationTestContext.TOOL_ANSIBLE_PREFIX.concat(name)
       case LibraryIntegrationTestContext.TOOL_MAVEN:
-        return LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX.concat(tool)
+        return LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX.concat(name)
       case LibraryIntegrationTestContext.TOOL_JDK:
-        return LibraryIntegrationTestContext.TOOL_JDK_PREFIX.concat(tool)
+        return LibraryIntegrationTestContext.TOOL_JDK_PREFIX.concat(name)
     }
     return ""
   }

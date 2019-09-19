@@ -35,9 +35,11 @@ class LibraryIntegrationTestContext {
   public final static String WORKSPACE_PATH = "/path/to/workspace"
   public final static String WORKSPACE_TMP_PATH = WORKSPACE_PATH.concat("@tmp/")
 
+  public final static String TOOL_ANSIBLE_PREFIX = "/some/tool/path/ansible/"
   public final static String TOOL_JDK_PREFIX = "/some/tool/path/jdk/"
   public final static String TOOL_MAVEN_PREFIX = "/some/tool/path/maven/"
 
+  public final static String TOOL_ANSIBLE = "ansible-installation"
   public final static String TOOL_JDK = "sun-java8-jdk"
   public final static String TOOL_MAVEN = "apache-maven3"
 
@@ -88,7 +90,7 @@ class LibraryIntegrationTestContext {
     // initialize the DSL Mock
     this.dslMock = new DSLMock()
 
-    // give the dslMock the refernce to the pipeline helper to allow access to registered libraries
+    // give the dslMock the reference to the pipeline helper to allow access to registered libraries
     dslMock.setHelper(helper)
 
     // set binding for steps and assign it the the DSL cpsScriptMock
