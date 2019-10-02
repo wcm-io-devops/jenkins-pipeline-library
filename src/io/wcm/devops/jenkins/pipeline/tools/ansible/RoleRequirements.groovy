@@ -104,12 +104,13 @@ class RoleRequirements implements Serializable {
       if (role.isScmRole()) {
         log.debug("getCheckoutConfigs role is scmRole!")
         String scmBranch = role.getVersion()
-        // Matcher scmBranchMatcher = scmBranch =~ /(feature\\/.*|master|develop)/
-        // if (scmBranchMatcher) {
-        //  scmBranch = "*/" + scmBranch
-        //}
+        Matcher scmBranchMatcher = scmBranch =~ /(feature\\/.*|master|develop)/
+        if (scmBranchMatcher) {
+          log.debug("getCheckoutConfigs : master, develop or feature branch found for '$scmBranch', add '*/'")
+          scmBranch = "*/" + scmBranch
+        }
         // unset because matcher is not serializable
-        // scmBranchMatcher = null
+        scmBranchMatcher = null
 
         Map scmConfig = [
           (SCM): [

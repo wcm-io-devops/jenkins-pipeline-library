@@ -114,7 +114,7 @@ class RoleRequirementsTest extends DSLTestBase {
     Map expectedConfig1 = [
         (SCM): [
             (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-cms.git",
-            (SCM_BRANCHES)  : [[name: "master"]],
+            (SCM_BRANCHES)  : [[name: "*/master"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-cms'],
@@ -126,7 +126,7 @@ class RoleRequirementsTest extends DSLTestBase {
     Map expectedConfig2 = [
         (SCM): [
             (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-service.git",
-            (SCM_BRANCHES)  : [[name: "develop"]],
+            (SCM_BRANCHES)  : [[name: "*/develop"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-service'],
