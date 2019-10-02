@@ -48,12 +48,12 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_facts",], role3MockedResponse.getText("UTF-8"), 200)
 
     loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRequirementsTestJob.groovy")
-    List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 5)
+    List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 7)
 
     Map expectedCheckoutCall0 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "master"]
+        ["name": "*/master"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
@@ -70,7 +70,7 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     Map expectedCheckoutCall1 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "master"]
+        ["name": "*/master"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
@@ -104,7 +104,7 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     Map expectedCheckoutCall3 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "master"]
+        ["name": "*/master"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
@@ -121,7 +121,7 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     Map expectedCheckoutCall4 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "develop"]
+        ["name": "*/develop"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
