@@ -27,7 +27,7 @@ import net.sf.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 
-class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
+class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
@@ -36,7 +36,7 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldCheckoutRequirements() {
+  void shouldcheckoutRolesWithPath() {
 
     File role1MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_pipeline_library.json")
     this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_pipeline_library"], role1MockedResponse.getText("UTF-8"), 200)
@@ -47,7 +47,29 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     File role3MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_facts.json")
     this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_facts",], role3MockedResponse.getText("UTF-8"), 200)
 
-    loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRequirementsTestJob.groovy")
+    loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRolesWithPathTestJob.groovy")
+
+    this.commonCheckoutAssertions()
+  }
+
+  @Test
+  void shouldCheckoutRolesWithConfig() {
+
+    File role1MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_pipeline_library.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_pipeline_library"], role1MockedResponse.getText("UTF-8"), 200)
+
+    File role2MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_plugins.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_plugins",], role2MockedResponse.getText("UTF-8"), 200)
+
+    File role3MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_facts.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_facts",], role3MockedResponse.getText("UTF-8"), 200)
+
+    loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRolesWithConfigTestJob.groovy")
+
+    this.commonCheckoutAssertions()
+  }
+
+  protected void commonCheckoutAssertions() {
     List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 7)
 
     Map expectedCheckoutCall0 = [

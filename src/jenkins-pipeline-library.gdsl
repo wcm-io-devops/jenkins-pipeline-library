@@ -58,7 +58,9 @@ contributor(pipelineCtx) {
 def ansible = context(ctype: "ansible")
 contributor(ansible) {
   method(name: 'execPlaybook', type: 'void', params: [config: Map], doc: 'Executes a ansible playbook with the given configuration.')
-  method(name: 'checkoutRequirements', type: 'void', params: [requirementsYmlPath: String], doc: 'Checks out ansible galaxy requirements based upon a provided path to a requirements YAML file.')
+  method(name: 'checkoutRequirements', type: 'void', params: [requirementsYmlPath: String], doc: 'Deprecated, use ansible.checkoutRoles instead.')
+  method(name: 'checkoutRoles', type: 'void', params: [galaxyRoleFile: String], doc: 'Checks out ansible galaxy roles based upon a provided path to a requirements YAML file.')
+  method(name: 'checkoutRoles', type: 'void', params: [config: Map], doc: 'Checks out ansible galaxy roles based upon a provided pipeline configuration.')
   method(name: 'getGalaxyRoleInfo', type: 'Object', params: [role: 'io.wcm.devops.jenkins.pipeline.tools.ansible.Role'], doc: 'Calls the ansible galaxy API for role information')
   method(name: 'withInstallation', type: 'void', params: [config: Map, body: Closure], doc: 'Provides the Ansible installation for the closure.')
   method(name: 'installRoles', type: 'void', params: [config: Map], doc: 'Executes ansible galaxy with the given configuration.')
