@@ -9,3 +9,11 @@
   name: aem-service
   scm: git
   version: develop
+- src: https://github.com/wcm-io-devops/ansible-conga-aem-smoke-test.git
+  name: wcm_io_devops.conga_aem_smoke_test
+  scm: git
+  version: feature/debug-output
+- src: https://github.com/wcm-io-devops/ansible-aem-dispatcher-flush.git
+  name: wcm_io_devops.aem_dispatcher_flush
+  version: 1.0.0
+  scm: git

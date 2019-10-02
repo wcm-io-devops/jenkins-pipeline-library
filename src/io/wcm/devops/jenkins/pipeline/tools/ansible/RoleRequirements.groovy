@@ -23,6 +23,8 @@ package io.wcm.devops.jenkins.pipeline.tools.ansible
 import com.cloudbees.groovy.cps.NonCPS
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
+import java.util.regex.Matcher
+
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
@@ -101,10 +103,18 @@ class RoleRequirements implements Serializable {
       log.debug("getCheckoutConfigs role: " + role.getSrc())
       if (role.isScmRole()) {
         log.debug("getCheckoutConfigs role is scmRole!")
+        String scmBranch = role.getVersion()
+        // Matcher scmBranchMatcher = scmBranch =~ /(feature\\/.*|master|develop)/
+        // if (scmBranchMatcher) {
+        //  scmBranch = "*/" + scmBranch
+        //}
+        // unset because matcher is not serializable
+        // scmBranchMatcher = null
+
         Map scmConfig = [
           (SCM): [
             (SCM_URL)       : role.getSrc(),
-            (SCM_BRANCHES)  : [[name: "*/"+role.getVersion()]],
+            (SCM_BRANCHES)  : [[name: scmBranch]],
             (SCM_EXTENSIONS): [
               [$class: 'LocalBranch'],
               [$class: 'RelativeTargetDirectory', relativeTargetDir: role.getName()],
