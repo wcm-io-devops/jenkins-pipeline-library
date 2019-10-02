@@ -8,7 +8,7 @@ The ansible part of the library implements
 ## Table of contents
 
 * [Common configuration options](#common-configuration-options)
-* [`checkoutRoles(Map config)`](#ch)
+* [`checkoutRequirements(String requirementsYmlPath)`](#checkoutrequirementsstring-requirementsymlpath)
 * [`checkoutRoles(Map config)`](#checkoutrolesmap-config)
 * [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
   * [Example of a `roles.yml`](#example-of-a-rolesyml)
@@ -66,8 +66,10 @@ ansible.checkoutRoles(
 
 ## `checkoutRoles(String galaxyRoleFile)`
 
-This step checks out all ansible galaxy role file into subdirectories of the workspace to track SCM changes in the depending roles.
-For Ansible Galaxy roles the `src` Attribute is used, for `scm` roles the `name` attribute is used
+This step checks out all ansible galaxy role file into subdirectories of
+the workspace (below `.roleRequirements`) to track SCM changes in the
+depending roles. For Ansible Galaxy roles the `src` Attribute is used,
+for `scm` roles the `name` attribute is used
 
 This currently works for:
 

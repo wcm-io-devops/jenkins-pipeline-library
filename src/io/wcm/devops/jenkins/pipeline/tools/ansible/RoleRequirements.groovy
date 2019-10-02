@@ -118,7 +118,7 @@ class RoleRequirements implements Serializable {
             (SCM_BRANCHES)  : [[name: scmBranch]],
             (SCM_EXTENSIONS): [
               [$class: 'LocalBranch'],
-              [$class: 'RelativeTargetDirectory', relativeTargetDir: role.getName()],
+              [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/'+role.getName()],
               [$class: 'ScmName', name: role.getName()]
             ]
           ]

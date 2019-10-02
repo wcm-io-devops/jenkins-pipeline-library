@@ -117,7 +117,7 @@ class RoleRequirementsTest extends DSLTestBase {
             (SCM_BRANCHES)  : [[name: "*/master"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-cms'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-cms'],
                 [$class: 'ScmName', name: 'aem-cms']
             ],
         ]
@@ -129,7 +129,7 @@ class RoleRequirementsTest extends DSLTestBase {
             (SCM_BRANCHES)  : [[name: "*/develop"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-service'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-service'],
                 [$class: 'ScmName', name: 'aem-service']
             ],
         ]
@@ -141,7 +141,7 @@ class RoleRequirementsTest extends DSLTestBase {
         (SCM_BRANCHES)  : [[name: "*/feature/debug-output"]],
         (SCM_EXTENSIONS): [
           [$class: 'LocalBranch'],
-          [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.conga_aem_smoke_test'],
+          [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.conga_aem_smoke_test'],
           [$class: 'ScmName', name: 'wcm_io_devops.conga_aem_smoke_test']
         ],
       ]
@@ -153,7 +153,7 @@ class RoleRequirementsTest extends DSLTestBase {
         (SCM_BRANCHES)  : [[name: "1.0.0"]],
         (SCM_EXTENSIONS): [
           [$class: 'LocalBranch'],
-          [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.aem_dispatcher_flush'],
+          [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.aem_dispatcher_flush'],
           [$class: 'ScmName', name: 'wcm_io_devops.aem_dispatcher_flush']
         ],
       ]

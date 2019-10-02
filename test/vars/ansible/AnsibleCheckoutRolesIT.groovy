@@ -27,7 +27,7 @@ import net.sf.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 
-class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
+class AnsibleCheckoutRolesIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
@@ -80,7 +80,7 @@ class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_pipeline_library'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.jenkins_pipeline_library'],
         [$class: 'ScmName', name: 'wcm_io_devops.jenkins_pipeline_library']
       ],
       "submoduleCfg"                     : [],
@@ -97,7 +97,7 @@ class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_facts'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.jenkins_facts'],
         [$class: 'ScmName', name: 'wcm_io_devops.jenkins_facts']
       ],
       "submoduleCfg"                     : [],
@@ -114,7 +114,7 @@ class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_plugins'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.jenkins_plugins'],
         [$class: 'ScmName', name: 'wcm_io_devops.jenkins_plugins']
       ],
       "submoduleCfg"                     : [],
@@ -131,7 +131,7 @@ class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-cms'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-cms'],
         [$class: 'ScmName', name: 'aem-cms']
       ],
       "submoduleCfg"                     : [],
@@ -148,7 +148,7 @@ class AnsiblecheckoutRolesIT extends LibraryIntegrationTestBase {
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-service'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-service'],
         [$class: 'ScmName', name: 'aem-service']
       ],
       "submoduleCfg"                     : [],
