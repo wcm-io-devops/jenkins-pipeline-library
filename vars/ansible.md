@@ -9,18 +9,20 @@ The ansible part of the library implements
 
 * [Common configuration options](#common-configuration-options)
 * [`checkoutRequirements(String requirementsYmlPath)`](#checkoutrequirementsstring-requirementsymlpath)
-  * [Example of a `requirements.yml`](#example-of-a-requirementsyml)
+* [`checkoutRoles(Map config)`](#checkoutrolesmap-config)
+* [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
+  * [Example of a `roles.yml`](#example-of-a-rolesyml)
   * [Process](#process)
 * [`execPlaybook(Map config)`](#execplaybookmap-config)
   * [Features](#features)
     * [`--extra-vars` as JSON](#--extra-vars-as-json)
     * [Inject Build parameters into `--extra-vars`](#inject-build-parameters-into---extra-vars)
     * [Extra parameters](#extra-parameters)
-    * [Configuration Options](#execplaybook-configuration-options)
+    * [Configuration Options](#execplaybookmap-config)
 * [`getGalaxyRoleInfo(Role role)`](#getgalaxyroleinforole-role)
     * [Example](#example)
 * [`installRoles(Map config`)](#installrolesmap-config)
-  * [Configuration Options](#installroles-configuration-options)
+  * [Configuration Options](#installrolesmap-config)
 
 ## Common configuration options
 
@@ -41,8 +43,33 @@ map element to be evaluated and used by the step.
 
 ## `checkoutRequirements(String requirementsYmlPath)`
 
-This step checks out all ansible galaxy role requirements into subdirectories of the workspace to track SCM changes in the depending roles.
-For Ansible Galaxy roles the `src` Attribute is used, for `scm` roles the `name` attribute is used
+:exclamation: This step is marked as deprecated and is replaced by
+`ansible.checkoutRoles`. See
+* [`checkoutRoles(Map config)`](#checkoutrolesmap-config) and
+* [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
+
+## `checkoutRoles(Map config)`
+
+This is an adapter step for the
+[`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
+step.
+
+```groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+ansible.checkoutRoles(
+        (ANSIBLE): [
+            (ANSIBLE_GALAXY_ROLE_FILE)  : '<roles-path>' 
+        ]
+    )
+```
+
+## `checkoutRoles(String galaxyRoleFile)`
+
+This step checks out all ansible galaxy role file into subdirectories of
+the workspace (below `.roleRequirements`) to track SCM changes in the
+depending roles. For Ansible Galaxy roles the `src` Attribute is used,
+for `scm` roles the `name` attribute is used
 
 This currently works for:
 
@@ -51,7 +78,7 @@ This currently works for:
 
 :bulb: The roles are checkout into sub folders using the `name` (`src` for Ansible Galaxy Roles) of the role.
 
-### Example of a `requirements.yml`
+### Example of a `roles.yml`
 ```yaml
 - src: williamyeh.oracle-java
 - src: tecris.maven
@@ -65,7 +92,7 @@ This currently works for:
   version: develop
 ```
 
-This `requirements.yml` will result in a checkout of four repositories:
+This `roles.yml` will result in a checkout of four repositories:
 * https://github.com/William-Yeh/ansible-oracle-java.git (master) into folder "williamyeh.oracle-java"
 * https://github.com/tecris/ansible-maven.git (tag v3.5.2)  into folder "tecris.maven"
 * https://github.com/wcm-io-devops/ansible-aem-cms.git (master) into folder "aem-cms"
@@ -433,7 +460,7 @@ ansible.installRoles(
         (ANSIBLE): [
             (ANSIBLE_INSTALLATION)       : '<ansible-installation-id>',
             (ANSIBLE_GALAXY_FORCE) : false,
-            (ANSIBLE_GALAXY_ROLE_FILE)  : '<requirements-path>' 
+            (ANSIBLE_GALAXY_ROLE_FILE)  : '<roles-path>' 
         ]
     )
 ```
@@ -457,3 +484,6 @@ See [Common configuration options](#common-configuration-options)
 | Constant | [`ConfigConstants.ANSIBLE_GALAXY_ROLE_FILE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
 | Type     | `String`                                                                                                          |
 | Default  | `null`                                                                                                            |
+
+[checkoutRoles(String galaxyRoleFile)]: #checkoutrolesstring-galaxyrolefile
+

@@ -27,7 +27,7 @@ import net.sf.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 
-class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
+class AnsibleCheckoutRolesIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
@@ -36,7 +36,7 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldCheckoutRequirements() {
+  void shouldcheckoutRolesWithPath() {
 
     File role1MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_pipeline_library.json")
     this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_pipeline_library"], role1MockedResponse.getText("UTF-8"), 200)
@@ -47,18 +47,40 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     File role3MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_facts.json")
     this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_facts",], role3MockedResponse.getText("UTF-8"), 200)
 
-    loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRequirementsTestJob.groovy")
-    List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 5)
+    loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRolesWithPathTestJob.groovy")
+
+    this.commonCheckoutAssertions()
+  }
+
+  @Test
+  void shouldCheckoutRolesWithConfig() {
+
+    File role1MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_pipeline_library.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_pipeline_library"], role1MockedResponse.getText("UTF-8"), 200)
+
+    File role2MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_plugins.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_plugins",], role2MockedResponse.getText("UTF-8"), 200)
+
+    File role3MockedResponse = this.context.getDslMock().locateTestResource("tools/ansible/wcm_io_devops.jenkins_facts.json")
+    this.httpRequestPluginMock.mockResponse([url: "https://galaxy.ansible.com/api/v1/roles/?owner__username=wcm_io_devops&name=jenkins_facts",], role3MockedResponse.getText("UTF-8"), 200)
+
+    loadAndExecuteScript("vars/ansible/jobs/ansibleCheckoutRolesWithConfigTestJob.groovy")
+
+    this.commonCheckoutAssertions()
+  }
+
+  protected void commonCheckoutAssertions() {
+    List checkoutCalls = StepRecorderAssert.assertStepCalls(StepConstants.CHECKOUT, 7)
 
     Map expectedCheckoutCall0 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "master"]
+        ["name": "*/master"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_pipeline_library'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.jenkins_pipeline_library'],
         [$class: 'ScmName', name: 'wcm_io_devops.jenkins_pipeline_library']
       ],
       "submoduleCfg"                     : [],
@@ -70,12 +92,12 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     Map expectedCheckoutCall1 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "master"]
+        ["name": "*/master"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_facts'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.jenkins_facts'],
         [$class: 'ScmName', name: 'wcm_io_devops.jenkins_facts']
       ],
       "submoduleCfg"                     : [],
@@ -92,7 +114,7 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'wcm_io_devops.jenkins_plugins'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.jenkins_plugins'],
         [$class: 'ScmName', name: 'wcm_io_devops.jenkins_plugins']
       ],
       "submoduleCfg"                     : [],
@@ -104,12 +126,12 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     Map expectedCheckoutCall3 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "master"]
+        ["name": "*/master"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-cms'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-cms'],
         [$class: 'ScmName', name: 'aem-cms']
       ],
       "submoduleCfg"                     : [],
@@ -121,12 +143,12 @@ class AnsibleCheckoutRequirementsIT extends LibraryIntegrationTestBase {
     Map expectedCheckoutCall4 = [
       '$class'                           : "GitSCM",
       "branches"                         : [
-        ["name": "develop"]
+        ["name": "*/develop"]
       ],
       "doGenerateSubmoduleConfigurations": false,
       "extensions"                       : [
         [$class: 'LocalBranch'],
-        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-service'],
+        [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-service'],
         [$class: 'ScmName', name: 'aem-service']
       ],
       "submoduleCfg"                     : [],

@@ -19,18 +19,15 @@
  */
 package vars.ansible.jobs
 
-import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
-
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 def execute() {
-  ansible.withInstallation(
-    (ANSIBLE): [
-      (ANSIBLE_INSTALLATION)      : LibraryIntegrationTestContext.TOOL_ANSIBLE
+  Map config = [
+    (ANSIBLE) : [
+      (ANSIBLE_GALAXY_ROLE_FILE): "tools/ansible/requirements.yml"
     ]
-  ) {
-    sh("ansible --version")
-  }
+  ]
+  ansible.checkoutRoles(config)
 }
 
 return this

@@ -18,14 +18,9 @@
  * #L%
  */
 package vars.execMaven.jobs
-/**
- * Runs execMaven step with path to custom maven executable
- *
- * @return The script
- * @see vars.execMaven.ExecMavenIT
- */
+
 def execute() {
-  ansible.checkoutRequirements("tools/ansible/requirements.yml")
+  ansible.checkoutRoles("tools/ansible/requirements.yml")
 }
 
 return this

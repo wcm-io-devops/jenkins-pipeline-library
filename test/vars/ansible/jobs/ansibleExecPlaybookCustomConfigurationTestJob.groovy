@@ -21,12 +21,6 @@ package vars.ansible.jobs
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-/**
- * Runs execMaven step with path to custom maven executable
- *
- * @return The script
- * @see vars.execMaven.ExecMavenIT
- */
 def execute() {
 
   Map config = [
