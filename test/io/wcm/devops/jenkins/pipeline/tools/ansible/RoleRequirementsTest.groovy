@@ -39,7 +39,7 @@ class RoleRequirementsTest extends DSLTestBase {
 
   @Test
   void shouldParseRoles() {
-    assertEquals(5, underTest.getRoles().size())
+    assertEquals(7, underTest.getRoles().size())
     List roles = underTest.getRoles()
 
     // test galaxy role without version
@@ -86,20 +86,38 @@ class RoleRequirementsTest extends DSLTestBase {
     assertEquals("aem-service", role4.getName())
     assertEquals("git", role4.getScm())
     assertEquals("develop", role4.getVersion())
+
+    // test scm role with feature branch
+    Role role5 = roles.get(5)
+    assertFalse(role5.isGalaxyRole())
+    assertTrue(role5.isScmRole())
+    assertEquals("https://github.com/wcm-io-devops/ansible-conga-aem-smoke-test.git", role5.getSrc())
+    assertEquals("wcm_io_devops.conga_aem_smoke_test", role5.getName())
+    assertEquals("git", role5.getScm())
+    assertEquals("feature/debug-output", role5.getVersion())
+
+    // test scm role with tag
+    Role role6 = roles.get(6)
+    assertFalse(role6.isGalaxyRole())
+    assertTrue(role6.isScmRole())
+    assertEquals("https://github.com/wcm-io-devops/ansible-aem-dispatcher-flush.git", role6.getSrc())
+    assertEquals("wcm_io_devops.aem_dispatcher_flush", role6.getName())
+    assertEquals("git", role6.getScm())
+    assertEquals("1.0.0", role6.getVersion())
   }
 
   @Test
   void shouldCreateCorrectCheckoutConfigs() {
     List<Map> checkoutConfigs = underTest.getCheckoutConfigs()
-    assertEquals(2, checkoutConfigs.size())
+    assertEquals(4, checkoutConfigs.size())
 
     Map expectedConfig1 = [
         (SCM): [
             (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-cms.git",
-            (SCM_BRANCHES)  : [[name: "master"]],
+            (SCM_BRANCHES)  : [[name: "*/master"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-cms'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-cms'],
                 [$class: 'ScmName', name: 'aem-cms']
             ],
         ]
@@ -108,17 +126,43 @@ class RoleRequirementsTest extends DSLTestBase {
     Map expectedConfig2 = [
         (SCM): [
             (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-service.git",
-            (SCM_BRANCHES)  : [[name: "develop"]],
+            (SCM_BRANCHES)  : [[name: "*/develop"]],
             (SCM_EXTENSIONS): [
                 [$class: 'LocalBranch'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'aem-service'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/aem-service'],
                 [$class: 'ScmName', name: 'aem-service']
             ],
         ]
     ]
 
+    Map expectedConfig3 = [
+      (SCM): [
+        (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-conga-aem-smoke-test.git",
+        (SCM_BRANCHES)  : [[name: "*/feature/debug-output"]],
+        (SCM_EXTENSIONS): [
+          [$class: 'LocalBranch'],
+          [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.conga_aem_smoke_test'],
+          [$class: 'ScmName', name: 'wcm_io_devops.conga_aem_smoke_test']
+        ],
+      ]
+    ]
+
+    Map expectedConfig4 = [
+      (SCM): [
+        (SCM_URL)       : "https://github.com/wcm-io-devops/ansible-aem-dispatcher-flush.git",
+        (SCM_BRANCHES)  : [[name: "1.0.0"]],
+        (SCM_EXTENSIONS): [
+          [$class: 'LocalBranch'],
+          [$class: 'RelativeTargetDirectory', relativeTargetDir: '.roleRequirements/wcm_io_devops.aem_dispatcher_flush'],
+          [$class: 'ScmName', name: 'wcm_io_devops.aem_dispatcher_flush']
+        ],
+      ]
+    ]
+
     assertEquals(expectedConfig1, checkoutConfigs.get(0))
     assertEquals(expectedConfig2, checkoutConfigs.get(1))
+    assertEquals(expectedConfig3, checkoutConfigs.get(2))
+    assertEquals(expectedConfig4, checkoutConfigs.get(3))
   }
 
 }

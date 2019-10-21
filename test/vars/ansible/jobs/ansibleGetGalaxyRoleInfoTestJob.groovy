@@ -21,12 +21,6 @@ package vars.ansible.jobs
 
 import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
 
-/**
- * Runs execMaven step with path to custom maven executable
- *
- * @return The script
- * @see vars.execMaven.ExecMavenIT
- */
 def execute() {
 
   Role existingRole = new Role("wcm_io_devops.jenkins_pipeline_library")

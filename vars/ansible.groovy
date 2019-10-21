@@ -30,6 +30,28 @@ import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
+ * Adapter function for using config map
+ *
+ * @param config The pipeline configuration object
+ */
+void checkoutRoles(Map config) {
+    Map ansibleCfg = config[ANSIBLE] ?: null
+    checkoutRoles(ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null)
+}
+
+/**
+ * Legacy Adapter function
+ * @param requirementsYmlPath
+ *
+ * @deprecated
+ */
+void checkoutRequirements(String requirementsYmlPath) {
+    Logger log = new Logger("ansible:checkoutRequirements -> ")
+    log.deprecated("ansible.checkoutRequirements", "ansible.checkoutRoles")
+    checkoutRoles(requirementsYmlPath)
+}
+
+/**
  * Checks out ansible galaxy requirements based upon a provided
  * path to a requirements YAML file.
  *
@@ -37,10 +59,10 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * getGalaxyRoleInfo
  *
  */
-void checkoutRequirements(String requirementsYmlPath) {
-    Logger log = new Logger("ansible:checkoutRequirements -> ")
-    log.debug("loading yml")
-    List ymlContent = readYaml(file: requirementsYmlPath)
+void checkoutRoles(String galaxyRoleFile) {
+    Logger log = new Logger("ansible:checkoutRoles -> ")
+    log.debug("loading yml '$galaxyRoleFile'")
+    List ymlContent = readYaml(file: galaxyRoleFile)
     log.debug("create requirements object")
     RoleRequirements roleRequirements = new RoleRequirements(ymlContent)
 
