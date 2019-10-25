@@ -87,6 +87,7 @@ contributor(gitTools) {
   method(name: 'mirrorRepositoryToRemote', type: 'void', params: [srcRepoPath: String, targetRepo: 'io.wcm.devops.jenkins.pipeline.scm.GitRepository'], doc: 'Mirrors a local bare cloned repository to a target server.')
   method(name: 'getFetchOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the fetch origin.')
   method(name: 'getFetchOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the fetch origin.')
+  method(name: 'getParentBranch', type: 'void', params: [:], doc: 'Utility function to retrieve the name of the parent branch.')
   method(name: 'getPushOrigin', type: 'void', params: [:], doc: 'Utility function to retrieve the push origin.')
   method(name: 'getPushOrigin', type: 'void', params: [remotes: String], doc: 'Utility function to retrieve the push origin.')
 }

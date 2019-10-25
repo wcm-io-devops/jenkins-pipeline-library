@@ -85,25 +85,51 @@ class GitToolsIT extends LibraryIntegrationTestBase {
     Assert.assertEquals(expectedPushOrigin, actualPushOrigin)
   }
 
+  @Test
+  void shouldFindDevelopParentBranch() {
+    mockedShellCommands = [
+      [
+        script: "git branch --list --remote | grep origin/develop",
+        result: 0
+      ]
+    ]
+    String expectedParentBranch = "origin/develop"
+    String acutalParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
+    Assert.assertEquals(expectedParentBranch, acutalParentBranch)
+  }
+
+  @Test
+  void shouldFindMasterParentBranch() {
+    mockedShellCommands = [
+      [
+        script: "git branch --list --remote | grep origin/develop",
+        result: 1
+      ]
+    ]
+    String expectedParentBranch = "origin/master"
+    String acutalParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
+    Assert.assertEquals(expectedParentBranch, acutalParentBranch)
+  }
+
   def shellMapCallback = { Map incomingCommand ->
     context.getStepRecorder().record(SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
     Boolean returnStatus = incomingCommand.returnStatus ?: false
     String script = incomingCommand.script ?: ""
     // return default values for several commands
-    if (returnStdout) {
-      for (Map mockedShellCommand in mockedShellCommands) {
-        String mockedScript = mockedShellCommand.getOrDefault("script", "")
-        String mockedResult = mockedShellCommand.getOrDefault("result", "")
-        if (mockedScript == script) {
-          return mockedResult
-        }
+
+    for (Map mockedShellCommand in mockedShellCommands) {
+      String mockedScript = mockedShellCommand.getOrDefault("script", "")
+      def mockedResult
+      if (returnStdout) {
+        mockedResult = mockedShellCommand.getOrDefault("result", "")
       }
-    }
-    if (returnStatus) {
-      switch (script) {
-        default:
-          return -1
+      if (returnStatus) {
+        mockedResult = mockedShellCommand.getOrDefault("result", 0)
+      }
+
+      if (mockedScript == script) {
+        return mockedResult
       }
     }
     return null

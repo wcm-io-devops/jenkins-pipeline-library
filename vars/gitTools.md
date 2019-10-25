@@ -8,6 +8,7 @@ This part of the pipeline provides utility steps for common GIT operations.
 * [`mirrorRepositoryToWorkspace`](#mirrorrepositorytoworkspacegitrepository-srcrepo-liststring-srccredentialids--null)
 * [`getFetchOrigin`](#string-getfetchoriginstring-remotes--null)
 * [`getPushOrigin`](#string-getpushoriginstring-remotes--null)
+* [`getParentBranch`](#string-getparentbranch)
 
 #### `mirrorRepository(String srcUrl, String targetUrl, List<String> srcCredentialIds = null, List<String> targetCredentialIds = null)`
 
@@ -43,3 +44,12 @@ Utility function to get the push origin from a git remote list (`git
 remote -v`). When no `remotes` are provided the step will try to
 retrieve them by using the internal function `_getRemotes` which
 basically executes a `git remote -v`.
+
+#### `String getParentBranch()`
+
+Utility function to get the name of the parent branch. At the moment
+this is limited to the following logic:
+
+1.   Use `origin/develop` as default
+2.   When there is no `origin/develop` branch in the remote branch list
+     use `origin/master`
