@@ -103,7 +103,7 @@ Have a look at [requirements](docs/requirements.md) to get the library running.
 The pipeline library comes with the following steps:
 
 * [ansible](vars/ansible.md)
-  * [`ansible.checkoutRoles`](vars/ansible.md#checkoutRolesstring-requirementsymlpath)
+  * [`ansible.checkoutRoles`](vars/ansible.md#checkoutrolesmap-config)
   * [`ansible.execPlaybook`](vars/ansible.md#execplaybookmap-config)
   * [`ansible.getGalaxyRoleInfo`](vars/ansible.md#getgalaxyroleinforole-role)
   * [`ansible.installRoles`](vars/ansible.md#installrolesmap-config)
@@ -122,6 +122,9 @@ The pipeline library comes with the following steps:
   * [`mirrorRepository`](vars/gitTools.md#mirrorrepositorystring-srcurl-string-targeturl-liststring-srccredentialids--null-liststring-targetcredentialids--null)
   * [`mirrorRepositoryToRemote`](vars/gitTools.md#mirrorrepositorytoremotestring-srcrepopath-gitrepository-targetrepo-liststring-targetcredentialids--null)
   * [`mirrorRepositoryToWorkspace`](vars/gitTools.md#mirrorrepositorytoworkspacegitrepository-srcrepo-liststring-srccredentialids--null)
+  * [`getFetchOrigin`](vars/gitTools.md#string-getfetchoriginstring-remotes--null)
+  * [`getPushOrigin`](vars/gitTools.md#string-getpushoriginstring-remotes--null)
+  * [`getParentBranch`](vars/gitTools.md#string-getparentbranch)
 * [jenkinsRestApi](vars/jenkinsRestApi.md)
   * [`jenkinsRestApi.findJobsByNameRegex`](vars/jenkinsRestApi.md#list-job-findjobsbynameregexmap-remote)
 * [managedScripts](vars/managedScripts.md)

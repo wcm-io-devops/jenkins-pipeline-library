@@ -265,3 +265,25 @@ List<String> _lookupRepositoryCredentials(GitRepository repo, List credentialIds
   }
   return credentialIds
 }
+
+/**
+ * Looks up the parent branch e.g. for feature branch merge operations.
+ *
+ * @return The name of the detected parent branch
+ */
+String getParentBranch() {
+  Logger log = new Logger("getParentBranch")
+  String parentBranch = "origin/develop"
+
+  log.info("check if git repo has a remote branch named: '${parentBranch}'")
+  Integer developBranchResultCode = sh(script: "git branch --list --remote | grep ${parentBranch}", returnStatus: true)
+  log.debug("git command result code:", developBranchResultCode)
+
+  if (developBranchResultCode != 0) {
+    log.info("No remote branch with the name '${parentBranch}' found, falling back to 'origin/master'")
+    parentBranch = "origin/master"
+  }
+
+  log.info("evaluated parent branch: '${parentBranch}'")
+  return parentBranch
+}
