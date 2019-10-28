@@ -42,22 +42,36 @@ class PatternMatcherTest extends DSLTestBase {
   @Test
   void shouldFindMatch() {
     PatternMatchable result = underTest.getBestMatch("pattern1", this.createTestCredentials())
-    assertNotNull("The CredentialUtilTest should find one ManagedFile", result)
+    assertNotNull("The shouldFindMatch should find one Credential", result)
     assertEquals("pattern1-id", result.getId())
   }
 
   @Test
   void shouldFindFirstMatch() {
     PatternMatchable result = underTest.getBestMatch("pattern", this.createTestCredentials())
-    assertNotNull("The CredentialUtilTest should find one ManagedFile", result)
+    assertNotNull("The shouldFindFirstMatch should find one Credential", result)
     assertEquals("pattern-id", result.getId())
   }
 
   @Test
   void shouldFindBetterMatch() {
     PatternMatchable result = underTest.getBestMatch("pattern-better", this.createTestCredentials())
-    assertNotNull("The CredentialUtilTest should find one ManagedFile", result)
+    assertNotNull("The shouldFindBetterMatch should find one Credential", result)
     assertEquals("i-am-a-better-match-id", result.getId())
+  }
+
+  @Test
+  void shouldMatchCorrectTldDomainCredentials() {
+    PatternMatchable result = underTest.getBestMatch("www.domain.tld", this.createTestCredentials())
+    assertNotNull("The shouldMatchCorrectDomainCredentials should find one Credential", result)
+    assertEquals("domain-matched", result.getId())
+  }
+
+  @Test
+  void shouldMatchCorrectSubDomainCredentials() {
+    PatternMatchable result = underTest.getBestMatch("sub3.sub2.sub1.domain.tld", this.createTestCredentials())
+    assertNotNull("The shouldMatchCorrectDomainCredentials should find one Credential", result)
+    assertEquals("detailed-domain-matched", result.getId())
   }
 
   List<Credential> createTestCredentials() {
@@ -67,6 +81,9 @@ class PatternMatcherTest extends DSLTestBase {
     files.push(new Credential("pattern", "pattern-id", "pattern2-name"))
     files.push(new Credential("pattern", "i-should-not-be-returned-id", "i-should-not-be-returned-name"))
     files.push(new Credential("pattern-b", "i-am-a-better-match-id", "i-am-a-better-match-name"))
+    files.push(new Credential(/.*\.domain\.tld/, "domain-matched", "domain-matched-name"))
+    files.push(new Credential(/.*\.sub2\.sub1\.domain\.tld/, "detailed-domain-matched", "detailed-domain-matched-name"))
+
 
     return files
   }
