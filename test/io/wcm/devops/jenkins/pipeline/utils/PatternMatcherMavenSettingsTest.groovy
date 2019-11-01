@@ -39,7 +39,7 @@ class PatternMatcherMavenSettingsTest extends DSLTestBase {
   void setUp() throws Exception {
     super.setUp()
     underTest = new PatternMatcher()
-    JsonLibraryResource res = new JsonLibraryResource(this.dslMock.getMock(), ManagedFileConstants.MAVEN_SETTINS_PATH)
+    JsonLibraryResource res = new JsonLibraryResource(this.dslMock.getMock(), ManagedFileConstants.MAVEN_SETTINGS_PATH)
     ManagedFileParser parser = new ManagedFileParser()
     managedFiles = parser.parse(res.load())
   }
