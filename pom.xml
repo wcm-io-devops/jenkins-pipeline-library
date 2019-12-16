@@ -29,7 +29,7 @@
 
   <groupId>io.wcm.devops.jenkins</groupId>
   <artifactId>io.wcm.devops.jenkins.pipeline-library</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.4.3-SNAPSHOT</version>
   <description>wcm.io Jenkins Pipeline Library</description>
 
   <scm>
