@@ -70,7 +70,7 @@ void call(Map config = null) {
     // retrieve settingsId
     if (commandBuilder.getSettingsId() == null) {
         // use autolookup for maven global settingsId
-        ManagedFile mavenSettingsManagedFile = autoLookupMavenSettings(ManagedFileConstants.MAVEN_SETTINS_PATH, scmUrl, log)
+        ManagedFile mavenSettingsManagedFile = autoLookupMavenSettings(ManagedFileConstants.MAVEN_SETTINGS_PATH, scmUrl, log)
         if (mavenSettingsManagedFile) {
             commandBuilder.setSettingsId(mavenSettingsManagedFile.getId())
         }
