@@ -29,6 +29,8 @@ class ManagedFileConstants implements Serializable {
   static final String GLOBAL_MAVEN_SETTINGS_PATH = "managedfiles/maven/global-settings.json"
   static final String GLOBAL_MAVEN__SETTINGS_ENV = "MVN_GLOBAL_SETTINGS"
 
+  // DEPRECATED, MAVEN_SETTINS_PATH will be removed in next major version
+  static final String MAVEN_SETTINS_PATH = "managedfiles/maven/settings.json"
   static final String MAVEN_SETTINGS_PATH = "managedfiles/maven/settings.json"
   static final String MAVEN_SETTING_ENV = "MVN_SETTINGS"
 
