@@ -35,6 +35,16 @@ class TypeUtilsTest {
   }
 
   @Test
+  void isClosureShouldReturnTrue() {
+    assertTrue(underTest.isClosure({ println("test") }))
+  }
+
+  @Test
+  void isClosureShouldReturnFalse() {
+    assertFalse(underTest.isClosure([:]))
+  }
+
+  @Test
   void isListShouldReturnTrue() {
     assertTrue(underTest.isList(new ArrayList()))
   }

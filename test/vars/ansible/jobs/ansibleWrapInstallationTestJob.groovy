@@ -17,15 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package vars.execMaven.jobs
-/**
- * Runs execMaven step with path to custom maven executable
- *
- * @return The script
- * @see vars.execMaven.ExecMavenIT
- */
+package vars.ansible.jobs
+
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
+
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
 def execute() {
-  ansible.checkoutRequirements("tools/ansible/requirements.yml")
+  ansible.withInstallation(
+    (ANSIBLE): [
+      (ANSIBLE_INSTALLATION)      : LibraryIntegrationTestContext.TOOL_ANSIBLE
+    ]
+  ) {
+    sh("ansible --version")
+  }
 }
 
 return this

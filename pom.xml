@@ -29,7 +29,7 @@
 
   <groupId>io.wcm.devops.jenkins</groupId>
   <artifactId>io.wcm.devops.jenkins.pipeline-library</artifactId>
-  <version>1.4.1-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <description>wcm.io Jenkins Pipeline Library</description>
 
   <scm>
@@ -52,7 +52,7 @@
 
   <organization>
     <name>wcm.io DevOps</name>
-    <url>http://devops.wcm.io</url>
+    <url>https://devops.wcm.io</url>
   </organization>
 
   <issueManagement>
@@ -69,7 +69,7 @@
     <developer>
       <name>wcm.io Community</name>
       <organization>wcm.io</organization>
-      <organizationUrl>http://wcm.io</organizationUrl>
+      <organizationUrl>https://wcm.io</organizationUrl>
     </developer>
   </developers>
 

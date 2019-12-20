@@ -98,6 +98,28 @@ class TypeUtils implements Serializable {
   }
 
   /**
+   * Utility function to return false for all non Closure objects
+   *
+   * @param object Any other object that is not of type Closure
+   * @return false
+   */
+  @NonCPS
+  Boolean isClosure(Object object) {
+    return false
+  }
+
+  /**
+   * Utility function to return true for all Closure objects
+   *
+   * @param object Closure object
+   * @return true
+   */
+  @NonCPS
+  Boolean isClosure(Closure object) {
+    return true
+  }
+
+  /**
    * Utility function to return false for all non ListItem objects
    *
    * @param object Comparable Version object

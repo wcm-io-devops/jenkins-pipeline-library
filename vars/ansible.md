@@ -7,37 +7,69 @@ The ansible part of the library implements
 
 ## Table of contents
 
+* [Common configuration options](#common-configuration-options)
 * [`checkoutRequirements(String requirementsYmlPath)`](#checkoutrequirementsstring-requirementsymlpath)
-    * [Example of a `requirements.yml`](#example-of-a-requirementsyml)
-    * [Process](#process)
+* [`checkoutRoles(Map config)`](#checkoutrolesmap-config)
+* [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
+  * [Example of a `roles.yml`](#example-of-a-rolesyml)
+  * [Process](#process)
 * [`execPlaybook(Map config)`](#execplaybookmap-config)
-    * [Features](#features)
-        * [`--extra-vars` as JSON](#--extra-vars-as-json)
-        * [Inject Build parameters into `--extra-vars`](#inject-build-parameters-into---extra-vars)
-        * [Extra parameters](#extra-parameters)
-    * [Configuration Options](#configuration-options)
-        * [`colorized` (optional)](#colorized-optional)
-        * [`credentialsId` (optional)](#credentialsid-optional)
-        * [`extraParameters` (optional)](#extraparameters-optional)
-        * [`extraVars` (optional)](#extravars-optional)
-        * [`forks` (optional)](#forks-optional)
-        * [`injectParams` (optional)](#injectparams-optional)
-        * [`installation`](#installation)
-        * [`inventory`](#inventory)
-        * [`limit` (optional)](#limit-optional)
-        * [`skippedTags` (optional)](#skippedtags-optional)
-        * [`startAtTask` (optional)](#startattask-optional)
-        * [`tags` (optional)](#tags-optional)
-        * [`sudo` (optional)](#sudo-optional)
-        * [`sudoUser` (optional)](#sudouser-optional)
-        * [`playbook`](#playbook)
+  * [Features](#features)
+    * [`--extra-vars` as JSON](#--extra-vars-as-json)
+    * [Inject Build parameters into `--extra-vars`](#inject-build-parameters-into---extra-vars)
+    * [Extra parameters](#extra-parameters)
+    * [Configuration Options](#execplaybookmap-config)
 * [`getGalaxyRoleInfo(Role role)`](#getgalaxyroleinforole-role)
     * [Example](#example)
+* [`installRoles(Map config`)](#installrolesmap-config)
+  * [Configuration Options](#installrolesmap-config)
+
+## Common configuration options
+
+These configuration options can be used for each build step that
+consumes the config map.
+
+All configuration options must be inside the `ansible`
+([`ConfigConstants.ANSIBLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
+map element to be evaluated and used by the step.
+
+### `installation`
+
+|||
+|---|---|
+|Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
 
 ## `checkoutRequirements(String requirementsYmlPath)`
 
-This step checks out all ansible galaxy role requirements into subdirectories of the workspace to track SCM changes in the depending roles.
-For Ansible Galaxy roles the `src` Attribute is used, for `scm` roles the `name` attribute is used
+:exclamation: This step is marked as deprecated and is replaced by
+`ansible.checkoutRoles`. See
+* [`checkoutRoles(Map config)`](#checkoutrolesmap-config) and
+* [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
+
+## `checkoutRoles(Map config)`
+
+This is an adapter step for the
+[`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
+step.
+
+```groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+ansible.checkoutRoles(
+        (ANSIBLE): [
+            (ANSIBLE_GALAXY_ROLE_FILE)  : '<roles-path>' 
+        ]
+    )
+```
+
+## `checkoutRoles(String galaxyRoleFile)`
+
+This step checks out all ansible galaxy role file into subdirectories of
+the workspace (below `.roleRequirements`) to track SCM changes in the
+depending roles. For Ansible Galaxy roles the `src` Attribute is used,
+for `scm` roles the `name` attribute is used
 
 This currently works for:
 
@@ -46,7 +78,7 @@ This currently works for:
 
 :bulb: The roles are checkout into sub folders using the `name` (`src` for Ansible Galaxy Roles) of the role.
 
-### Example of a `requirements.yml`
+### Example of a `roles.yml`
 ```yaml
 - src: williamyeh.oracle-java
 - src: tecris.maven
@@ -60,7 +92,7 @@ This currently works for:
   version: develop
 ```
 
-This `requirements.yml` will result in a checkout of four repositories:
+This `roles.yml` will result in a checkout of four repositories:
 * https://github.com/William-Yeh/ansible-oracle-java.git (master) into folder "williamyeh.oracle-java"
 * https://github.com/tecris/ansible-maven.git (tag v3.5.2)  into folder "tecris.maven"
 * https://github.com/wcm-io-devops/ansible-aem-cms.git (master) into folder "aem-cms"
@@ -77,7 +109,7 @@ This `requirements.yml` will result in a checkout of four repositories:
 
 ## `execPlaybook(Map config)`
 
-This step can be used to execute a Ansible Playbook.
+This step is used to execute a Ansible Playbook.
 
 ### Features
 #### `--extra-vars` as JSON
@@ -175,6 +207,8 @@ ansible-playbook -v [...]
 
 ### Configuration Options
 
+<a id="execplaybook-configuration-options" />
+
 Complete list of all configuration options.
 
 All configuration options must be inside the `ansible`
@@ -190,7 +224,7 @@ ansible.execPlaybook(
             (ANSIBLE_EXTRA_PARAMETERS): ["-list","-of","-params"],
             (ANSIBLE_EXTRA_VARS)      : [ "<name1>" : "<value1>", "<name2>" : "<value2>" ],
             (ANSIBLE_FORKS)           : 5,
-            (ANSIBLE_INSTALLATION)    : "<ansible-installation>",
+            (ANSIBLE_INSTALLATION)    : '<ansible-installation-id>',
             (ANSIBLE_INVENTORY)       : "<path/to/inventory>",
             (ANSIBLE_LIMIT)           : "<limit>",
             (ANSIBLE_PLAYBOOK)        : "<path/to/playbook>",
@@ -242,7 +276,7 @@ This example will add `-v` to the command line.
 ```groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-Map config = {
+Map config = [
     (ANSIBLE) : [
         (ANSIBLE_EXTRA_PARAMETERS) : ["-v"]
         // ...
@@ -305,13 +339,7 @@ When enabled **all** build parameters are injected into `--extra-vars`*
 
 #### `installation`
 
-|||
-|---|---|
-|Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|`String`|
-|Default|`null`|
-
-Controls which ansible installation will be used for playbook execution.
+see [Common configuration options](#common-configuration-options)
 
 #### `inventory`
 
@@ -410,3 +438,52 @@ Role role = new Role("tecris.maven")
 
 Object apiInfo = ansible.getGalaxyRoleInfo(role)
 ```
+
+## `installRoles(Map config)`
+
+This step is used to install Ansible roles specified by a `yml`.
+
+<a id="installroles-configuration-options" />
+
+### Configuration Options
+
+Complete list of all configuration options.
+
+All configuration options must be inside the `ansible`
+([`ConfigConstants.ANSIBLE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
+map element to be evaluated and used by the step.
+
+```groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+ansible.installRoles(
+        (ANSIBLE): [
+            (ANSIBLE_INSTALLATION)       : '<ansible-installation-id>',
+            (ANSIBLE_GALAXY_FORCE) : false,
+            (ANSIBLE_GALAXY_ROLE_FILE)  : '<roles-path>' 
+        ]
+    )
+```
+
+#### `installation` (optional)
+
+See [Common configuration options](#common-configuration-options)
+
+#### `requirementsForce` (optional)
+
+|                                                                                                                              ||
+|:---------|:-------------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.ANSIBLE_GALAXY_FORCE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                                          |
+| Default  | `false`                                                                                                             |
+
+#### `requirementsPath`
+
+|                                                                                                                             ||
+|:---------|:------------------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.ANSIBLE_GALAXY_ROLE_FILE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`                                                                                                          |
+| Default  | `null`                                                                                                            |
+
+[checkoutRoles(String galaxyRoleFile)]: #checkoutrolesstring-galaxyrolefile
+

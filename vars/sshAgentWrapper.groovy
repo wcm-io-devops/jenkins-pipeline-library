@@ -64,7 +64,7 @@ void call(List<SSHTarget> sshTargets, Closure body) {
             foundCredentials[sshCredential.id] = sshCredential
             sshTarget.setCredential(sshCredential)
         } else {
-            log.warn("No ssh credential was found for '$sshTarget' during auto lookup. Make sure to configure the credentials! See sshAgentWrapper.md for details.")
+            log.warn("No ssh credential was found for '${sshTarget.getHost()}' during auto lookup. Make sure to configure the credentials! See sshAgentWrapper.md for details.")
         }
     }
 

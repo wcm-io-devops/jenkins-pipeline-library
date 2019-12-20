@@ -56,7 +56,6 @@ class YamlLibraryResource implements Serializable {
    *
    * @return The loaded yaml file as object
    */
-  @NonCPS
   Object load() {
     def yamlString = libraryResource.load()
     try {

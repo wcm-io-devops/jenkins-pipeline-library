@@ -50,7 +50,6 @@ class LibraryResource implements Serializable {
    *
    * @return The content of the loaded library resource
    */
-  @NonCPS
   String load() {
     log.trace("loading $file", this)
     if (content != null) {

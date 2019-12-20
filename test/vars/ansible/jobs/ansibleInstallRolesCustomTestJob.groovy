@@ -19,12 +19,16 @@
  */
 package vars.ansible.jobs
 
-import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 def execute() {
-
-  Role notExistingRole = new Role("not.existingrole")
-  return ansible.getGalaxyRoleInfo(notExistingRole)
+  ansible.installRoles(
+    (ANSIBLE): [
+      (ANSIBLE_INSTALLATION)     : "ansible-installation",
+      (ANSIBLE_GALAXY_FORCE): true,
+      (ANSIBLE_GALAXY_ROLE_FILE): "tools/ansible/requirements.yml"
+    ]
+  )
 }
 
 return this

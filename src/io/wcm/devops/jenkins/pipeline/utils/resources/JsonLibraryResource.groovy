@@ -57,7 +57,6 @@ class JsonLibraryResource implements Serializable {
    *
    * @return The loaded file as JSON object
    */
-  @NonCPS
   JSON load() {
     def jsonStr = libraryResource.load()
     try {

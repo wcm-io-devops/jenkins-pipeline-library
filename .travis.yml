@@ -20,15 +20,15 @@
 language: java
 
 jdk:
-- oraclejdk8
+- openjdk8
 
 # Make sure travis can use container-based infrastructure
 sudo: false
 
-install: "mvn -s ./.travis.maven-settings.xml clean"
+install: "mvn -q -s ./.travis.maven-settings.xml clean"
 
 script:
-- "mvn -s ./.travis.maven-settings.xml -U -Dmaven.javadoc.skip=true install"
+- "mvn -q -s ./.travis.maven-settings.xml -U -Dmaven.javadoc.skip=true install"
 
 # exclude release tags like 1.0.0
 branches:

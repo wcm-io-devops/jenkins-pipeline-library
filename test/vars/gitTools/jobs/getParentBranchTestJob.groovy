@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2018 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package vars.ansible.jobs
+package vars.gitTools.jobs
 
-import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
-
-def execute() {
-
-  Role notExistingRole = new Role("not.existingrole")
-  return ansible.getGalaxyRoleInfo(notExistingRole)
+def execute(Map config = [:]) {
+  gitTools.getParentBranch()
 }
 
 return this

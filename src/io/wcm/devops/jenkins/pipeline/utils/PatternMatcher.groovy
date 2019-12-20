@@ -30,9 +30,7 @@ import java.util.regex.Matcher
  * Utility function to match incoming strings (scm urls) against a list of PatternMatchable objects.
  * Used to get necessary ManagedFile or Credential Objects for an URL (scm url)
  *
- * @see PatternMatchable
- * @see io.wcm.devops.jenkins.pipeline.credentials.Credential
- * @see io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
+ * @see PatternMatchable* @see io.wcm.devops.jenkins.pipeline.credentials.Credential* @see io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFile
  */
 class PatternMatcher implements Serializable {
 
@@ -54,17 +52,19 @@ class PatternMatcher implements Serializable {
     int matchScore = 0
     // Walk through list and match each pattern of the PatternMatchable against the searchvalue
     items.each {
-      item ->
-        log.debug("try to match file: " + item + " with pattern " + item.getPattern())
-        Matcher matcher = searchValue =~ item.getPattern()
+      patternMatchable ->
+        log.debug("try to match: " + patternMatchable + " with pattern '" + patternMatchable.getPattern() + "' against: '" + searchValue + "'")
+        Matcher matcher = searchValue =~ patternMatchable.getPattern()
         // check if there is a match
         if (matcher) {
           String group = matcher[0]
+          // match score is pattern length + matched group length
+          int currentMatchScore = group.length() + patternMatchable.pattern.length()
           // check if matcher has a group and if the matched length/score is better as the last found match
-          if (group && (group.length() > matchScore)) {
-            matchScore = group.length()
+          if (group && (currentMatchScore > matchScore)) {
+            matchScore = currentMatchScore
             log.trace("match found with score $matchScore")
-            result = item
+            result = patternMatchable
           }
         }
     }

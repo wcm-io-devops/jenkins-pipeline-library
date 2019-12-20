@@ -17,14 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package vars.ansible.jobs
-
-import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
+package vars.execMaven.jobs
 
 def execute() {
-
-  Role notExistingRole = new Role("not.existingrole")
-  return ansible.getGalaxyRoleInfo(notExistingRole)
+  ansible.checkoutRoles("tools/ansible/requirements.yml")
 }
 
 return this
