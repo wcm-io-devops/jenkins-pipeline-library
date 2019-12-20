@@ -19,6 +19,7 @@
  */
 package io.wcm.devops.jenkins.pipeline.utils.maps
 
+import org.junit.Before
 import org.junit.Test
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import static org.junit.Assert.assertEquals
@@ -44,6 +45,13 @@ class MapMergeModeTest {
       map    : [incomingP1: "incomingV1", incomingP2: "incomingV2"],
     ]
   ]
+
+  MapUtils underTest
+
+  @Before
+  void setUp() throws Exception {
+    underTest = new MapUtils()
+  }
 
   @Test
   void shouldMergeSimpleWithModeReplace() {
@@ -103,7 +111,7 @@ class MapMergeModeTest {
     List existing = ["existing1, existing2"]
     List incoming = ["incoming1", "incoming2"]
     List expected = ["existing1, existing2"]
-    List actual = MapUtils.mergeList(existing, incoming, MapMergeMode.SKIP)
+    List actual = underTest.mergeList(existing, incoming, MapMergeMode.SKIP)
     assertEquals(expected, actual)
   }
 
@@ -112,7 +120,7 @@ class MapMergeModeTest {
     List existing = ["existing1, existing2"]
     List incoming = ["incoming1", "incoming2"]
     List expected = ["incoming1", "incoming2"]
-    List actual = MapUtils.mergeList(existing, incoming, MapMergeMode.REPLACE)
+    List actual = underTest.mergeList(existing, incoming, MapMergeMode.REPLACE)
     assertEquals(expected, actual)
   }
 
@@ -121,7 +129,7 @@ class MapMergeModeTest {
     List existing = ["existing1, existing2"]
     List incoming = ["incoming1", "incoming2"]
     List expected = ["existing1, existing2", "incoming1", "incoming2"]
-    List actual = MapUtils.mergeList(existing, incoming, MapMergeMode.MERGE)
+    List actual = underTest.mergeList(existing, incoming, MapMergeMode.MERGE)
     assertEquals(expected, actual)
   }
 
@@ -130,7 +138,7 @@ class MapMergeModeTest {
     Boolean existing = false
     Boolean incoming = true
     Boolean expected = false
-    Object actual = MapUtils.mergeValue(existing, incoming, MapMergeMode.SKIP)
+    Object actual = underTest.mergeValue(existing, incoming, MapMergeMode.SKIP)
     assertEquals(expected, actual)
   }
 
@@ -139,7 +147,7 @@ class MapMergeModeTest {
     Object existing = "existing"
     Object incoming = "incoming1"
     Object expected = "incoming1"
-    Object actual = MapUtils.mergeValue(existing, incoming, MapMergeMode.REPLACE)
+    Object actual = underTest.mergeValue(existing, incoming, MapMergeMode.REPLACE)
     assertEquals(expected, actual)
   }
 
@@ -148,7 +156,7 @@ class MapMergeModeTest {
     Object existing = 1
     Object incoming = 2
     Object expected = 2
-    Object actual = MapUtils.mergeValue(existing, incoming, MapMergeMode.MERGE)
+    Object actual = underTest.mergeValue(existing, incoming, MapMergeMode.MERGE)
     assertEquals(expected, actual)
   }
 
@@ -157,7 +165,7 @@ class MapMergeModeTest {
     Map existing = [existing1: "existingValue1", existing2: "existingValue2"]
     Map incoming = [incoming1: "incomingValue1", incoming2: "incomingValue2"]
     Map expected = [existing1: "existingValue1", existing2: "existingValue2"]
-    Map actual = MapUtils.mergeMap(existing, incoming, MapMergeMode.SKIP)
+    Map actual = underTest.mergeMap(existing, incoming, MapMergeMode.SKIP)
     assertEquals(expected, actual)
   }
 
@@ -166,7 +174,7 @@ class MapMergeModeTest {
     Map existing = [existing1: "existingValue1", existing2: "existingValue2"]
     Map incoming = [incoming1: "incomingValue1", incoming2: "incomingValue2"]
     Map expected = [incoming1: "incomingValue1", incoming2: "incomingValue2"]
-    Map actual = MapUtils.mergeMap(existing, incoming, MapMergeMode.REPLACE)
+    Map actual = underTest.mergeMap(existing, incoming, MapMergeMode.REPLACE)
     assertEquals(expected, actual)
   }
 
@@ -175,15 +183,15 @@ class MapMergeModeTest {
     Map existing = [existing1: "existingValue1", existing2: "existingValue2"]
     Map incoming = [incoming1: "incomingValue1", incoming2: "incomingValue2", existing1: "existing1ValueChanged"]
     Map expected = [existing1: "existing1ValueChanged", existing2: "existingValue2", incoming1: "incomingValue1", incoming2: "incomingValue2"]
-    Map actual = MapUtils.mergeMap(existing, incoming, MapMergeMode.MERGE)
+    Map actual = underTest.mergeMap(existing, incoming, MapMergeMode.MERGE)
     assertEquals(expected, actual)
   }
 
   @Test
   void shouldNotOverwriteProtectedModeVariable() {
-    assertEquals(MapMergeMode.MERGE, MapUtils.mergeValue(MapMergeMode.MERGE, MapMergeMode.SKIP, MapMergeMode.MERGE))
-    assertEquals(MapMergeMode.SKIP, MapUtils.mergeValue(MapMergeMode.SKIP, MapMergeMode.REPLACE, MapMergeMode.REPLACE))
-    assertEquals(MapMergeMode.REPLACE, MapUtils.mergeValue(MapMergeMode.REPLACE, MapMergeMode.MERGE, MapMergeMode.SKIP))
+    assertEquals(MapMergeMode.MERGE, underTest.mergeValue(MapMergeMode.MERGE, MapMergeMode.SKIP, MapMergeMode.MERGE))
+    assertEquals(MapMergeMode.SKIP, underTest.mergeValue(MapMergeMode.SKIP, MapMergeMode.REPLACE, MapMergeMode.REPLACE))
+    assertEquals(MapMergeMode.REPLACE, underTest.mergeValue(MapMergeMode.REPLACE, MapMergeMode.MERGE, MapMergeMode.SKIP))
   }
 
   @Test

@@ -10,6 +10,8 @@ library identifier: 'pipeline-library-example@master', retriever: modernSCM([
   remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
 ])
 
+
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 import org.jenkinsci.plugins.workflow.libs.Library
 import groovy.transform.Field
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
@@ -454,6 +456,13 @@ node() {
   }
 
   integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.maps") {
+    integrationTestUtils.runTest("MapMergeMode") {
+      echo ("run test on MapMergeMode")
+      MapMergeMode modeMerge = MapMergeMode.MERGE
+      MapMergeMode modeReplace = MapMergeMode.REPLACE
+      MapMergeMode modeSkip = MapMergeMode.SKIP
+      echo ("run test on MapMergeMode 2")
+    }
     integrationTestUtils.runTest("MapUtils") {
       Map map1 = [
         node1: [

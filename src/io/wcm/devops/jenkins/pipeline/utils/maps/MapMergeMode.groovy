@@ -34,7 +34,12 @@ package io.wcm.devops.jenkins.pipeline.utils.maps
  */
 enum MapMergeMode implements Serializable {
 
-  MERGE,
-  SKIP,
-  REPLACE,
+  MERGE(),
+  SKIP(),
+  REPLACE()
+
+  private static final long serialVersionUID = 1L
+
+  MapMergeMode() {
+  }
 }

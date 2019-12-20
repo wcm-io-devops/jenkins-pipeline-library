@@ -37,6 +37,8 @@ class MapUtils implements Serializable {
 
   static typeUtils = new TypeUtils()
 
+  static MapUtils instance
+
   /**
    * Merges 0 to n Map objects recursively into one Map
    *
@@ -68,6 +70,7 @@ class MapUtils implements Serializable {
   @SuppressFBWarnings('SE_NO_SERIALVERSIONID')
   static transient Map merge(Map... maps) {
     Map result
+    instance = new MapUtils()
     if (maps.length == 0) {
       result = [:]
     } else if (maps.length == 1) {
@@ -91,14 +94,14 @@ class MapUtils implements Serializable {
 
           if (result[k] != null && typeUtils.isMap(result[k])) {
             // unnecessary qualified reference is necessary here otherwise CPS / Sandbox will be violated
-            result[k] = MapUtils.mergeMap((Map) result[k], (Map) v, mergeMode)
+            result[k] = instance.mergeMap((Map) result[k], (Map) v, mergeMode)
           } else if (result[k] != null && typeUtils.isList(result[k]) && typeUtils.isList(v)) {
             // execute a list merge
             List existingList = (List) result[k]
             List incomingList = (List) v
-            result[k] = MapUtils.mergeList(existingList, incomingList, mergeMode)
+            result[k] = instance.mergeList(existingList, incomingList, mergeMode)
           } else if (result[k] != null && v != null) {
-            result[k] = mergeValue(result[k], v, mergeMode)
+            result[k] = instance.mergeValue(result[k], v, mergeMode)
           }
           else {
             result[k] = v
@@ -124,7 +127,7 @@ class MapUtils implements Serializable {
    * @see MapMergeMode
    */
   @NonCPS
-  static transient Map mergeMap(Map existing, Map incoming, MapMergeMode mergeMode) {
+  Map mergeMap(Map existing, Map incoming, MapMergeMode mergeMode) {
     switch (mergeMode) {
       case MapMergeMode.SKIP: return existing
       case MapMergeMode.REPLACE: return incoming
@@ -148,7 +151,7 @@ class MapUtils implements Serializable {
    * @see MapMergeMode
    */
   @NonCPS
-  static transient Object mergeValue(Object existing, Object incoming, MapMergeMode mergeMode) {
+  Object mergeValue(Object existing, Object incoming, MapMergeMode mergeMode) {
     // merge mode object are protected and can not be overwritten
     if (typeUtils.isMapMergeMode(existing)) {
       return existing
@@ -176,7 +179,7 @@ class MapUtils implements Serializable {
    * @see MapMergeMode
    */
   @NonCPS
-  static transient List mergeList(List existing, List incoming, MapMergeMode mergeMode) {
+  List mergeList(List existing, List incoming, MapMergeMode mergeMode) {
     switch (mergeMode) {
       case MapMergeMode.SKIP: return existing
       case MapMergeMode.REPLACE: return incoming
