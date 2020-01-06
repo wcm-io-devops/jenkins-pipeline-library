@@ -92,7 +92,7 @@ class MapUtils implements Serializable {
             // do nothing here
           }
 
-          if (result[k] != null && typeUtils.isMap(result[k])) {
+          if (result[k] != null && typeUtils.isMap(result[k]) && typeUtils.isMap(v)) {
             // unnecessary qualified reference is necessary here otherwise CPS / Sandbox will be violated
             result[k] = instance.mergeMap((Map) result[k], (Map) v, mergeMode)
           } else if (result[k] != null && typeUtils.isList(result[k]) && typeUtils.isList(v)) {
