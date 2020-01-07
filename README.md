@@ -148,7 +148,9 @@ The pipeline library comes with the following steps:
 * [Logging](docs/logging.md)
     * [`Logger`](src/io/wcm/devops/jenkins/pipeline/utils/logging/Logger.groovy)
     * [`LogLevel`](src/io/wcm/devops/jenkins/pipeline/utils/logging/LogLevel.groovy)
-* [`MapUtils`](src/io/wcm/devops/jenkins/pipeline/utils/maps/MapUtils.groovy)
+* [Configuration map merging](docs/config-map-merging.md)
+  * [`MapUtils`](src/io/wcm/devops/jenkins/pipeline/utils/maps/MapUtils.groovy)
+  * [`MapMergeMode`](src/io/wcm/devops/jenkins/pipeline/utils/maps/MapMergeMode.groovy)
 
 ## Credential and managed file auto lookup
 

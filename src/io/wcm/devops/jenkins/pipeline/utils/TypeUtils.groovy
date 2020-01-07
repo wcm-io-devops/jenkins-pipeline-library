@@ -20,6 +20,7 @@
 package io.wcm.devops.jenkins.pipeline.utils
 
 import com.cloudbees.groovy.cps.NonCPS
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 import io.wcm.devops.jenkins.pipeline.versioning.ComparableVersion
 
 /**
@@ -50,6 +51,28 @@ class TypeUtils implements Serializable {
   @NonCPS
   Boolean isMap(Map object) {
     return true
+  }
+
+  /**
+   * Utility function to return true for all MapMergeMode objects
+   *
+   * @param mode MapMergeMode object
+   * @return true
+   */
+  @NonCPS
+  isMapMergeMode(MapMergeMode mode) {
+    return true
+  }
+
+  /**
+   * Utility function to return false for all non MapMergeMode objects
+   *
+   * @param object Non MapMergeMode object
+   * @return false
+   */
+  @NonCPS
+  isMapMergeMode(Object mode) {
+    return false
   }
 
   /**
