@@ -457,11 +457,9 @@ node() {
 
   integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.maps") {
     integrationTestUtils.runTest("MapMergeMode") {
-      echo ("run test on MapMergeMode")
       MapMergeMode modeMerge = MapMergeMode.MERGE
       MapMergeMode modeReplace = MapMergeMode.REPLACE
       MapMergeMode modeSkip = MapMergeMode.SKIP
-      echo ("run test on MapMergeMode 2")
     }
     integrationTestUtils.runTest("MapUtils") {
       Map map1 = [
