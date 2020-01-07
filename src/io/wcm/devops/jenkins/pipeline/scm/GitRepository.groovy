@@ -88,7 +88,7 @@ class GitRepository {
   GitRepository(Script script, String url) {
     this.script = script
     this.url = url
-    Matcher matcher = url =~ /(https?:\\/\\/|(?:ssh:\\/\\/)?)(?:([^@\/]+)@)?((?:[\w.\-_]+)(?::\d+)?)(?:\\/|:)((?:[\w-_\\/]*))\\/(.*)/
+    Matcher matcher = url =~ /(https?:\\/\\/|(?:ssh:\\/\\/)?)(?:([^\/]+)@)?((?:[\w.\-_]+)(?::\d+)?)(?:\\/|:)((?:[\w-_\\/]*))\\/(.*)/
     if (matcher) {
       List matches = matcher[0]
 
@@ -159,7 +159,7 @@ class GitRepository {
     if (isHttp() || isHttps()) {
       // add a username if present
       if (username != null) {
-        ret += "${username}@"
+        ret += "${username.replace("@","%40")}@"
       }
       // add the server, group and project
       ret += "${server}/${group}/${project}"
