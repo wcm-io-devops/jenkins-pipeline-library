@@ -227,7 +227,7 @@ class MapUtilsTest {
   }
 
   @Test
-  void shouldMergeMapWithInt() {
+  void shouldmergeMapWithNonMap() {
     Map map1 = [ "simple" : 1, "list" : [1], "mapItem" : [ "key" : "map1Value" ] ]
     Map map2 = [ "simple" : 2, "list" : 2, "mapItem" : 2 ]
     Map actual1 = MapUtils.merge(map1, map2)
