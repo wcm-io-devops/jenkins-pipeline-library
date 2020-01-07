@@ -164,7 +164,7 @@ class GitRepositoryTest extends CpsScriptTestBase {
   }
 
   @Test
-  void shouldManiupulateHttpsUsername() {
+  void shouldManipulateHttpsUsername() {
     String url = "https://username1@github.com:443/wcm-io-devops/jenkins-pipeline-library.git"
     underTest = new GitRepository(this.script, url)
     assertEquals(url, underTest.getUrl())
@@ -174,6 +174,14 @@ class GitRepositoryTest extends CpsScriptTestBase {
     assertEquals("https://github.com:443/wcm-io-devops/jenkins-pipeline-library.git", underTest.getUrl())
     underTest.setUsername("username1")
     assertEquals(url, underTest.getUrl())
+  }
+
+  @Test
+  void shouldEscapeAtInUsername() {
+    String url = "https://username1@lorem@github.com:443/wcm-io-devops/jenkins-pipeline-library.git"
+    String expectedUrl = "https://username1%40lorem@github.com:443/wcm-io-devops/jenkins-pipeline-library.git"
+    underTest = new GitRepository(this.script, url)
+    assertEquals(expectedUrl, underTest.getUrl())
   }
 
   @Test(expected = AbortException.class)
