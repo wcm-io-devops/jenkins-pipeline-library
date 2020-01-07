@@ -49,6 +49,10 @@ class ConfigConstants {
   public static final String ANSIBLE_GALAXY_ROLE_FILE = "galaxyRoleFile"
   public static final String ANSIBLE_GALAXY_FORCE = "galaxyForce"
 
+  public static final String LOGLEVEL = "logLevel"
+
+  public static final String MAP_MERGE_MODE = "mapMergeMode"
+
   public static final String MAVEN = "maven"
   public static final String MAVEN_ARGUMENTS = "arguments"
   public static final String MAVEN_DEFINES = "defines"
@@ -64,9 +68,6 @@ class ConfigConstants {
   public static final String MAVEN_PURGE_SNAPSHOTS_REPO_PATH = "repoPath"
   public static final String MAVEN_PURGE_SNAPSHOTS_DRY_RUN = "dryRun"
   public static final String MAVEN_PURGE_SNAPSHOTS_LOG_LEVEL = "logLevel"
-
-
-  public static final String LOGLEVEL = "logLevel"
 
   public static final String NOTIFY = "notify"
   public static final String NOTIFY_ATTACH_LOG = "attachLog"

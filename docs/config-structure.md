@@ -1,3 +1,6 @@
+:bulb: Please also consider reading
+[Configuration map merging](config-map-merging.md).
+
 # Config structure
 
 You may be wondering why each step gets named config map passed like
