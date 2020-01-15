@@ -76,6 +76,8 @@ class StepConstants {
 
   public final static String MAVEN_PURGE_SNAPSHOTS = "purgeSnapshots"
 
+  public final static String MQTT_NOTIFICATION = "mqttNotification"
+
   public final static String NODE = "node"
 
   public final static String OPENTASKS = "openTasks"

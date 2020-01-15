@@ -33,6 +33,7 @@ import io.wcm.testing.jenkins.pipeline.plugins.EmailExtPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.FindBugsPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.HTTPRequestPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.JUnitPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.MQTTNotificationPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.PMDPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.PipelineStageStepPluginMock
 import io.wcm.testing.jenkins.pipeline.plugins.PipelineUtilityStepsPluginMock
@@ -224,6 +225,11 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   HTTPRequestPluginMock httpRequestPluginMock
 
+  /**
+   * MOcks the MQTT notification plugin
+   */
+  MQTTNotificationPluginMock mqttNotificationPluginMock
+
   @Override
   @Before
   void setUp() throws Exception {
@@ -259,6 +265,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     this.versionNumberPluginMock = new VersionNumberPluginMock(context)
     this.workflowDurableTaskStepPluginMock = new WorkflowDurableTaskStepPluginMock(context)
     this.httpRequestPluginMock = new HTTPRequestPluginMock(context)
+    this.mqttNotificationPluginMock = new MQTTNotificationPluginMock(context)
 
     context.getPipelineTestHelper().registerAllowedMethod("getName", [], canonicalNameCallback)
     context.getPipelineTestHelper().registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)

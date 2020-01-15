@@ -132,6 +132,8 @@ The pipeline library comes with the following steps:
     * [`managedScripts.execPipelineShellScript`](vars/managedScripts.md#execpipelineshellscriptstring-scriptpath-commandbuilder-commandbuilder-null-returnstdout--false-returnstatus--false)
 * [maven](vars/maven.md)
     * [`purgeSnapshots`](vars/maven.md#purgesnapshotsmap-config)
+* [notify](vars/notify.md)
+    * [`notify.mqtt`](vars/notify.md#notifymqttmap-config)
 * [`notifyMail`](vars/notifyMail.md)
 * [`setBuildName`](vars/setBuildName.md)
 * [`setGitBranch`](vars/setGitBranch.md)

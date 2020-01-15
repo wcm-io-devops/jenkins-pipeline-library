@@ -76,6 +76,16 @@ class ConfigConstants {
   public static final String NOTIFY_COMPRESS_LOG = "compressLog"
   public static final String NOTIFY_ENABLED = "enabled"
   public static final String NOTIFY_MIME_TYPE = "mimeType"
+
+  public static final String NOTIFY_MQTT = "notifyMqtt"
+  public static final String NOTIFY_MQTT_ENABLED = "enabled"
+  public static final String NOTIFY_MQTT_BROKER = "broker"
+  public static final String NOTIFY_MQTT_CREDENTIALS_ID = "credentialsId"
+  public static final String NOTIFY_MQTT_TOPIC = "topic"
+  public static final String NOTIFY_MQTT_MESSAGE = "message"
+  public static final String NOTIFY_MQTT_QOS = "qos"
+  public static final String NOTIFY_MQTT_RETAIN = "retain"
+
   public static final String NOTIFY_ON_SUCCESS = "onSuccess"
   public static final String NOTIFY_ON_FAILURE = "onFailure"
   public static final String NOTIFY_ON_STILL_FAILING = "onStillFailing"
