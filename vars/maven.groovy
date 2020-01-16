@@ -56,5 +56,5 @@ void purgeSnapshots(String repositoryPath = null, Boolean dryRun = false, LogLev
   if (logLevel) {
     commandBuilder.addArgument("--loglvl=${logLevel.level}")
   }
-  managedScripts.execPipelineShellScript("jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh", commandBuilder)
+  managedScripts.execPipelineShellScript("jenkins-pipeline-library/managedScripts/shell/maven/purge-snapshots.sh", commandBuilder)
 }

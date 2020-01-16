@@ -35,7 +35,7 @@ class MavenIT extends LibraryIntegrationTestBase {
     List shellCommands = assertStepCalls(SH,3)
 
     Map expectedManagedScriptShellCommand = [
-        'script': "./.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh --repo='custom/path/to/repo' --dryrun --loglvl=8"
+        'script': "./.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh --repo='custom/path/to/repo' --dryrun --loglvl=8"
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -47,7 +47,7 @@ class MavenIT extends LibraryIntegrationTestBase {
     List shellCommands = assertStepCalls(SH,3)
 
     Map expectedManagedScriptShellCommand = [
-        'script': "./.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh --repo='custom/path/to/repo/from/map' --dryrun --loglvl=2"
+        'script': "./.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh --repo='custom/path/to/repo/from/map' --dryrun --loglvl=2"
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -59,7 +59,7 @@ class MavenIT extends LibraryIntegrationTestBase {
     List shellCommands = assertStepCalls(SH,3)
 
     Map expectedManagedScriptShellCommand = [
-        'script': "./.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh"
+        'script': "./.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh"
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)

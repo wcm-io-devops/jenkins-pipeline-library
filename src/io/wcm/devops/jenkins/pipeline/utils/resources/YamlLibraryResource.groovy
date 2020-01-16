@@ -40,12 +40,28 @@ class YamlLibraryResource implements Serializable {
 
   String file
 
+  Script script
+
+  /**
+   * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
+   * @param file Path to the file
+   *
+   * @deprecated
+   */
+  YamlLibraryResource(DSL dsl, String file) {
+    this.dsl = dsl
+    this.file = file
+    libraryResource = new LibraryResource(dsl, file)
+    log.deprecated("YamlLibraryResource(DSL dsl, String file)", "YamlLibraryResource(Script script, String file)")
+  }
+
   /**
    * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
    * @param file Path to the file
    */
-  YamlLibraryResource(DSL dsl, String file) {
-    this.dsl = dsl
+  YamlLibraryResource(Script script, String file) {
+    this.script = script
+    this.dsl = script.steps
     this.file = file
     libraryResource = new LibraryResource(dsl, file)
   }

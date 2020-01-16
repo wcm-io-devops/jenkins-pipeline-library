@@ -31,14 +31,14 @@ import hudson.model.Result as HudsonResult
 @SuppressFBWarnings('ME_ENUM_FIELD_SETTER')
 enum Result {
 
-  NOT_BUILD(HudsonResult.NOT_BUILT, 3),
-  ABORTED(HudsonResult.ABORTED, 4),
-  FAILURE(HudsonResult.FAILURE, 2),
-  UNSTABLE(HudsonResult.UNSTABLE, 1),
-  SUCCESS(HudsonResult.SUCCESS, 0),
-  STILL_FAILING(HudsonResult.FAILURE, "STILL FAILING", 2),
-  STILL_UNSTABLE(HudsonResult.UNSTABLE, "STILL UNSTABLE", 1),
-  FIXED(HudsonResult.SUCCESS, "FIXED", 0)
+  NOT_BUILD(HudsonResult.NOT_BUILT, 3, '#9d9d9d'),
+  ABORTED(HudsonResult.ABORTED, 4, '#515151'),
+  FAILURE(HudsonResult.FAILURE, 2, '#f0372e'),
+  UNSTABLE(HudsonResult.UNSTABLE, 1, '#ffb93e'),
+  SUCCESS(HudsonResult.SUCCESS, 0,'#63a80e'),
+  STILL_FAILING(HudsonResult.FAILURE, "STILL FAILING", 2,'#f0372e'),
+  STILL_UNSTABLE(HudsonResult.UNSTABLE, "STILL UNSTABLE", 1,'#ffb93e'),
+  FIXED(HudsonResult.SUCCESS, "FIXED", 0,'#63a80e')
 
   HudsonResult hudsonResult
 
@@ -46,14 +46,17 @@ enum Result {
 
   Integer ordinal
 
-  Result(HudsonResult r, String name, Integer ordinal) {
+  String color
+
+  Result(HudsonResult r, String name, Integer ordinal, String color) {
     this.hudsonResult = r
     this.name = name
     this.ordinal = ordinal
+    this.color = color
   }
 
-  Result(HudsonResult r, Integer ordinal) {
-    this(r, r.toString(), ordinal)
+  Result(HudsonResult r, Integer ordinal, String color) {
+    this(r, r.toString(), ordinal, color)
   }
 
   @NonCPS

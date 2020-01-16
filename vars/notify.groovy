@@ -17,9 +17,18 @@
  * limitations under the License.
  * #L%
  */
+
+import io.wcm.devops.jenkins.pipeline.config.GenericConfig
+import io.wcm.devops.jenkins.pipeline.config.GenericConfigConstants
+import io.wcm.devops.jenkins.pipeline.config.GenericConfigParser
+import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
+import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
+import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
+import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
+import io.wcm.devops.jenkins.pipeline.utils.resources.YamlLibraryResource
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
@@ -76,4 +85,175 @@ void mqtt(Map config = [:]) {
   Boolean retainMessage = mqttConfig[NOTIFY_MQTT_RETAIN]
 
   mqttNotification(brokerUrl: broker, credentialsId: credentialId, message: message, qos: qos, retainMessage: retainMessage, topic: topic)
+}
+
+/**
+ * Sends a mattermost notification using the Mattermost Notification Plugin
+ *
+ * @param config The configuration for the step
+ */
+void mattermost(Map config = [:]) {
+
+  Logger log = new Logger("notify.mattermost")
+
+  NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
+
+  String defaultMattermostMessage = "${triggerHelper.getTrigger()} - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+  String defaultColor = triggerHelper.getTrigger().getColor()
+
+  Map defaultConfig = [
+    (NOTIFY_MATTERMOST): [
+      (MAP_MERGE_MODE)                          : (MapMergeMode.REPLACE),
+      (NOTIFY_MATTERMOST_ENABLED)               : true,
+      (NOTIFY_MATTERMOST_CHANNEL)               : null,
+      (NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID): null,
+      (NOTIFY_MATTERMOST_ICON)                  : null,
+      (NOTIFY_MATTERMOST_COLOR)                 : defaultColor,
+      (NOTIFY_MATTERMOST_TEXT)                  : null,
+      (NOTIFY_MATTERMOST_MESSAGE)               : defaultMattermostMessage,
+      (NOTIFY_MATTERMOST_FAIL_ON_ERROR)         : true
+    ]
+  ]
+
+  String scmUrl = getScmUrl(config)
+
+  // load yamlConfig
+  yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, scmUrl, NOTIFY_MATTERMOST)
+
+  // merge default config with config from yaml and incoming yaml
+  config = MapUtils.merge(defaultConfig, yamlConfig, config)
+
+  // ease access to mattermost config values
+  Map mattermostConfig = config[NOTIFY_MATTERMOST]
+
+  if (!mattermostConfig[NOTIFY_MATTERMOST_ENABLED]) {
+    log.info("mattermost notifications are disabled")
+    return
+  }
+
+  // use specific endpoint if configured
+  if (mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID] != null && mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] == null) {
+    log.info("use configured endpoint")
+    withCredentials([string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT')]) {
+      mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] = "${MATTERMOST_ENDPOINT}"
+    }
+  }
+
+  // cleanup config and only pass allowed names parameters
+  Map cleanedParams = [:]
+
+  String[] allowedParams = [
+    "channel",
+    "endpoint",
+    "icon",
+    "color",
+    "text",
+    "message",
+    "failOnError",
+  ]
+
+  for (String allowedParam in allowedParams) {
+    if (mattermostConfig[allowedParam]) {
+      cleanedParams[allowedParam] = mattermostConfig[allowedParam]
+    }
+  }
+
+  log.debug("mattermostConfig", mattermostConfig)
+  log.debug("cleanedParams", cleanedParams)
+
+  // finally notify
+  mattermostSend(cleanedParams)
+}
+
+/**
+ * Returns the notification config based on the build result
+ *
+ * @param config
+ * @return the config or false when notification is not enabled
+ */
+Object getBuildResultConfig(Map config) {
+  Logger log = new Logger('notify.getBuildResultConfig')
+
+// parse status configurations
+  def onSuccess = config[NOTIFY_ON_SUCCESS] != null ? config[NOTIFY_ON_SUCCESS] : false
+  def onUnstable = config[NOTIFY_ON_UNSTABLE] != null ? config[NOTIFY_ON_UNSTABLE] : true
+  def onStillUnstable = config[NOTIFY_ON_STILL_UNSTABLE] != null ? config[NOTIFY_ON_STILL_UNSTABLE] : true
+  def onFixed = config[NOTIFY_ON_FIXED] != null ? config[NOTIFY_ON_FIXED] : true
+  def onFailure = config[NOTIFY_ON_FAILURE] != null ? config[NOTIFY_ON_FAILURE] : true
+  def onStillFailing = config[NOTIFY_ON_STILL_FAILING] != null ? config[NOTIFY_ON_STILL_FAILING] : true
+  def onAbort = config[NOTIFY_ON_ABORT] != null ? config[NOTIFY_ON_ABORT] : false
+
+  // calculate the notification trigger
+  NotificationTriggerHelper triggerHelper = getTriggerHelper()
+  String trigger = triggerHelper.getTrigger().toString()
+
+  // set the environment variable
+  env.setProperty(NotificationTriggerHelper.ENV_TRIGGER, trigger)
+
+  def calculatedStatusConfig = [:]
+
+  // check if notification is configured for trigger and apply custom configurations if configured
+  switch (true) {
+    case triggerHelper.isSuccess() && (onSuccess != false):
+      calculatedStatusConfig = onSuccess
+      break
+    case triggerHelper.isFixed() && (onFixed != false):
+      calculatedStatusConfig = onFixed
+      break
+    case triggerHelper.isUnstable() && (onUnstable != false):
+      calculatedStatusConfig = onUnstable
+      break
+    case triggerHelper.isStillUnstable() && (onStillUnstable != false):
+      calculatedStatusConfig = onStillUnstable
+      break
+    case triggerHelper.isFailure() && (onFailure != false):
+      calculatedStatusConfig = onFailure
+      break
+    case triggerHelper.isStillFailing() && (onStillFailing != false):
+      calculatedStatusConfig = onStillFailing
+      break
+    case triggerHelper.isAborted() && (onAbort != false):
+      calculatedStatusConfig = onAbort
+      break
+    default:
+      // return by default when previous block was not evaluated as true
+      log.info("Notification not enabled for: " + trigger)
+      return false
+      break
+  }
+  // merge notify config with status specific configuration (if applicable)
+  return mergeStatusConfig(config, calculatedStatusConfig)
+}
+
+/**
+ * Merges the status specific configuration with the default configuration when applicable
+ *
+ * @param notifyConfig The notify config
+ * @param statusCfg The status config
+ * @return The merge configuration
+ */
+Map mergeStatusConfig(Map notifyConfig, def statusCfg) {
+  Map ret = notifyConfig
+  TypeUtils typeUtils = new TypeUtils()
+  if (typeUtils.isMap(statusCfg)) {
+    ret = MapUtils.merge(ret, statusCfg)
+  }
+  return ret
+}
+
+NotificationTriggerHelper getTriggerHelper() {
+  Logger log = new Logger("notify.getTriggerHelper")
+  // retrieve the current and previous build result
+  String currentBuildResult = currentBuild.result
+  String previousBuildResult = null
+  previousBuild = currentBuild.getPreviousBuild()
+  if (previousBuild) {
+    previousBuildResult = previousBuild.result
+  }
+
+  log.trace("currentBuildResult", currentBuildResult)
+  log.trace("previousBuildResult", previousBuildResult)
+
+  // calculate the notification trigger
+  return new NotificationTriggerHelper(currentBuildResult, previousBuildResult)
 }

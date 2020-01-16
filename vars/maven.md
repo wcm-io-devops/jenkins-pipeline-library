@@ -65,7 +65,7 @@ The log level of the managed shell script.
 
 ## `purgeSnapshots(String repositoryPath = null, Boolean dryRun = false, LogLevel logLevel = null)`
 
-This function uses the managed pipeline shell script [`purge-snapshots.sh`](../resources/jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh)
+This function uses the managed pipeline shell script [`purge-snapshots.sh`](../resources/jenkins-pipeline-library/managedScripts/shell/maven/purge-snapshots.sh)
 
 This scrips searches for SNAPSHOT artifacts in the specified maven repository and deletes them.
 Normally this script searches under `$HOME/.m2/repository` but this can be adjusted by setting a `repositoryPath`.

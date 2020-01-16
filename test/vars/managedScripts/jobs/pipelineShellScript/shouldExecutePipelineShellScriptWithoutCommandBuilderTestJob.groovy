@@ -27,7 +27,7 @@ import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
  * @see vars.managedScripts.MangedPipelineShellScriptIT
  */
 def execute() {
-  return managedScripts.execPipelineShellScript('jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh')
+  return managedScripts.execPipelineShellScript('jenkins-pipeline-library/managedScripts/shell/maven/purge-snapshots.sh')
 }
 
 return this

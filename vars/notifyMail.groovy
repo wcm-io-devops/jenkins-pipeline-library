@@ -47,66 +47,14 @@ void call(Map config = [:]) {
         return
     }
 
-    // parse status configurations
-    def onSuccess = notifyConfig[NOTIFY_ON_SUCCESS] != null ? notifyConfig[NOTIFY_ON_SUCCESS] : false
-    def onUnstable = notifyConfig[NOTIFY_ON_UNSTABLE] != null ? notifyConfig[NOTIFY_ON_UNSTABLE] : true
-    def onStillUnstable = notifyConfig[NOTIFY_ON_STILL_UNSTABLE] != null ? notifyConfig[NOTIFY_ON_STILL_UNSTABLE] : true
-    def onFixed = notifyConfig[NOTIFY_ON_FIXED] != null ? notifyConfig[NOTIFY_ON_FIXED] : true
-    def onFailure = notifyConfig[NOTIFY_ON_FAILURE] != null ? notifyConfig[NOTIFY_ON_FAILURE] : true
-    def onStillFailing = notifyConfig[NOTIFY_ON_STILL_FAILING] != null ? notifyConfig[NOTIFY_ON_STILL_FAILING] : true
-    def onAbort = notifyConfig[NOTIFY_ON_ABORT] != null ? notifyConfig[NOTIFY_ON_ABORT] : false
-
-    // retrieve the current and previous build result
-    String currentBuildResult = currentBuild.result
-    String previousBuildResult = null
-    previousBuild = currentBuild.getPreviousBuild()
-    if (previousBuild) {
-        previousBuildResult = previousBuild.result
-    }
-
-    log.trace("currentBuildResult", currentBuildResult)
-    log.trace("previousBuildResult", previousBuildResult)
-
-    // calculate the notification trigger
-    NotificationTriggerHelper triggerHelper = new NotificationTriggerHelper(currentBuildResult, previousBuildResult)
+    NotificationTriggerHelper triggerHelper = notify.getTriggerHelper()
     String trigger = triggerHelper.getTrigger().toString()
-
-    // set the environment variable
-    env.setProperty(NotificationTriggerHelper.ENV_TRIGGER, trigger)
-
-    def calculatedStatusConfig = [:]
-
-    // check if notification is configured for trigger and apply custom configurations if configured
-    switch (true) {
-        case triggerHelper.isSuccess() && (onSuccess != false):
-            calculatedStatusConfig = onSuccess
-        break
-        case triggerHelper.isFixed() && (onFixed != false):
-            calculatedStatusConfig = onFixed
-        break
-        case triggerHelper.isUnstable() && (onUnstable != false):
-            calculatedStatusConfig = onUnstable
-            break
-        case triggerHelper.isStillUnstable() && (onStillUnstable != false):
-            calculatedStatusConfig = onStillUnstable
-            break
-        case triggerHelper.isFailure() && (onFailure != false):
-            calculatedStatusConfig = onFailure
-            break
-        case triggerHelper.isStillFailing() && (onStillFailing != false):
-            calculatedStatusConfig = onStillFailing
-            break
-        case triggerHelper.isAborted() && (onAbort != false):
-            calculatedStatusConfig = onAbort
-            break
-        default:
-            // return by default when previous block was not evaluated as true
-            log.info("Notification not enabled for: " + trigger)
-            return
-            break
+    Object buildResultConfig =  notify.getBuildResultConfig(notifyConfig)
+    if (buildResultConfig == false) {
+      // notification is disabled in the build result specific configuration
+      return
     }
-    // merge notify config with status specific configuration (if applicable)
-    notifyConfig = _mergeStatusConfig(notifyConfig,calculatedStatusConfig)
+    notifyConfig = buildResultConfig
 
     // parse recipient providers
     recipientProviders = _getRecipientProviders(notifyConfig)
@@ -140,22 +88,6 @@ void call(Map config = [:]) {
             recipientProviders: recipientProviders,
             to: to
     )
-}
-
-/**
- * Merges the status specific configuration with the default configuration when applicable
- *
- * @param notifyConfig The notify config
- * @param statusCfg The status config
- * @return The merge configuration
- */
-Map _mergeStatusConfig(Map notifyConfig, def statusCfg) {
-  Map ret = notifyConfig
-  TypeUtils typeUtils = new TypeUtils()
-  if (typeUtils.isMap(statusCfg)) {
-    ret = MapUtils.merge(ret, statusCfg)
-  }
-  return ret
 }
 
 /**

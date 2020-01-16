@@ -1,0 +1,23 @@
+- patterns:
+    - multi-pattern
+    - multi-pattern2
+  id: "default mattermost notification config"
+  config:
+    prop: value
+    list:
+      - item1
+      - item2
+    dict:
+      subdict1: subvalue1
+      subdict2: subvalue2
+
+- pattern: single-pattern
+  id: "default mattermost notification config"
+  config:
+    prop_2: value_2
+    list_2:
+      - item1_2
+      - item2_2
+    dict_2:
+      subdict1_2: subvalue1_2
+      subdict2_2: subvalue2_2
