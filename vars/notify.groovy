@@ -111,7 +111,7 @@ void mattermost(Map config = [:]) {
       (NOTIFY_MATTERMOST_COLOR)                 : defaultColor,
       (NOTIFY_MATTERMOST_TEXT)                  : null,
       (NOTIFY_MATTERMOST_MESSAGE)               : defaultMattermostMessage,
-      (NOTIFY_MATTERMOST_FAIL_ON_ERROR)         : true
+      (NOTIFY_MATTERMOST_FAIL_ON_ERROR)         : false
     ]
   ]
 
@@ -130,6 +130,15 @@ void mattermost(Map config = [:]) {
     log.info("mattermost notifications are disabled")
     return
   }
+
+  // get build result specific configuration
+  Object buildResultConfig =  this.getBuildResultConfig(mattermostConfig)
+  if (buildResultConfig == false) {
+    // notification is disabled in the build result specific configuration
+    return
+  }
+
+  mattermostConfig = buildResultConfig
 
   // use specific endpoint if configured
   if (mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID] != null && mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] == null) {

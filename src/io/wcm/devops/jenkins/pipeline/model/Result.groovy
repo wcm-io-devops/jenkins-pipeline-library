@@ -31,14 +31,16 @@ import hudson.model.Result as HudsonResult
 @SuppressFBWarnings('ME_ENUM_FIELD_SETTER')
 enum Result {
 
-  NOT_BUILD(HudsonResult.NOT_BUILT, 3, '#9d9d9d'),
+  NOT_BUILT(HudsonResult.NOT_BUILT, 3, '#9d9d9d'),
   ABORTED(HudsonResult.ABORTED, 4, '#515151'),
   FAILURE(HudsonResult.FAILURE, 2, '#f0372e'),
   UNSTABLE(HudsonResult.UNSTABLE, 1, '#ffb93e'),
   SUCCESS(HudsonResult.SUCCESS, 0,'#63a80e'),
   STILL_FAILING(HudsonResult.FAILURE, "STILL FAILING", 2,'#f0372e'),
   STILL_UNSTABLE(HudsonResult.UNSTABLE, "STILL UNSTABLE", 1,'#ffb93e'),
-  FIXED(HudsonResult.SUCCESS, "FIXED", 0,'#63a80e')
+  FIXED(HudsonResult.SUCCESS, "FIXED", 0,'#63a80e'),
+  // NOT_BUILD is deprecated due to a typo error
+  NOT_BUILD(hudson.model.Result.NOT_BUILT, 3, '#9d9d9d')
 
   HudsonResult hudsonResult
 
