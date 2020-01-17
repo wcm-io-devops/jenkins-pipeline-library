@@ -1,5 +1,8 @@
 # notifyMail
 
+`notifyMail` has been refactored to `notify.mail`.
+Please refer to the [notify documentation](notify.md).
+
 With jenkins pipeline the sending of mail notification lost some
 functionality. For example the
 * Still Failing

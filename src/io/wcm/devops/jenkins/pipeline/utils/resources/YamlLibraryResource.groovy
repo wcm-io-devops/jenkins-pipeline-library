@@ -40,7 +40,7 @@ class YamlLibraryResource implements Serializable {
 
   String file
 
-  Script script
+  transient Script script
 
   /**
    * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.notifyMail
+package vars.notify.mail
 
 import hudson.model.Result
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
@@ -41,7 +41,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   @Test
   void shouldCustomNotifyOnSuccess() {
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('Subject NOTIFY_ON_SUCCESS', extmailCall[NOTIFY_SUBJECT])
@@ -58,7 +58,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   @Test
   void shouldDefaultNotifyOnAbort() {
     this.context.getRunWrapperMock().setResult(Result.ABORTED.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('default-recipient@example.com', extmailCall[NOTIFY_TO])
@@ -70,7 +70,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   @Test
   void shouldNotNotifyOnNotBuild() {
     this.context.getRunWrapperMock().setResult(Result.NOT_BUILT.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertNone(EMAILEXT)
   }
 
@@ -78,7 +78,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   void shouldCustomNotifyOnFixed() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('build-fixed@example.org', extmailCall[NOTIFY_TO])
@@ -94,7 +94,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   void shouldCustomNotifyOnUnstable() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.SUCCESS.toString())
     this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('build-unstable@example.org', extmailCall[NOTIFY_TO])
@@ -111,7 +111,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   void shouldDefaultNotifyOnStillUnstable() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('default-recipient@example.com', extmailCall[NOTIFY_TO])
@@ -123,7 +123,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   @Test
   void shouldCustomNotifyOnFailure() {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('Subject NOTIFY_ON_FAILURE', extmailCall[NOTIFY_SUBJECT])
@@ -142,7 +142,7 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
   void shouldCustomNotifyOnStillFailing() {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.FAILURE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailCustomRecipientsJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailCustomRecipientsJob.groovy")
     Map extmailCall = assertOnce(EMAILEXT)
 
     assertEquals('build-still-failing@example.org', extmailCall[NOTIFY_TO])

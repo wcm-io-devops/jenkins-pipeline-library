@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.notifyMail
+package vars.notify.mail
 
 import hudson.model.Result
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
@@ -41,21 +41,21 @@ class NotifyMailDisabledIT extends LibraryIntegrationTestBase {
   @Test
   void shouldNotNotifyOnSuccess() {
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
   @Test
   void shouldNotNotifyOnAbort() {
     this.context.getRunWrapperMock().setResult(Result.ABORTED.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
   @Test
   void shouldNotNotifyOnNotBuild() {
     this.context.getRunWrapperMock().setResult(Result.NOT_BUILT.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
@@ -63,7 +63,7 @@ class NotifyMailDisabledIT extends LibraryIntegrationTestBase {
   void shouldNotNotifyOnFixed() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
@@ -71,7 +71,7 @@ class NotifyMailDisabledIT extends LibraryIntegrationTestBase {
   void shouldNotNotifyOnUnstable() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.SUCCESS.toString())
     this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
@@ -79,14 +79,14 @@ class NotifyMailDisabledIT extends LibraryIntegrationTestBase {
   void shouldNotNotifyOnStillUnstable() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
   @Test
   void shouldNotNotifyOnFailure() {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 
@@ -94,7 +94,7 @@ class NotifyMailDisabledIT extends LibraryIntegrationTestBase {
   void shouldNotNotifyOnStillFailing() {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.FAILURE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
+    loadAndExecuteScript("vars/notify/mail/jobs/notifyMailDisabledTestJob.groovy")
     assertNone(EMAILEXT)
   }
 }
