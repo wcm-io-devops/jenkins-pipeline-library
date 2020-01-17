@@ -20,18 +20,20 @@
 package io.wcm.devops.jenkins.pipeline.utils.resources
 
 import hudson.AbortException
+import io.wcm.testing.jenkins.pipeline.CpsScriptTestBase
 import io.wcm.testing.jenkins.pipeline.DSLTestBase
+import org.jenkinsci.plugins.workflow.cps.DSL
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 
-class YamlLibraryResourceTest extends DSLTestBase {
+class YamlLibraryResourceTest extends CpsScriptTestBase {
 
   YamlLibraryResource underTest
 
   @Test
   void shouldLoadExistingYamlResource() {
-    underTest = new YamlLibraryResource(this.dslMock.getMock(), 'yaml/valid.yaml')
+    underTest = new YamlLibraryResource(this.script, 'yaml/valid.yaml')
     Object expected = [
       foo  : "bar",
       list1: [
@@ -63,7 +65,7 @@ class YamlLibraryResourceTest extends DSLTestBase {
 
   @Test(expected = AbortException.class)
   void shouldFailOnNonExistingJsonResource() {
-    underTest = new YamlLibraryResource(this.dslMock.getMock(), 'yaml/not-existing.yaml')
+    underTest = new YamlLibraryResource(this.script, 'yaml/not-existing.yaml')
     underTest.load()
   }
 }
