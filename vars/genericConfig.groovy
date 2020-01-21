@@ -55,7 +55,7 @@ Object load(path, searchValue, resultKey = null) {
       }
     }
   } catch (Exception ex) {
-    log.warn("Unable to load mattermost config from ${path}. If you want to use mattermost notifications read the documentation. TODO")
+    log.warn("Unable to load config from ${path}.")
   }
   return result
 }
