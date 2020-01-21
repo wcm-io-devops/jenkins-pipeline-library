@@ -19,6 +19,9 @@
  */
 package io.wcm.devops.jenkins.pipeline.config
 
+/**
+ * Constants for generic configurations
+ */
 class GenericConfigConstants implements Serializable{
   private static final long serialVersionUID = 1L
 

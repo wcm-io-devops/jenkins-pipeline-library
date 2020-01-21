@@ -24,7 +24,15 @@ import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import io.wcm.devops.jenkins.pipeline.utils.resources.YamlLibraryResource
 
-Object load(path, searchValue, resultKey) {
+/**
+ * Utility function to load, parse and return a generic yaml configuration based on the PatternMatch mechanism.
+ *
+ * @param path The path to yaml
+ * @param searchValue The value that will be matched against the parsed patterns
+ * @param resultKey If set the config is "wrapped" by this key
+ * @return The matching configuration, null if nothing was found.
+ */
+Object load(path, searchValue, resultKey = null) {
   Logger log = new Logger("genericConfig.load")
   GenericConfigParser configParser = new GenericConfigParser()
   PatternMatcher patternMatcher = new PatternMatcher()
@@ -32,15 +40,19 @@ Object load(path, searchValue, resultKey) {
   try {
     YamlLibraryResource configResource = new YamlLibraryResource(this, path)
     Object yamlContent = configResource.load()
-    log.info("yamlContent", yamlContent)
+    log.debug("yamlContent", yamlContent)
     List<GenericConfig> genericConfigs = configParser.parse(yamlContent)
-    log.info("genericConfigs", genericConfigs)
+    log.debug("genericConfigs", genericConfigs)
     GenericConfig matchedConfig = patternMatcher.getBestMatch(searchValue, genericConfigs)
-    log.info("matchedConfig", matchedConfig)
     if (matchedConfig) {
-      result = [
-        (resultKey): matchedConfig.getConfig()
-      ]
+      log.info("matchedConfig.id", matchedConfig.getId())
+      if (resultKey) {
+        result = [
+          (resultKey): matchedConfig.getConfig()
+        ]
+      } else {
+        result = matchedConfig.getConfig()
+      }
     }
   } catch (Exception ex) {
     log.warn("Unable to load mattermost config from ${path}. If you want to use mattermost notifications read the documentation. TODO")

@@ -38,7 +38,6 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * functionality which is currently missing in the extmail step.
  *
  * @param config Configuration options for the step
- * @see <a href="https://jenkins.io/doc/pipeline/steps/email-ext/">email-ext step</href>
  */
 void mail(Map config = [:]) {
   Logger log = new Logger(this)
@@ -54,7 +53,7 @@ void mail(Map config = [:]) {
 
   NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
   String trigger = triggerHelper.getTrigger().toString()
-  Object buildResultConfig =  this.getBuildResultConfig(notifyConfig)
+  Object buildResultConfig = this.getBuildResultConfig(notifyConfig)
   if (buildResultConfig == false) {
     // notification is disabled in the build result specific configuration
     return
@@ -169,12 +168,20 @@ void mattermost(Map config = [:]) {
       (MAP_MERGE_MODE)                          : (MapMergeMode.REPLACE),
       (NOTIFY_MATTERMOST_ENABLED)               : true,
       (NOTIFY_MATTERMOST_CHANNEL)               : null,
+      (NOTIFY_MATTERMOST_ENDPOINT)              : null,
       (NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID): null,
       (NOTIFY_MATTERMOST_ICON)                  : null,
       (NOTIFY_MATTERMOST_COLOR)                 : defaultColor,
       (NOTIFY_MATTERMOST_TEXT)                  : null,
       (NOTIFY_MATTERMOST_MESSAGE)               : defaultMattermostMessage,
-      (NOTIFY_MATTERMOST_FAIL_ON_ERROR)         : false
+      (NOTIFY_MATTERMOST_FAIL_ON_ERROR)         : false,
+      (NOTIFY_ON_ABORT)                         : false,
+      (NOTIFY_ON_FAILURE)                       : true,
+      (NOTIFY_ON_STILL_FAILING)                 : true,
+      (NOTIFY_ON_FIXED)                         : true,
+      (NOTIFY_ON_SUCCESS)                       : false,
+      (NOTIFY_ON_UNSTABLE)                      : true,
+      (NOTIFY_ON_STILL_UNSTABLE)                : true,
     ]
   ]
 
@@ -195,7 +202,7 @@ void mattermost(Map config = [:]) {
   }
 
   // get build result specific configuration
-  Object buildResultConfig =  this.getBuildResultConfig(mattermostConfig)
+  Object buildResultConfig = this.getBuildResultConfig(mattermostConfig)
   if (buildResultConfig == false) {
     // notification is disabled in the build result specific configuration
     return
@@ -205,7 +212,7 @@ void mattermost(Map config = [:]) {
 
   // use specific endpoint if configured
   if (mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID] != null && mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] == null) {
-    log.info("use configured endpoint")
+    log.debug("configure endpoint usind provided credential id ")
     withCredentials([string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT')]) {
       mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] = "${MATTERMOST_ENDPOINT}"
     }

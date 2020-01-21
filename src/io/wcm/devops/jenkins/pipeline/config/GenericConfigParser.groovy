@@ -27,6 +27,9 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import net.sf.json.JSON
 import net.sf.json.JSONObject
 
+/**
+ * Parser for generic yaml configurations
+ */
 class GenericConfigParser implements Serializable {
   private static final long serialVersionUID = 1L
 
@@ -50,7 +53,6 @@ class GenericConfigParser implements Serializable {
       String pattern = entry.pattern ?: null
       List patterns = entry.patterns ?: null
       Object config = entry.config ?: null
-      log.info("test")
       if (typeUtils.isList(patterns)) {
         for (String patternItem in patterns) {
           parsedItems.push(new GenericConfig(patternItem, id, config))

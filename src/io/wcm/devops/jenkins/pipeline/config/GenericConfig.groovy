@@ -21,6 +21,9 @@ package io.wcm.devops.jenkins.pipeline.config
 
 import io.wcm.devops.jenkins.pipeline.model.PatternMatchable
 
+/**
+ * Object for storing a generic configuration
+ */
 class GenericConfig extends PatternMatchable implements Serializable {
 
   private static final long serialVersionUID = 1L
