@@ -39,6 +39,14 @@ class GenericConfig extends PatternMatchable implements Serializable {
     this.config = config
   }
 
+  /**
+   * Helper function to get a item from the config identified by its key
+   *
+   * @param key The key to retrieve
+   * @param defaultValue The default value when the configuration has no item for key
+   *
+   * @return The found value or defaultValue
+   */
   Object get(String key, Object defaultValue = null) {
     Object ret = defaultValue
     if (this.config != null && this.config[key] != null) {
