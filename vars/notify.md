@@ -333,9 +333,13 @@ The `notify.mattermost` step uses the
 to send build notifications to a mattermost instance using mattermost
 webhooks.
 
+## Generic Configuration support
+
 This step supports the [GenericConfig](../docs/generic-config.md)
 mechanism for loading and applying `SCM_URL`/`JOB_NAME` based
 auto-lookup for the appropriate configuration options.
+
+:bulb: This method of configuration is recommended!
 
 When using this mechanism the step expects a YAML pipeline resource with
 the path `resources/jenkins-pipeline-library/notify/mattermost.yaml`.
