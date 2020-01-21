@@ -34,7 +34,7 @@ class ResultTest {
 
   @Test
   void shouldReturnExistingHudsonResults() {
-    assertEquals(Result.NOT_BUILD, Result.fromString(HudsonResult.NOT_BUILT.toString()))
+    assertEquals(Result.NOT_BUILT, Result.fromString(HudsonResult.NOT_BUILT.toString()))
     assertEquals(Result.ABORTED, Result.fromString(HudsonResult.ABORTED.toString()))
     assertEquals(Result.FAILURE, Result.fromString(HudsonResult.FAILURE.toString()))
     assertEquals(Result.UNSTABLE, Result.fromString(HudsonResult.UNSTABLE.toString()))
@@ -50,10 +50,10 @@ class ResultTest {
 
   @Test
   void shouldBeBetterThan() {
-    assertBetter(Result.NOT_BUILD, Result.ABORTED)
+    assertBetter(Result.NOT_BUILT, Result.ABORTED)
 
-    assertBetter(Result.FAILURE, Result.NOT_BUILD)
-    assertBetter(Result.STILL_FAILING, Result.NOT_BUILD)
+    assertBetter(Result.FAILURE, Result.NOT_BUILT)
+    assertBetter(Result.STILL_FAILING, Result.NOT_BUILT)
 
     assertBetter(Result.UNSTABLE, Result.FAILURE)
     assertBetter(Result.UNSTABLE, Result.STILL_FAILING)
@@ -65,10 +65,10 @@ class ResultTest {
 
   @Test
   void shouldBeBetterWorseThan() {
-    assertWorseThan(Result.ABORTED, Result.NOT_BUILD)
+    assertWorseThan(Result.ABORTED, Result.NOT_BUILT)
 
-    assertWorseThan(Result.NOT_BUILD, Result.FAILURE)
-    assertWorseThan(Result.NOT_BUILD, Result.STILL_FAILING)
+    assertWorseThan(Result.NOT_BUILT, Result.FAILURE)
+    assertWorseThan(Result.NOT_BUILT, Result.STILL_FAILING)
 
     assertWorseThan(Result.FAILURE, Result.UNSTABLE)
     assertWorseThan(Result.STILL_FAILING, Result.UNSTABLE)
@@ -79,11 +79,11 @@ class ResultTest {
 
   @Test
   void shouldBeBetterThanOrEqual() {
-    assertBetterOrEqual(Result.NOT_BUILD, Result.NOT_BUILD)
-    assertBetterOrEqual(Result.NOT_BUILD, Result.ABORTED)
+    assertBetterOrEqual(Result.NOT_BUILT, Result.NOT_BUILT)
+    assertBetterOrEqual(Result.NOT_BUILT, Result.ABORTED)
 
     assertBetterOrEqual(Result.FAILURE, Result.FAILURE)
-    assertBetterOrEqual(Result.FAILURE, Result.NOT_BUILD)
+    assertBetterOrEqual(Result.FAILURE, Result.NOT_BUILT)
 
     assertBetterOrEqual(Result.UNSTABLE, Result.UNSTABLE)
     assertBetterOrEqual(Result.UNSTABLE, Result.STILL_UNSTABLE)
@@ -99,10 +99,10 @@ class ResultTest {
 
   @Test
   void shouldBeBetterWorseThanOrEqual() {
-    assertWorseOrEqual(Result.ABORTED, Result.NOT_BUILD)
+    assertWorseOrEqual(Result.ABORTED, Result.NOT_BUILT)
 
-    assertWorseOrEqual(Result.NOT_BUILD, Result.FAILURE)
-    assertWorseOrEqual(Result.NOT_BUILD, Result.STILL_FAILING)
+    assertWorseOrEqual(Result.NOT_BUILT, Result.FAILURE)
+    assertWorseOrEqual(Result.NOT_BUILT, Result.STILL_FAILING)
 
     assertWorseOrEqual(Result.FAILURE, Result.UNSTABLE)
     assertWorseOrEqual(Result.STILL_FAILING, Result.UNSTABLE)

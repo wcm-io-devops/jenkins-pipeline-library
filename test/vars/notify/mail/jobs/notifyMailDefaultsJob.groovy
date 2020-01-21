@@ -17,16 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package vars.notifyMail.jobs
+package vars.notify.mail.jobs
 
 /**
  * Runs notifyMail step with default configuration
  *
  * @return The script
- * @see vars.notifyMail.NotifyMailDefaultsIT
+ * @see vars.notify.mail.NotifyMailDefaultsIT
  */
 def execute() {
-  notifyMail()
+  notify.mail()
 }
 
 return this

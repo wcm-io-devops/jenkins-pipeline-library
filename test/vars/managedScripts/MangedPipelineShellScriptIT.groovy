@@ -50,7 +50,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
 
 
     Map expectedManagedScriptShellCommand = [
-      'script': './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh'
+      'script': './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh'
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -68,7 +68,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
 
 
     Map expectedManagedScriptShellCommand = [
-      'script': './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo'
+      'script': './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo'
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -86,7 +86,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
 
     Map expectedManagedScriptShellCommand = [
       'returnStatus' : true,
-      'script': './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg1 arg2'
+      'script': './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg1 arg2'
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -104,7 +104,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
 
     Map expectedManagedScriptShellCommand = [
       'returnStdout' : true,
-      'script': './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo argName argValue'
+      'script': './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo argName argValue'
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -122,7 +122,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
 
     Map expectedManagedScriptShellCommand = [
       'returnStdout' : true,
-      'script': './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg3 arg4'
+      'script': './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg3 arg4'
     ]
     Map actualManagedScriptShellCommand = (Map) shellCommands[1]
     assertEquals(expectedManagedScriptShellCommand, actualManagedScriptShellCommand)
@@ -138,10 +138,10 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
     // return default values for several commands
     if (returnStdout) {
       switch (script) {
-        case './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo argName argValue':
+        case './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo argName argValue':
           return "hello world\n"
         break
-        case './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg3 arg4':
+        case './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg3 arg4':
           return "hello world\n\t     \n"
           break
         default:
@@ -150,7 +150,7 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
     }
     if (returnStatus) {
       switch (script) {
-        case './.libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg1 arg2':
+        case './.libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh path/to/repo arg1 arg2':
           return 137
         break
         default:
@@ -162,13 +162,13 @@ class MangedPipelineShellScriptIT extends LibraryIntegrationTestBase {
 
   void commonAssertions(Map writeFileCommand, List shellCommands) {
     assertEquals("UTF-8", writeFileCommand.getOrDefault('encoding', null))
-    assertEquals(".libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh", writeFileCommand.getOrDefault('file', null))
+    assertEquals(".libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh", writeFileCommand.getOrDefault('file', null))
     assertEquals("#!/bin/bash\n" +
       "echo \"hello world\"\n" +
       "", writeFileCommand.getOrDefault('text', null))
 
-    assertEquals("chmod +x .libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh",shellCommands.get(0))
-    assertEquals("rm .libraryShellScript_jenkinsPipelineLibrary___managedScripts___shell___maven___purge-snapshots.sh",shellCommands.get(2))
+    assertEquals("chmod +x .libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh",shellCommands.get(0))
+    assertEquals("rm .libraryShellScript_jenkins-pipeline-library___managedScripts___shell___maven___purge-snapshots.sh",shellCommands.get(2))
   }
 
 }

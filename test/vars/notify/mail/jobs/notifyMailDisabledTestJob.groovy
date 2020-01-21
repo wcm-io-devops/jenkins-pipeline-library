@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2018 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.notifyMail.jobs
+package vars.notify.mail.jobs
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
@@ -25,18 +25,19 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * Runs notifyMail step with custom configuration (opposite of default configuration)
  *
  * @return The script
- * @see vars.notifyMail.NotifyMailCustomIT
+ * @see vars.notify.mail.NotifyMailCustomIT
  */
 def execute() {
-  notifyMail(
+  notify.mail(
       [
           (NOTIFY): [
+              (NOTIFY_ENABLED)            : false,
               (NOTIFY_ON_SUCCESS)         : true,
-              (NOTIFY_ON_FAILURE)         : false,
-              (NOTIFY_ON_STILL_FAILING)   : false,
-              (NOTIFY_ON_FIXED)           : false,
-              (NOTIFY_ON_UNSTABLE)        : false,
-              (NOTIFY_ON_STILL_UNSTABLE)  : false,
+              (NOTIFY_ON_FAILURE)         : true,
+              (NOTIFY_ON_STILL_FAILING)   : true,
+              (NOTIFY_ON_FIXED)           : true,
+              (NOTIFY_ON_UNSTABLE)        : true,
+              (NOTIFY_ON_STILL_UNSTABLE)  : true,
               (NOTIFY_ON_ABORT)           : true,
               (NOTIFY_TO)                 : 'test@test.com',
               (NOTIFY_SUBJECT)            : 'custom mail subject with trigger: ${NOTIFICATION_TRIGGER}',

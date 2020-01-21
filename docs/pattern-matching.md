@@ -16,6 +16,10 @@ The class
 [`PatternMatcher`](../src/io/wcm/devops/jenkins/pipeline/utils/PatternMatcher.groovy)
 can be used to get items from a PatternMatchable list.
 
+:bulb: It is recommended to use the new
+[Generic Configuration](generic-config.md) mechanism. This mechanism
+supports `yaml`-Format and multiple-patterns for one id.
+
 # Table of contents
 * [`getBestMatch` mechanism](#getbestmatch-mechanism)
   * [Example for basic matching](#example-for-basic-matching)

@@ -2,14 +2,14 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 - 2018 wcm.io DevOps
+ * Copyright (C) 2017 - 2020 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,21 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package vars.managedScripts.jobs.pipelineShellScript
-
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
-import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
+package vars.notify.mattermost.jobs
 
 /**
+ * Runs notify.mattermost step with default configuration
+ *
  * @return The script
- * @see vars.managedScripts.MangedPipelineShellScriptIT
  */
 def execute() {
-  CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps)
-  commandBuilder.addPathArgument('path/to/repo')
-  commandBuilder.addArgument('arg1')
-  commandBuilder.addArgument('arg2')
-  return managedScripts.execPipelineShellScript('jenkins-pipeline-library/managedScripts/shell/maven/purge-snapshots.sh', commandBuilder, false, true)
+  notify.mattermost()
 }
 
 return this

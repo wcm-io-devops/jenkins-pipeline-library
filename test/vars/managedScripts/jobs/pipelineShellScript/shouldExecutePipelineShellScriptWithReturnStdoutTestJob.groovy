@@ -30,7 +30,7 @@ def execute() {
   CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps)
   commandBuilder.addPathArgument('path/to/repo')
   commandBuilder.addArguments(['arg3','arg4'])
-  return managedScripts.execPipelineShellScript('jenkinsPipelineLibrary/managedScripts/shell/maven/purge-snapshots.sh', commandBuilder, true, false)
+  return managedScripts.execPipelineShellScript('jenkins-pipeline-library/managedScripts/shell/maven/purge-snapshots.sh', commandBuilder, true, false)
 }
 
 return this

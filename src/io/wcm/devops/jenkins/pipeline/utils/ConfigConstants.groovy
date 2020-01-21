@@ -75,6 +75,18 @@ class ConfigConstants {
   public static final String NOTIFY_BODY = "body"
   public static final String NOTIFY_COMPRESS_LOG = "compressLog"
   public static final String NOTIFY_ENABLED = "enabled"
+
+  public static final String NOTIFY_MATTERMOST = "notifyMattermost"
+  public static final String NOTIFY_MATTERMOST_ENABLED = "enabled"
+  public static final String NOTIFY_MATTERMOST_CHANNEL = "channel"
+  public static final String NOTIFY_MATTERMOST_COLOR = "color"
+  public static final String NOTIFY_MATTERMOST_ENDPOINT = "endpoint"
+  public static final String NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID = "endpointCredentialId"
+  public static final String NOTIFY_MATTERMOST_FAIL_ON_ERROR = "failOnError"
+  public static final String NOTIFY_MATTERMOST_ICON = "icon"
+  public static final String NOTIFY_MATTERMOST_MESSAGE = "message"
+  public static final String NOTIFY_MATTERMOST_TEXT = "text"
+
   public static final String NOTIFY_MIME_TYPE = "mimeType"
 
   public static final String NOTIFY_MQTT = "notifyMqtt"

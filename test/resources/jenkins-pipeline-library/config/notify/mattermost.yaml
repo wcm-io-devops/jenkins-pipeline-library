@@ -1,0 +1,13 @@
+- patterns:
+    - .*
+  id: "default mattermost notification configuration"
+  config:
+    endpointCredentialId: default.credential.id
+    channel: jenkins-build-notifications
+
+- patterns:
+    - git@git-ssh.domain.tld:/team-a
+  id: "default mattermost notification configuration"
+  config:
+    endpointCredentialId: default.credential.id
+    channel: team-a-jenkins-build-notifications

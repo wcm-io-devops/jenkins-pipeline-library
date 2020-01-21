@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 - 2018 wcm.io DevOps
+ * Copyright (C) 2017 - 2020 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,84 +17,75 @@
  * limitations under the License.
  * #L%
  */
-package vars.notifyMail
+package vars.notify.mattermost
 
 import hudson.model.Result
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import org.junit.Test
 
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import static io.wcm.testing.jenkins.pipeline.StepConstants.EMAILEXT
+import static io.wcm.testing.jenkins.pipeline.StepConstants.MATTERMOST_SEND
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
-import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
-import static org.junit.Assert.assertEquals
 
-class NotifyMailDisabledIT extends LibraryIntegrationTestBase {
-
-  @Override
-  void setUp() throws Exception {
-    super.setUp()
-    this.setEnv("BUILD_NUMBER", "2")
-    this.setEnv("GIT_BRANCH", "DETECTED_GIT_BRANCH")
-  }
+class NotifyMattermostDisabledIT extends MattermostIntegrationTestBase {
 
   @Test
   void shouldNotNotifyOnSuccess() {
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnAbort() {
     this.context.getRunWrapperMock().setResult(Result.ABORTED.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnNotBuild() {
     this.context.getRunWrapperMock().setResult(Result.NOT_BUILT.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnFixed() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnUnstable() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.SUCCESS.toString())
     this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnStillUnstable() {
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.UNSTABLE.toString())
     this.context.getRunWrapperMock().setResult(Result.UNSTABLE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnFailure() {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 
   @Test
   void shouldNotNotifyOnStillFailing() {
     this.context.getRunWrapperMock().setResult(Result.FAILURE.toString())
     this.context.getRunWrapperMock().setPreviousBuildResult(Result.FAILURE.toString())
-    loadAndExecuteScript("vars/notifyMail/jobs/notifyMailDisabledTestJob.groovy")
-    assertNone(EMAILEXT)
+    loadAndExecuteScript("vars/notify/mattermost/jobs/notifyMattermostDisabledJob.groovy")
+    assertNone(MATTERMOST_SEND)
   }
 }

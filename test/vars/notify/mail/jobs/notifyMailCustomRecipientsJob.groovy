@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package vars.notifyMail.jobs
+package vars.notify.mail.jobs
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
@@ -25,10 +25,10 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * Runs notifyMail step with custom configuration (opposite of default configuration)
  *
  * @return The script
- * @see vars.notifyMail.NotifyMailCustomIT
+ * @see vars.notify.mail.NotifyMailCustomIT
  */
 def execute() {
-  notifyMail(
+  notify.mail(
     [
       (NOTIFY): [
         (NOTIFY_ON_SUCCESS)         : [

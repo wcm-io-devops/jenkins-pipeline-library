@@ -23,7 +23,8 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
- * Tries to retrieve the current scm url by using some fallback steps
+ * Tries to retrieve the current scm url by using some fallback steps.
+ * When all fallback steps do not result in a valid result the JOB_NAME is used.
  *
  * @param config Configuration options for pipeline library
  */
@@ -37,7 +38,8 @@ String call(Map config = [:]) {
     }
     // log a warning when scm url is still null
     if (detectedScmUrl == null) {
-        log.warn("Unable to detect scm url from config or environment variable!")
+        detectedScmUrl = env.getProperty("JOB_NAME")
+        log.warn("Unable to detect scm url from config or environment variable! Falling back to env.JOB_NAME",detectedScmUrl)
     }
     return detectedScmUrl
 }

@@ -132,6 +132,13 @@ contributor(maven) {
   method(name: 'purgeSnapshots', type: 'void', params: [repositoryPath: String, dryRun: Boolean, logLevel: 'io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel'], doc: 'Purges SNAPSHOT artifacts from the given repository.')
 }
 
+def notify = context(ctype: "notify")
+contributor(notify) {
+  method(name: 'mail', type: 'void', params: [config: Map], doc: 'Sends a mail notification.')
+  method(name: 'mattermost', type: 'void', params: [config: Map], doc: 'Triggers a mattermost notification')
+  method(name: 'mqtt', type: 'void', params: [config: Map], doc: 'Triggers a mqtt notification')
+}
+
 def wrap = context(ctype: "wrap")
 contributor(wrap) {
   method(name: 'color', type: 'void', params: [config: Map, closure: Closure], doc: 'Enables color output in Jenkins console by using the ansiColor step.')

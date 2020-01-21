@@ -74,6 +74,8 @@ class StepConstants {
   public final static String MANAGED_SCRIPTS_EXEC_JENKINS_SHELL_SCRIPT = "execJenkinsShellScript"
   public final static String MANAGED_SCRIPTS_EXEC_PIPELINE_SHELL_SCRIPT = "execPipelineShellScript"
 
+  public final static String MATTERMOST_SEND = "mattermostSend"
+
   public final static String MAVEN_PURGE_SNAPSHOTS = "purgeSnapshots"
 
   public final static String MQTT_NOTIFICATION = "mqttNotification"

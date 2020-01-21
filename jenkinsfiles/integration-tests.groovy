@@ -213,7 +213,7 @@ node() {
   integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.model") {
     integrationTestUtils.runTest("Result") {
       Result testResult
-      testResult = Result.NOT_BUILD
+      testResult = Result.NOT_BUILT
       testResult = Result.ABORTED
       testResult = Result.FAILURE
       testResult = Result.UNSTABLE
@@ -224,8 +224,8 @@ node() {
       testResult = Result.fromString("STILL FAILING")
       log.info(Result.FIXED.toString(), Result.FIXED)
 
-      integrationTestUtils.assertTrue(Result.NOT_BUILD.isWorseOrEqualTo(Result.NOT_BUILD), "result assertion 1")
-      integrationTestUtils.assertTrue(Result.ABORTED.isWorseThan(Result.NOT_BUILD), "result assertion 2")
+      integrationTestUtils.assertTrue(Result.NOT_BUILT.isWorseOrEqualTo(Result.NOT_BUILT), "result assertion 1")
+      integrationTestUtils.assertTrue(Result.ABORTED.isWorseThan(Result.NOT_BUILT), "result assertion 2")
       integrationTestUtils.assertTrue(Result.SUCCESS.isBetterThan(Result.ABORTED), "result assertion 3")
       integrationTestUtils.assertTrue(Result.SUCCESS.isBetterOrEqualTo(Result.SUCCESS), "result assertion 4")
     }
