@@ -34,11 +34,15 @@ class MattermostIntegrationTestBase extends LibraryIntegrationTestBase {
     this.setEnv("BUILD_NUMBER", "2")
     this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
     this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
+    this.getBinding().setVariable("MATTERMOST_ENDPOINT", "MOCKED_MATTERMOST_ENDPOINT")
   }
 
 
   void assertMattermostCall(Result buildResult) {
     Map mattermostCall = assertOnce(MATTERMOST_SEND)
-    Assert.assertEquals([color: buildResult.getColor(), message: "${buildResult.toString()} - MOCKED_JOB_NAME 2 (<MOCKED_BUILD_URL|Open>)".toString()], mattermostCall)
+    Assert.assertEquals("jenkins-build-notifications", mattermostCall['channel'].toString())
+    Assert.assertEquals("MOCKED_MATTERMOST_ENDPOINT", mattermostCall['endpoint'].toString())
+    Assert.assertEquals(buildResult.getColor(), mattermostCall['color'].toString())
+    Assert.assertEquals("${buildResult.toString()} - MOCKED_JOB_NAME 2 (<MOCKED_BUILD_URL|Open>)".toString(), mattermostCall['message'].toString())
   }
 }

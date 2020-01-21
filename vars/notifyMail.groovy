@@ -18,14 +18,7 @@
  * #L%
  */
 
-import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
-import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
-import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
-
-import java.lang.reflect.Type
-
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
  * Use notify.mail instead.

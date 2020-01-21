@@ -18,17 +18,12 @@
  * #L%
  */
 
-import io.wcm.devops.jenkins.pipeline.config.GenericConfig
 import io.wcm.devops.jenkins.pipeline.config.GenericConfigConstants
-import io.wcm.devops.jenkins.pipeline.config.GenericConfigParser
-import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
 import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
-import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
 import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
-import io.wcm.devops.jenkins.pipeline.utils.resources.YamlLibraryResource
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
@@ -213,7 +208,9 @@ void mattermost(Map config = [:]) {
   // use specific endpoint if configured
   if (mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID] != null && mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] == null) {
     log.debug("configure endpoint usind provided credential id ")
-    withCredentials([string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT')]) {
+    withCredentials([
+      string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT')
+    ]) {
       mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] = "${MATTERMOST_ENDPOINT}"
     }
   }
