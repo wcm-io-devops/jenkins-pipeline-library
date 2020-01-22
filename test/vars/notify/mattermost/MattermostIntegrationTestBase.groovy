@@ -43,7 +43,10 @@ class MattermostIntegrationTestBase extends LibraryIntegrationTestBase {
     Assert.assertEquals("jenkins-build-notifications", mattermostCall['channel'].toString())
     Assert.assertEquals("MOCKED_MATTERMOST_ENDPOINT", mattermostCall['endpoint'].toString())
     Assert.assertEquals(buildResult.getColor(), mattermostCall['color'].toString())
-    Assert.assertEquals("${buildResult.toString()} - MOCKED_JOB_NAME 2\n(<MOCKED_BUILD_URL|📝 Open>) (<MOCKED_BUILD_URLconsole/|🔍 Open log>)".toString(), mattermostCall['message'].toString())
+
+    String expectedMessage = "**${buildResult.toString()}** - <MOCKED_BUILD_URL|MOCKED_JOB_NAME #2>\n  <MOCKED_BUILD_URLconsole|open console>"
+
+    Assert.assertEquals(expectedMessage, mattermostCall['message'].toString())
                                                                       
   }
 }

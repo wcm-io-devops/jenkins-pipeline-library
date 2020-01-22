@@ -363,7 +363,7 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
 
-String defaultMattermostMessage = "${triggerHelper.getTrigger()} - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+String defaultMattermostMessage = "**${triggerHelper.getTrigger()}** - <${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>\n  <${env.BUILD_URL}console|open console>"
 String defaultColor = triggerHelper.getTrigger().getColor()
 
 notify.mattermost( 
