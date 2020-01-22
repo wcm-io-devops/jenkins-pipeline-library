@@ -118,7 +118,13 @@ void mqtt(Map config = [:]) {
     ]
   ]
 
-  config = MapUtils.merge(defaultConfig, config)
+  String scmUrl = getScmUrl(config)
+
+  // load yamlConfig
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.MQTT_CONFIG_PATH, scmUrl, NOTIFY_MQTT)
+
+  // merge default config with config from yaml and incoming yaml
+  config = MapUtils.merge(defaultConfig, yamlConfig, config)
 
   Map mqttConfig = config[NOTIFY_MQTT]
   Boolean mqttEnabled = mqttConfig[NOTIFY_MQTT_ENABLED]
@@ -183,7 +189,7 @@ void mattermost(Map config = [:]) {
   String scmUrl = getScmUrl(config)
 
   // load yamlConfig
-  yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, scmUrl, NOTIFY_MATTERMOST)
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, scmUrl, NOTIFY_MATTERMOST)
 
   // merge default config with config from yaml and incoming yaml
   config = MapUtils.merge(defaultConfig, yamlConfig, config)

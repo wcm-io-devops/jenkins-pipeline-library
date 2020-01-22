@@ -1,0 +1,14 @@
+- patterns:
+    - .*
+  id: "default mqtt notification configuration"
+  config:
+    broker: defaultbroker
+
+- patterns:
+    - git@git-ssh.domain.tld:team-a
+  id: "default mattermost notification configuration"
+  config:
+    broker: team-a-broker
+    credentialsId: team-a-broker-credential-id
+    qos: "2"
+    retain: true

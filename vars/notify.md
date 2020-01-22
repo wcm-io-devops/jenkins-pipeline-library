@@ -485,6 +485,20 @@ Optional text. Refer to
 The `notify.mqtt` step is basically a wrapper for the [MQTT Notification
 Plugin](https://plugins.jenkins.io/mqtt-notification-plugin).
 
+## Generic Configuration support
+
+This step supports the [GenericConfig](../docs/generic-config.md)
+mechanism for loading and applying `SCM_URL`/`JOB_NAME` based
+auto-lookup for the appropriate configuration options.
+
+:bulb: This method of configuration is recommended!
+
+When using this mechanism the step expects a YAML pipeline resource with
+the path `resources/jenkins-pipeline-library/notify/mqtt.yaml`.
+
+:bulb: An example for this `mqtt.yaml` is here:
+[`mqtt.yaml`](../test/resources/jenkins-pipeline-library/config/notify/mqtt.yaml)
+
 ## Configuration options
 
 Complete list of all configuration options.
