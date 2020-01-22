@@ -34,7 +34,11 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     this.setEnv("JOB_DISPLAY_URL", "MOCKED_JOB_DISPLAY_URL")
     this.setEnv("RUN_CHANGES_DISPLAY_URL", "MOCKED_RUN_CHANGES_DISPLAY_URL")
     this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
+    this.setEnv("JOB_BASE_NAME", "MOCKED_JOB_BASE_NAME")
     this.setEnv("BUILD_NUMBER", "MOCKED_BUILD_NUMBER")
+    this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
+    this.setEnv("JENKINS_URL", "MOCKED_JENKINS_URL")
+    this.setEnv("JENKINS_URL", "MOCKED_JENKINS_URL")
     this.updateBuildStatus("MOCKED_BUILD_RESULT")
   }
 
@@ -60,16 +64,20 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
     String expectedMqttMessage = """\
+    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'
+    BUILD_RESULT: 'FAILURE'
+    BUILD_RESULT_COLOR: '#f0372e'
+    BUILD_URL: 'MOCKED_BUILD_URL'
+    JENKINS_URL: 'MOCKED_JENKINS_URL'
+    JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'
     JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
-    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
-    BUILD_RESULT: 'MOCKED_BUILD_RESULT'
     JOB_NAME: 'MOCKED_JOB_NAME'
-    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'"""
+    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'"""
 
     Assert.assertEquals("defaultbroker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("", mqttNotificationCall['credentialsId'])
     Assert.assertEquals(expectedMqttMessage, mqttNotificationCall['message'])
-    Assert.assertEquals("0", mqttNotificationCall['qos'])
+    Assert.assertEquals("1", mqttNotificationCall['qos'])
     Assert.assertEquals(false, mqttNotificationCall['retainMessage'])
     Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
   }
@@ -82,11 +90,15 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
     String expectedMqttMessage = """\
+    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'
+    BUILD_RESULT: 'FAILURE'
+    BUILD_RESULT_COLOR: '#f0372e'
+    BUILD_URL: 'MOCKED_BUILD_URL'
+    JENKINS_URL: 'MOCKED_JENKINS_URL'
+    JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'
     JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
-    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
-    BUILD_RESULT: 'MOCKED_BUILD_RESULT'
     JOB_NAME: 'MOCKED_JOB_NAME'
-    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'"""
+    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'"""
 
     Assert.assertEquals("team-a-broker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("team-a-broker-credential-id", mqttNotificationCall['credentialsId'])

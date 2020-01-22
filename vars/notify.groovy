@@ -19,6 +19,7 @@
  */
 
 import io.wcm.devops.jenkins.pipeline.config.GenericConfigConstants
+import io.wcm.devops.jenkins.pipeline.model.Result
 import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
 import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
@@ -98,12 +99,19 @@ void mqtt(Map config = [:]) {
 
   Logger log = new Logger("notify.mqtt")
 
+  NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
+  Result buildResult = triggerHelper.getTrigger()
+
   String defaultMqttMessage = """\
+    BUILD_NUMBER: '${env.getProperty("BUILD_NUMBER")}'
+    BUILD_RESULT: '${buildResult.toString()}'
+    BUILD_RESULT_COLOR: '${buildResult.getColor()}'
+    BUILD_URL: '${env.getProperty("BUILD_URL")}'
+    JENKINS_URL: '${env.getProperty("JENKINS_URL")}'
+    JOB_BASE_NAME: '${env.getProperty("JOB_BASE_NAME")}'
     JOB_DISPLAY_URL: '${env.getProperty("JOB_DISPLAY_URL")}'
-    RUN_CHANGES_DISPLAY_URL: '${env.getProperty("RUN_CHANGES_DISPLAY_URL")}'
-    BUILD_RESULT: '${currentBuild.result}'
     JOB_NAME: '${env.getProperty("JOB_NAME")}'
-    BUILD_NUMBER: '${env.getProperty("BUILD_NUMBER")}'"""
+    RUN_CHANGES_DISPLAY_URL: '${env.getProperty("RUN_CHANGES_DISPLAY_URL")}'"""
 
   Map defaultConfig = [
     (NOTIFY_MQTT): [
@@ -112,7 +120,7 @@ void mqtt(Map config = [:]) {
       (NOTIFY_MQTT_ENABLED)       : true,
       (NOTIFY_MQTT_CREDENTIALS_ID): '',
       (NOTIFY_MQTT_MESSAGE)       : defaultMqttMessage,
-      (NOTIFY_MQTT_QOS)           : "0",
+      (NOTIFY_MQTT_QOS)           : "1",
       (NOTIFY_MQTT_RETAIN)        : false,
       (NOTIFY_MQTT_TOPIC)         : "jenkins/${env.getProperty('JOB_NAME')}",
     ]
@@ -140,6 +148,8 @@ void mqtt(Map config = [:]) {
     log.warn(msg)
     return
   }
+
+  log.debug("mqttConfig", mqttConfig)
 
   String credentialId = mqttConfig[NOTIFY_MQTT_CREDENTIALS_ID]
   String topic = mqttConfig[NOTIFY_MQTT_TOPIC]

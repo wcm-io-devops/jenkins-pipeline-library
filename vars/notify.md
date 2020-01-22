@@ -508,14 +508,23 @@ All configuration options must be inside the `notifyMqtt`
 map element to be evaluated and used by the step.
 
 ```groovy
+import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
+
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
+NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
+Result buildResult = triggerHelper.getTrigger()
+
 String defaultMqttMessage = """\
+  BUILD_NUMBER: '${env.getProperty("BUILD_NUMBER")}'
+  BUILD_RESULT: '${buildResult.toString()}'
+  BUILD_RESULT_COLOR: '${buildResult.getColor()}'
+  BUILD_URL: '${env.getProperty("BUILD_URL")}'
+  JENKINS_URL: '${env.getProperty("JENKINS_URL")}'
+  JOB_BASE_NAME: '${env.getProperty("JOB_BASE_NAME")}'
   JOB_DISPLAY_URL: '${env.getProperty("JOB_DISPLAY_URL")}'
-  RUN_CHANGES_DISPLAY_URL: '${env.getProperty("RUN_CHANGES_DISPLAY_URL")}'
-  BUILD_RESULT: '${currentBuild.result}'
   JOB_NAME: '${env.getProperty("JOB_NAME")}'
-  BUILD_NUMBER: '${env.getProperty("BUILD_NUMBER")}'"""
+  RUN_CHANGES_DISPLAY_URL: '${env.getProperty("RUN_CHANGES_DISPLAY_URL")}'"""
 
 notify.mqtt( 
   (NOTIFY_MQTT) : [
