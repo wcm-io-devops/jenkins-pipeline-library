@@ -29,11 +29,11 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * @return The script
  */
 def execute() {
-  Map config = [
-    (NOTIFY_MQTT) : [
+  Map config = [:]
+    /*(NOTIFY_MQTT) : [
       (NOTIFY_MQTT_BROKER) : "tcp://localhost:1883"
     ]
-  ]
+  ]*/
   notify.mqtt(config)
 }
 

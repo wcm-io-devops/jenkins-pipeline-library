@@ -66,13 +66,33 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     JOB_NAME: 'MOCKED_JOB_NAME'
     BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'"""
 
-    Assert.assertEquals([
-      brokerUrl    : "tcp://localhost:1883",
-      credentialsId: "",
-      message      : expectedMqttMessage,
-      qos          : "0",
-      retainMessage: false,
-      topic        : "jenkins/MOCKED_JOB_NAME"
-    ], mqttNotificationCall)
+    Assert.assertEquals("defaultbroker", mqttNotificationCall['brokerUrl'])
+    Assert.assertEquals("", mqttNotificationCall['credentialsId'])
+    Assert.assertEquals(expectedMqttMessage, mqttNotificationCall['message'])
+    Assert.assertEquals("0", mqttNotificationCall['qos'])
+    Assert.assertEquals(false, mqttNotificationCall['retainMessage'])
+    Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
+  }
+
+  @Test
+  void shouldNotifyMqttWithSpecificYamlConfiguration() {
+    this.setEnv("SCM_URL", "git@git-ssh.domain.tld:team-a/project-1")
+    loadAndExecuteScript("vars/notify/mqtt/jobs/notifyMqttDefaultsJob.groovy")
+
+    Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
+
+    String expectedMqttMessage = """\
+    JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
+    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
+    BUILD_RESULT: 'MOCKED_BUILD_RESULT'
+    JOB_NAME: 'MOCKED_JOB_NAME'
+    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'"""
+
+    Assert.assertEquals("team-a-broker", mqttNotificationCall['brokerUrl'])
+    Assert.assertEquals("team-a-broker-credential-id", mqttNotificationCall['credentialsId'])
+    Assert.assertEquals(expectedMqttMessage, mqttNotificationCall['message'])
+    Assert.assertEquals("2", mqttNotificationCall['qos'])
+    Assert.assertEquals(true, mqttNotificationCall['retainMessage'])
+    Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
   }
 }
