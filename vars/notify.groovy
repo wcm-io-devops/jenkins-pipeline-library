@@ -155,7 +155,7 @@ void mattermost(Map config = [:]) {
 
   NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
 
-  String defaultMattermostMessage = "**${triggerHelper.getTrigger()}** - <${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>\n  <${env.BUILD_URL}console|open console>"
+  String defaultMattermostMessage = "**${triggerHelper.getTrigger()}** - <${env.BUILD_URL}console|${env.JOB_BASE_NAME}#${env.BUILD_NUMBER}>"
   String defaultColor = triggerHelper.getTrigger().getColor()
 
   Map defaultConfig = [
