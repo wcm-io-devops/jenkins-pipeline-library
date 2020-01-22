@@ -135,10 +135,10 @@ void mqtt(Map config = [:]) {
 
   String broker = mqttConfig[NOTIFY_MQTT_BROKER]
 
-  if (broker.isEmpty()) {
-    String msg = "broker (NOTIFY_MQTT_BROKER) needs to be defined"
-    log.fatal(msg)
-    error(msg)
+  if (broker == null || broker.isEmpty()) {
+    String msg = "broker (NOTIFY_MQTT_BROKER) needs to be defined for sending mqtt messages."
+    log.warn(msg)
+    return
   }
 
   String credentialId = mqttConfig[NOTIFY_MQTT_CREDENTIALS_ID]
