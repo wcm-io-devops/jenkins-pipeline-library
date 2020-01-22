@@ -485,6 +485,13 @@ Optional text. Refer to
 The `notify.mqtt` step is basically a wrapper for the [MQTT Notification
 Plugin](https://plugins.jenkins.io/mqtt-notification-plugin).
 
+## Extreme feedback device support
+
+This step is designed to send a mqtt default message that is compatible
+with
+[wcm_io_devops.jenkins_xfd](https://github.com/wcm-io-devops/ansible-jenkins-xfd)
+which displays the build status using hardware from Cleware.
+
 ## Generic Configuration support
 
 This step supports the [GenericConfig](../docs/generic-config.md)
