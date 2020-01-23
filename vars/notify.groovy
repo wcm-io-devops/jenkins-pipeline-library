@@ -160,6 +160,8 @@ void mqtt(Map config = [:]) {
   qos = mqttConfig[NOTIFY_MQTT_QOS]
   Boolean retainMessage = mqttConfig[NOTIFY_MQTT_RETAIN]
 
+  log.info("publish MQTT message for topic", topic)
+
   mqttNotification(brokerUrl: broker, credentialsId: credentialId, message: message, qos: qos, retainMessage: retainMessage, topic: topic)
 }
 
