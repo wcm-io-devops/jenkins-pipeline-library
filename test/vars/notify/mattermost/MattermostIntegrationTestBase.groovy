@@ -33,7 +33,7 @@ class MattermostIntegrationTestBase extends LibraryIntegrationTestBase {
     super.setUp()
     this.setEnv("BUILD_NUMBER", "2")
     this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
-    this.setEnv("JOB_BASE_NAME", "MOCKED_JOB_BASE_NAME")
+    this.setEnv("JOB_BASE_NAME", "MOCKED%2FJOB_BASE_NAME")
     this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
     this.getBinding().setVariable("MATTERMOST_ENDPOINT", "MOCKED_MATTERMOST_ENDPOINT")
   }
@@ -45,7 +45,7 @@ class MattermostIntegrationTestBase extends LibraryIntegrationTestBase {
     Assert.assertEquals("MOCKED_MATTERMOST_ENDPOINT", mattermostCall['endpoint'].toString())
     Assert.assertEquals(buildResult.getColor(), mattermostCall['color'].toString())
 
-    String expectedMessage = "**${buildResult.toString()}** - <MOCKED_BUILD_URLconsole|MOCKED_JOB_BASE_NAME#2>"
+    String expectedMessage = "**${buildResult.toString()}** - <MOCKED_BUILD_URLconsole|MOCKED/JOB_BASE_NAME#2>"
 
     Assert.assertEquals(expectedMessage, mattermostCall['message'].toString())
                                                                       
