@@ -102,8 +102,10 @@ void mqtt(Map config = [:]) {
   NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
   Result buildResult = triggerHelper.getTrigger()
 
+  Integer timestamp = Integer.parseInt(sh(script: "echo \$(date +%s)", returnStdout: true).trim())
+
   String defaultMqttMessage = """\
-    BUILD_NUMBER: '${env.getProperty("BUILD_NUMBER")}'
+    BUILD_NUMBER: ${Integer.parseInt(env.getProperty("BUILD_NUMBER"))}
     BUILD_RESULT: '${buildResult.toString()}'
     BUILD_RESULT_COLOR: '${buildResult.getColor()}'
     BUILD_URL: '${env.getProperty("BUILD_URL")}'
@@ -111,7 +113,8 @@ void mqtt(Map config = [:]) {
     JOB_BASE_NAME: '${env.getProperty("JOB_BASE_NAME")}'
     JOB_DISPLAY_URL: '${env.getProperty("JOB_DISPLAY_URL")}'
     JOB_NAME: '${env.getProperty("JOB_NAME")}'
-    RUN_CHANGES_DISPLAY_URL: '${env.getProperty("RUN_CHANGES_DISPLAY_URL")}'"""
+    RUN_CHANGES_DISPLAY_URL: '${env.getProperty("RUN_CHANGES_DISPLAY_URL")}'
+    TIMESTAMP: ${timestamp}"""
 
   Map defaultConfig = [
     (NOTIFY_MQTT): [

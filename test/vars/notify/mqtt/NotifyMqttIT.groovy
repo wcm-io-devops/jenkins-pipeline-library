@@ -26,16 +26,19 @@ import org.jenkinsci.plugins.workflow.cps.nodes.StepStartNode
 import org.junit.Assert
 import org.junit.Test
 
+import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
+
 class NotifyMqttIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
     super.setUp()
+    helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
     this.setEnv("JOB_DISPLAY_URL", "MOCKED_JOB_DISPLAY_URL")
     this.setEnv("RUN_CHANGES_DISPLAY_URL", "MOCKED_RUN_CHANGES_DISPLAY_URL")
     this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
     this.setEnv("JOB_BASE_NAME", "MOCKED_JOB_BASE_NAME")
-    this.setEnv("BUILD_NUMBER", "MOCKED_BUILD_NUMBER")
+    this.setEnv("BUILD_NUMBER", "456")
     this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
     this.setEnv("JENKINS_URL", "MOCKED_JENKINS_URL")
     this.setEnv("JENKINS_URL", "MOCKED_JENKINS_URL")
@@ -64,7 +67,7 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
     String expectedMqttMessage = """\
-    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'
+    BUILD_NUMBER: 456
     BUILD_RESULT: 'FAILURE'
     BUILD_RESULT_COLOR: '#f0372e'
     BUILD_URL: 'MOCKED_BUILD_URL'
@@ -72,7 +75,8 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'
     JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
     JOB_NAME: 'MOCKED_JOB_NAME'
-    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'"""
+    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
+    TIMESTAMP: 123456789"""
 
     Assert.assertEquals("defaultbroker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("", mqttNotificationCall['credentialsId'])
@@ -86,11 +90,10 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
   void shouldNotifyMqttWithSpecificYamlConfiguration() {
     this.setEnv("SCM_URL", "git@git-ssh.domain.tld:team-a/project-1")
     loadAndExecuteScript("vars/notify/mqtt/jobs/notifyMqttDefaultsJob.groovy")
-
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
     String expectedMqttMessage = """\
-    BUILD_NUMBER: 'MOCKED_BUILD_NUMBER'
+    BUILD_NUMBER: 456
     BUILD_RESULT: 'FAILURE'
     BUILD_RESULT_COLOR: '#f0372e'
     BUILD_URL: 'MOCKED_BUILD_URL'
@@ -98,7 +101,8 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'
     JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
     JOB_NAME: 'MOCKED_JOB_NAME'
-    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'"""
+    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
+    TIMESTAMP: 123456789"""
 
     Assert.assertEquals("team-a-broker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("team-a-broker-credential-id", mqttNotificationCall['credentialsId'])
@@ -106,5 +110,24 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     Assert.assertEquals("2", mqttNotificationCall['qos'])
     Assert.assertEquals(true, mqttNotificationCall['retainMessage'])
     Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
+  }
+
+  def shellMapCallback = { Map incomingCommand ->
+    context.getStepRecorder().record(SH, incomingCommand)
+    Boolean returnStdout = incomingCommand.returnStdout ?: false
+    Boolean returnStatus = incomingCommand.returnStatus ?: false
+    String script = incomingCommand.script ?: ""
+    // return default values for several commands
+    if (returnStdout) {
+      switch (script) {
+        case 'echo $(date +%s)':
+          return "123456789"
+          break
+        default:
+          return ""
+      }
+    }
+
+    return null
   }
 }
