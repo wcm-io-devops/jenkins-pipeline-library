@@ -228,7 +228,9 @@ void installRoles(Map config) {
             commandBuilder.addArgument("--force")
         }
         log.debug("command", commandBuilder.build())
-        sh(commandBuilder.build())
+        retry(3) {
+            sh(commandBuilder.build())
+        }
     }
 
 }
