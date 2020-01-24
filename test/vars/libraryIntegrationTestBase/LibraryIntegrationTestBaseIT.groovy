@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2020 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,27 @@
  */
 package vars.libraryIntegrationTestBase
 
+import hudson.AbortException
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
+import io.wcm.testing.jenkins.pipeline.StepConstants
+import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
 import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper;
 import org.junit.Assert;
 import org.junit.Test
 
-import java.nio.file.Path;
+import java.nio.file.Path
 
-public class LibraryIntegrationTestBaseIT extends LibraryIntegrationTestBase {
+import static io.wcm.testing.jenkins.pipeline.StepConstants.SH;
+
+class LibraryIntegrationTestBaseIT extends LibraryIntegrationTestBase {
+
+  Integer currentRetry = -1
+
+  @Override
+  void setUp() throws Exception {
+    super.setUp()
+    this.currentRetry = -1
+  }
 
   @Test
   void shouldFindOneFile() {
@@ -78,5 +91,65 @@ public class LibraryIntegrationTestBaseIT extends LibraryIntegrationTestBase {
   void shouldFindDescendandsWithoutGlob() {
     FileWrapper[] result = loadAndExecuteScript("vars/libraryIntegrationTestBase/jobs/shouldFindDescendandsWithoutGlobTestJob.groovy")
     Assert.assertTrue(result.size() > 0)
+  }
+
+  @Test
+  void shouldNotRetryWhenNothingFailed() {
+    loadAndExecuteScript("vars/libraryIntegrationTestBase/jobs/retryTestJob.groovy")
+
+    StepRecorderAssert.assertOnce(StepConstants.RETRY)
+    List actualShellCalls = StepRecorderAssert.assertStepCalls(StepConstants.SH, 1)
+    List expectedShellCalls = [
+      "some_randomly_failing_command",
+    ]
+
+    Assert.assertEquals(expectedShellCalls, actualShellCalls)
+  }
+
+  @Test(expected = AbortException)
+  void shouldFailWhenMaxRetriesAreReached() {
+    helper.registerAllowedMethod(SH, [String.class], shellAlwaysFailing)
+
+    loadAndExecuteScript("vars/libraryIntegrationTestBase/jobs/retryTestJob.groovy")
+
+    StepRecorderAssert.assertOnce(StepConstants.RETRY)
+    List actualShellCalls = StepRecorderAssert.assertStepCalls(StepConstants.SH, 3)
+    List expectedShellCalls = [
+      "some_randomly_failing_command",
+      "some_randomly_failing_command",
+      "some_randomly_failing_command",
+    ]
+
+    Assert.assertEquals(expectedShellCalls, actualShellCalls)
+  }
+
+  @Test
+  void shouldStopRetryOnSuccessfullCommand() {
+    helper.registerAllowedMethod(SH, [String.class], shellFailingOnce)
+
+    loadAndExecuteScript("vars/libraryIntegrationTestBase/jobs/retryTestJob.groovy")
+
+    StepRecorderAssert.assertOnce(StepConstants.RETRY)
+    List actualShellCalls = StepRecorderAssert.assertStepCalls(StepConstants.SH, 2)
+    List expectedShellCalls = [
+      "some_randomly_failing_command",
+      "some_randomly_failing_command",
+    ]
+
+    Assert.assertEquals(expectedShellCalls, actualShellCalls)
+  }
+
+  def shellAlwaysFailing = { String incomingCommand ->
+    context.getStepRecorder().record(SH, incomingCommand)
+    throw new AbortException("I am failing!")
+  }
+
+  def shellFailingOnce = { String incomingCommand ->
+    context.getStepRecorder().record(SH, incomingCommand)
+    this.currentRetry = currentRetry+1
+
+    if (currentRetry < 1) {
+      throw new AbortException("I am failing!")
+    }
   }
 }
