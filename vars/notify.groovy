@@ -130,7 +130,7 @@ void mqtt(Map config = [:]) {
     ]
   ]
 
-  String scmUrl = getScmUrl(config)
+  String scmUrl = getScmUrl(config, true)
 
   // load yamlConfig
   Map yamlConfig = genericConfig.load(GenericConfigConstants.MQTT_CONFIG_PATH, scmUrl, NOTIFY_MQTT)
@@ -207,7 +207,7 @@ void mattermost(Map config = [:]) {
     ]
   ]
 
-  String scmUrl = getScmUrl(config)
+  String scmUrl = getScmUrl(config, true)
 
   // load yamlConfig
   Map yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, scmUrl, NOTIFY_MATTERMOST)

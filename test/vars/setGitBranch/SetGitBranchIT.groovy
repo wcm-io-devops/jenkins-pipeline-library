@@ -31,6 +31,7 @@ class SetGitBranchIT extends LibraryIntegrationTestBase {
   @Test
   void shouldUseLocalBranchName() {
     helper.registerAllowedMethod(StepConstants.SH, [Map.class], shellMapCallback)
+    this.setEnv(EnvironmentConstants.GIT_BRANCH, null)
     loadAndExecuteScript("vars/setGitBranch/jobs/setGitBranchTestJob.groovy")
 
     assertEquals("my-custom-branch-name", this.getEnv(EnvironmentConstants.GIT_BRANCH))
@@ -38,6 +39,7 @@ class SetGitBranchIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldFallbackToHeadRev() {
+    this.setEnv(EnvironmentConstants.GIT_BRANCH, null)
     loadAndExecuteScript("vars/setGitBranch/jobs/setGitBranchTestJob.groovy")
 
     assertEquals("0HFGC0", this.getEnv(EnvironmentConstants.GIT_BRANCH))
@@ -46,6 +48,7 @@ class SetGitBranchIT extends LibraryIntegrationTestBase {
   @Test
   void shouldUseBranchNameEnvVar() {
     this.setEnv(EnvironmentConstants.BRANCH_NAME, "VALUE_OF_BRANCH_NAME")
+    this.setEnv(EnvironmentConstants.GIT_BRANCH, null)
     loadAndExecuteScript("vars/setGitBranch/jobs/setGitBranchTestJob.groovy")
     assertEquals("VALUE_OF_BRANCH_NAME", this.getEnv(EnvironmentConstants.GIT_BRANCH))
   }
@@ -53,6 +56,7 @@ class SetGitBranchIT extends LibraryIntegrationTestBase {
   @Test
   void shouldUseGitBranchEnvVar() {
     this.setEnv(EnvironmentConstants.BRANCH_NAME, "VALUE_OF_GIT_BRANCH")
+    this.setEnv(EnvironmentConstants.GIT_BRANCH, null)
     loadAndExecuteScript("vars/setGitBranch/jobs/setGitBranchTestJob.groovy")
     assertEquals("VALUE_OF_GIT_BRANCH", this.getEnv(EnvironmentConstants.GIT_BRANCH))
   }

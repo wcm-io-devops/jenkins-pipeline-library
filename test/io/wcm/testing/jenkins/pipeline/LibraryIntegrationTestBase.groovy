@@ -287,6 +287,12 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       .retriever(SelfSourceRetriever.localSourceRetriever(projectPath))
       .build()
     context.getPipelineTestHelper().registerSharedLibrary(library)
+
+    this.setEnv("BUILD_NUMBER", "2")
+    this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
+    this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
+    this.setEnv("JOB_BASE_NAME", "MOCKED%2FJOB_BASE_NAME")
+    this.setEnv("GIT_BRANCH", "MOCKED_GIT_BRANCH")
   }
 
   /**
