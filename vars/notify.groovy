@@ -102,7 +102,7 @@ void mqtt(Map config = [:]) {
   NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
   Result buildResult = triggerHelper.getTrigger()
 
-  Integer timestamp = Integer.parseInt(sh(script: "echo \$(date +%s)", returnStdout: true).trim())
+  Integer timestamp = new Date().getTime() / 1000l
 
   String defaultMqttMessage = """\
     BUILD_NUMBER: ${Integer.parseInt(env.getProperty("BUILD_NUMBER"))}
@@ -162,7 +162,11 @@ void mqtt(Map config = [:]) {
 
   log.info("publish MQTT message for topic", topic)
 
-  mqttNotification(brokerUrl: broker, credentialsId: credentialId, message: message, qos: qos, retainMessage: retainMessage, topic: topic)
+  try {
+    mqttNotification(brokerUrl: broker, credentialsId: credentialId, message: message, qos: qos, retainMessage: retainMessage, topic: topic)
+  } catch (Exception ex) {
+    log.error("Unable to send mattermost notification. Ensure that this step has a workspace to run in.", ex.getCause().toString())
+  }
 }
 
 /**
