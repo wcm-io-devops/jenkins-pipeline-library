@@ -22,18 +22,15 @@ package vars.notify.mqtt
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
-import org.jenkinsci.plugins.workflow.cps.nodes.StepStartNode
+import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
-
-import static io.wcm.testing.jenkins.pipeline.StepConstants.SH
 
 class NotifyMqttIT extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
     super.setUp()
-    helper.registerAllowedMethod(SH, [Map.class], shellMapCallback)
     this.setEnv("JOB_DISPLAY_URL", "MOCKED_JOB_DISPLAY_URL")
     this.setEnv("RUN_CHANGES_DISPLAY_URL", "MOCKED_RUN_CHANGES_DISPLAY_URL")
     this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
@@ -66,21 +63,10 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
 
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
-    String expectedMqttMessage = """\
-    BUILD_NUMBER: 456
-    BUILD_RESULT: 'FAILURE'
-    BUILD_RESULT_COLOR: '#f0372e'
-    BUILD_URL: 'MOCKED_BUILD_URL'
-    JENKINS_URL: 'MOCKED_JENKINS_URL'
-    JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'
-    JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
-    JOB_NAME: 'MOCKED_JOB_NAME'
-    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
-    TIMESTAMP: 123456789"""
+    this.assertCorrectMessage((String) mqttNotificationCall['message'])
 
     Assert.assertEquals("defaultbroker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("", mqttNotificationCall['credentialsId'])
-    Assert.assertEquals(expectedMqttMessage, mqttNotificationCall['message'])
     Assert.assertEquals("1", mqttNotificationCall['qos'])
     Assert.assertEquals(false, mqttNotificationCall['retainMessage'])
     Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
@@ -92,42 +78,25 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     loadAndExecuteScript("vars/notify/mqtt/jobs/notifyMqttDefaultsJob.groovy")
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
-    String expectedMqttMessage = """\
-    BUILD_NUMBER: 456
-    BUILD_RESULT: 'FAILURE'
-    BUILD_RESULT_COLOR: '#f0372e'
-    BUILD_URL: 'MOCKED_BUILD_URL'
-    JENKINS_URL: 'MOCKED_JENKINS_URL'
-    JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'
-    JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'
-    JOB_NAME: 'MOCKED_JOB_NAME'
-    RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'
-    TIMESTAMP: 123456789"""
+    this.assertCorrectMessage((String) mqttNotificationCall['message'])
 
     Assert.assertEquals("team-a-broker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("team-a-broker-credential-id", mqttNotificationCall['credentialsId'])
-    Assert.assertEquals(expectedMqttMessage, mqttNotificationCall['message'])
     Assert.assertEquals("2", mqttNotificationCall['qos'])
     Assert.assertEquals(true, mqttNotificationCall['retainMessage'])
     Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
   }
 
-  def shellMapCallback = { Map incomingCommand ->
-    context.getStepRecorder().record(SH, incomingCommand)
-    Boolean returnStdout = incomingCommand.returnStdout ?: false
-    Boolean returnStatus = incomingCommand.returnStatus ?: false
-    String script = incomingCommand.script ?: ""
-    // return default values for several commands
-    if (returnStdout) {
-      switch (script) {
-        case 'echo $(date +%s)':
-          return "123456789"
-          break
-        default:
-          return ""
-      }
-    }
-
-    return null
+  void assertCorrectMessage(actualMessage) {
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_NUMBER: 456"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_RESULT: 'FAILURE'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_RESULT_COLOR: '#f0372e'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_URL: 'MOCKED_BUILD_URL'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("JENKINS_URL: 'MOCKED_JENKINS_URL'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_NAME: 'MOCKED_JOB_NAME'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'"))
   }
+
 }
