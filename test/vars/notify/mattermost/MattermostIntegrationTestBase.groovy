@@ -31,10 +31,6 @@ class MattermostIntegrationTestBase extends LibraryIntegrationTestBase {
   @Override
   void setUp() throws Exception {
     super.setUp()
-    this.setEnv("BUILD_NUMBER", "2")
-    this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
-    this.setEnv("JOB_BASE_NAME", "MOCKED%2FJOB_BASE_NAME")
-    this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
     this.getBinding().setVariable("MATTERMOST_ENDPOINT", "MOCKED_MATTERMOST_ENDPOINT")
   }
 

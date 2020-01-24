@@ -28,11 +28,7 @@ import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
  * @see vars.execMavenRelease.ExecMavenReleaseIT
  */
 def execute() {
-  env.setProperty(EnvironmentConstants.SCM_URL, null)
-  String test = env.getProperty(EnvironmentConstants.SCM_URL)
-  execMavenRelease(
-
-  )
+  execMavenRelease()
 }
 
 return this

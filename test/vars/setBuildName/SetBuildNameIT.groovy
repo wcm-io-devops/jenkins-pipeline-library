@@ -38,6 +38,7 @@ class SetBuildNameIT extends LibraryIntegrationTestBase {
   @Test
   void shouldNotUseGitBranch() {
     this.setEnv("BUILD_NUMBER", "1")
+    this.setEnv("GIT_BRANCH", null)
     loadAndExecuteScript("vars/setBuildName/jobs/setBuildNameJob.groovy")
 
     assertEquals("#1", this.context.getRunWrapperMock().getDisplayName())

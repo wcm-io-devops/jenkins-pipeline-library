@@ -20,6 +20,7 @@
 package vars.execMavenRelease
 
 import hudson.AbortException
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import org.junit.Rule
@@ -47,6 +48,8 @@ class ExecMavenReleaseIT extends LibraryIntegrationTestBase {
   void shouldFailWhenScmUrlIsNull() throws AbortException {
     expectedEx.expect(AbortException.class)
     expectedEx.expectMessage("Unable to retrieve SCM url")
+
+    this.setEnv(EnvironmentConstants.SCM_URL, null)
 
     loadAndExecuteScript("vars/execMavenRelease/jobs/shouldFailWhenScmUrlIsNullTestJob.groovy")
     assertNone(StepConstants.SH)

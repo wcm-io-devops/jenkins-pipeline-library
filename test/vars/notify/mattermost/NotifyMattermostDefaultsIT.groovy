@@ -30,14 +30,6 @@ import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assert
 
 class NotifyMattermostDefaultsIT extends MattermostIntegrationTestBase {
 
-  @Override
-  void setUp() throws Exception {
-    super.setUp()
-    this.setEnv("BUILD_NUMBER", "2")
-    this.setEnv("JOB_NAME", "MOCKED_JOB_NAME")
-    this.setEnv("BUILD_URL", "MOCKED_BUILD_URL")
-  }
-
   @Test
   void shouldNotNotifyOnSuccess() {
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())

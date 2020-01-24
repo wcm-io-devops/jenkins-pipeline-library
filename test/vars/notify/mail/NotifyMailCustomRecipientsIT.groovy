@@ -31,13 +31,6 @@ import static org.junit.Assert.assertEquals
 
 class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
 
-  @Override
-  void setUp() throws Exception {
-    super.setUp()
-    this.setEnv("BUILD_NUMBER", "2")
-    this.setEnv("GIT_BRANCH", "DETECTED_GIT_BRANCH")
-  }
-
   @Test
   void shouldCustomNotifyOnSuccess() {
     this.context.getRunWrapperMock().setResult(Result.SUCCESS.toString())
