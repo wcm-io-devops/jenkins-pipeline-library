@@ -265,7 +265,14 @@ void mattermost(Map config = [:]) {
     log.debug("mattermostConfig", mattermostConfig)
     log.debug("cleanedParams", cleanedParams)
 
-    mattermostSend(cleanedParams)
+    try {
+      mattermostSend(cleanedParams)
+    } catch (Exception ex) {
+      log.error("Unable to send mattermost notification. " +
+        "Have you configured the endpoint? " +
+        "See https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/vars/notify.md for details", ex.getCause().toString())
+    }
+
   }
 
 }
