@@ -18,6 +18,7 @@
  * #L%
  */
 
+
 import io.wcm.devops.jenkins.pipeline.config.GenericConfigConstants
 import io.wcm.devops.jenkins.pipeline.model.Result
 import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
@@ -179,7 +180,7 @@ void mattermost(Map config = [:]) {
   Logger log = new Logger("notify.mattermost")
 
   NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
-  String jobBaseName = env.getProperty('JOB_BASE_NAME').replace("%2F","/")
+  String jobBaseName = env.getProperty('JOB_BASE_NAME').replace("%2F", "/")
 
   String defaultMattermostMessage = "**${triggerHelper.getTrigger()}** - <${env.BUILD_URL}console|${jobBaseName}#${env.BUILD_NUMBER}>"
   String defaultColor = triggerHelper.getTrigger().getColor()
@@ -232,39 +233,41 @@ void mattermost(Map config = [:]) {
   mattermostConfig = buildResultConfig
 
   // use specific endpoint if configured
+  List credentials = []
   if (mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID] != null && mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] == null) {
     log.debug("configure endpoint usind provided credential id ")
-    withCredentials([
-      string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT')
-    ]) {
+    credentials.push(string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT'))
+  }
+
+  withCredentials(credentials) {
+    if (credentials.size() > 0) {
       mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] = "${MATTERMOST_ENDPOINT}"
     }
-  }
+    // cleanup config and only pass allowed names parameters
+    Map cleanedParams = [:]
 
-  // cleanup config and only pass allowed names parameters
-  Map cleanedParams = [:]
+    String[] allowedParams = [
+      "channel",
+      "endpoint",
+      "icon",
+      "color",
+      "text",
+      "message",
+      "failOnError",
+    ]
 
-  String[] allowedParams = [
-    "channel",
-    "endpoint",
-    "icon",
-    "color",
-    "text",
-    "message",
-    "failOnError",
-  ]
-
-  for (String allowedParam in allowedParams) {
-    if (mattermostConfig[allowedParam]) {
-      cleanedParams[allowedParam] = mattermostConfig[allowedParam]
+    for (String allowedParam in allowedParams) {
+      if (mattermostConfig[allowedParam]) {
+        cleanedParams[allowedParam] = mattermostConfig[allowedParam]
+      }
     }
+
+    log.debug("mattermostConfig", mattermostConfig)
+    log.debug("cleanedParams", cleanedParams)
+
+    mattermostSend(cleanedParams)
   }
 
-  log.debug("mattermostConfig", mattermostConfig)
-  log.debug("cleanedParams", cleanedParams)
-
-  // finally notify
-  mattermostSend(cleanedParams)
 }
 
 /**
