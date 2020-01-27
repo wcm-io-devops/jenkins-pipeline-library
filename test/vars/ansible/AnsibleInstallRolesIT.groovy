@@ -23,9 +23,11 @@ package vars.ansible
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
-import net.sf.json.JSONObject
+import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
+
+import static org.junit.Assert.assertThat
 
 class AnsibleInstallRolesIT extends LibraryIntegrationTestBase {
 
@@ -40,6 +42,8 @@ class AnsibleInstallRolesIT extends LibraryIntegrationTestBase {
     loadAndExecuteScript("vars/ansible/jobs/ansibleInstallRolesDefaultTestJob.groovy")
     Map toolCall = StepRecorderAssert.assertOnce(StepConstants.TOOL)
     String shellCall = StepRecorderAssert.assertOnce(StepConstants.SH)
+    String logMessages = this.context.dslMock.getLogMessages().toString()
+    assertThat(logMessages, CoreMatchers.containsString("[INFO] installRoles : running ansible-galaxy (1/3)]"))
 
     Assert.assertEquals([
       name: "ansible-installation",
