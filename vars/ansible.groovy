@@ -219,6 +219,7 @@ void installRoles(Map config) {
 
     String requirementsPath = ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null
     Boolean requirementsForce = ansibleCfg[ANSIBLE_GALAXY_FORCE] != null ? ansibleCfg[ANSIBLE_GALAXY_FORCE] : false
+    Integer retryAttempt = 1
 
     this.withInstallation(config) {
         CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps, "ansible-galaxy")
@@ -228,7 +229,11 @@ void installRoles(Map config) {
             commandBuilder.addArgument("--force")
         }
         log.debug("command", commandBuilder.build())
-        sh(commandBuilder.build())
+        retry(3) {
+            log.info("running ansible-galaxy (${retryAttempt}/3)")
+            sh(commandBuilder.build())
+            retryAttempt += 1
+        }
     }
 
 }

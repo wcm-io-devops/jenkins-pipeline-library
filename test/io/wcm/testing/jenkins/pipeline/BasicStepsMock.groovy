@@ -30,6 +30,7 @@ import static io.wcm.testing.jenkins.pipeline.StepConstants.DIR
 import static io.wcm.testing.jenkins.pipeline.StepConstants.ERROR
 import static io.wcm.testing.jenkins.pipeline.StepConstants.ERROR
 import static io.wcm.testing.jenkins.pipeline.StepConstants.FILE_EXISTS
+import static io.wcm.testing.jenkins.pipeline.StepConstants.RETRY
 import static io.wcm.testing.jenkins.pipeline.StepConstants.SLEEP
 import static io.wcm.testing.jenkins.pipeline.StepConstants.STASH
 import static io.wcm.testing.jenkins.pipeline.StepConstants.STASH
@@ -62,6 +63,8 @@ class BasicStepsMock {
     })
 
     this.context.getPipelineTestHelper().registerAllowedMethod(FILE_EXISTS, [String.class], fileExistsCallback)
+
+    this.context.getPipelineTestHelper().registerAllowedMethod(RETRY, [Integer.class, Closure.class], retryCallback)
 
     this.context.getPipelineTestHelper().registerAllowedMethod(SLEEP, [LinkedHashMap.class], { LinkedHashMap incomingCall -> context.getStepRecorder().record(SLEEP, incomingCall) })
     this.context.getPipelineTestHelper().registerAllowedMethod(STEP, [Map.class], { LinkedHashMap incomingCall -> context.getStepRecorder().record(STEP, incomingCall) })
@@ -116,6 +119,35 @@ class BasicStepsMock {
         return file.exists()
       } catch (AbortException ex) {
         return false
+      }
+  }
+
+  /**
+   * Mocks the retry task
+   */
+  def retryCallback = {
+    Integer retries, Closure body ->
+      this.context.stepRecorder.record(StepConstants.RETRY, retries)
+      Exception thrownEx = null
+
+      for( Integer retry = 0; retry < retries; retry++) {
+        thrownEx = null
+        try {
+          body.call()
+        } catch (Exception ex) {
+          thrownEx = ex
+        }
+        // when no exception was thrown we can break the loop
+        if (thrownEx != null) {
+          continue
+        } else {
+          break
+        }
+      }
+
+      // forward thrownEx
+      if (thrownEx) {
+        throw thrownEx
       }
   }
 

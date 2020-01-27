@@ -95,6 +95,8 @@ class StepConstants {
   public final static String READ_MAVEN_POM = "readMavenPom"
   public final static String READ_YAML = "readYaml"
 
+  public final static String RETRY = "retry"
+
   public final static String REMOVE_BADGES = "removeBadges"
   public final static String REMOVE_HTML_BADGES = "removeHtmlBadges"
 

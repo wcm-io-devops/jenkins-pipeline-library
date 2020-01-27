@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io DevOps
+ * Copyright (C) 2017 - 2020 wcm.io DevOps
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package vars.ansible.jobs
+package vars.libraryIntegrationTestBase.jobs
 
-import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
-import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCM
 
 def execute() {
-  ansible.installRoles(
-    (ANSIBLE): [
-      (ANSIBLE_INSTALLATION)      : "ansible-installation",
-      (ANSIBLE_GALAXY_ROLE_FILE) : "tools/ansible/requirements.yml",
-    ]
-  )
+  retry(3) {
+    sh("some_randomly_failing_command")
+  }
 }
 
 return this

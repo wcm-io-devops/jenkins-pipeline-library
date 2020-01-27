@@ -20,47 +20,17 @@
 package io.wcm.testing.jenkins.pipeline
 
 import com.lesfurets.jenkins.unit.BasePipelineTest
-import hudson.AbortException
-import hudson.model.Run
-import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
+import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import io.wcm.testing.jenkins.pipeline.global.lib.SelfSourceRetriever
-import io.wcm.testing.jenkins.pipeline.plugins.AnsiColorPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.AnsiblePluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.BadgePluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.CheckstylePluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.ConfigFileProviderPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.EmailExtPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.FindBugsPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.HTTPRequestPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.JUnitPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.MQTTNotificationPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.MattermostNotificationPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.PMDPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.PipelineStageStepPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.PipelineUtilityStepsPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.SSHAgentPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.TaskScannerPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.TimestamperPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.VersionNumberPluginMock
-import io.wcm.testing.jenkins.pipeline.plugins.WorkflowDurableTaskStepPluginMock
+import io.wcm.testing.jenkins.pipeline.plugins.*
 import io.wcm.testing.jenkins.pipeline.plugins.credentials.CredentialsPluginMock
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
-import io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert
-import org.apache.maven.model.Model
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader
-import org.apache.tools.ant.DirectoryScanner
-import org.jenkinsci.plugins.pipeline.utility.steps.fs.FileWrapper
 import org.junit.Before
-import org.jvnet.hudson.tools.versionnumber.VersionNumberBuildInfo
-import org.jvnet.hudson.tools.versionnumber.VersionNumberCommon
-import org.jvnet.hudson.tools.versionnumber.VersionNumberStep
 
-import java.nio.file.Path
 import java.util.regex.Pattern
 
 import static com.lesfurets.jenkins.unit.global.lib.LibraryConfiguration.library
-import static io.wcm.testing.jenkins.pipeline.StepConstants.*
-import static org.mockito.Mockito.mock
 
 /**
  * Base class for integration tests that use the JenkinsPipelineUnit testing framework
@@ -351,6 +321,8 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
       // call helper function to enable tests to execute code before loading the script
       beforeLoadingScript()
       def script = loadScript(scriptPath)
+      Logger.initialized = false
+      Logger.init((groovy.lang.Script) script, LogLevel.INFO)
       // call helper function to enable tests to redirect pipeline steps into own callbacks
       afterLoadingScript()
       if (config != null) {
