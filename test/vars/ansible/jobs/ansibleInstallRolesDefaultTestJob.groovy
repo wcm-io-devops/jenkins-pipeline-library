@@ -25,9 +25,6 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 def execute() {
-  Logger.initialized = false
-  Logger.init(this, LogLevel.INFO)
-
   ansible.installRoles(
     (ANSIBLE): [
       (ANSIBLE_INSTALLATION)      : "ansible-installation",
