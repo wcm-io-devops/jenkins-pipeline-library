@@ -25,6 +25,7 @@ import io.wcm.devops.jenkins.pipeline.shell.CommandBuilderImpl
 import io.wcm.devops.jenkins.pipeline.tools.ansible.Role
 import io.wcm.devops.jenkins.pipeline.tools.ansible.RoleRequirements
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
@@ -35,8 +36,8 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  * @param config The pipeline configuration object
  */
 void checkoutRoles(Map config) {
-    Map ansibleCfg = config[ANSIBLE] ?: null
-    checkoutRoles(ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null)
+  Map ansibleCfg = config[ANSIBLE] ?: null
+  checkoutRoles(ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null)
 }
 
 /**
@@ -46,9 +47,9 @@ void checkoutRoles(Map config) {
  * @deprecated
  */
 void checkoutRequirements(String requirementsYmlPath) {
-    Logger log = new Logger("ansible:checkoutRequirements -> ")
-    log.deprecated("ansible.checkoutRequirements", "ansible.checkoutRoles")
-    checkoutRoles(requirementsYmlPath)
+  Logger log = new Logger("ansible:checkoutRequirements -> ")
+  log.deprecated("ansible.checkoutRequirements", "ansible.checkoutRoles")
+  checkoutRoles(requirementsYmlPath)
 }
 
 /**
@@ -60,133 +61,159 @@ void checkoutRequirements(String requirementsYmlPath) {
  *
  */
 void checkoutRoles(String galaxyRoleFile) {
-    Logger log = new Logger("ansible:checkoutRoles -> ")
-    log.debug("loading yml '$galaxyRoleFile'")
-    List ymlContent = readYaml(file: galaxyRoleFile)
-    log.debug("create requirements object")
-    RoleRequirements roleRequirements = new RoleRequirements(ymlContent)
+  Logger log = new Logger("ansible:checkoutRoles -> ")
+  log.debug("loading yml '$galaxyRoleFile'")
+  List ymlContent = readYaml(file: galaxyRoleFile)
+  log.debug("create requirements object")
+  RoleRequirements roleRequirements = new RoleRequirements(ymlContent)
 
-    // try to find github urls for ansible galaxy roles
-    List<Role> roles = roleRequirements.getRoles()
-    for (role in roles) {
-        if (role.isGalaxyRole()) {
-            Object roleApiInfo = getGalaxyRoleInfo(role)
-            if (roleApiInfo) {
-                log.debug("building scm url")
-                String githubUser = roleApiInfo['github_user']
-                String githubRepo = roleApiInfo['github_repo']
+  // try to find github urls for ansible galaxy roles
+  List<Role> roles = roleRequirements.getRoles()
+  for (role in roles) {
+    if (role.isGalaxyRole()) {
+      Object roleApiInfo = getGalaxyRoleInfo(role)
+      if (roleApiInfo) {
+        log.debug("building scm url")
+        String githubUser = roleApiInfo['github_user']
+        String githubRepo = roleApiInfo['github_repo']
 
-                String scmUrl = "https://github.com/${githubUser}/${githubRepo}.git"
+        String scmUrl = "https://github.com/${githubUser}/${githubRepo}.git"
 
-                // set values into role for checkout
-                role.setScm(Role.SCM_GIT)
-                role.setSrc(scmUrl)
-            }
-        }
+        // set values into role for checkout
+        role.setScm(Role.SCM_GIT)
+        role.setSrc(scmUrl)
+      }
     }
+  }
 
-    List checkoutScmConfigs = roleRequirements.getCheckoutConfigs()
-    log.debug("checkoutConfigs: " + checkoutScmConfigs)
-    for (Map checkoutConfig in checkoutScmConfigs) {
-        checkoutScm(checkoutConfig)
-    }
+  List checkoutScmConfigs = roleRequirements.getCheckoutConfigs()
+  log.debug("checkoutConfigs: " + checkoutScmConfigs)
+  for (Map checkoutConfig in checkoutScmConfigs) {
+    checkoutScm(checkoutConfig)
+  }
 }
 
 /**
  * Executes a ansible playbook with the given configuration.
  * Please refer to the documentation for details about the configuration options
- * 
+ *
  * @param config The configuration used to execute the playbook
  */
 void execPlaybook(Map config) {
-    Logger log = new Logger("ansible:execPlaybook -> ")
+  Logger log = new Logger("ansible:execPlaybook -> ")
 
-    Map ansibleCfg = config[ANSIBLE] ?: null
+  Map defaultConfig = [
+    (ANSIBLE): [
+      (ANSIBLE_COLORIZED)           : true,
+      (ANSIBLE_INSTALLATION)        : null,
+      (ANSIBLE_FORKS)               : 5,
+      (ANSIBLE_LIMIT)               : null,
+      (ANSIBLE_PLAYBOOK)            : null,
+      (ANSIBLE_CREDENTIALS_ID)      : null,
+      (ANSIBLE_INVENTORY)           : null,
+      (ANSIBLE_SKIPPED_TAGS)        : null,
+      (ANSIBLE_START_AT_TASK)       : null,
+      (ANSIBLE_SUDO)                : false,
+      (ANSIBLE_SUDO_USER)           : null,
+      (ANSIBLE_TAGS)                : null,
+      (ANSIBLE_EXTRA_PARAMETERS)    : [],
+      (ANSIBLE_EXTRA_VARS)          : [:],
+      (ANSIBLE_INJECT_PARAMS)       : false,
+      (ANSIBLE_VAULT_CREDENTIALS_ID): null,
+      (MAP_MERGE_MODE)              : MapMergeMode.REPLACE,
+    ]
+  ]
 
-    if (ansibleCfg == null) {
-        log.fatal("provided ansible configuration is null, make sure to configure properly.")
-        error("provided ansible configuration is null, make sure to configure properly.")
+  config = MapUtils.merge(defaultConfig, config)
+  Map ansibleCfg = config[ANSIBLE]
+
+  if (ansibleCfg == null) {
+    log.fatal("provided ansible configuration is null, make sure to configure properly.")
+    error("provided ansible configuration is null, make sure to configure properly.")
+  }
+
+  Boolean colorized = ansibleCfg[ANSIBLE_COLORIZED]
+
+  String installation = ansibleCfg[ANSIBLE_INSTALLATION]
+  Integer forks = ansibleCfg[ANSIBLE_FORKS]
+  String limit = ansibleCfg[ANSIBLE_LIMIT]
+  String playbook = ansibleCfg[ANSIBLE_PLAYBOOK]
+  String credentialsId = ansibleCfg[ANSIBLE_CREDENTIALS_ID]
+  String inventory = ansibleCfg[ANSIBLE_INVENTORY]
+  String skippedTags = ansibleCfg[ANSIBLE_SKIPPED_TAGS]
+  String startAtTask = ansibleCfg[ANSIBLE_START_AT_TASK]
+  Boolean sudo = ansibleCfg[ANSIBLE_SUDO]
+  String sudoUser = ansibleCfg[ANSIBLE_SUDO_USER]
+  String tags = ansibleCfg[ANSIBLE_TAGS]
+  String vaultCredentialsId = ansibleCfg[ANSIBLE_VAULT_CREDENTIALS_ID]
+
+  List extraParameters = (List) ansibleCfg[ANSIBLE_EXTRA_PARAMETERS] ?: []
+  Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS]
+  Boolean injectParams = ansibleCfg[ANSIBLE_INJECT_PARAMS]
+
+  if (playbook == null) {
+    log.warn("no ansible playbook defined, skipping")
+    return
+  }
+
+  // create copies
+  Map internalExtraVars = MapUtils.merge(extraVars)
+  List internalExtraParameters = []
+  for (extraParameter in extraParameters) {
+    internalExtraParameters.push(extraParameter)
+  }
+
+  log.trace("debug: extraParameters.size: ${extraParameters.size()}")
+  log.trace("debug: extraVars.size: ${extraVars.size()}")
+
+  if (injectParams == true) {
+    log.info("injecting build parameters as extra vars into playbook")
+    params.each { String k, Object v ->
+      log.debug("adding key '$k' with value '$v'")
+      internalExtraVars[k] = v
     }
+  }
+  String extraVarsJson = JsonOutput.toJson(internalExtraVars)
+  // add extra vars to extraparameters
+  internalExtraParameters.push("--extra-vars '${extraVarsJson}'")
 
-    Boolean colorized = ansibleCfg[ANSIBLE_COLORIZED] != null ? ansibleCfg[ANSIBLE_COLORIZED] : true
+  // build extras string
+  String extras = internalExtraParameters.join(' ')
 
-    String installation = ansibleCfg[ANSIBLE_INSTALLATION] ?: null
-    Integer forks = ansibleCfg[ANSIBLE_FORKS] ?: 5
-    String limit = ansibleCfg[ANSIBLE_LIMIT] ?: null
-    String playbook = ansibleCfg[ANSIBLE_PLAYBOOK] ?: null
-    String credentialsId = ansibleCfg[ANSIBLE_CREDENTIALS_ID] ?: null
-    String inventory = ansibleCfg[ANSIBLE_INVENTORY] ?: null
-    String skippedTags = ansibleCfg[ANSIBLE_SKIPPED_TAGS] ?: null
-    String startAtTask = ansibleCfg[ANSIBLE_START_AT_TASK] ?: null
-    Boolean sudo = ansibleCfg[ANSIBLE_SUDO] != null ? ansibleCfg[ANSIBLE_SUDO] : false
-    String sudoUser = ansibleCfg[ANSIBLE_SUDO_USER] ?: null
-    String tags = ansibleCfg[ANSIBLE_TAGS] ?: null
+  log.trace("Calling ansiblePlaybook with:")
+  log.trace("colorized: $colorized")
+  log.trace("extras: $extras")
+  log.trace("forks: $forks")
+  log.trace("installation: $installation")
+  log.trace("inventory: $inventory")
+  log.trace("limit: $limit")
+  log.trace("playbook: $playbook")
+  log.trace("skippedTags: $skippedTags")
+  log.trace("startAtTask: $startAtTask")
+  log.trace("sudo: $sudo")
+  log.trace("sudoUser: $sudoUser")
+  log.trace("tags: $tags")
+  log.trace("credentialsId: $credentialsId")
+  log.trace("vaultCredentialsId: $vaultCredentialsId")
 
-    List extraParameters = (List) ansibleCfg[ANSIBLE_EXTRA_PARAMETERS] ?: []
-    Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS] ?: [:]
-    Boolean injectParams = ansibleCfg[ANSIBLE_INJECT_PARAMS] != null ? ansibleCfg[ANSIBLE_INJECT_PARAMS] : false
-
-    if (playbook == null) {
-        log.warn("no ansible playbook defined, skipping")
-        return
-    }
-
-    // create copies
-    Map internalExtraVars = MapUtils.merge(extraVars)
-    List internalExtraParameters = []
-    for (extraParameter in extraParameters) {
-        internalExtraParameters.push(extraParameter)
-    }
-
-    log.trace("debug: extraParameters.size: ${extraParameters.size()}")
-    log.trace("debug: extraVars.size: ${extraVars.size()}")
-
-    if (injectParams == true) {
-        log.info("injecting build parameters as extra vars into playbook")
-        params.each { String k, Object v ->
-            log.debug("adding key '$k' with value '$v'")
-            internalExtraVars[k] = v
-        }
-    }
-    String extraVarsJson = JsonOutput.toJson(internalExtraVars)
-    // add extra vars to extraparameters
-    internalExtraParameters.push("--extra-vars '${extraVarsJson}'")
-
-    // build extras string
-    String extras = internalExtraParameters.join(' ')
-
-    log.trace("Calling ansiblePlaybook with:")
-    log.trace("colorized: $colorized")
-    log.trace("extras: $extras")
-    log.trace("forks: $forks")
-    log.trace("installation: $installation")
-    log.trace("inventory: $inventory")
-    log.trace("limit: $limit")
-    log.trace("playbook: $playbook")
-    log.trace("skippedTags: $skippedTags")
-    log.trace("startAtTask: $startAtTask")
-    log.trace("sudo: $sudo")
-    log.trace("sudoUser: $sudoUser")
-    log.trace("tags: $tags")
-    log.trace("credentialsId: $credentialsId")
-
-    _ansibleWrapper {
-        ansiblePlaybook(
-          colorized: colorized,
-          extras: extras,
-          forks: forks,
-          installation: installation,
-          inventory: inventory,
-          limit: limit,
-          playbook: playbook,
-          skippedTags: skippedTags,
-          startAtTask: startAtTask,
-          sudo: sudo,
-          sudoUser: sudoUser,
-          tags: tags,
-          credentialsId: credentialsId,
-        )
-    }
+  _ansibleWrapper {
+    ansiblePlaybook(
+      colorized: colorized,
+      extras: extras,
+      forks: forks,
+      installation: installation,
+      inventory: inventory,
+      limit: limit,
+      playbook: playbook,
+      skippedTags: skippedTags,
+      startAtTask: startAtTask,
+      sudo: sudo,
+      sudoUser: sudoUser,
+      tags: tags,
+      credentialsId: credentialsId,
+      vaultCredentialsId: vaultCredentialsId
+    )
+  }
 }
 
 /**

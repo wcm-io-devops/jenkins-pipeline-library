@@ -220,21 +220,22 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 ansible.execPlaybook(
         (ANSIBLE): [
-            (ANSIBLE_COLORIZED)       : true,
-            (ANSIBLE_EXTRA_PARAMETERS): ["-list","-of","-params"],
-            (ANSIBLE_EXTRA_VARS)      : [ "<name1>" : "<value1>", "<name2>" : "<value2>" ],
-            (ANSIBLE_FORKS)           : 5,
-            (ANSIBLE_INSTALLATION)    : '<ansible-installation-id>',
-            (ANSIBLE_INVENTORY)       : "<path/to/inventory>",
-            (ANSIBLE_LIMIT)           : "<limit>",
-            (ANSIBLE_PLAYBOOK)        : "<path/to/playbook>",
-            (ANSIBLE_CREDENTIALS_ID)  : "<credentials/id>",
-            (ANSIBLE_SKIPPED_TAGS)    : "<tags-to-skip>",
-            (ANSIBLE_START_AT_TASK)   : "<task-to-start-at>",
-            (ANSIBLE_SUDO)            : false,
-            (ANSIBLE_SUDO_USER)       : "<ansible-sudo-user>",
-            (ANSIBLE_TAGS)            : "<tags-to-execute>",
-            (ANSIBLE_INJECT_PARAMS)   : false
+            (ANSIBLE_COLORIZED)              : true,
+            (ANSIBLE_EXTRA_PARAMETERS)       : ["-list","-of","-params"],
+            (ANSIBLE_EXTRA_VARS)             : [ "<name1>" : "<value1>", "<name2>" : "<value2>" ],
+            (ANSIBLE_FORKS)                  : 5,
+            (ANSIBLE_INSTALLATION)           : '<ansible-installation-id>',
+            (ANSIBLE_INVENTORY)              : "<path/to/inventory>",
+            (ANSIBLE_LIMIT)                  : "<limit>",
+            (ANSIBLE_PLAYBOOK)               : "<path/to/playbook>",
+            (ANSIBLE_CREDENTIALS_ID)         : "<credentials-id>",
+            (ANSIBLE_SKIPPED_TAGS)           : "<tags-to-skip>",
+            (ANSIBLE_START_AT_TASK)          : "<task-to-start-at>",
+            (ANSIBLE_SUDO)                   : false,
+            (ANSIBLE_SUDO_USER)              : "<ansible-sudo-user>",
+            (ANSIBLE_TAGS)                   : "<tags-to-execute>",
+            (ANSIBLE_INJECT_PARAMS)          : false,
+            (ANSIBLE_VAULT_CREDENTIALS_ID)   : "<vault-credentials-id>",
         ]
     )
 ```
@@ -420,6 +421,16 @@ When enabled sudo (become) will be used. Combined with [`sudoUser`](#sudouser-op
 |Default|`null`|
 
 Specifies the sudo user to use (become_user)
+
+#### `vaultCredentialsId` (optional)
+
+|||
+|---|---|
+|Constant|[`ConfigConstants.ANSIBLE_VAULT_CREDENTIALS_ID`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
+
+Specifies the credentials to use for the ansible-vault.
 
 ## `getGalaxyRoleInfo(Role role)`
 
