@@ -56,4 +56,25 @@ class EnvironmentUtilsTest extends CpsScriptTestBase {
     Assert.assertEquals("existing",this.script.getEnv(EnvironmentConstants.GIT_BRANCH))
     Assert.assertFalse(result)
   }
+
+  @Test
+  void hasEnvVarTests() {
+    this.script.setEnv(EnvironmentConstants.GIT_BRANCH, null)
+    this.script.setEnv(EnvironmentConstants.GIT_COMMIT, null)
+
+    Assert.assertFalse(underTest.hasEnvVar(EnvironmentConstants.GIT_BRANCH))
+    Assert.assertFalse(underTest.hasEnvVar(EnvironmentConstants.GIT_COMMIT))
+
+    Assert.assertFalse(underTest.hasEnvVar(EnvironmentConstants.GIT_BRANCH, false))
+    Assert.assertFalse(underTest.hasEnvVar(EnvironmentConstants.GIT_COMMIT, false))
+
+    this.script.setEnv(EnvironmentConstants.GIT_BRANCH, "existing")
+    this.script.setEnv(EnvironmentConstants.GIT_COMMIT, "")
+
+    Assert.assertTrue(underTest.hasEnvVar(EnvironmentConstants.GIT_BRANCH))
+    Assert.assertTrue(underTest.hasEnvVar(EnvironmentConstants.GIT_COMMIT))
+
+    Assert.assertTrue(underTest.hasEnvVar(EnvironmentConstants.GIT_BRANCH, false))
+    Assert.assertFalse(underTest.hasEnvVar(EnvironmentConstants.GIT_COMMIT, false))
+  }
 }

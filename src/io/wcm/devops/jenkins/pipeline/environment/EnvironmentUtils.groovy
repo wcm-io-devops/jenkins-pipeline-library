@@ -76,4 +76,25 @@ class EnvironmentUtils implements Serializable {
     return value
   }
 
+  /**
+   * Helper to detect if the env is present or not
+   *
+   * @param name The name of the environment variable to check for
+   * @param allowEmpty Control wether an empty string will return true or false
+   * @return true when the env var exists otherwise false
+   */
+  Boolean hasEnvVar(String name, Boolean allowEmpty = true) {
+    Object value = this.envActionImpl.getProperty(name)
+    if (value != null) {
+      if (allowEmpty) {
+        // no matter what the real value is, its true
+        return true
+      } else if (value != "") {
+        // only non empty strings are true
+        return true
+      }
+    }
+    return false
+  }
+
 }

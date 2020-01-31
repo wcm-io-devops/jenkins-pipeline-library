@@ -18,6 +18,7 @@
  * #L%
  */
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 /**
@@ -26,11 +27,19 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
  */
 void call() {
     Logger log = new Logger(this)
+    EnvironmentUtils envUtils = new EnvironmentUtils(this)
     // set default versions
     String versionNumberString = '#${BUILD_NUMBER}'
+
+    log.debug("Value of EnvironmentConstants.GIT_BRANCH", env.getProperty(EnvironmentConstants.GIT_BRANCH))
+
     // check if GIT_BRANCH env var is available
-    if (env.getProperty(EnvironmentConstants.GIT_BRANCH) != null) {
-        versionNumberString = '#${BUILD_NUMBER}_${' + EnvironmentConstants.GIT_BRANCH + '}'
+    if (envUtils.hasEnvVar(EnvironmentConstants.GIT_BRANCH, false)) {
+        String branchName = env.getProperty(EnvironmentConstants.GIT_BRANCH)
+        log.debug("branchName before replacement", branchName)
+        branchName = branchName.replace("origin/","")
+        log.debug("branchName after replacement", branchName)
+        versionNumberString = '#${BUILD_NUMBER}_'+branchName
     }
     // create the versionNumber string
     def version = VersionNumber(projectStartDate: '1970-01-01', versionNumberString: versionNumberString, versionPrefix: '')
