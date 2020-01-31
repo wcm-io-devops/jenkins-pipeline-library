@@ -52,6 +52,7 @@ class GenericConfigUtils implements Serializable {
 
     if (envUtils.hasEnvVar(EnvironmentConstants.GIT_BRANCH, false)) {
       String gitBranch = this.envActionImpl.getProperty(EnvironmentConstants.GIT_BRANCH)
+      gitBranch = gitBranch.replace("origin/", "")
       ret = "${ret}@${gitBranch}"
     }
 

@@ -39,10 +39,15 @@ class GenericConfigUtilsTest extends CpsScriptTestBase {
 
   @Test
   void shouldBuildCorrectFQJN() {
-    Assert.assertEquals(underTest.getFQJN(), "MOCKED_JOB_NAME@MOCKED_GIT_BRANCH")
+    Assert.assertEquals("MOCKED_JOB_NAME@MOCKED_GIT_BRANCH", underTest.getFQJN())
+
     this.script.setEnv("GIT_BRANCH", null)
-    Assert.assertEquals(underTest.getFQJN(), "MOCKED_JOB_NAME")
+    Assert.assertEquals("MOCKED_JOB_NAME", underTest.getFQJN())
+
     this.script.setEnv("GIT_BRANCH", "")
-    Assert.assertEquals(underTest.getFQJN(), "MOCKED_JOB_NAME")
+    Assert.assertEquals("MOCKED_JOB_NAME",underTest.getFQJN())
+
+    this.script.setEnv("GIT_BRANCH", "origin/MOCKED_GIT_BRANCH")
+    Assert.assertEquals("MOCKED_JOB_NAME@MOCKED_GIT_BRANCH",underTest.getFQJN())
   }
 }

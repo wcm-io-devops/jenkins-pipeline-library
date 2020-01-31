@@ -336,8 +336,11 @@ webhooks.
 ## Generic Configuration support
 
 This step supports the [GenericConfig](../docs/generic-config.md)
-mechanism for loading and applying `SCM_URL`/`JOB_NAME` based
-auto-lookup for the appropriate configuration options.
+mechanism for loading and applying a FQJN based auto-lookup for the
+appropriate configuration options.
+
+:bulb: FQJN = **F**ully-**Q**ualified **J**ob **N**ame =
+`${JOB_NAME}@${GIT_BRANCH}`
 
 :bulb: This method of configuration is recommended!
 

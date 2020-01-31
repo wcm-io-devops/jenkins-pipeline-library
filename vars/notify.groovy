@@ -203,7 +203,7 @@ void mattermost(Map config = [:]) {
       (NOTIFY_ON_FAILURE)                       : true,
       (NOTIFY_ON_STILL_FAILING)                 : true,
       (NOTIFY_ON_FIXED)                         : true,
-      (NOTIFY_ON_SUCCESS)                       : true,
+      (NOTIFY_ON_SUCCESS)                       : false,
       (NOTIFY_ON_UNSTABLE)                      : true,
       (NOTIFY_ON_STILL_UNSTABLE)                : true,
     ]
