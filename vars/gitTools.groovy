@@ -310,10 +310,16 @@ String getBranch() {
   String result = envUtils.getFirstFound(branchNameEnvs)
 
   // when result is still null get the commit hash
-  if (result == null) {
-    log.warn("unable to determine git branch name via environment variables, using commit hash instead")
-    gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    result = gitCommit.take(6)
+  try {
+    if (result == null) {
+      log.info("unable to determine git branch name via environment variables, using commit hash instead")
+      gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
+      result = gitCommit
+    }
+  }
+  catch (Exception ex) {
+    log.warn("unable to determine git branch, set to empty string")
+    result = ""
   }
 
   envUtils.setEnvWhenEmpty(EnvironmentConstants.GIT_BRANCH, result)
