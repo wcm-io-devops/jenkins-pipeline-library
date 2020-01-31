@@ -20,8 +20,10 @@
 package io.wcm.devops.jenkins.pipeline.environment
 
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
-import org.jenkinsci.plugins.workflow.cps.EnvActionImpl
 
+/**
+ * Provides utilities for environment variables.
+ */
 class EnvironmentUtils implements Serializable {
 
   private static final long serialVersionUID = 1L
@@ -37,10 +39,15 @@ class EnvironmentUtils implements Serializable {
     this.envActionImpl = script.env
   }
 
-
+  /**
+   * Sets an environment variable only when variable does not exist or is empty
+   * @param name The name of the environment variable
+   * @param value The value t set
+   * @return true when environment variable was set, false when not
+   */
   Boolean setEnvWhenEmpty(String name, Object value) {
     Object existing = this.envActionImpl.getProperty(name)
-    if (existing == null) {
+    if (existing == null || existing == '') {
       log.debug("setEnvWhenEmpty set, name: '$name', value: '$value', existing: '$existing'")
       this.envActionImpl.setProperty(name, value)
       return true
@@ -50,6 +57,13 @@ class EnvironmentUtils implements Serializable {
     return false
   }
 
+  /**
+   * Returns the value of the first non empty environment variable from a list of
+   * environment variable names
+   *
+   * @param names List of environment variable names to search in
+   * @return The found value, null when nothing was found
+   */
   Object getFirstFound(String[] names) {
     Object value = null
     for (String name in names) {
@@ -61,6 +75,5 @@ class EnvironmentUtils implements Serializable {
     }
     return value
   }
-
 
 }

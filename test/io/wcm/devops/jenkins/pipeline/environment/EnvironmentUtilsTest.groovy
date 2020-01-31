@@ -34,7 +34,16 @@ class EnvironmentUtilsTest extends CpsScriptTestBase {
   }
 
   @Test
+  void shouldSetNotExistingVariable() {
+    this.script.setEnv(EnvironmentConstants.GIT_BRANCH, null)
+    Boolean result = underTest.setEnvWhenEmpty(EnvironmentConstants.GIT_BRANCH, "newvalue")
+    Assert.assertEquals("newvalue",this.script.getEnv(EnvironmentConstants.GIT_BRANCH))
+    Assert.assertTrue(result)
+  }
+
+  @Test
   void shouldSetEmptyVariable() {
+    this.script.setEnv(EnvironmentConstants.GIT_BRANCH, "")
     Boolean result = underTest.setEnvWhenEmpty(EnvironmentConstants.GIT_BRANCH, "newvalue")
     Assert.assertEquals("newvalue",this.script.getEnv(EnvironmentConstants.GIT_BRANCH))
     Assert.assertTrue(result)
