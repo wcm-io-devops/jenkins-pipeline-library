@@ -6,8 +6,8 @@
     channel: jenkins-build-notifications
 
 - patterns:
-    - git@git-ssh.domain.tld:/team-a
-  id: "default mattermost notification configuration"
+    - team-a\/.*
+  id: "default mattermost configuration for all jobs below team-a"
   config:
     endpointCredentialId: default.credential.id
     channel: team-a-jenkins-build-notifications

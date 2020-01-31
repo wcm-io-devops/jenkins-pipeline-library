@@ -74,7 +74,7 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldNotifyMqttWithSpecificYamlConfiguration() {
-    this.setEnv("SCM_URL", "git@git-ssh.domain.tld:team-a/project-1")
+    this.setEnv("JOB_NAME", "team-a/project-1-compile")
     loadAndExecuteScript("vars/notify/mqtt/jobs/notifyMqttDefaultsJob.groovy")
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
@@ -84,7 +84,7 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     Assert.assertEquals("team-a-broker-credential-id", mqttNotificationCall['credentialsId'])
     Assert.assertEquals("2", mqttNotificationCall['qos'])
     Assert.assertEquals(true, mqttNotificationCall['retainMessage'])
-    Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
+    Assert.assertEquals("jenkins/team-a/project-1-compile", mqttNotificationCall['topic'])
   }
 
   void assertCorrectMessage(actualMessage) {

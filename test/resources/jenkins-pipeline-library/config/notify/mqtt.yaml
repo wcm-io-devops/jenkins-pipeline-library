@@ -5,7 +5,7 @@
     broker: defaultbroker
 
 - patterns:
-    - git@git-ssh.domain.tld:team-a
+    - team-a\/.*
   id: "default mattermost notification configuration"
   config:
     broker: team-a-broker
