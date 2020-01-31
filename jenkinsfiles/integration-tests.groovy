@@ -148,6 +148,8 @@ node() {
     }
     integrationTestUtils.runTest("EnvironmentUtils") {
       EnvironmentUtils environmentUtils = new EnvironmentUtils(this)
+      environmentUtils.hasEnvVar("ENV1")
+      environmentUtils.hasEnvVar("ENV2")
       environmentUtils.setEnvWhenEmpty("ENV1","VAL1")
       environmentUtils.setEnvWhenEmpty("ENV1","VAL1_1")
       environmentUtils.setEnvWhenEmpty("ENV2","VAL2")
