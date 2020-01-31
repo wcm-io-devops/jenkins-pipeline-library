@@ -17,13 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package vars.setGitBranch.jobs
+package vars.gitTools.jobs
 
 /**
  * Runs the setGitBranch task. Environment is manipulated by the integration test to test several variants
  *
  * @return The script
- * @see vars.setGitBranch.SetGitBranchIT
  */
 def execute() {
   setGitBranch()

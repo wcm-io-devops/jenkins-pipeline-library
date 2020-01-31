@@ -31,6 +31,18 @@ lookup of the SSH or http(s) credentials will be performed.
 Mirrors the `srcRepo` to the current workspace.
 When no `srcCredentialIds` are provided a auto lookup of the SSH or http(s) credentials will be performed.
 
+#### `String getBranch()`
+
+Utility function to get the name of the branch. It will try to retrieve
+the name in the following order:
+* environment variable GIT_BRANCH
+* environment variable GIT_LOCAL_BRANCH
+* environment variable BRANCH_NAME
+* short git commit hash
+
+The result will be stored in the GIT_BRANCH environment variable if the
+GIT_BRANCH environment variable is not already set.
+
 #### `String getFetchOrigin(String remotes = null)`
 
 Utility function to get the fetch origin from a git remote list (`git

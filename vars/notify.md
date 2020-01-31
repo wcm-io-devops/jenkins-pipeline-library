@@ -392,8 +392,10 @@ notify.mattermost(
 |||
 |---|---|
 |Constant|[`ConfigConstants.NOTIFY_MATTERMOST_ENABLED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
-|Type|``|
-|Default|``|
+|Type|`Boolean`|
+|Default|`true`|
+
+Enables / disables mattermost notifications.
 
 ### `channel`
 |||

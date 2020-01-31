@@ -19,6 +19,8 @@
  */
 
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentUtils
 import io.wcm.devops.jenkins.pipeline.scm.GitRepository
 import io.wcm.devops.jenkins.pipeline.shell.CommandBuilder
 import io.wcm.devops.jenkins.pipeline.shell.GitCommandBuilderImpl
@@ -286,4 +288,41 @@ String getParentBranch() {
 
   log.info("evaluated parent branch: '${parentBranch}'")
   return parentBranch
+}
+
+/**
+ * Detects and returns the branch name.
+ * The result is also stored in the environment variable EnvironmentConstants.GIT_BRANCH
+ * when EnvironmentConstants.GIT_BRANCH was not set before
+ *
+ * @return The name of the git branch or the short commit hash
+ */
+String getBranch() {
+  Logger log = new Logger("gitTools.getBranch")
+  log.debug("try to retrieve branch from environment vars.")
+
+  EnvironmentUtils envUtils = new EnvironmentUtils(this)
+  String[] branchNameEnvs = [
+    EnvironmentConstants.GIT_BRANCH,
+    EnvironmentConstants.GIT_LOCAL_BRANCH,
+    EnvironmentConstants.BRANCH_NAME,
+  ]
+  String result = envUtils.getFirstFound(branchNameEnvs)
+
+  // when result is still null get the commit hash
+  try {
+    if (result == null) {
+      log.info("unable to determine git branch name via environment variables, using commit hash instead")
+      gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
+      result = gitCommit
+    }
+  }
+  catch (Exception ex) {
+    log.warn("unable to determine git branch, set to empty string")
+    result = ""
+  }
+
+  envUtils.setEnvWhenEmpty(EnvironmentConstants.GIT_BRANCH, result)
+
+  return result
 }

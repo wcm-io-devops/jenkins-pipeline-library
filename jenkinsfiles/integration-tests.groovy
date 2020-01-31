@@ -11,6 +11,7 @@ library identifier: 'pipeline-library-example@master', retriever: modernSCM([
 ])
 
 
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentUtils
 import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 import org.jenkinsci.plugins.workflow.libs.Library
 import groovy.transform.Field
@@ -144,6 +145,13 @@ node() {
       log.info(EnvironmentConstants.SCM_URL,  EnvironmentConstants.SCM_URL)
       log.info(EnvironmentConstants.TERM,  EnvironmentConstants.TERM)
       log.info(EnvironmentConstants.WORKSPACE,  EnvironmentConstants.WORKSPACE)
+    }
+    integrationTestUtils.runTest("EnvironmentUtils") {
+      EnvironmentUtils environmentUtils = new EnvironmentUtils(this)
+      environmentUtils.setEnvWhenEmpty("ENV1","VAL1")
+      environmentUtils.setEnvWhenEmpty("ENV1","VAL1_1")
+      environmentUtils.setEnvWhenEmpty("ENV2","VAL2")
+      environmentUtils.getFirstFound(["ENV1", "ENV2"])
     }
   }
 

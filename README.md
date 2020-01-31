@@ -201,6 +201,10 @@ with jUnit/Failsafe. All integration tests have the naming format
 
     mvn clean install
 
+### Add license file headers
+
+    mvn license:update-file-header
+
 ## Changes / Version History
 
 Please have a look at the [Releases](https://github.com/wcm-io-devops/jenkins-pipeline-library/releases)
