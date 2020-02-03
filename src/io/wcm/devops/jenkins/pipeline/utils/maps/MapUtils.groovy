@@ -71,7 +71,7 @@ class MapUtils implements Serializable {
   static transient Map merge(Map... maps) {
     Map result
     instance = new MapUtils()
-    if (maps.length == 0) {
+    if (maps == null || maps.length == 0) {
       result = [:]
     } else if (maps.length == 1) {
       result = maps[0]
