@@ -64,7 +64,7 @@ class EnvironmentUtils implements Serializable {
    * @param names List of environment variable names to search in
    * @return The found value, null when nothing was found
    */
-  Object getFirstFound(String[] names) {
+  Object getFirstFound(List<String> names) {
     Object value = null
     for (String name in names) {
       value = this.envActionImpl.getProperty(name)
