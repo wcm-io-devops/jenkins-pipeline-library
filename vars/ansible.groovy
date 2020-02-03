@@ -152,7 +152,7 @@ void execPlaybook(Map config) {
   String vaultCredentialsId = ansibleCfg[ANSIBLE_VAULT_CREDENTIALS_ID]
 
   List extraParameters = (List) ansibleCfg[ANSIBLE_EXTRA_PARAMETERS] ?: []
-  Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS]
+  Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS] ?: [:]
   Boolean injectParams = ansibleCfg[ANSIBLE_INJECT_PARAMS]
 
   if (playbook == null) {
