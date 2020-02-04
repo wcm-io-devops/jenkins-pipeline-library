@@ -72,7 +72,7 @@ def call(Map config) {
   if (typeUtils.isMap(scmCheckoutResult)) {
     scmCheckoutResult.each {
       key, value ->
-        log.info("key: $key", "value: $value")
+        log.debug("key: $key", "value: $value")
         envUtils.setEnvWhenEmpty(key, value)
     }
   }
