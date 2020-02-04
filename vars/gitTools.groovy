@@ -302,7 +302,7 @@ String getBranch() {
   log.debug("try to retrieve branch from environment vars.")
 
   EnvironmentUtils envUtils = new EnvironmentUtils(this)
-  String[] branchNameEnvs = [
+  List<String> branchNameEnvs = [
     EnvironmentConstants.GIT_BRANCH,
     EnvironmentConstants.GIT_LOCAL_BRANCH,
     EnvironmentConstants.BRANCH_NAME,

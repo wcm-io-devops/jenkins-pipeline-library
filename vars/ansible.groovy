@@ -124,8 +124,12 @@ void execPlaybook(Map config) {
     ]
   ]
 
+  log.trace("config", config)
+
   config = MapUtils.merge(defaultConfig, config)
   Map ansibleCfg = config[ANSIBLE]
+
+  log.trace("ansibleCfg")
 
   if (ansibleCfg == null) {
     log.fatal("provided ansible configuration is null, make sure to configure properly.")
@@ -148,7 +152,7 @@ void execPlaybook(Map config) {
   String vaultCredentialsId = ansibleCfg[ANSIBLE_VAULT_CREDENTIALS_ID]
 
   List extraParameters = (List) ansibleCfg[ANSIBLE_EXTRA_PARAMETERS] ?: []
-  Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS]
+  Map extraVars = (Map) ansibleCfg[ANSIBLE_EXTRA_VARS] ?: [:]
   Boolean injectParams = ansibleCfg[ANSIBLE_INJECT_PARAMS]
 
   if (playbook == null) {
@@ -223,16 +227,16 @@ void execPlaybook(Map config) {
  * @param body The closure you want to execute
  */
 void withInstallation(Map config, Closure body) {
-    Logger log = new Logger("withInstallation")
-    Map ansibleCfg = config[ANSIBLE] ?: null
+  Logger log = new Logger("withInstallation")
+  Map ansibleCfg = config[ANSIBLE] ?: null
 
-    String ansibleInstallation = ansibleCfg[ANSIBLE_INSTALLATION] ?: null
+  String ansibleInstallation = ansibleCfg[ANSIBLE_INSTALLATION] ?: null
 
-    def ansibleToolPath = tool(name: ansibleInstallation, type: 'org.jenkinsci.plugins.ansible.AnsibleInstallation')
+  def ansibleToolPath = tool(name: ansibleInstallation, type: 'org.jenkinsci.plugins.ansible.AnsibleInstallation')
 
-    withEnv(["PATH=${ansibleToolPath}:${env.PATH}"]) {
-        body()
-    }
+  withEnv(["PATH=${ansibleToolPath}:${env.PATH}"]) {
+    body()
+  }
 }
 
 /**
@@ -241,34 +245,34 @@ void withInstallation(Map config, Closure body) {
  * @param config The configuration used to install the roles
  */
 void installRoles(Map config) {
-    Logger log = new Logger("installRoles")
-    Map ansibleCfg = config[ANSIBLE] ?: null
+  Logger log = new Logger("installRoles")
+  Map ansibleCfg = config[ANSIBLE] ?: null
 
-    String requirementsPath = ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null
-    Boolean requirementsForce = ansibleCfg[ANSIBLE_GALAXY_FORCE] != null ? ansibleCfg[ANSIBLE_GALAXY_FORCE] : false
-    Integer retryAttempt = 0
+  String requirementsPath = ansibleCfg[ANSIBLE_GALAXY_ROLE_FILE] ?: null
+  Boolean requirementsForce = ansibleCfg[ANSIBLE_GALAXY_FORCE] != null ? ansibleCfg[ANSIBLE_GALAXY_FORCE] : false
+  Integer retryAttempt = 0
 
-    this.withInstallation(config) {
-        CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps, "ansible-galaxy")
-        commandBuilder.addArgument("install")
-        commandBuilder.addPathArgument("-r", requirementsPath)
-        if (requirementsForce) {
-            commandBuilder.addArgument("--force")
-        }
-        log.debug("command", commandBuilder.build())
-        retry(3) {
-            retryAttempt += 1
-            log.info("running ansible-galaxy (${retryAttempt}/3)")
-            sh(commandBuilder.build())
-        }
+  this.withInstallation(config) {
+    CommandBuilder commandBuilder = new CommandBuilderImpl(this.steps, "ansible-galaxy")
+    commandBuilder.addArgument("install")
+    commandBuilder.addPathArgument("-r", requirementsPath)
+    if (requirementsForce) {
+      commandBuilder.addArgument("--force")
     }
+    log.debug("command", commandBuilder.build())
+    retry(3) {
+      retryAttempt += 1
+      log.info("running ansible-galaxy (${retryAttempt}/3)")
+      sh(commandBuilder.build())
+    }
+  }
 
 }
 
 void _ansibleWrapper(Closure body) {
-    withEnv(['PYTHONUNBUFFERED=1']) {
-        body()
-    }
+  withEnv(['PYTHONUNBUFFERED=1']) {
+    body()
+  }
 }
 
 /**
@@ -278,24 +282,24 @@ void _ansibleWrapper(Closure body) {
  * @return The API result or null when any error occurred
  */
 Object getGalaxyRoleInfo(Role role) {
-    Logger log = new Logger("ansible:getGalaxyRoleInfo -> ")
-    if (!role.isGalaxyRole()) {
-        log.debug("Role with name: " + role.getName() + " is not a galaxy role")
-        return null
-    }
-    log.info("Getting role info for ${role.getName()} (namespace: '${role.getNamespace()}', role name: '${role.getRoleName()}')")
+  Logger log = new Logger("ansible:getGalaxyRoleInfo -> ")
+  if (!role.isGalaxyRole()) {
+    log.debug("Role with name: " + role.getName() + " is not a galaxy role")
+    return null
+  }
+  log.info("Getting role info for ${role.getName()} (namespace: '${role.getNamespace()}', role name: '${role.getRoleName()}')")
 
-    String roleApiUrl = "https://galaxy.ansible.com/api/v1/roles/?owner__username=${role.getNamespace()}&name=${role.getRoleName()}"
+  String roleApiUrl = "https://galaxy.ansible.com/api/v1/roles/?owner__username=${role.getNamespace()}&name=${role.getRoleName()}"
 
-    def response = httpRequest(acceptType: 'APPLICATION_JSON', timeout: 30, url: roleApiUrl, consoleLogResponseBody: false, validResponseCodes: '200', quiet: true)
-    Map apiResultJson = (Map) readJSON(text: response.getContent())
+  def response = httpRequest(acceptType: 'APPLICATION_JSON', timeout: 30, url: roleApiUrl, consoleLogResponseBody: false, validResponseCodes: '200', quiet: true)
+  Map apiResultJson = (Map) readJSON(text: response.getContent())
 
-    Integer size = apiResultJson.results.size()
-    // we expect only one result here because username and role should only give one result
-    if (size != 1) {
-        log.warn("Expected one role result for ${role.getName()}, but found: $size")
-        return null
-    }
+  Integer size = apiResultJson.results.size()
+  // we expect only one result here because username and role should only give one result
+  if (size != 1) {
+    log.warn("Expected one role result for ${role.getName()}, but found: $size")
+    return null
+  }
 
-    return apiResultJson.results[0]
+  return apiResultJson.results[0]
 }

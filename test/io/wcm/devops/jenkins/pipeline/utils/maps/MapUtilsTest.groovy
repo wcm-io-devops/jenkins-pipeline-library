@@ -23,6 +23,7 @@ import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+import static org.junit.Assert.assertNull
 
 class MapUtilsTest {
 
@@ -36,19 +37,19 @@ class MapUtilsTest {
   @Test
   void shouldReturnInputMap() {
     Map expected = [
-        node1: [
-            subnode11: [
-                prop111: "value111",
-                prop112: "value112",
-            ],
-            prop1    : 1
+      node1: [
+        subnode11: [
+          prop111: "value111",
+          prop112: "value112",
         ],
-        node2: [
-            prop2    : 2,
-            subnode21: [
-                prop21: "value21"
-            ]
+        prop1    : 1
+      ],
+      node2: [
+        prop2    : 2,
+        subnode21: [
+          prop21: "value21"
         ]
+      ]
     ]
     Map actual = MapUtils.merge(expected)
     assertEquals(expected, actual)
@@ -57,49 +58,49 @@ class MapUtilsTest {
   @Test
   void shouldMergeTwoMaps() {
     Map map1 = [
-        node1: [
-            subnode11: [
-                prop111: "value111",
-                prop112: "value112",
-            ],
-            prop1    : 1
+      node1: [
+        subnode11: [
+          prop111: "value111",
+          prop112: "value112",
         ],
-        node2: [
-            prop1    : 21,
-            subnode21: [
-                prop21: "value21"
-            ]
+        prop1    : 1
+      ],
+      node2: [
+        prop1    : 21,
+        subnode21: [
+          prop21: "value21"
         ]
+      ]
     ]
     Map map2 = [
-        node1: [
-            subnode11: [
-                prop111: "value111NEW",
-                prop113: "value113"
-            ],
-            prop2    : 12
+      node1: [
+        subnode11: [
+          prop111: "value111NEW",
+          prop113: "value113"
         ],
-        node2: [
-            prop1: "21NEW",
-        ]
+        prop2    : 12
+      ],
+      node2: [
+        prop1: "21NEW",
+      ]
     ]
 
     Map expected = [
-        node1: [
-            subnode11: [
-                prop111: "value111NEW",
-                prop112: "value112",
-                prop113: "value113"
-            ],
-            prop1    : 1,
-            prop2    : 12
+      node1: [
+        subnode11: [
+          prop111: "value111NEW",
+          prop112: "value112",
+          prop113: "value113"
         ],
-        node2: [
-            prop1    : "21NEW",
-            subnode21: [
-                prop21: "value21"
-            ]
+        prop1    : 1,
+        prop2    : 12
+      ],
+      node2: [
+        prop1    : "21NEW",
+        subnode21: [
+          prop21: "value21"
         ]
+      ]
     ]
 
     Map actual = MapUtils.merge(map1, map2)
@@ -109,47 +110,47 @@ class MapUtilsTest {
   @Test
   void shouldMergeThreeMaps() {
     Map map1 = [
-        node1   : [
-            subnode: [prop: "map1node1prop"]
-        ],
-        node2   : [
-            subnode: [prop1: "value1"]
-        ],
-        map1prop: "value1"
+      node1   : [
+        subnode: [prop: "map1node1prop"]
+      ],
+      node2   : [
+        subnode: [prop1: "value1"]
+      ],
+      map1prop: "value1"
     ]
     Map map2 = [
-        node1   : [
-            subnode: [prop: "map2node1prop"]
-        ],
-        node2   : [
-            subnode: [prop2: "value2"]
-        ],
-        map2prop: "value2"
+      node1   : [
+        subnode: [prop: "map2node1prop"]
+      ],
+      node2   : [
+        subnode: [prop2: "value2"]
+      ],
+      map2prop: "value2"
     ]
     Map map3 = [
-        node1   : [
-            subnode: [prop: "map3node1prop"]
-        ],
-        node2   : [
-            subnode: [prop3: "value3"]
-        ],
-        map3prop: "value3"
+      node1   : [
+        subnode: [prop: "map3node1prop"]
+      ],
+      node2   : [
+        subnode: [prop3: "value3"]
+      ],
+      map3prop: "value3"
     ]
 
     Map expected = [
-        node1   : [
-            subnode: [prop: "map3node1prop"]
-        ],
-        node2   : [
-            subnode: [
-                prop1: "value1",
-                prop2: "value2",
-                prop3: "value3",
-            ]
-        ],
-        map1prop: "value1",
-        map2prop: "value2",
-        map3prop: "value3"
+      node1   : [
+        subnode: [prop: "map3node1prop"]
+      ],
+      node2   : [
+        subnode: [
+          prop1: "value1",
+          prop2: "value2",
+          prop3: "value3",
+        ]
+      ],
+      map1prop: "value1",
+      map2prop: "value2",
+      map3prop: "value3"
     ]
 
     Map actual = MapUtils.merge(map1, map2, map3)
@@ -179,47 +180,47 @@ class MapUtilsTest {
   @Test
   void shouldMergeMapLists() {
     Map map1 = [
-        node1   : [
-            subnode: [prop: [[name: "map1"], [name: "map2"]]]
-        ],
-        node2   : [
-            subnode: [prop1: "value1"]
-        ],
-        map1prop: "value1"
+      node1   : [
+        subnode: [prop: [[name: "map1"], [name: "map2"]]]
+      ],
+      node2   : [
+        subnode: [prop1: "value1"]
+      ],
+      map1prop: "value1"
     ]
     Map map2 = [
-        node1   : [
-            subnode: [prop: [[name: "map2"], [name: "map3"]]]
-        ],
-        node2   : [
-            subnode: [prop2: "value2"]
-        ],
-        map2prop: "value2"
+      node1   : [
+        subnode: [prop: [[name: "map2"], [name: "map3"]]]
+      ],
+      node2   : [
+        subnode: [prop2: "value2"]
+      ],
+      map2prop: "value2"
     ]
     Map map3 = [
-        node1   : [
-            subnode: [prop: [[name: "map1"], [name: "map3"], [name: "map4"]]]
-        ],
-        node2   : [
-            subnode: [prop3: "value3"]
-        ],
-        map3prop: "value3"
+      node1   : [
+        subnode: [prop: [[name: "map1"], [name: "map3"], [name: "map4"]]]
+      ],
+      node2   : [
+        subnode: [prop3: "value3"]
+      ],
+      map3prop: "value3"
     ]
 
     Map expected = [
-        node1   : [
-            subnode: [prop: [[name: "map1"], [name: "map2"], [name: "map3"], [name: "map4"]]]
-        ],
-        node2   : [
-            subnode: [
-                prop1: "value1",
-                prop2: "value2",
-                prop3: "value3",
-            ]
-        ],
-        map1prop: "value1",
-        map2prop: "value2",
-        map3prop: "value3"
+      node1   : [
+        subnode: [prop: [[name: "map1"], [name: "map2"], [name: "map3"], [name: "map4"]]]
+      ],
+      node2   : [
+        subnode: [
+          prop1: "value1",
+          prop2: "value2",
+          prop3: "value3",
+        ]
+      ],
+      map1prop: "value1",
+      map2prop: "value2",
+      map3prop: "value3"
     ]
 
     Map actual = MapUtils.merge(map1, map2, map3)
@@ -228,24 +229,24 @@ class MapUtilsTest {
 
   @Test
   void shouldmergeMapWithNonMap() {
-    Map map1 = [ "simple" : 1, "list" : [1], "mapItem" : [ "key" : "map1Value" ] ]
-    Map map2 = [ "simple" : 2, "list" : 2, "mapItem" : 2 ]
+    Map map1 = ["simple": 1, "list": [1], "mapItem": ["key": "map1Value"]]
+    Map map2 = ["simple": 2, "list": 2, "mapItem": 2]
     Map actual1 = MapUtils.merge(map1, map2)
     Map actual2 = MapUtils.merge(map2, map1)
 
-    assertEquals([ "simple" : 2, "list" : 2, "mapItem" : 2 ], actual1)
-    assertEquals([ "simple" : 1, "list" : [1], "mapItem" : [ "key" : "map1Value" ] ], actual2)
+    assertEquals(["simple": 2, "list": 2, "mapItem": 2], actual1)
+    assertEquals(["simple": 1, "list": [1], "mapItem": ["key": "map1Value"]], actual2)
   }
 
   @Test
   void shouldNotManipulateSourceMaps() {
     Map config = [
-      (ANSIBLE)   : [
+      (ANSIBLE): [
         (ANSIBLE_EXTRA_PARAMETERS): [""],
       ],
     ]
     Map configRef = [
-      (ANSIBLE)   : [
+      (ANSIBLE): [
         (ANSIBLE_EXTRA_PARAMETERS): [""],
       ],
     ]
@@ -269,7 +270,12 @@ class MapUtilsTest {
     ansiblePlayBookCfg = MapUtils.merge(config, ansiblePlayBookCfg)
 
     assertEquals(configRef, config)
-    assertEquals([""],config[ANSIBLE][ANSIBLE_EXTRA_PARAMETERS])
+    assertEquals([""], config[ANSIBLE][ANSIBLE_EXTRA_PARAMETERS])
+  }
+
+  @Test
+  void shouldNotFailOnNullParam() {
+    assertEquals([:], MapUtils.merge(null))
   }
 
 }

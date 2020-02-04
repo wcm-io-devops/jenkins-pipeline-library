@@ -53,6 +53,7 @@ import org.jenkinsci.plugins.workflow.cps.DSL
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
+
 // job properties
 
 properties([
@@ -140,28 +141,34 @@ node() {
   integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.environment") {
     integrationTestUtils.runTest("EnvironmentConstants") {
       EnvironmentConstants environmentConstants = new EnvironmentConstants()
-      log.info(EnvironmentConstants.BRANCH_NAME,  EnvironmentConstants.BRANCH_NAME)
-      log.info(EnvironmentConstants.GIT_BRANCH,  EnvironmentConstants.GIT_BRANCH)
-      log.info(EnvironmentConstants.SCM_URL,  EnvironmentConstants.SCM_URL)
-      log.info(EnvironmentConstants.TERM,  EnvironmentConstants.TERM)
-      log.info(EnvironmentConstants.WORKSPACE,  EnvironmentConstants.WORKSPACE)
+      log.info(EnvironmentConstants.BRANCH_NAME, EnvironmentConstants.BRANCH_NAME)
+      log.info(EnvironmentConstants.GIT_BRANCH, EnvironmentConstants.GIT_BRANCH)
+      log.info(EnvironmentConstants.SCM_URL, EnvironmentConstants.SCM_URL)
+      log.info(EnvironmentConstants.TERM, EnvironmentConstants.TERM)
+      log.info(EnvironmentConstants.WORKSPACE, EnvironmentConstants.WORKSPACE)
     }
     integrationTestUtils.runTest("EnvironmentUtils") {
       EnvironmentUtils environmentUtils = new EnvironmentUtils(this)
       environmentUtils.hasEnvVar("ENV1")
       environmentUtils.hasEnvVar("ENV2")
-      environmentUtils.setEnvWhenEmpty("ENV1","VAL1")
-      environmentUtils.setEnvWhenEmpty("ENV1","VAL1_1")
-      environmentUtils.setEnvWhenEmpty("ENV2","VAL2")
-      environmentUtils.getFirstFound(["ENV1", "ENV2"])
+      environmentUtils.setEnvWhenEmpty("ENV1", "VAL1")
+      environmentUtils.setEnvWhenEmpty("ENV1", "VAL1_1")
+      environmentUtils.setEnvWhenEmpty("ENV2", "VAL2")
+
+      List search = [
+        "ENV1",
+        "ENV2"
+      ]
+
+      environmentUtils.getFirstFound(search)
     }
   }
 
   integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.job") {
     integrationTestUtils.runTest("BuildParameterFactory") {
       BuildParameterFactory buildParameterFactory = new BuildParameterFactory(this)
-      def checkboxParam = buildParameterFactory.createMultiCheckboxParameter("multiCheckboxParam","select multiple values",["val11","val12","val13"],["val11","val12","val13"])
-      def multiselectParam = buildParameterFactory.createMultiSelectParameter("multiSelectParam","select multiple values",["val21","val22","val23"],["val22"])
+      def checkboxParam = buildParameterFactory.createMultiCheckboxParameter("multiCheckboxParam", "select multiple values", ["val11", "val12", "val13"], ["val11", "val12", "val13"])
+      def multiselectParam = buildParameterFactory.createMultiSelectParameter("multiSelectParam", "select multiple values", ["val21", "val22", "val23"], ["val22"])
     }
   }
 
@@ -189,18 +196,18 @@ node() {
     }
     integrationTestUtils.runTest("ManagedFileConstants") {
       ManagedFileConstants managedFileConstants = new ManagedFileConstants()
-      log.info(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH,  ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH)
-      log.info(ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV,  ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV)
-      log.info(ManagedFileConstants.MAVEN_SETTINGS_PATH,  ManagedFileConstants.MAVEN_SETTINGS_PATH)
-      log.info(ManagedFileConstants.MAVEN_SETTING_ENV,  ManagedFileConstants.MAVEN_SETTING_ENV)
-      log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH,  ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH)
-      log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV,  ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV)
-      log.info(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV,  ManagedFileConstants.NPM_CONF_USERCONFIG_ENV)
-      log.info(ManagedFileConstants.NPMRC_PATH,  ManagedFileConstants.NPMRC_PATH)
-      log.info(ManagedFileConstants.NPMRC_ENV,  ManagedFileConstants.NPMRC_ENV)
-      log.info(ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV,  ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV)
-      log.info(ManagedFileConstants.BUNDLE_CONFIG_ENV,  ManagedFileConstants.BUNDLE_CONFIG_ENV)
-      log.info(ManagedFileConstants.BUNDLE_CONFIG_PATH,  ManagedFileConstants.BUNDLE_CONFIG_PATH)
+      log.info(ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH, ManagedFileConstants.GLOBAL_MAVEN_SETTINGS_PATH)
+      log.info(ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV, ManagedFileConstants.GLOBAL_MAVEN__SETTINGS_ENV)
+      log.info(ManagedFileConstants.MAVEN_SETTINGS_PATH, ManagedFileConstants.MAVEN_SETTINGS_PATH)
+      log.info(ManagedFileConstants.MAVEN_SETTING_ENV, ManagedFileConstants.MAVEN_SETTING_ENV)
+      log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH, ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH)
+      log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV, ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV)
+      log.info(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV, ManagedFileConstants.NPM_CONF_USERCONFIG_ENV)
+      log.info(ManagedFileConstants.NPMRC_PATH, ManagedFileConstants.NPMRC_PATH)
+      log.info(ManagedFileConstants.NPMRC_ENV, ManagedFileConstants.NPMRC_ENV)
+      log.info(ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV, ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV)
+      log.info(ManagedFileConstants.BUNDLE_CONFIG_ENV, ManagedFileConstants.BUNDLE_CONFIG_ENV)
+      log.info(ManagedFileConstants.BUNDLE_CONFIG_PATH, ManagedFileConstants.BUNDLE_CONFIG_PATH)
 
     }
     integrationTestUtils.runTest("ManagedFileParser") {
@@ -279,9 +286,9 @@ node() {
     integrationTestUtils.runTest("CommandBuilderImpl") {
       CommandBuilderImpl commandBuilder
       commandBuilder = new CommandBuilderImpl((DSL) this.steps, "somecommand")
-      commandBuilder. setExecutable("someexecutable")
+      commandBuilder.setExecutable("someexecutable")
       commandBuilder.addArgument("arg0")
-      commandBuilder.addArgument("arg1","arg1Value")
+      commandBuilder.addArgument("arg1", "arg1Value")
       commandBuilder.addArguments(["arg2", "arg3"])
       commandBuilder.addArguments("arg4 arg5")
       commandBuilder.addPathArgument("pathArg0")
@@ -295,7 +302,7 @@ node() {
       GitCommandBuilderImpl gitCommandBuilder = new GitCommandBuilderImpl((DSL) this.steps)
       gitCommandBuilder.setExecutable("git")
       gitCommandBuilder.addArgument("arg0")
-      gitCommandBuilder.addArgument("arg1","arg1Value")
+      gitCommandBuilder.addArgument("arg1", "arg1Value")
       gitCommandBuilder.addArguments(["arg2", "arg3"])
       gitCommandBuilder.addArguments("arg4 arg5")
       gitCommandBuilder.addPathArgument("pathArg0")
@@ -308,7 +315,7 @@ node() {
       mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps)
       mavenCommandBuilder.setExecutable("mvn")
       mavenCommandBuilder.addArgument("arg0")
-      mavenCommandBuilder.addArgument("arg1","arg1Value")
+      mavenCommandBuilder.addArgument("arg1", "arg1Value")
       mavenCommandBuilder.addArguments(["arg2", "arg3"])
       mavenCommandBuilder.addArguments("arg4 arg5")
       mavenCommandBuilder.addPathArgument("pathArg0")
@@ -318,25 +325,25 @@ node() {
       mavenCommandBuilder.setSettings("settingsPath")
       mavenCommandBuilder.setSettingsId("settingsId")
       mavenCommandBuilder.addProfiles("profile1,profile2")
-      mavenCommandBuilder.addProfiles(["profile3","profile4"])
+      mavenCommandBuilder.addProfiles(["profile3", "profile4"])
       mavenCommandBuilder.setGoals("goal1 goal2")
-      mavenCommandBuilder.setGoals(["goal3","goal4"])
+      mavenCommandBuilder.setGoals(["goal3", "goal4"])
       mavenCommandBuilder.setPom("pompath/pom.xml")
       mavenCommandBuilder.addDefine("define1")
-      mavenCommandBuilder.addDefine("define2","define2Value")
+      mavenCommandBuilder.addDefine("define2", "define2Value")
       mavenCommandBuilder.addDefines("-Ddefine3 -Ddefine4=define4Value")
-      mavenCommandBuilder.addDefines([ define5: "defineValue5", define6: null ])
+      mavenCommandBuilder.addDefines([define5: "defineValue5", define6: null])
       Map mvnConfig = [
-        (MAVEN) : [
-          (MAVEN_ARGUMENTS): [ "-B", "-U" ],
-          (MAVEN_DEFINES): ["name": "value", "flag": null],
-          (MAVEN_EXECUTABLE): "/path/to/maven/bin",
+        (MAVEN): [
+          (MAVEN_ARGUMENTS)      : ["-B", "-U"],
+          (MAVEN_DEFINES)        : ["name": "value", "flag": null],
+          (MAVEN_EXECUTABLE)     : "/path/to/maven/bin",
           (MAVEN_GLOBAL_SETTINGS): "managed-file-id",
-          (MAVEN_GOALS): ["goal1", "goal2"],
-          (MAVEN_INJECT_PARAMS): false,
-          (MAVEN_POM): "/path/to/pom.xml",
-          (MAVEN_PROFILES): ["profile1", "profile2"],
-          (MAVEN_SETTINGS): "managed-file-id",
+          (MAVEN_GOALS)          : ["goal1", "goal2"],
+          (MAVEN_INJECT_PARAMS)  : false,
+          (MAVEN_POM)            : "/path/to/pom.xml",
+          (MAVEN_PROFILES)       : ["profile1", "profile2"],
+          (MAVEN_SETTINGS)       : "managed-file-id",
         ]
       ]
       mavenCommandBuilder.applyConfig(mvnConfig)
@@ -372,14 +379,14 @@ node() {
       scpCommandBuilder.setDestinationPath("destinationPath")
       scpCommandBuilder.setSourcePath("sourcePath")
       scpCommandBuilder.addArgument("arg0")
-      scpCommandBuilder.addArgument("arg1","arg1Value")
+      scpCommandBuilder.addArgument("arg1", "arg1Value")
       scpCommandBuilder.addArguments(["arg2", "arg3"])
       scpCommandBuilder.addArguments("arg4 arg5")
       scpCommandBuilder.addPathArgument("pathArg0")
       scpCommandBuilder.addPathArgument("pathArg1", "pathArg1Value")
       scpCommandBuilder.build()
       scpCommandBuilder.reset()
-      Credential scpCredential1 = new Credential("pattern","id","comment", "username")
+      Credential scpCredential1 = new Credential("pattern", "id", "comment", "username")
       scpCommandBuilder.setCredential(scpCredential1)
     }
     integrationTestUtils.runTest("ShellUtils") {
@@ -397,14 +404,14 @@ node() {
       role1.isValid()
       role1.isGalaxyRole()
       role1.isScmRole()
-      log.info(Role.SCM_GIT,Role.SCM_GIT)
+      log.info(Role.SCM_GIT, Role.SCM_GIT)
     }
     integrationTestUtils.runTest("ansible.RoleRequirements") {
       List ymlContent = [
         [
-          src: "https://github.com/wcm-io-devops/ansible-jenkins-pipeline-library.git",
-          scm: "git",
-          name: "wcm_io_devops.jenkins_pipeline_library",
+          src    : "https://github.com/wcm-io-devops/ansible-jenkins-pipeline-library.git",
+          scm    : "git",
+          name   : "wcm_io_devops.jenkins_pipeline_library",
           version: "1.0.0",
         ]
       ]
@@ -524,12 +531,12 @@ node() {
       MapUtils.merge(map1, map2, map1)
 
       Map config = [
-        (ANSIBLE)   : [
+        (ANSIBLE): [
           (ANSIBLE_EXTRA_PARAMETERS): [""],
         ],
       ]
       Map configRef = [
-        (ANSIBLE)   : [
+        (ANSIBLE): [
           (ANSIBLE_EXTRA_PARAMETERS): [""],
         ],
       ]
@@ -553,7 +560,7 @@ node() {
       ansiblePlayBookCfg = MapUtils.merge(config, ansiblePlayBookCfg)
 
       integrationTestUtils.assertEquals(configRef, config)
-      integrationTestUtils.assertEquals([""],config[ANSIBLE][ANSIBLE_EXTRA_PARAMETERS])
+      integrationTestUtils.assertEquals([""], config[ANSIBLE][ANSIBLE_EXTRA_PARAMETERS])
     }
   }
 
@@ -577,34 +584,34 @@ node() {
       log.info(ConfigConstants.ANSI_COLOR_VGA, ConfigConstants.ANSI_COLOR_VGA)
       log.info(ConfigConstants.ANSI_COLOR_CSS, ConfigConstants.ANSI_COLOR_CSS)
       log.info(ConfigConstants.ANSIBLE, ConfigConstants.ANSIBLE)
-      log.info(ConfigConstants.ANSIBLE_COLORIZED, ConfigConstants.ANSIBLE_COLORIZED )
-      log.info(ConfigConstants.ANSIBLE_CREDENTIALS_ID , ConfigConstants.ANSIBLE_CREDENTIALS_ID)
+      log.info(ConfigConstants.ANSIBLE_COLORIZED, ConfigConstants.ANSIBLE_COLORIZED)
+      log.info(ConfigConstants.ANSIBLE_CREDENTIALS_ID, ConfigConstants.ANSIBLE_CREDENTIALS_ID)
       log.info(ConfigConstants.ANSIBLE_EXTRA_PARAMETERS, ConfigConstants.ANSIBLE_EXTRA_PARAMETERS)
-      log.info(ConfigConstants.ANSIBLE_EXTRA_VARS , ConfigConstants.ANSIBLE_EXTRA_VARS)
-      log.info(ConfigConstants.ANSIBLE_FORKS , ConfigConstants.ANSIBLE_FORKS)
-      log.info(ConfigConstants.ANSIBLE_INJECT_PARAMS , ConfigConstants.ANSIBLE_INJECT_PARAMS)
-      log.info(ConfigConstants.ANSIBLE_INSTALLATION , ConfigConstants.ANSIBLE_INSTALLATION)
-      log.info(ConfigConstants.ANSIBLE_INVENTORY, ConfigConstants.ANSIBLE_INVENTORY )
-      log.info(ConfigConstants.ANSIBLE_LIMIT , ConfigConstants.ANSIBLE_LIMIT)
-      log.info(ConfigConstants.ANSIBLE_SKIPPED_TAGS , ConfigConstants.ANSIBLE_SKIPPED_TAGS)
+      log.info(ConfigConstants.ANSIBLE_EXTRA_VARS, ConfigConstants.ANSIBLE_EXTRA_VARS)
+      log.info(ConfigConstants.ANSIBLE_FORKS, ConfigConstants.ANSIBLE_FORKS)
+      log.info(ConfigConstants.ANSIBLE_INJECT_PARAMS, ConfigConstants.ANSIBLE_INJECT_PARAMS)
+      log.info(ConfigConstants.ANSIBLE_INSTALLATION, ConfigConstants.ANSIBLE_INSTALLATION)
+      log.info(ConfigConstants.ANSIBLE_INVENTORY, ConfigConstants.ANSIBLE_INVENTORY)
+      log.info(ConfigConstants.ANSIBLE_LIMIT, ConfigConstants.ANSIBLE_LIMIT)
+      log.info(ConfigConstants.ANSIBLE_SKIPPED_TAGS, ConfigConstants.ANSIBLE_SKIPPED_TAGS)
       log.info(ConfigConstants.ANSIBLE_START_AT_TASK, ConfigConstants.ANSIBLE_START_AT_TASK)
-      log.info(ConfigConstants.ANSIBLE_TAGS , ConfigConstants.ANSIBLE_TAGS)
-      log.info(ConfigConstants.ANSIBLE_SUDO , ConfigConstants.ANSIBLE_SUDO)
-      log.info(ConfigConstants.ANSIBLE_SUDO_USER, ConfigConstants.ANSIBLE_SUDO_USER )
+      log.info(ConfigConstants.ANSIBLE_TAGS, ConfigConstants.ANSIBLE_TAGS)
+      log.info(ConfigConstants.ANSIBLE_SUDO, ConfigConstants.ANSIBLE_SUDO)
+      log.info(ConfigConstants.ANSIBLE_SUDO_USER, ConfigConstants.ANSIBLE_SUDO_USER)
       log.info(ConfigConstants.ANSIBLE_PLAYBOOK, ConfigConstants.ANSIBLE_PLAYBOOK)
-      log.info(ConfigConstants.MAVEN , ConfigConstants.MAVEN)
-      log.info(ConfigConstants.MAVEN_ARGUMENTS , ConfigConstants.MAVEN_ARGUMENTS)
-      log.info(ConfigConstants.MAVEN_DEFINES , ConfigConstants.MAVEN_DEFINES)
-      log.info(ConfigConstants.MAVEN_EXECUTABLE , ConfigConstants.MAVEN_EXECUTABLE)
-      log.info(ConfigConstants.MAVEN_GLOBAL_SETTINGS , ConfigConstants.MAVEN_GLOBAL_SETTINGS)
-      log.info(ConfigConstants.MAVEN_GOALS , ConfigConstants.MAVEN_GOALS)
-      log.info(ConfigConstants.MAVEN_INJECT_PARAMS , ConfigConstants.MAVEN_INJECT_PARAMS)
-      log.info(ConfigConstants.MAVEN_POM , ConfigConstants.MAVEN_POM)
-      log.info(ConfigConstants.MAVEN_PROFILES , ConfigConstants.MAVEN_PROFILES)
+      log.info(ConfigConstants.MAVEN, ConfigConstants.MAVEN)
+      log.info(ConfigConstants.MAVEN_ARGUMENTS, ConfigConstants.MAVEN_ARGUMENTS)
+      log.info(ConfigConstants.MAVEN_DEFINES, ConfigConstants.MAVEN_DEFINES)
+      log.info(ConfigConstants.MAVEN_EXECUTABLE, ConfigConstants.MAVEN_EXECUTABLE)
+      log.info(ConfigConstants.MAVEN_GLOBAL_SETTINGS, ConfigConstants.MAVEN_GLOBAL_SETTINGS)
+      log.info(ConfigConstants.MAVEN_GOALS, ConfigConstants.MAVEN_GOALS)
+      log.info(ConfigConstants.MAVEN_INJECT_PARAMS, ConfigConstants.MAVEN_INJECT_PARAMS)
+      log.info(ConfigConstants.MAVEN_POM, ConfigConstants.MAVEN_POM)
+      log.info(ConfigConstants.MAVEN_PROFILES, ConfigConstants.MAVEN_PROFILES)
       log.info(ConfigConstants.MAVEN_SETTINGS, ConfigConstants.MAVEN_SETTINGS)
-      log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS , ConfigConstants.MAVEN_PURGE_SNAPSHOTS)
-      log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS_REPO_PATH , ConfigConstants.MAVEN_PURGE_SNAPSHOTS_REPO_PATH)
-      log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS_DRY_RUN , ConfigConstants.MAVEN_PURGE_SNAPSHOTS_DRY_RUN)
+      log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS, ConfigConstants.MAVEN_PURGE_SNAPSHOTS)
+      log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS_REPO_PATH, ConfigConstants.MAVEN_PURGE_SNAPSHOTS_REPO_PATH)
+      log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS_DRY_RUN, ConfigConstants.MAVEN_PURGE_SNAPSHOTS_DRY_RUN)
       log.info(ConfigConstants.MAVEN_PURGE_SNAPSHOTS_LOG_LEVEL, ConfigConstants.MAVEN_PURGE_SNAPSHOTS_LOG_LEVEL)
       log.info(ConfigConstants.LOGLEVEL, ConfigConstants.LOGLEVEL)
       log.info(ConfigConstants.NOTIFY, ConfigConstants.NOTIFY)
@@ -628,8 +635,8 @@ node() {
       log.info(ConfigConstants.NPM_ARGUMENTS, ConfigConstants.NPM_ARGUMENTS)
       log.info(ConfigConstants.NPM_EXECUTABLE, ConfigConstants.NPM_EXECUTABLE)
       log.info(ConfigConstants.SCM, ConfigConstants.SCM)
-      log.info(ConfigConstants.SCM_BRANCHES , ConfigConstants.SCM_BRANCHES)
-      log.info(ConfigConstants.SCM_CREDENTIALS_ID , ConfigConstants.SCM_CREDENTIALS_ID)
+      log.info(ConfigConstants.SCM_BRANCHES, ConfigConstants.SCM_BRANCHES)
+      log.info(ConfigConstants.SCM_CREDENTIALS_ID, ConfigConstants.SCM_CREDENTIALS_ID)
       log.info(ConfigConstants.SCM_DO_GENERATE_SUBMODULE_CONFIGURATION, ConfigConstants.SCM_DO_GENERATE_SUBMODULE_CONFIGURATION)
       log.info(ConfigConstants.SCM_EXTENSIONS, ConfigConstants.SCM_EXTENSIONS)
       log.info(ConfigConstants.SCM_SUBMODULE_CONFIG, ConfigConstants.SCM_SUBMODULE_CONFIG)
@@ -690,7 +697,6 @@ node() {
     }
   }
   integrationTestUtils.runTestsOnPackage("io.wcm.devops.jenkins.pipeline.utils.versioning") {
-
 
 
     List<String> versionQualifier =
