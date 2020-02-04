@@ -335,7 +335,7 @@ webhooks.
 
 ## Generic Configuration support
 
-This step supports the [GenericConfig](../docs/generic-config.md)
+This step supports the [Generic Configuration](../docs/generic-config.md)
 mechanism for loading and applying a FQJN based auto-lookup for the
 appropriate configuration options.
 
@@ -499,7 +499,7 @@ which displays the build status using hardware from Cleware.
 
 ## Generic Configuration support
 
-This step supports the [GenericConfig](../docs/generic-config.md)
+This step supports the [Generic Configuration](../docs/generic-config.md)
 mechanism for loading and applying `SCM_URL`/`JOB_NAME` based
 auto-lookup for the appropriate configuration options.
 
