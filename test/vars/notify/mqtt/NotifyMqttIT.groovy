@@ -74,20 +74,20 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldNotifyMqttWithSpecificYamlConfiguration() {
-    this.setEnv("SCM_URL", "git@git-ssh.domain.tld:team-a/project-1")
+    this.setEnv("JOB_NAME", "team-a/project-1-compile")
     loadAndExecuteScript("vars/notify/mqtt/jobs/notifyMqttDefaultsJob.groovy")
     Map mqttNotificationCall = StepRecorderAssert.assertOnce(StepConstants.MQTT_NOTIFICATION)
 
-    this.assertCorrectMessage((String) mqttNotificationCall['message'])
+    this.assertCorrectMessage((String) mqttNotificationCall['message'], "team-a/project-1-compile")
 
     Assert.assertEquals("team-a-broker", mqttNotificationCall['brokerUrl'])
     Assert.assertEquals("team-a-broker-credential-id", mqttNotificationCall['credentialsId'])
     Assert.assertEquals("2", mqttNotificationCall['qos'])
     Assert.assertEquals(true, mqttNotificationCall['retainMessage'])
-    Assert.assertEquals("jenkins/MOCKED_JOB_NAME", mqttNotificationCall['topic'])
+    Assert.assertEquals("jenkins/team-a/project-1-compile", mqttNotificationCall['topic'])
   }
 
-  void assertCorrectMessage(actualMessage) {
+  void assertCorrectMessage(actualMessage, String expectedJobName = "MOCKED_JOB_NAME") {
     Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_NUMBER: 456"))
     Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_RESULT: 'FAILURE'"))
     Assert.assertThat(actualMessage, CoreMatchers.containsString("BUILD_RESULT_COLOR: '#f0372e'"))
@@ -95,7 +95,7 @@ class NotifyMqttIT extends LibraryIntegrationTestBase {
     Assert.assertThat(actualMessage, CoreMatchers.containsString("JENKINS_URL: 'MOCKED_JENKINS_URL'"))
     Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_BASE_NAME: 'MOCKED_JOB_BASE_NAME'"))
     Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_DISPLAY_URL: 'MOCKED_JOB_DISPLAY_URL'"))
-    Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_NAME: 'MOCKED_JOB_NAME'"))
+    Assert.assertThat(actualMessage, CoreMatchers.containsString("JOB_NAME: '${expectedJobName}'"))
     Assert.assertThat(actualMessage, CoreMatchers.containsString("RUN_CHANGES_DISPLAY_URL: 'MOCKED_RUN_CHANGES_DISPLAY_URL'"))
   }
 

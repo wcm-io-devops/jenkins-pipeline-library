@@ -20,6 +20,7 @@
 
 
 import io.wcm.devops.jenkins.pipeline.config.GenericConfigConstants
+import io.wcm.devops.jenkins.pipeline.config.GenericConfigUtils
 import io.wcm.devops.jenkins.pipeline.model.Result
 import io.wcm.devops.jenkins.pipeline.utils.NotificationTriggerHelper
 import io.wcm.devops.jenkins.pipeline.utils.TypeUtils
@@ -129,11 +130,12 @@ void mqtt(Map config = [:]) {
       (NOTIFY_MQTT_TOPIC)         : "jenkins/${env.getProperty('JOB_NAME')}",
     ]
   ]
-
-  String scmUrl = getScmUrl(config, true)
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.info("Fully-Qualified Job Name (FQJN)",search)
 
   // load yamlConfig
-  Map yamlConfig = genericConfig.load(GenericConfigConstants.MQTT_CONFIG_PATH, scmUrl, NOTIFY_MQTT)
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.MQTT_CONFIG_PATH, search, NOTIFY_MQTT)
 
   // merge default config with config from yaml and incoming yaml
   config = MapUtils.merge(defaultConfig, yamlConfig, config)
@@ -207,10 +209,12 @@ void mattermost(Map config = [:]) {
     ]
   ]
 
-  String scmUrl = getScmUrl(config, true)
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.info("Fully-Qualified Job Name (FQJN)",search)
 
   // load yamlConfig
-  Map yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, scmUrl, NOTIFY_MATTERMOST)
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, search, NOTIFY_MATTERMOST)
 
   // merge default config with config from yaml and incoming yaml
   config = MapUtils.merge(defaultConfig, yamlConfig, config)
