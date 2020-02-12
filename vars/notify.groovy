@@ -168,7 +168,7 @@ void mqtt(Map config = [:]) {
   try {
     mqttNotification(brokerUrl: broker, credentialsId: credentialId, message: message, qos: qos, retainMessage: retainMessage, topic: topic)
   } catch (Exception ex) {
-    log.error("Unable to send mattermost notification. Ensure that this step has a workspace to run in.", ex.getCause().toString())
+    log.error("Unable to send mqtt notification. Ensure that this step has a workspace to run in.", ex.getCause().toString())
   }
 }
 
