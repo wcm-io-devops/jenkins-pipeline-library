@@ -26,6 +26,7 @@ import io.wcm.devops.jenkins.pipeline.credentials.CredentialAware
 import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
 import org.junit.Test
 
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOneShellCommand
 import static org.junit.Assert.assertEquals
@@ -42,6 +43,15 @@ class SSHAgentWrapperIT extends LibraryIntegrationTestBase {
     // assert that the sshagent step was called once
     List keyAgentCredentialList = assertOnce(StepConstants.SSH_AGENT)
     assertEquals("provided ssh credentials are wrong", ['ssh-key-for-testservers'], keyAgentCredentialList)
+  }
+  @Test
+  void shouldNotWrapWithSSHAgent() {
+    String expectedCommand = "echo 'no target at all'"
+    loadAndExecuteScript("vars/sshAgentWrapper/jobs/shouldNotWrapWithSSHAgent.groovy")
+    assertOneShellCommand(expectedCommand)
+
+    // assert that the sshagent step was not called because no target were provided
+    assertNone(StepConstants.SSH_AGENT)
   }
 
   @Test

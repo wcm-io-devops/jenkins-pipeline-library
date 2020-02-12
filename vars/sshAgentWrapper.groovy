@@ -76,8 +76,17 @@ void call(List<SSHTarget> sshTargets, Closure body) {
     }
 
 
-    log.trace("start ssh agent")
-    sshagent(sshCredentials) {
+
+
+    if (sshCredentials.size() == 0) {
+        log.debug("no ssh credentials found, do not wrap with sshagent")
         body()
+    } else {
+        log.debug("start ssh agent")
+        sshagent(sshCredentials) {
+            body()
+        }
     }
+
+
 }
