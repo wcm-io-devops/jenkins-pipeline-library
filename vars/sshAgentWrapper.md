@@ -32,6 +32,8 @@ This step uses the best match by using the
 so the SSH credentials with the most matching characters will be used
 for the sshagent.
 
+When no targets are provided the step will not wrap the body into the `sshagent` step.
+
 :bulb: At the moment only authentication via SSH keys stored in the
 Jenkins instance are supported.
 
