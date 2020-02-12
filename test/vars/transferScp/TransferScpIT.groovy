@@ -23,6 +23,7 @@ import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import org.junit.Test
 
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOneShellCommand
 import static org.junit.Assert.assertEquals
@@ -44,8 +45,7 @@ class TransferScpIT extends LibraryIntegrationTestBase {
     String expectedCommand = '/usr/bin/scp -C -4 -P 2222 -r /path/to/recursive\\ source/* testuser@subdomain.domain.tld:"/path/to/recursive\\ destination"'
     loadAndExecuteScript("vars/transferScp/jobs/transferScpRecursiveTestJob.groovy")
     assertOneShellCommand(expectedCommand)
-    List keyAgentCredentialList = assertOnce(StepConstants.SSH_AGENT)
-    assertEquals("provided ssh credentials are wrong", [], keyAgentCredentialList)
+    assertNone(StepConstants.SSH_AGENT)
   }
 
   @Test
@@ -53,8 +53,7 @@ class TransferScpIT extends LibraryIntegrationTestBase {
     String expectedCommand = 'scp -P 22 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /path/to/minimal\\ source minimal.domain.tld:"/path/to/minimal\\ destination"'
     loadAndExecuteScript("vars/transferScp/jobs/transferScpWithMinimalConfiguration.groovy")
     assertOneShellCommand(expectedCommand)
-    List keyAgentCredentialList = assertOnce(StepConstants.SSH_AGENT)
-    assertEquals("provided ssh credentials are wrong", [], keyAgentCredentialList)
+    assertNone(StepConstants.SSH_AGENT)
   }
 
 }
