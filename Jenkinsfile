@@ -18,7 +18,7 @@ Map config = [
   ],
   (STAGE_COMPILE): [
     (MAVEN): [
-      (MAVEN_GOALS): ["clean", "deploy", "site-deploy"],
+      (MAVEN_GOALS): ["clean", "deploy"],
     ]
   ]
 ]
