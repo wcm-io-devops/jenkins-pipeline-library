@@ -16,6 +16,9 @@ Map config = [
   (BUILD_WRAPPER): [
     (BUILD_WRAPPER_SSH_TARGETS): [new SSHTarget("ssh-wcm.io")]
   ],
+  (PROPERTIES) : [
+    (PROPERTIES_PIPELINE_TRIGGERS): defaults.getTriggers().push(githubPush())
+  ],
   (STAGE_COMPILE): [
     (MAVEN): [
       (MAVEN_GOALS): ["clean", "deploy"],
