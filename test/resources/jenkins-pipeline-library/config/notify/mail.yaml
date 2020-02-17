@@ -1,0 +1,42 @@
+- patterns:
+    - .*
+  id: "default mail notification configuration"
+  config:
+
+
+- patterns:
+    - team-a\/.*
+  id: "default mail configuration for all jobs below team-a"
+  config:
+    attachLog: true
+    attachmentsPattern: patternFromGenericConfig
+    body: genericConfigBody
+    compressLog: false
+    onSuccess:
+      enabled: true
+      body: successBody
+      subject: successSubject
+      to: success@company.tld
+      attachLog: true
+      compressLog: true
+      attachmentsPattern: successAttachmentsPattern
+      recipientProviders:
+        - $class: 'CulpritsRecipientProvider'
+    # should take default for onFailure
+    #onFailure:
+    #  enabled: true
+    onStillFailing:
+      enabled: false
+    onFixed:
+      enabled: false
+    onUnstable:
+      enabled: False
+    onStillUnstable:
+      enabled: 0
+    onAbort:
+      enabled: false
+    recipientProviders:
+      - $class: 'CulpritsRecipientProvider'
+      - $class: 'RequesterRecipientProvider'
+    subject: subjectFromGenericConfig
+    to: generic-config-mail@company.tld

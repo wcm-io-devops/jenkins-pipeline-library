@@ -39,15 +39,51 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
  */
 void mail(Map config = [:]) {
   Logger log = new Logger(this)
-  TypeUtils typeUtils = new TypeUtils()
+
+  Map defaultConfig = [
+    (NOTIFY): [
+      (MAP_MERGE_MODE)            : MapMergeMode.REPLACE,
+      (NOTIFY_ATTACH_LOG)         : false,
+      (NOTIFY_ATTACHMENTS_PATTERN): '',
+      (NOTIFY_BODY)               : '${DEFAULT_CONTENT}',
+      (NOTIFY_COMPRESS_LOG)       : false,
+      (NOTIFY_ENABLED)            : true,
+      (NOTIFY_MIME_TYPE)          : null,
+      (NOTIFY_ON_SUCCESS)         : false,
+      (NOTIFY_ON_UNSTABLE)        : true,
+      (NOTIFY_ON_STILL_UNSTABLE)  : true,
+      (NOTIFY_ON_FIXED)           : true,
+      (NOTIFY_ON_FAILURE)         : true,
+      (NOTIFY_ON_STILL_FAILING)   : true,
+      (NOTIFY_ON_ABORT)           : false,
+      (NOTIFY_RECIPIENT_PROVIDERS): [
+        [$class: 'CulpritsRecipientProvider'],
+        // Sends email to all the people who caused a change in the change set.
+        [$class: 'DevelopersRecipientProvider'],
+        // Sends email to the list of users suspected of causing the build to begin failing.
+        [$class: 'FirstFailingBuildSuspectsRecipientProvider'],
+        // Sends email to the user who initiated the build.
+        [$class: 'RequesterRecipientProvider'],
+        // Sends email to the list of users who committed changes in upstream builds that triggered this build.
+        [$class: 'UpstreamComitterRecipientProvider']
+      ],
+      (NOTIFY_SUBJECT)            : '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}',
+      (NOTIFY_TO)                 : null,
+    ]
+  ]
+
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.info("Fully-Qualified Job Name (FQJN)", search)
+
+  // load yamlConfig
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_MAIL_CONFIG_PATH, search, NOTIFY)
+
+  // merge default config with config from yaml and incoming yaml
+  config = MapUtils.merge(defaultConfig, yamlConfig, config)
+
   // retrieve the configuration and set defaults
   Map notifyConfig = (Map) config[NOTIFY] ?: [:]
-
-  // early return when notify is not enabled
-  Boolean enabled = notifyConfig[NOTIFY_ENABLED] != null ? notifyConfig[NOTIFY_ENABLED] : true
-  if (!enabled) {
-    return
-  }
 
   NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
   String trigger = triggerHelper.getTrigger().toString()
@@ -58,18 +94,24 @@ void mail(Map config = [:]) {
   }
   notifyConfig = buildResultConfig
 
+  // return when notify is not enabled
+  Boolean enabled = notifyConfig[NOTIFY_ENABLED]
+  if (!enabled) {
+    return
+  }
+
   // parse recipient providers
-  recipientProviders = _getRecipientProviders(notifyConfig)
+  recipientProviders = notifyConfig[NOTIFY_RECIPIENT_PROVIDERS]
 
   // parse values
-  String subject = notifyConfig[NOTIFY_SUBJECT] ?: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}'
-  String body = notifyConfig[NOTIFY_BODY] ?: '${DEFAULT_CONTENT}'
+  String subject = notifyConfig[NOTIFY_SUBJECT]
+  String body = notifyConfig[NOTIFY_BODY]
   String to = notifyConfig[NOTIFY_TO]
 
-  String attachmentsPattern = notifyConfig[NOTIFY_ATTACHMENTS_PATTERN] ?: ''
-  Boolean attachLog = notifyConfig[NOTIFY_ATTACH_LOG] != null ? notifyConfig[NOTIFY_ATTACH_LOG] : false
-  Boolean compressLog = notifyConfig[NOTIFY_COMPRESS_LOG] != null ? notifyConfig[NOTIFY_COMPRESS_LOG] : false
-  String mimeType = notifyConfig[NOTIFY_MIME_TYPE] != null ? notifyConfig[NOTIFY_MIME_TYPE] : null
+  String attachmentsPattern = notifyConfig[NOTIFY_ATTACHMENTS_PATTERN]
+  Boolean attachLog = notifyConfig[NOTIFY_ATTACH_LOG]
+  Boolean compressLog = notifyConfig[NOTIFY_COMPRESS_LOG]
+  String mimeType = notifyConfig[NOTIFY_MIME_TYPE]
 
   // replace notification trigger variable because extmail step does not know about it
   subject = triggerHelper.replaceEnvVar(subject, trigger)
@@ -132,10 +174,10 @@ void mqtt(Map config = [:]) {
   ]
   GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
   String search = genericConfigUtils.getFQJN()
-  log.info("Fully-Qualified Job Name (FQJN)",search)
+  log.info("Fully-Qualified Job Name (FQJN)", search)
 
   // load yamlConfig
-  Map yamlConfig = genericConfig.load(GenericConfigConstants.MQTT_CONFIG_PATH, search, NOTIFY_MQTT)
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_MQTT_CONFIG_PATH, search, NOTIFY_MQTT)
 
   // merge default config with config from yaml and incoming yaml
   config = MapUtils.merge(defaultConfig, yamlConfig, config)
@@ -211,10 +253,10 @@ void mattermost(Map config = [:]) {
 
   GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
   String search = genericConfigUtils.getFQJN()
-  log.info("Fully-Qualified Job Name (FQJN)",search)
+  log.info("Fully-Qualified Job Name (FQJN)", search)
 
   // load yamlConfig
-  Map yamlConfig = genericConfig.load(GenericConfigConstants.MATTERMOST_CONFIG_PATH, search, NOTIFY_MATTERMOST)
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_MATTERMOST_CONFIG_PATH, search, NOTIFY_MATTERMOST)
 
   // merge default config with config from yaml and incoming yaml
   config = MapUtils.merge(defaultConfig, yamlConfig, config)
@@ -289,6 +331,7 @@ void mattermost(Map config = [:]) {
  */
 Object getBuildResultConfig(Map config) {
   Logger log = new Logger('notify.getBuildResultConfig')
+
 
 // parse status configurations
   def onSuccess = config[NOTIFY_ON_SUCCESS] != null ? config[NOTIFY_ON_SUCCESS] : false

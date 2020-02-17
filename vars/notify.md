@@ -120,6 +120,23 @@ notifyMail(
 :exclamation: Make sure to use single quotes here because environment
 variables would otherwise be directly evaluated!
 
+## Generic Configuration support
+
+This step supports the [Generic Configuration](../docs/generic-config.md)
+mechanism for loading and applying a FQJN based auto-lookup for the
+appropriate configuration options.
+
+:bulb: FQJN = **F**ully-**Q**ualified **J**ob **N**ame =
+`${JOB_NAME}@${GIT_BRANCH}`
+
+:bulb: This method of configuration is recommended!
+
+When using this mechanism the step expects a YAML pipeline resource with
+the path `resources/jenkins-pipeline-library/notify/mattermost.yaml`.
+
+:bulb: An example for this `mail.yaml` is here:
+[`mail.yaml`](../test/resources/jenkins-pipeline-library/config/notify/mail.yaml)
+
 ## Configuration options
 
 Complete list of all configuration options.
