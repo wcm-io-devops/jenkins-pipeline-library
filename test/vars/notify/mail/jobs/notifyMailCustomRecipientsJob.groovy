@@ -34,25 +34,43 @@ def execute() {
         (NOTIFY_ON_SUCCESS)         : [
           (NOTIFY_SUBJECT)            : 'Subject NOTIFY_ON_SUCCESS',
           (NOTIFY_BODY)               : 'Body NOTIFY_ON_SUCCESS',
-          (NOTIFY_RECIPIENT_PROVIDERS): [[$class: 'CulpritsRecipientProvider']],
+          (NOTIFY_RECIPIENT_PROVIDERS): [
+            [$class: 'CulpritsRecipientProvider'],
+            [$class: 'RequesterRecipientProvider'],
+          ],
           (NOTIFY_TO)                 : "build-success@example.org"
         ],
         (NOTIFY_ON_FAILURE)         : [
           (NOTIFY_SUBJECT)            : 'Subject NOTIFY_ON_FAILURE',
           (NOTIFY_BODY)               : 'Body NOTIFY_ON_FAILURE',
-          (NOTIFY_RECIPIENT_PROVIDERS): [[$class: 'DevelopersRecipientProvider']],
+          (NOTIFY_RECIPIENT_PROVIDERS): [
+            [$class: 'CulpritsRecipientProvider'],
+            [$class: 'RequesterRecipientProvider'],
+            [$class: 'DevelopersRecipientProvider'],
+          ],
           (NOTIFY_TO)                 : "build-failure@example.org"
         ],
         (NOTIFY_ON_STILL_FAILING)   : [
-          (NOTIFY_RECIPIENT_PROVIDERS): [[$class: 'FirstFailingBuildSuspectsRecipientProvider']],
+          (NOTIFY_RECIPIENT_PROVIDERS): [
+            [$class: 'CulpritsRecipientProvider'],
+            [$class: 'RequesterRecipientProvider'],
+            [$class: 'FirstFailingBuildSuspectsRecipientProvider']
+          ],
           (NOTIFY_TO)                 : "build-still-failing@example.org"
         ],
         (NOTIFY_ON_FIXED)           : [
-          (NOTIFY_RECIPIENT_PROVIDERS): [[$class: 'RequesterRecipientProvider']],
+          (NOTIFY_RECIPIENT_PROVIDERS): [
+            [$class: 'CulpritsRecipientProvider'],
+            [$class: 'RequesterRecipientProvider'],
+          ],
           (NOTIFY_TO)                 : "build-fixed@example.org"
         ],
         (NOTIFY_ON_UNSTABLE)        : [
-          (NOTIFY_RECIPIENT_PROVIDERS): [[$class: 'UpstreamComitterRecipientProvider']],
+          (NOTIFY_RECIPIENT_PROVIDERS): [
+            [$class: 'CulpritsRecipientProvider'],
+            [$class: 'RequesterRecipientProvider'],
+            [$class: 'UpstreamComitterRecipientProvider'],
+          ],
           (NOTIFY_TO)                 : "build-unstable@example.org"
         ],
         (NOTIFY_ON_STILL_UNSTABLE)  : true,

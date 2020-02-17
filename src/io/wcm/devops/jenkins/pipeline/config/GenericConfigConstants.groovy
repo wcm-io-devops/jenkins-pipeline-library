@@ -25,7 +25,8 @@ package io.wcm.devops.jenkins.pipeline.config
 class GenericConfigConstants implements Serializable{
   private static final long serialVersionUID = 1L
 
-  static final String MATTERMOST_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mattermost.yaml"
-  static final String MQTT_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mqtt.yaml"
+  static final String NOTIFY_MAIL_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mail.yaml"
+  static final String NOTIFY_MATTERMOST_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mattermost.yaml"
+  static final String NOTIFY_MQTT_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mqtt.yaml"
 
 }
