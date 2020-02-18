@@ -18,19 +18,19 @@ List triggers = defaults.getTriggers()
 triggers.push(githubPush())
 
 Map config = [
-  (BUILD_WRAPPER): [
+  (BUILD_WRAPPER)            : [
     (BUILD_WRAPPER_SSH_TARGETS): [new SSHTarget("ssh-wcm.io")]
   ],
-  (LOGLEVEL)     : LogLevel.TRACE,
-  (PROPERTIES)   : [
+  (LOGLEVEL)                 : LogLevel.TRACE,
+  (PROPERTIES)               : [
     (PROPERTIES_PIPELINE_TRIGGERS): triggers
   ],
-  (STAGE_COMPILE): [
+  (STAGE_COMPILE)            : [
     (MAVEN): [
       (MAVEN_GOALS): ["clean", "deploy"],
     ]
   ],
-  (BUILD_FEATURE): [
+  (BUILD_FEATURE)            : [
     (STAGE_COMPILE): [
       (MAVEN): [
         (MAVEN_GOALS): ["clean"],
@@ -41,8 +41,8 @@ Map config = [
         (MAVEN_GOALS): ["clean"],
       ]
     ]
-  ]
-    (STAGE_FEATURE_PREPARATION) : [
+  ],
+  (STAGE_FEATURE_PREPARATION): [
     (STAGE_FEATURE_PREPARATION_MERGE): [
       (STAGE_FEATURE_PREPARATION_MERGE_ENABLED): false
     ]
