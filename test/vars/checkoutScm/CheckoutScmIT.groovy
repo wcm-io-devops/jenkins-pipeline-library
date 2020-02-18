@@ -19,13 +19,23 @@
  */
 package vars.checkoutScm
 
+import hudson.plugins.git.BranchSpec
+import hudson.plugins.git.GitSCM
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.CHECKOUT
+import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
 import static org.junit.Assert.assertEquals
+import static org.mockito.ArgumentMatchers.any
+import static org.mockito.ArgumentMatchers.eq
+import static org.mockito.Mockito.when
 
 class CheckoutScmIT extends LibraryIntegrationTestBase {
 
@@ -140,5 +150,22 @@ class CheckoutScmIT extends LibraryIntegrationTestBase {
     assertEquals("git@unknowndomain.tld/group/project1.git", userRemoteConfig.get("url"))
   }
 
+  @Test
+  void shouldUseBranchFromScmVar() {
+    this.setEnv(EnvironmentConstants.GIT_BRANCH, null)
+    GitSCM mockedGitSCM = Mockito.mock(GitSCM.class)
+    List<BranchSpec> mockedBranchSpecs = []
+    mockedBranchSpecs.push(new BranchSpec("feature/branchName"))
+    this.getBinding().setProperty("scm", mockedGitSCM)
+
+    when(mockedGitSCM.getBranches()).thenReturn(mockedBranchSpecs)
+
+    Map result = loadAndExecuteScript("vars/checkoutScm/jobs/checkoutWithScmVarJob.groovy")
+    GitSCM actualMockedGitSCM = (GitSCM) assertOnce(CHECKOUT)
+
+    assertEquals(mockedGitSCM, actualMockedGitSCM)
+
+    assertEquals("origin/feature/branchName", this.getEnv(EnvironmentConstants.GIT_BRANCH),)
+  }
 
 }

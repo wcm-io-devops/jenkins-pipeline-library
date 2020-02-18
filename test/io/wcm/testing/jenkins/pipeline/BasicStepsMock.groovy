@@ -21,6 +21,8 @@ package io.wcm.testing.jenkins.pipeline
 
 import com.lesfurets.jenkins.unit.PipelineTestHelper
 import hudson.AbortException
+import hudson.plugins.git.GitSCM
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.recorder.StepRecorder
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.CHECKOUT
@@ -54,6 +56,13 @@ class BasicStepsMock {
     this.context = context
 
     this.context.getPipelineTestHelper().registerAllowedMethod(CHECKOUT, [Map.class], { LinkedHashMap incomingCall -> this.context.getStepRecorder().record(CHECKOUT, incomingCall) })
+    this.context.getPipelineTestHelper().registerAllowedMethod(CHECKOUT, [GitSCM.class], { GitSCM scmObject ->
+      this.context.getStepRecorder().record(CHECKOUT, scmObject)
+      return [
+        (EnvironmentConstants.GIT_BRANCH): this.context.getEnvVars().getProperty(EnvironmentConstants.GIT_BRANCH),
+        (EnvironmentConstants.GIT_URL): this.context.getEnvVars().getProperty(EnvironmentConstants.GIT_URL)
+      ]
+    })
 
     this.context.getPipelineTestHelper().registerAllowedMethod(DIR, [String.class, Closure.class], dirCallback)
 
