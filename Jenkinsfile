@@ -3,6 +3,7 @@
 
 
 import io.wcm.devops.jenkins.pipeline.ssh.SSHTarget
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
 
 import static de.provision.devops.jenkins.pipeline.utils.ConfigConstants.*
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
@@ -16,15 +17,21 @@ List triggers = defaults.getTriggers()
 triggers.push(githubPush())
 
 Map config = [
-  (BUILD_WRAPPER): [
+  (BUILD_WRAPPER)            : [
     (BUILD_WRAPPER_SSH_TARGETS): [new SSHTarget("ssh-wcm.io")]
   ],
-  (PROPERTIES) : [
+  (PROPERTIES)               : [
     (PROPERTIES_PIPELINE_TRIGGERS): triggers
   ],
-  (STAGE_COMPILE): [
+  (STAGE_COMPILE)            : [
     (MAVEN): [
       (MAVEN_GOALS): ["clean", "deploy"],
+    ]
+  ],
+  (STAGE_FEATURE_PREPARATION): [
+    (STAGE_FEATURE_PREPARATION_MERGE): [
+      (STAGE_FEATURE_PREPARATION_MERGE_ENABLED): true,
+      (MAP_MERGE_MODE)                         : (MapMergeMode.REPLACE)
     ]
   ]
 ]
