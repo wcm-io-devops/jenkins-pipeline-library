@@ -17,9 +17,13 @@
  * limitations under the License.
  * #L%
  */
+
+import hudson.plugins.git.UserRemoteConfig
+import hudson.tasks.UserAvatarResolver
 import io.wcm.devops.jenkins.pipeline.credentials.Credential
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialConstants
 import io.wcm.devops.jenkins.pipeline.credentials.CredentialParser
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentUtils
 import io.wcm.devops.jenkins.pipeline.utils.ConfigConstants
 import io.wcm.devops.jenkins.pipeline.utils.PatternMatcher
@@ -46,6 +50,7 @@ import org.jenkinsci.plugins.workflow.cps.DSL
  *      extensions: LocalBranch
  *
  * @param config configuration object
+ * @return The SCM Checkout result
  */
 def call(Map config) {
   Logger log = new Logger(this)
@@ -82,6 +87,8 @@ def call(Map config) {
 
   // set the scm url to environment variable SCM_URL
   setScmUrl(config)
+
+  return scmCheckoutResult
 }
 
 /**
@@ -90,7 +97,40 @@ def call(Map config) {
  * @return result of checkout step
  */
 Object checkoutWithScmVar() {
+  Logger log = new Logger("checkoutScm.checkoutWithScmVar")
+  List scmBranches = scm.getBranches()
+
+  String remoteName = "origin";
+  for (UserRemoteConfig remote in scm.getUserRemoteConfigs()) {
+    remoteName = remote.getName()
+    if (remoteName == null || remoteName.isEmpty()) {
+      remoteName = "origin";
+    }
+  }
+
   Map result = checkout scm
+  String checkoutBranchName = result[EnvironmentConstants.GIT_BRANCH]
+
+  // check for a differing branch name. This may occur when the pipeline library is building itself and was checked out before by the folder shared libraries
+  // and is now checked out for the build
+  if (result && scmBranches && scmBranches.size() == 1) {
+    String scmBranchName = scmBranches[0]
+    log.debug("Branch name from scm object", scmBranchName)
+
+    // remove */ prefix
+    scmBranchName = scmBranchName.replace("*/","")
+    log.debug("Cleaned branch name", scmBranchName)
+
+    scmBranchName = remoteName + "/" + scmBranchName
+    log.debug("Branchname with origin", scmBranchName)
+    log.debug("checkoutBranchName", checkoutBranchName)
+
+    if (scmBranchName != checkoutBranchName) {
+      log.debug("branchName from SCM object ('$scmBranchName') does not match checkoutBranchName ('$checkoutBranchName'), apply fix")
+      result[EnvironmentConstants.GIT_BRANCH] = scmBranchName
+    }
+  }
+
   return result
 }
 
