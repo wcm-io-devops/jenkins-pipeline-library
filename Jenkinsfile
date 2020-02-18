@@ -30,8 +30,7 @@ Map config = [
   ],
   (STAGE_FEATURE_PREPARATION): [
     (STAGE_FEATURE_PREPARATION_MERGE): [
-      (STAGE_FEATURE_PREPARATION_MERGE_ENABLED): true,
-      (MAP_MERGE_MODE)                         : (MapMergeMode.REPLACE)
+      (STAGE_FEATURE_PREPARATION_MERGE_ENABLED): false
     ]
   ]
 ]
