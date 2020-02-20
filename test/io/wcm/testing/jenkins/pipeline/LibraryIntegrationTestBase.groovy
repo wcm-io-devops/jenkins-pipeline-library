@@ -268,7 +268,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   /**
    * Callback to allow getting the canonical name of the calling function when used inside classes
    * by using the Stacktrace
-   * // TODO find better solution
    *
    * @return the Canoncial name of the object
    */
