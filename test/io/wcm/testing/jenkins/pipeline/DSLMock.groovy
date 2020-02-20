@@ -101,7 +101,6 @@ class DSLMock {
     })
 
     // cpsScriptMock readJSON method from pipeline utility steps plugin, see: https://github.com/jenkinsci/pipeline-utility-steps-plugin
-    // TODO: use real implementation of plugin here
     when(mock.invokeMethod(eq("readJSON"), any())).then(new Answer<JSON>() {
       @Override
       JSON answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -149,7 +148,6 @@ class DSLMock {
 
     JSON json = null
     if (!isBlank(step.getFile())) {
-      // TODO: Implement readJSON from file
       throw new NotImplementedException("readJSON from file is currently not implemented")
     }
     if (!isBlank(step.getText())) {
