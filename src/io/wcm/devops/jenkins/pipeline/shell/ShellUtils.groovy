@@ -80,7 +80,6 @@ class ShellUtils implements Serializable {
    */
   @NonCPS
   static String trimDoubleQuote(String str) {
-    // TODO: implement functionality by using only one regular expression
     // remove beginning double quote
     def matcher = str =~ '^"?(.*)'
     str = matcher ? matcher[0][1] : str
@@ -99,7 +98,6 @@ class ShellUtils implements Serializable {
    */
   @NonCPS
   static String trimSingleQuote(String str) {
-    // TODO: implement functionality by using only one regular expression
     def matcher = str =~ "^'?(.*)"
     str = matcher ? matcher[0][1] : str
     matcher = str =~ "^(.*)'\$"
