@@ -275,19 +275,29 @@ List<String> _lookupRepositoryCredentials(GitRepository repo, List credentialIds
  */
 String getParentBranch() {
   Logger log = new Logger("getParentBranch")
-  String parentBranch = "origin/develop"
+  Integer branchResultCode = -1
 
-  log.info("check if git repo has a remote branch named: '${parentBranch}'")
-  Integer developBranchResultCode = sh(script: "git branch --list --remote | grep ${parentBranch}", returnStatus: true)
-  log.debug("git command result code:", developBranchResultCode)
+  log.info("check if git repo has a remote branch named: 'origin/develop'")
+  branchResultCode = sh(script: "git branch --list --remote | grep origin/develop", returnStatus: true)
+  log.debug("git command result code for origin/develop:", branchResultCode)
 
-  if (developBranchResultCode != 0) {
-    log.info("No remote branch with the name '${parentBranch}' found, falling back to 'origin/master'")
-    parentBranch = "origin/master"
+  // origin/develop branch was found
+  if (branchResultCode == 0) {
+    return "origin/develop"
   }
 
-  log.info("evaluated parent branch: '${parentBranch}'")
-  return parentBranch
+  log.info("check if git repo has a remote branch named: 'origin/master'")
+  branchResultCode = sh(script: "git branch --list --remote | grep origin/master", returnStatus: true)
+  log.debug("git command result code for origin/master:", branchResultCode)
+
+  // origin/develop branch was found
+  if (branchResultCode == 0) {
+    return "origin/master"
+  }
+
+  log.info("unable to detect parent branch, returning", null)
+
+  return null
 }
 
 /**
