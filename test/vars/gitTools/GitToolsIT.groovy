@@ -94,8 +94,8 @@ class GitToolsIT extends LibraryIntegrationTestBase {
       ]
     ]
     String expectedParentBranch = "origin/develop"
-    String acutalParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
-    Assert.assertEquals(expectedParentBranch, acutalParentBranch)
+    String actualParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
+    Assert.assertEquals(expectedParentBranch, actualParentBranch)
   }
 
   @Test
@@ -104,11 +104,32 @@ class GitToolsIT extends LibraryIntegrationTestBase {
       [
         script: "git branch --list --remote | grep origin/develop",
         result: 1
+      ],
+      [
+        script: "git branch --list --remote | grep origin/master",
+        result: 0
       ]
     ]
     String expectedParentBranch = "origin/master"
-    String acutalParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
-    Assert.assertEquals(expectedParentBranch, acutalParentBranch)
+    String actualParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
+    Assert.assertEquals(expectedParentBranch, actualParentBranch)
+  }
+
+
+  @Test
+  void shouldFindNoParentBranch() {
+    mockedShellCommands = [
+      [
+        script: "git branch --list --remote | grep origin/develop",
+        result: 1
+      ],
+      [
+        script: "git branch --list --remote | grep origin/master",
+        result: 1
+      ]
+    ]
+    String actualParentBranch = loadAndExecuteScript("vars/gitTools/jobs/getParentBranchTestJob.groovy")
+    Assert.assertNull(actualParentBranch)
   }
 
   def shellMapCallback = { Map incomingCommand ->
