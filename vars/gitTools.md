@@ -62,6 +62,6 @@ basically executes a `git remote -v`.
 Utility function to get the name of the parent branch. At the moment
 this is limited to the following logic:
 
-1.   Use `origin/develop` as default
-2.   When there is no `origin/develop` branch in the remote branch list
-     use `origin/master`
+1.   Use `origin/develop` when branch exists
+2.   Use `origin/master` when branch exists
+3.   Fallback to `null`
