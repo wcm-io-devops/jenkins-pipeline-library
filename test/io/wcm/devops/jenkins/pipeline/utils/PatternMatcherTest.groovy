@@ -74,6 +74,20 @@ class PatternMatcherTest extends DSLTestBase {
     assertEquals("detailed-domain-matched", result.getId())
   }
 
+  @Test
+  void shouldMatchWithCaptureGroup() {
+    List<Credential> files = new ArrayList<Credential>()
+    files.push(new Credential("mandatory-part(-optional-part)?.domain.tld", "pattern1-id", "pattern1-name"))
+    PatternMatchable actualResult1 = underTest.getBestMatch("mandatory-part.domain.tld", files)
+    PatternMatchable actualResult2 = underTest.getBestMatch("mandatory-part-optional-part.domain.tld", files)
+
+    assertNotNull(actualResult1)
+    assertNotNull(actualResult2)
+
+    assertEquals("pattern1-id", actualResult1.getId())
+    assertEquals("pattern1-id", actualResult2.getId())
+  }
+
   List<Credential> createTestCredentials() {
     List<Credential> files = new ArrayList<Credential>()
     files.push(new Credential("pattern1", "pattern1-id", "pattern1-name"))

@@ -49,6 +49,7 @@ class PatternMatcher implements Serializable {
   PatternMatchable getBestMatch(String searchValue, List<PatternMatchable> items) {
     log.debug("getBestPatternMatch '$searchValue'")
     PatternMatchable result = null
+    TypeUtils typeUtils = new TypeUtils()
     int matchScore = 0
     // Walk through list and match each pattern of the PatternMatchable against the searchvalue
     items.each {
@@ -57,7 +58,15 @@ class PatternMatcher implements Serializable {
         Matcher matcher = searchValue =~ patternMatchable.getPattern()
         // check if there is a match
         if (matcher) {
-          String group = matcher[0]
+          Object match = matcher[0]
+          String group = null
+          if (typeUtils.isList(match)) {
+            group = match[0]
+          } else {
+            group = match
+          }
+          log.trace("matcher", matcher)
+          log.trace("match", match)
           // match score is pattern length + matched group length
           int currentMatchScore = group.length() + patternMatchable.pattern.length()
           // check if matcher has a group and if the matched length/score is better as the last found match
