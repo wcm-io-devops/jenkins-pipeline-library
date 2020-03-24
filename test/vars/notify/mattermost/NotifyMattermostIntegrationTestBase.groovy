@@ -26,19 +26,19 @@ import org.junit.Assert
 import static io.wcm.testing.jenkins.pipeline.StepConstants.MATTERMOST_SEND
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
 
-class MattermostIntegrationTestBase extends LibraryIntegrationTestBase {
+class NotifyMattermostIntegrationTestBase extends LibraryIntegrationTestBase {
 
   @Override
   void setUp() throws Exception {
     super.setUp()
-    this.getBinding().setVariable("MATTERMOST_ENDPOINT", "MOCKED_MATTERMOST_ENDPOINT")
+    this.getBinding().setVariable("MATTERMOST_ENDPOINT", "https://MOCKED_MATTERMOST_ENDPOINT")
   }
 
 
   void assertMattermostCall(Result buildResult) {
     Map mattermostCall = assertOnce(MATTERMOST_SEND)
     Assert.assertEquals("jenkins-build-notifications", mattermostCall['channel'].toString())
-    Assert.assertEquals("MOCKED_MATTERMOST_ENDPOINT", mattermostCall['endpoint'].toString())
+    Assert.assertEquals("https://MOCKED_MATTERMOST_ENDPOINT", mattermostCall['endpoint'].toString())
     Assert.assertEquals(buildResult.getColor(), mattermostCall['color'].toString())
 
     String expectedMessage = "**${buildResult.toString()}** - <MOCKED_BUILD_URLconsole|MOCKED/JOB_BASE_NAME#2>"

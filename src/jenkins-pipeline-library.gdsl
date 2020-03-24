@@ -106,6 +106,17 @@ contributor(integrationTestUtils) {
   method(name: 'runTestsOnPackage', type: 'void', params: [packageName: String, closure: Closure], doc: 'Wrapper function for reporting the test results for a package.')
 }
 
+def im = context(ctype: "im")
+contributor(im) {
+  method(name: 'mattermost', type: 'void', params: [message: String], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'mattermost', type: 'void', params: [message: String, text: String], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String, endpointOrCredentialId: String], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String, endpointOrCredentialId: String, failOnError: Boolean], doc: 'Mattermost instant notification with Generic Config support.')
+}
+
 def jenkinsRestApi = context(ctype: "jenkinsRestApi")
 contributor(jenkinsRestApi) {
   method(name: 'findJobsByNameRegex', type: 'List<io.wcm.devops.jenkins.pipeline.model.jenkins.api.Job>', params: [remote: Map], doc: 'Returns all jobs from the given jenkins instance which matches the given regex.')
