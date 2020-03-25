@@ -57,10 +57,11 @@ void mattermost(Map config) {
   Boolean failOnError = mattermostConfig[NOTIFY_MATTERMOST_FAIL_ON_ERROR]
 
   String endpointOrCredentialId = null
-  if (endpointCredentialId) {
-    endpointOrCredentialId = endpointCredentialId
-  } else if (endpoint) {
+  if (endpoint) {
     endpointOrCredentialId = endpoint
+  }
+  else if (endpointCredentialId) {
+    endpointOrCredentialId = endpointCredentialId
   }
   this.mattermost(message, text, color, channel, icon, endpointOrCredentialId, failOnError)
 }
