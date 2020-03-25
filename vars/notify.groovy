@@ -278,28 +278,7 @@ void mattermost(Map config = [:]) {
 
   log.debug("buildResultConfig", buildResultConfig)
 
-  String message = buildResultConfig[NOTIFY_MATTERMOST_MESSAGE]
-  String endpoint = buildResultConfig[NOTIFY_MATTERMOST_ENDPOINT]
-  String endpointOrCredentialId = buildResultConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID]
-  String text = buildResultConfig[NOTIFY_MATTERMOST_TEXT]
-  String icon = buildResultConfig[NOTIFY_MATTERMOST_ICON]
-  String color = buildResultConfig[NOTIFY_MATTERMOST_COLOR]
-  String channel = buildResultConfig[NOTIFY_MATTERMOST_CHANNEL]
-  Boolean failOnError = buildResultConfig[NOTIFY_MATTERMOST_FAIL_ON_ERROR]
-
-  endpointOrCredentialId = endpoint != null ? endpoint : endpointOrCredentialId
-
-  im.mattermost(
-    message,
-    text,
-    color,
-    channel,
-    icon,
-    endpointOrCredentialId,
-    failOnError
-  )
-
-
+  im.mattermost((NOTIFY_MATTERMOST): buildResultConfig)
 }
 
 /**

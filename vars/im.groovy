@@ -21,8 +21,49 @@
 import io.wcm.devops.jenkins.pipeline.config.GenericConfigConstants
 import io.wcm.devops.jenkins.pipeline.config.GenericConfigUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapMergeMode
+import io.wcm.devops.jenkins.pipeline.utils.maps.MapUtils
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+/**
+ * Adapter function for sending instant messages to mattermost using a configMap
+ *
+ * @param config The config for the mattermost step
+ */
+void mattermost(Map config) {
+  Map defaultConfig = [
+    (NOTIFY_MATTERMOST): [
+      (MAP_MERGE_MODE)                          : (MapMergeMode.REPLACE),
+      (NOTIFY_MATTERMOST_CHANNEL)               : null,
+      (NOTIFY_MATTERMOST_ENDPOINT)              : null,
+      (NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID): null,
+      (NOTIFY_MATTERMOST_ICON)                  : null,
+      (NOTIFY_MATTERMOST_COLOR)                 : null,
+      (NOTIFY_MATTERMOST_TEXT)                  : null,
+      (NOTIFY_MATTERMOST_MESSAGE)               : null,
+      (NOTIFY_MATTERMOST_FAIL_ON_ERROR)         : false,
+    ]
+  ]
+  Map mattermostConfig = MapUtils.merge(defaultConfig, config)[NOTIFY_MATTERMOST]
+
+  String message = mattermostConfig[NOTIFY_MATTERMOST_MESSAGE]
+  String text = mattermostConfig[NOTIFY_MATTERMOST_TEXT]
+  String color = mattermostConfig[NOTIFY_MATTERMOST_COLOR]
+  String channel = mattermostConfig[NOTIFY_MATTERMOST_CHANNEL]
+  String icon = mattermostConfig[NOTIFY_MATTERMOST_ICON]
+  String endpointCredentialId = mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID]
+  String endpoint = mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT]
+  Boolean failOnError = mattermostConfig[NOTIFY_MATTERMOST_FAIL_ON_ERROR]
+
+  String endpointOrCredentialId = null
+  if (endpointCredentialId) {
+    endpointOrCredentialId = endpointCredentialId
+  } else if (endpoint) {
+    endpointOrCredentialId = endpoint
+  }
+  this.mattermost(message, text, color, channel, icon, endpointOrCredentialId, failOnError)
+}
 
 /**
  * Sends a instant mattermost message.

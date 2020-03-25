@@ -100,4 +100,29 @@ class ImMattermostIT extends LibraryIntegrationTestBase {
     Assert.assertEquals(expectedStringCredentialsCall, actualStringCredentialCall)
   }
 
+  @Test
+  void shouldUseConfigValues() {
+    Map expectedMattermostCall = [
+      message    : "configMessage",
+      text       : "configText",
+      color      : "configColor",
+      channel    : "configChannel",
+      icon       : "configIcon",
+      endpoint   : "https://MOCKED_MATTERMOST_ENDPOINT",
+      failOnError: true
+    ]
+
+    Map expectedStringCredentialsCall = [
+      "credentialsId" : "configEndpointCredentialId",
+      "variable" : "MATTERMOST_ENDPOINT"
+    ]
+
+    loadAndExecuteScript("vars/im/mattermost/jobs/imMattermostConfigJob.groovy")
+    Map actualStringCredentialCall = assertOnce(StepConstants.STRING)
+    Map actualMattermostCall = assertOnce(MATTERMOST_SEND)
+
+    Assert.assertEquals(expectedMattermostCall, actualMattermostCall)
+    Assert.assertEquals(expectedStringCredentialsCall, actualStringCredentialCall)
+  }
+
 }
