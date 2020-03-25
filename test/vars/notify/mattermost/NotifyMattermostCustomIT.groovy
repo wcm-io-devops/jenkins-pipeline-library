@@ -27,7 +27,7 @@ import static io.wcm.testing.jenkins.pipeline.StepConstants.MATTERMOST_SEND
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
 
-class NotifyMattermostCustomIT extends MattermostIntegrationTestBase {
+class NotifyMattermostCustomIT extends NotifyMattermostIntegrationTestBase {
 
   @Test
   void shouldNotifyOnSuccess() {
@@ -93,7 +93,7 @@ class NotifyMattermostCustomIT extends MattermostIntegrationTestBase {
   void assertMattermostCall(Result buildResult) {
     Map expectedCall = [
       "channel"    : "customChannel",
-      "endpoint"   : "customEndpoint",
+      "endpoint"   : "https://customEndpoint",
       "icon"       : "customIcon",
       "color"      : "customColor",
       "text"       : "customText",

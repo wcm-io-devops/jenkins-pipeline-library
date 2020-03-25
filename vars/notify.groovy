@@ -276,51 +276,9 @@ void mattermost(Map config = [:]) {
     return
   }
 
-  mattermostConfig = buildResultConfig
+  log.debug("buildResultConfig", buildResultConfig)
 
-  // use specific endpoint if configured
-  List credentials = []
-  if (mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID] != null && mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] == null) {
-    log.debug("configure endpoint usind provided credential id ")
-    credentials.push(string(credentialsId: mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT_CREDENTIAL_ID], variable: 'MATTERMOST_ENDPOINT'))
-  }
-
-  withCredentials(credentials) {
-    if (credentials.size() > 0) {
-      mattermostConfig[NOTIFY_MATTERMOST_ENDPOINT] = "${MATTERMOST_ENDPOINT}"
-    }
-    // cleanup config and only pass allowed names parameters
-    Map cleanedParams = [:]
-
-    String[] allowedParams = [
-      "channel",
-      "endpoint",
-      "icon",
-      "color",
-      "text",
-      "message",
-      "failOnError",
-    ]
-
-    for (String allowedParam in allowedParams) {
-      if (mattermostConfig[allowedParam]) {
-        cleanedParams[allowedParam] = mattermostConfig[allowedParam]
-      }
-    }
-
-    log.debug("mattermostConfig", mattermostConfig)
-    log.debug("cleanedParams", cleanedParams)
-
-    try {
-      mattermostSend(cleanedParams)
-    } catch (Exception ex) {
-      log.error("Unable to send mattermost notification. " +
-        "Have you configured the endpoint? " +
-        "See https://github.com/wcm-io-devops/jenkins-pipeline-library/blob/master/vars/notify.md for details", ex.getCause().toString())
-    }
-
-  }
-
+  im.mattermost((NOTIFY_MATTERMOST): buildResultConfig)
 }
 
 /**

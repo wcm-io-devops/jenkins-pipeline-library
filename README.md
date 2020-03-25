@@ -127,6 +127,8 @@ The pipeline library comes with the following steps:
   * [`getFetchOrigin`](vars/gitTools.md#string-getfetchoriginstring-remotes--null)
   * [`getPushOrigin`](vars/gitTools.md#string-getpushoriginstring-remotes--null)
   * [`getParentBranch`](vars/gitTools.md#string-getparentbranch)
+* [im (instant messaging)](vars/im.md)
+  * [`im.mattermost()`](vars/im.md#immattermost)
 * [jenkinsRestApi](vars/jenkinsRestApi.md)
   * [`jenkinsRestApi.findJobsByNameRegex`](vars/jenkinsRestApi.md#list-job-findjobsbynameregexmap-remote)
 * [managedScripts](vars/managedScripts.md)

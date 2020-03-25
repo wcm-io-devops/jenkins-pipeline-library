@@ -20,15 +20,12 @@
 package vars.notify.mattermost
 
 import io.wcm.devops.jenkins.pipeline.model.Result
-import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
-import org.junit.Assert
 import org.junit.Test
 
 import static io.wcm.testing.jenkins.pipeline.StepConstants.MATTERMOST_SEND
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
-import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
 
-class NotifyMattermostDefaultsIT extends MattermostIntegrationTestBase {
+class NotifyMattermostDefaultsIT extends NotifyMattermostIntegrationTestBase {
 
   @Test
   void shouldNotNotifyOnSuccess() {

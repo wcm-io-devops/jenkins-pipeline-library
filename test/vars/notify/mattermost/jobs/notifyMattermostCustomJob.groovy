@@ -32,7 +32,7 @@ def execute() {
       (NOTIFY_MATTERMOST): [
         (NOTIFY_MATTERMOST_CHANNEL)      : "customChannel",
         (NOTIFY_MATTERMOST_COLOR)        : "customColor",
-        (NOTIFY_MATTERMOST_ENDPOINT)     : "customEndpoint",
+        (NOTIFY_MATTERMOST_ENDPOINT)     : "https://customEndpoint",
         (NOTIFY_MATTERMOST_FAIL_ON_ERROR): true,
         (NOTIFY_MATTERMOST_ICON)         : "customIcon",
         (NOTIFY_MATTERMOST_MESSAGE)      : "customMessage",

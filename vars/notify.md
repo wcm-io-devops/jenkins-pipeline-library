@@ -1,6 +1,8 @@
 # notify
 
-This party of the pipeline provide useful notification steps.
+This part of the pipeline provide useful notification steps for build results.
+
+:bulb: If you want to send messages during the build have a look at [Instant Messaging (im)](im.md)
 
 With jenkins pipeline the sending of notifications lost some
 functionality. For example the
@@ -345,10 +347,9 @@ comma separated String of mail adresses.
 
 # `notify.mattermost(Map config)`
 
-The `notify.mattermost` step uses the
-[Mattermost Notification Plugin](https://plugins.jenkins.io/mattermost)
-to send build notifications to a mattermost instance using mattermost
-webhooks.
+The `notify.mattermost` step uses [`im.mattermost`](im.md#immattermost) to send build notifications.
+
+:bulb: If you want to send messages during the build have a look at [Instant Messaging (im)](im.md)
 
 ## Generic Configuration support
 
@@ -661,3 +662,6 @@ Sets the message retain option.
 |Default|`jenkins/${env.getProperty('JOB_NAME')}`|
 
 Specifies the MQTT topic to send.
+
+[mimeType (optional)]: #mimetype-optional
+

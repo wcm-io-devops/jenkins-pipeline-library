@@ -20,14 +20,12 @@
 package vars.notify.mattermost
 
 import hudson.model.Result
-import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import org.junit.Test
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.EMAILEXT
 import static io.wcm.testing.jenkins.pipeline.StepConstants.MATTERMOST_SEND
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 
-class NotifyMattermostDisabledIT extends MattermostIntegrationTestBase {
+class NotifyMattermostDisabledIT extends NotifyMattermostIntegrationTestBase {
 
   @Test
   void shouldNotNotifyOnSuccess() {
