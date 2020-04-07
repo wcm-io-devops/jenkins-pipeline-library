@@ -282,6 +282,61 @@ void mattermost(Map config = [:]) {
 }
 
 /**
+ * Sends a Microsoft Teams notification using the Office365 Connector plugin
+ *
+ * @param config The configuration for the step
+ */
+void teams(Map config = [:]) {
+
+  Logger log = new Logger("notify.teams")
+
+  Map defaultConfig = [
+    (NOTIFY_TEAMS): [
+      (MAP_MERGE_MODE)                           : (MapMergeMode.REPLACE),
+      (NOTIFY_TEAMS_ENABLED)                     : true,
+      (NOTIFY_TEAMS_MESSAGE)                    : null,
+      (NOTIFY_TEAMS_STATUS)                     : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
+      (NOTIFY_TEAMS_COLOR)                      : null,
+      (NOTIFY_ON_ABORT)                         : false,
+      (NOTIFY_ON_FAILURE)                       : true,
+      (NOTIFY_ON_STILL_FAILING)                : true,
+      (NOTIFY_ON_FIXED)                         : true,
+      (NOTIFY_ON_SUCCESS)                       : false,
+      (NOTIFY_ON_UNSTABLE)                      : true,
+      (NOTIFY_ON_STILL_UNSTABLE)               : true,
+    ]
+  ]
+
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.info("Fully-Qualified Job Name (FQJN)", search)
+
+  // merge default config with config from incoming yaml
+  config = MapUtils.merge(defaultConfig, config)
+
+  // ease access to MS Teams config values
+  Map teamsConfig = config[NOTIFY_TEAMS]
+
+  if (!teamsConfig[NOTIFY_TEAMS_ENABLED]) {
+    log.info("MS Teams notifications are disabled")
+    return
+  }
+
+  // get build result specific configuration
+  Object buildResultConfig = this.getBuildResultConfig(teamsConfig)
+  if (buildResultConfig == false) {
+    // notification is disabled in the build result specific configuration
+    return
+  }
+
+  log.debug("buildResultConfig", buildResultConfig)
+
+  im.teams((NOTIFY_TEAMS): buildResultConfig)
+
+}
+
+/**
  * Returns the notification config based on the build result
  *
  * @param config

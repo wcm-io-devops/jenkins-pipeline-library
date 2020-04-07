@@ -147,3 +147,66 @@ void mattermost(String message, String text = null, String color = null, String 
 
   }
 }
+
+/**
+ * Adapter function for sending instant messages to Microsoft Teams using a configMap
+ *
+ * @param config The config for the teams step
+ */
+void teams(Map config) {
+
+  Map defaultConfig = [
+    (NOTIFY_TEAMS): [
+      (MAP_MERGE_MODE)          : (MapMergeMode.REPLACE),
+      (NOTIFY_TEAMS_ENABLED)    : true,
+      (NOTIFY_TEAMS_MESSAGE)    : null,
+      (NOTIFY_TEAMS_STATUS)     : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL): null,
+      (NOTIFY_TEAMS_COLOR)      : null,
+      (NOTIFY_ON_ABORT)         : false,
+      (NOTIFY_ON_FAILURE)       : true,
+      (NOTIFY_ON_STILL_FAILING) : true,
+      (NOTIFY_ON_FIXED)         : true,
+      (NOTIFY_ON_SUCCESS)       : false,
+      (NOTIFY_ON_UNSTABLE)      : true,
+      (NOTIFY_ON_STILL_UNSTABLE): true,
+    ]
+  ]
+
+  Map teamsConfig = MapUtils.merge(defaultConfig, config)[NOTIFY_TEAMS]
+
+  String message = teamsConfig[NOTIFY_TEAMS_MESSAGE]
+  String status = teamsConfig[NOTIFY_TEAMS_STATUS]
+  String webhookUrl = teamsConfig[NOTIFY_TEAMS_WEBHOOK_URL]
+  String color = teamsConfig[NOTIFY_TEAMS_COLOR]
+
+  this.teams(message, status, webhookUrl,color)
+}
+
+/**
+ * Sends an instant MS Teams message.
+ * @param message The message to send
+ * @param status The status of the current build
+ * @param webhookUrl The URL to the webhook of MS Teams
+ * @param color The color for the message
+ */
+void teams(String message = null, String status = null, String webhookUrl = null, String color = null) {
+
+  Logger log = new Logger("im.teams")
+
+  log.debug("message", message)
+  log.debug("status", status)
+  log.debug("webhookUrl", message)
+  log.debug("color", color)
+
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.debug("Fully-Qualified Job Name (FQJN)", search)
+
+  try {
+    office365ConnectorSend(message: message, status: status, webhookUrl: webhookUrl, color: color)
+  } catch (Exception ex) {
+    log.error("Unable to send MS Teams notification. ", ex.getCause().toString())
+  }
+
+}

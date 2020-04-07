@@ -149,6 +149,7 @@ contributor(notify) {
   method(name: 'mail', type: 'void', params: [config: Map], doc: 'Sends a mail notification.')
   method(name: 'mattermost', type: 'void', params: [config: Map], doc: 'Triggers a mattermost notification')
   method(name: 'mqtt', type: 'void', params: [config: Map], doc: 'Triggers a mqtt notification')
+  method(name: 'teams', type: 'void', params: [config: Map], doc: 'Triggers an MS Teams notification')
 }
 
 def wrap = context(ctype: "wrap")
