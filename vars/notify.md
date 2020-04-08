@@ -12,7 +12,7 @@ functionality. For example the
 
 results are no longer available (at the moment)
 
-The `notify.mail` and `notify.mattermost` steps bring back parts of this convenience.
+The `notify.*` steps bring back parts of this convenience.
 
 # Table of contents
 
@@ -24,10 +24,11 @@ The `notify.mail` and `notify.mattermost` steps bring back parts of this conveni
   * [Custom Subject](#custom-subject)
 * [notify.mattermost](#notifymattermostmap-config)
 * [notify.mqtt](#notifymqttmap-config)
+* [notify.teams](#notifyteams-config)
 
 # Build result specific configuration
 
-The `notify.mail` and the `notify.mattermost` step support build result
+The `notify.*` steps support build result
 specific configurations.
 
 With the configuration options for the build status, like
@@ -58,10 +59,10 @@ notifyMail(
 )
 ```
 
-So you are able to configure for each build result custom options. You
+So you are able to configure custom options for each build result. You
 can use each non build result specific configuration options again in
 these configs maps (because placing a `(NOTIFY_ON_FAILURE)` inside a
-`(NOTIFY_ON_FAILURE)` wouldn't make sence).
+`(NOTIFY_ON_FAILURE)` wouldn't make sense).
 
 :bulb: Please be aware that the build result specific
 configuration is merged with the "root" configuration! This especially
@@ -662,6 +663,85 @@ Sets the message retain option.
 |Default|`jenkins/${env.getProperty('JOB_NAME')}`|
 
 Specifies the MQTT topic to send.
+
+# `notify.teams(Map config)`
+
+The `notify.teams` step uses [`im.teams`](im.md#imteams) to send build notifications.
+
+:bulb: If you want to send messages during the build have a look at [Instant Messaging (im)](im.md)
+
+## Configuration options
+
+Complete list of all configuration options.
+
+All configuration options must be inside the `NOTIFY_TEAMS`
+([`ConfigConstants.NOTIFY_TEAMS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
+map element to be evaluated and used by the step.
+
+You have to provide at least a `NOTIFY_TEAMS_WEBHOOK_URL`.
+
+```groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
+String defaultColor = triggerHelper.getTrigger().getColor()
+
+notify.mattermost( 
+  (NOTIFY_TEAMS): [
+      (NOTIFY_TEAMS_ENABLED)                    : true,
+      (NOTIFY_TEAMS_MESSAGE)                    : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
+      (NOTIFY_TEAMS_COLOR)                      : defaultColor,
+      (NOTIFY_ON_ABORT)                         : false,
+      (NOTIFY_ON_FAILURE)                       : true,
+      (NOTIFY_ON_STILL_FAILING)                 : true,
+      (NOTIFY_ON_FIXED)                         : true,
+      (NOTIFY_ON_SUCCESS)                       : false,
+      (NOTIFY_ON_UNSTABLE)                      : true,
+      (NOTIFY_ON_STILL_UNSTABLE)                : true
+    ]
+)
+```
+
+### `enabled` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_ENABLED`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`Boolean`|
+|Default|`true`|
+
+Enables / disables MS Teams notifications.
+
+### `webhookUrl` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_WEBHOOK_URL`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
+
+The URL of the webhook that Jenkins needs to send notifications to MS Teams. You will obtain this URL while setting up 
+the Jenkins connector in your MS Teams channel. For more information, refer to 
+[Microsoft's documentation](https://techcommunity.microsoft.com/t5/microsoft-teams-blog/stay-up-to-date-on-your-build-activities-with-jenkins/ba-p/467440).
+
+### `message` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_MESSAGE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
+
+The message of the MS Teams notification. This defaults to `null` since the plugin already provides a pretty detailed
+message by default.
+
+### `color` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_COLOR`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`Result.getColor()`|
+
+The color for the message. When using the defaults the color is retrieved from the parsed build result object.
+See [Result.groovy](../src/io/wcm/devops/jenkins/pipeline/model/Result.groovy) for the color definition.
 
 [mimeType (optional)]: #mimetype-optional
 

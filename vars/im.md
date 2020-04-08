@@ -12,6 +12,7 @@ This part of the pipeline provide steps for instant messaging.
        * [Configuration options](#configuration-options)
   * [Generic Configuration support](#generic-configuration-support)
   * [Examples](#examples)
+* [`im.teams()`](#imteams)
 
 # `im.mattermost()`
 
@@ -197,4 +198,88 @@ im.mattermost("message")
 im.mattermost("message","text")
 // message, text, channel and icon
 im.mattermost("message","text","#00FF00","wcm-io-channel", "https://www.mattermost.org/wp-content/uploads/2016/04/icon.png")
+```
+
+# `im.teams()`
+
+The `im.teams` step uses the
+[Office365 Connector plugin](https://plugins.jenkins.io/Office-365-Connector/)
+to send instant messages to a Microsoft Teams instance using webhooks.
+
+Signatures:
+* `void teams(String message = null, String webhookUrl = null, String color = null)`
+* `void teams(Map config)`
+
+## Arguments
+
+Please refer to the step documentation for details as `im.teams` is
+mostly forwarding the arguments:
+https://jenkins.io/doc/pipeline/steps/Office-365-Connector/
+
+### `config`
+
+If you want you can also use the step with a config map.
+
+```groovy
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
+
+Map config = [
+  (NOTIFY_TEAMS): [
+    (NOTIFY_TEAMS_MESSAGE)                    : null,
+    (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
+    (NOTIFY_TEAMS_COLOR)                      : null,
+  ]
+]
+
+im.teams(config)
+```
+#### Configuration options
+
+Complete list of all configuration options.
+
+All configuration options must be inside the `NOTIFY_TEAMS`
+([`ConfigConstants.NOTIFY_TEAMS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
+map element to be evaluated and used by the step.
+
+You have to provide at least a `NOTIFY_TEAMS_WEBHOOK_URL`.
+
+### `webhookUrl` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_WEBHOOK_URL`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
+
+The URL of the webhook that Jenkins needs to send notifications to MS Teams. You will obtain this URL while setting up 
+the Jenkins connector in your MS Teams channel. For more information, refer to 
+[Microsoft's documentation](https://techcommunity.microsoft.com/t5/microsoft-teams-blog/stay-up-to-date-on-your-build-activities-with-jenkins/ba-p/467440).
+
+
+### `message` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_MESSAGE`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
+
+The message of the MS Teams notification. This defaults to `null` since the plugin already provides a pretty detailed
+message by default.
+
+### `color` (optional)
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_COLOR`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`Result.getColor()`|
+
+The color for the message. When using the defaults the color is retrieved from the parsed build result object.
+See [Result.groovy](../src/io/wcm/devops/jenkins/pipeline/model/Result.groovy) for the color definition.
+
+## Examples
+
+```groovy
+// message only 
+im.teams("message", "http://your-webhook.url")
+// message with custom color
+im.teams("message", "http://your-webhook.url", "ffffff")
 ```
