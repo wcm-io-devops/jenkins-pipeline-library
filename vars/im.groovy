@@ -160,7 +160,6 @@ void teams(Map config) {
       (MAP_MERGE_MODE)          : (MapMergeMode.REPLACE),
       (NOTIFY_TEAMS_ENABLED)    : true,
       (NOTIFY_TEAMS_MESSAGE)    : null,
-      (NOTIFY_TEAMS_STATUS)     : null,
       (NOTIFY_TEAMS_WEBHOOK_URL): null,
       (NOTIFY_TEAMS_COLOR)      : null,
       (NOTIFY_ON_ABORT)         : false,
@@ -176,26 +175,23 @@ void teams(Map config) {
   Map teamsConfig = MapUtils.merge(defaultConfig, config)[NOTIFY_TEAMS]
 
   String message = teamsConfig[NOTIFY_TEAMS_MESSAGE]
-  String status = teamsConfig[NOTIFY_TEAMS_STATUS]
   String webhookUrl = teamsConfig[NOTIFY_TEAMS_WEBHOOK_URL]
   String color = teamsConfig[NOTIFY_TEAMS_COLOR]
 
-  this.teams(message, status, webhookUrl,color)
+  this.teams(message, webhookUrl,color)
 }
 
 /**
  * Sends an instant MS Teams message.
  * @param message The message to send
- * @param status The status of the current build
  * @param webhookUrl The URL to the webhook of MS Teams
  * @param color The color for the message
  */
-void teams(String message = null, String status = null, String webhookUrl = null, String color = null) {
+void teams(String message = null, String webhookUrl = null, String color = null) {
 
   Logger log = new Logger("im.teams")
 
   log.debug("message", message)
-  log.debug("status", status)
   log.debug("webhookUrl", message)
   log.debug("color", color)
 
@@ -204,7 +200,7 @@ void teams(String message = null, String status = null, String webhookUrl = null
   log.debug("Fully-Qualified Job Name (FQJN)", search)
 
   try {
-    office365ConnectorSend(message: message, status: status, webhookUrl: webhookUrl, color: color)
+    office365ConnectorSend(message: message, webhookUrl: webhookUrl, color: color)
   } catch (Exception ex) {
     log.error("Unable to send MS Teams notification. ", ex.getCause().toString())
   }

@@ -290,14 +290,16 @@ void teams(Map config = [:]) {
 
   Logger log = new Logger("notify.teams")
 
+  NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
+  String defaultColor = triggerHelper.getTrigger().getColor()
+
   Map defaultConfig = [
     (NOTIFY_TEAMS): [
       (MAP_MERGE_MODE)                           : (MapMergeMode.REPLACE),
       (NOTIFY_TEAMS_ENABLED)                     : true,
       (NOTIFY_TEAMS_MESSAGE)                    : null,
-      (NOTIFY_TEAMS_STATUS)                     : null,
       (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
-      (NOTIFY_TEAMS_COLOR)                      : null,
+      (NOTIFY_TEAMS_COLOR)                      : defaultColor,
       (NOTIFY_ON_ABORT)                         : false,
       (NOTIFY_ON_FAILURE)                       : true,
       (NOTIFY_ON_STILL_FAILING)                : true,

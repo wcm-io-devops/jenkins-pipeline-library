@@ -109,6 +109,8 @@ class StepConstants {
   public final static String STEP = "step"
   public final static String STRING = "string"
 
+  public final static String OFFICE365_CONNECTOR_SEND = "office365ConnectorSend"
+
   public final static String TEXT = "text"
   public final static String TIMESTAMPS = "timestamps"
   public final static String TIMEOUT = "timeout"
