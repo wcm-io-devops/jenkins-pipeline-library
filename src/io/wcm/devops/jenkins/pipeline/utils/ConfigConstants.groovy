@@ -113,7 +113,6 @@ class ConfigConstants {
   public static final String NOTIFY_TEAMS = "notifyTeams"
   public static final String NOTIFY_TEAMS_ENABLED = "enabled"
   public static final String NOTIFY_TEAMS_MESSAGE = "message"
-  public static final String NOTIFY_TEAMS_STATUS = "status"
   public static final String NOTIFY_TEAMS_WEBHOOK_URL = "notifyTeamsWebhookUrl"
   public static final String NOTIFY_TEAMS_COLOR = "color"
 
