@@ -116,8 +116,8 @@ contributor(im) {
   method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String, endpointOrCredentialId: String], doc: 'Mattermost instant notification with Generic Config support.')
   method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String, endpointOrCredentialId: String, failOnError: Boolean], doc: 'Mattermost instant notification with Generic Config support.')
   method(name: 'teams', type: 'void', params: [message: String], doc: "MS Teams instant notification with Generic Config support.")
-  method(name: 'teams', type: 'void', params: [message: String, webhookUrl: String], doc: "MS Teams instant notification with Generic Config support.")
-  method(name: 'teams', type: 'void', params: [message: String, webhookUrl: String, color: String], doc: "MS Teams instant notification with Generic Config support.")
+  method(name: 'teams', type: 'void', params: [message: String, webhookUrlOrCredentialId:String], doc: "MS Teams instant notification with Generic Config support.")
+  method(name: 'teams', type: 'void', params: [message: String, webhookUrlOrCredentialId: String, color: String], doc: "MS Teams instant notification with Generic Config support.")
 }
 
 def jenkinsRestApi = context(ctype: "jenkinsRestApi")
