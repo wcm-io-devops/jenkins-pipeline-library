@@ -299,6 +299,7 @@ void teams(Map config = [:]) {
       (NOTIFY_TEAMS_ENABLED)                     : true,
       (NOTIFY_TEAMS_MESSAGE)                    : null,
       (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID) : null,
       (NOTIFY_TEAMS_COLOR)                      : defaultColor,
       (NOTIFY_ON_ABORT)                         : false,
       (NOTIFY_ON_FAILURE)                       : true,

@@ -670,6 +670,22 @@ The `notify.teams` step uses [`im.teams`](im.md#imteams) to send build notificat
 
 :bulb: If you want to send messages during the build have a look at [Instant Messaging (im)](im.md)
 
+## Generic Configuration support
+
+This step supports the [Generic Configuration](../docs/generic-config.md)
+mechanism for loading and applying a FQJN based auto-lookup for the
+appropriate configuration options.
+
+:bulb: FQJN = **F**ully-**Q**ualified **J**ob **N**ame =
+`${JOB_NAME}@${GIT_BRANCH}`
+
+:bulb: This method of configuration is recommended!
+
+When using this mechanism the step expects a YAML pipeline resource with
+the path `resources/jenkins-pipeline-library/notify/teams.yaml`.
+
+:bulb: An example for this `teams.yaml` is here: [`teams.yaml`](../test/resources/jenkins-pipeline-library/config/notify/teams.yaml)
+
 ## Configuration options
 
 Complete list of all configuration options.
@@ -678,7 +694,8 @@ All configuration options must be inside the `NOTIFY_TEAMS`
 ([`ConfigConstants.NOTIFY_TEAMS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
 map element to be evaluated and used by the step.
 
-You have to provide at least a `NOTIFY_TEAMS_WEBHOOK_URL`.
+You have to provide either a `NOTIFY_TEAMS_WEBHOOK_URL` or a credential containing the webhook URL by
+using `NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID`.
 
 ```groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
@@ -722,6 +739,17 @@ Enables / disables MS Teams notifications.
 The URL of the webhook that Jenkins needs to send notifications to MS Teams. You will obtain this URL while setting up 
 the Jenkins connector in your MS Teams channel. For more information, refer to 
 [Microsoft's documentation](https://techcommunity.microsoft.com/t5/microsoft-teams-blog/stay-up-to-date-on-your-build-activities-with-jenkins/ba-p/467440).
+
+##### `webhookUrlCredentialId`
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
+
+Specifies a secret text (String) credential to use as the MS Teams webhook URL.
+Will not be used when `endpoint`/`NOTIFY_TEAMS_WEBHOOK_URL`
+is configured.
 
 ### `message` (optional)
 |||

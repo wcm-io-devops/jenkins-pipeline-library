@@ -114,6 +114,7 @@ class ConfigConstants {
   public static final String NOTIFY_TEAMS_ENABLED = "enabled"
   public static final String NOTIFY_TEAMS_MESSAGE = "message"
   public static final String NOTIFY_TEAMS_WEBHOOK_URL = "notifyTeamsWebhookUrl"
+  public static final String NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID = "webhookUrlCredentialId"
   public static final String NOTIFY_TEAMS_COLOR = "color"
 
   public static final String NPM = "NPM"

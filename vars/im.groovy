@@ -157,11 +157,12 @@ void teams(Map config) {
 
   Map defaultConfig = [
     (NOTIFY_TEAMS): [
-      (MAP_MERGE_MODE)          : (MapMergeMode.REPLACE),
-      (NOTIFY_TEAMS_ENABLED)    : true,
-      (NOTIFY_TEAMS_MESSAGE)    : null,
-      (NOTIFY_TEAMS_WEBHOOK_URL): null,
-      (NOTIFY_TEAMS_COLOR)      : null,
+      (MAP_MERGE_MODE)                          : (MapMergeMode.REPLACE),
+      (NOTIFY_TEAMS_ENABLED)                    : true,
+      (NOTIFY_TEAMS_MESSAGE)                    : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID): null,
+      (NOTIFY_TEAMS_COLOR)                      : null,
     ]
   ]
 
@@ -169,26 +170,37 @@ void teams(Map config) {
 
   String message = teamsConfig[NOTIFY_TEAMS_MESSAGE]
   String webhookUrl = teamsConfig[NOTIFY_TEAMS_WEBHOOK_URL]
+  String webhookUrlCredentialId = teamsConfig[NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID]
   String color = teamsConfig[NOTIFY_TEAMS_COLOR]
 
-  this.teams(message, webhookUrl,color)
+  String webhookUrlOrCredentialId = null
+  if (webhookUrl) {
+    webhookUrlOrCredentialId = webhookUrl
+  } else if (webhookUrlCredentialId) {
+    webhookUrlOrCredentialId = webhookUrlCredentialId
+  }
+
+  this.teams(message, webhookUrlOrCredentialId,color)
 }
 
 /**
  * Sends an instant MS Teams message.
  * @param message The message to send
- * @param webhookUrl The URL to the webhook of MS Teams
+ * @param webhookUrlOrCredentialId The URL to the webhook of MS Teams or a credential id for a string credential
+ * containing the webhook URL. When no value is provided, the step tries to retrieve the endpoint using the Generic
+ * Configuration mechanism.
  * @param color The color for the message
  */
-void teams(String message = null, String webhookUrl = null, String color = null) {
+void teams(String message = null, String webhookUrlOrCredentialId = null, String color = null) {
 
   Logger log = new Logger("im.teams")
+  String webhookUrl = null
+  String webhookUrlCredentialId = null
+  List credentials = []
 
   log.debug("message", message)
-  log.debug("webhookUrl", webhookUrl)
+  log.debug("webhookUrlOrCredentialId", webhookUrlOrCredentialId)
   log.debug("color", color)
-
-  List credentials = []
 
   GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
   String search = genericConfigUtils.getFQJN()
@@ -198,14 +210,20 @@ void teams(String message = null, String webhookUrl = null, String color = null)
   Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_TEAMS_CONFIG_PATH, search, NOTIFY_TEAMS)
   Map notifyTeams = yamlConfig[NOTIFY_TEAMS] ?: [:]
 
-  if (webhookUrl == null) {
-    log.debug("webhookUrl ($webhookUrl) is null, try to retrieve from generic config")
-    webhookUrl = notifyTeams[NOTIFY_TEAMS_WEBHOOK_URL] ?: webhookUrl
+  if (webhookUrlOrCredentialId == null) {
+    log.debug("webhookUrlCredentialId ($webhookUrlCredentialId) is null, load generic config")
+    webhookUrlCredentialId = notifyTeams[NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID] ?: webhookUrlCredentialId
+  } else if (webhookUrlOrCredentialId.startsWith("http://") || webhookUrlOrCredentialId.startsWith("https://")) {
+    webhookUrl = webhookUrlOrCredentialId
   } else {
-    credentials.push(string(credentialsId: webhookUrl, variable: 'TEAMS_WEBHOOK_URL'))
+    webhookUrlCredentialId = webhookUrlOrCredentialId
   }
 
-  log.debug("webhookUrl", webhookUrl)
+  if (webhookUrlCredentialId != null) {
+    credentials.push(string(credentialsId: webhookUrlCredentialId, variable: 'TEAMS_WEBHOOK_URL'))
+  }
+
+  log.debug("webhookUrlCredentialId", webhookUrlCredentialId)
 
   withCredentials(credentials) {
     if (credentials.size() > 0) {

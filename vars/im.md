@@ -13,6 +13,12 @@ This part of the pipeline provide steps for instant messaging.
   * [Generic Configuration support](#generic-configuration-support)
   * [Examples](#examples)
 * [`im.teams()`](#imteams)
+  * [Arguments](#arguments)
+    * [`webhookUrlOrCredentialId`](#webhookUrlOrCredentialId)
+    * [`config`](#config)
+       * [Configuration options](#configuration-options)
+  * [Generic Configuration support](#generic-configuration-support)
+  * [Examples](#examples)
 
 # `im.mattermost()`
 
@@ -207,7 +213,7 @@ The `im.teams` step uses the
 to send instant messages to a Microsoft Teams instance using webhooks.
 
 Signatures:
-* `void teams(String message = null, String webhookUrl = null, String color = null)`
+* `void teams(String message = null, String webhookUrlOrCredentialId = null, String color = null)`
 * `void teams(Map config)`
 
 ## Arguments
@@ -215,6 +221,19 @@ Signatures:
 Please refer to the step documentation for details as `im.teams` is
 mostly forwarding the arguments:
 https://jenkins.io/doc/pipeline/steps/Office-365-Connector/
+
+### `webhookUrlOrCredentialId`
+
+When `webhookUrlOrCredentialId` is `null` (default) then an auto-lookup for the webhook URL
+using the
+[Generic Configuration support](#generic-configuration-support) is
+performed.
+
+When `webhookUrlOrCredentialId` starts with `http://` or `https://`, the
+value of `webhookUrlOrCredentialId` is used as MS Teams webhook URL.
+
+When none of the above conditions match the value of `webhookUrlOrCredentialId`, 
+it is used as credential ID to retrieve the endpoint from the Jenkins credential storage.
 
 ### `config`
 
@@ -233,6 +252,7 @@ Map config = [
 
 im.teams(config)
 ```
+
 #### Configuration options
 
 Complete list of all configuration options.
@@ -243,7 +263,7 @@ map element to be evaluated and used by the step.
 
 You have to provide at least a `NOTIFY_TEAMS_WEBHOOK_URL`.
 
-### `webhookUrl` (optional)
+### `webhookUrl`
 |||
 |---|---|
 |Constant|[`ConfigConstants.NOTIFY_TEAMS_WEBHOOK_URL`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
@@ -253,7 +273,20 @@ You have to provide at least a `NOTIFY_TEAMS_WEBHOOK_URL`.
 The URL of the webhook that Jenkins needs to send notifications to MS Teams. You will obtain this URL while setting up 
 the Jenkins connector in your MS Teams channel. For more information, refer to 
 [Microsoft's documentation](https://techcommunity.microsoft.com/t5/microsoft-teams-blog/stay-up-to-date-on-your-build-activities-with-jenkins/ba-p/467440).
+When `endpointOrCredentialId` is `null` (default) then an auto-lookup for the channel
+using the
+[Generic Configuration support](#generic-configuration-support) is
+performed.
+##### `webhookUrlCredentialId`
+|||
+|---|---|
+|Constant|[`ConfigConstants.NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
+|Type|`String`|
+|Default|`null`|
 
+Specifies a secret text (String) credential to use as the MS Teams webhook URL.
+Will not be used when `endpoint`/`NOTIFY_TEAMS_WEBHOOK_URL`
+is configured.
 
 ### `message` (optional)
 |||
@@ -275,11 +308,27 @@ message by default.
 The color for the message. When using the defaults the color is retrieved from the parsed build result object.
 See [Result.groovy](../src/io/wcm/devops/jenkins/pipeline/model/Result.groovy) for the color definition.
 
+## Generic Configuration support
+
+This step supports the [Generic Configuration](../docs/generic-config.md)
+mechanism for loading and applying a FQJN based auto-lookup for the
+appropriate configuration options.
+
+:bulb: FQJN = **F**ully-**Q**ualified **J**ob **N**ame =
+`${JOB_NAME}@${GIT_BRANCH}`
+
+:bulb: This method of configuration is recommended!
+
+When using this mechanism the step expects a YAML pipeline resource with
+the path `resources/jenkins-pipeline-library/notify/teams.yaml`.
+
+:bulb: An example for this `teams.yaml` is here: [`teams.yaml`](../test/resources/jenkins-pipeline-library/config/notify/teams.yaml)
+
 ## Examples
 
 ```groovy
 // message only 
-im.teams("message", "http://your-webhook.url")
+im.teams("message")
 // message with custom color
-im.teams("message", "http://your-webhook.url", "ffffff")
+im.teams("message", color = "ffffff")
 ```

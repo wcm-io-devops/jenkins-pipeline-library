@@ -19,13 +19,11 @@
  */
 package vars.im.teams
 
-import hudson.model.Result
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.testing.jenkins.pipeline.StepConstants
 import org.junit.Assert
 import org.junit.Test
 
-import static io.wcm.testing.jenkins.pipeline.StepConstants.MATTERMOST_SEND
 import static io.wcm.testing.jenkins.pipeline.StepConstants.OFFICE365_CONNECTOR_SEND
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertNone
 import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assertOnce
