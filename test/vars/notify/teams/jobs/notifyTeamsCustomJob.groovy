@@ -31,7 +31,7 @@ def execute() {
     (NOTIFY_TEAMS) : [
       (NOTIFY_TEAMS_ENABLED)    : true,
       (NOTIFY_TEAMS_MESSAGE)    : "customMessage",
-      (NOTIFY_TEAMS_WEBHOOK_URL): "customWebhookUrl",
+      (NOTIFY_TEAMS_WEBHOOK_URL): "https://customWebhookUrl",
       (NOTIFY_TEAMS_COLOR)      : "customColor",
       (NOTIFY_ON_SUCCESS)       : true,
       (NOTIFY_ON_FAILURE)       : false,

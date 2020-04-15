@@ -29,11 +29,18 @@ import static io.wcm.testing.jenkins.pipeline.recorder.StepRecorderAssert.assert
 
 class NotifyTeamsIntegrationTestBase extends LibraryIntegrationTestBase {
 
-  String expectedMessage = null
+  @Override
+  void setUp() throws Exception {
+    super.setUp()
+    this.getBinding().setVariable("TEAMS_WEBHOOK_URL", "https://MOCKED_WEBHOOK_URL")
+  }
 
   void assertTeamsCall(Result buildResult) {
     Map teamsCall = assertOnce(OFFICE365_CONNECTOR_SEND)
     Assert.assertEquals(buildResult.getColor(), teamsCall['color'].toString())
+
+    String expectedMessage = null
+
     if (expectedMessage != null) {
       Assert.assertEquals(expectedMessage, teamsCall['message'].toString())
     }

@@ -93,7 +93,7 @@ class NotifyTeamsCustomIT extends NotifyTeamsIntegrationTestBase {
   static void assertTeamsCall(Result buildResult) {
     Map expectedCall = [
       "message"      : "customMessage",
-      "webhookUrl"   : "customWebhookUrl",
+      "webhookUrl"   : "https://customWebhookUrl",
       "color"        : "customColor",
     ]
     Map teamsCall = assertOnce(OFFICE365_CONNECTOR_SEND)
