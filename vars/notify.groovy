@@ -135,7 +135,7 @@ void mail(Map config = [:]) {
 }
 
 /**
- * Sends a MQTT notification using the MQTT Notification Plugin
+ * Sends an MQTT notification using the MQTT Notification Plugin
  *
  * @param config The configuration for the step
  */
@@ -314,8 +314,11 @@ void teams(Map config = [:]) {
   String search = genericConfigUtils.getFQJN()
   log.info("Fully-Qualified Job Name (FQJN)", search)
 
-  // merge default config with config from incoming yaml
-  config = MapUtils.merge(defaultConfig, config)
+  // load yamlConfig
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_TEAMS_CONFIG_PATH, search, NOTIFY_TEAMS)
+
+  // merge default config with config from yaml and incoming yaml
+  config = MapUtils.merge(defaultConfig, yamlConfig, config)
 
   // ease access to MS Teams config values
   Map teamsConfig = config[NOTIFY_TEAMS]

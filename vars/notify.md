@@ -511,7 +511,7 @@ Plugin](https://plugins.jenkins.io/mqtt-notification-plugin).
 
 ## Extreme feedback device support
 
-This step is designed to send a mqtt default message that is compatible
+This step is designed to send an mqtt default message that is compatible
 with
 [wcm_io_devops.jenkins_xfd](https://github.com/wcm-io-devops/ansible-jenkins-xfd)
 which displays the build status using hardware from Cleware.
@@ -712,7 +712,7 @@ notify.mattermost(
 
 Enables / disables MS Teams notifications.
 
-### `webhookUrl` (optional)
+### `webhookUrl`
 |||
 |---|---|
 |Constant|[`ConfigConstants.NOTIFY_TEAMS_WEBHOOK_URL`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|

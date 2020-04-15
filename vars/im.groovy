@@ -67,7 +67,7 @@ void mattermost(Map config) {
 }
 
 /**
- * Sends a instant mattermost message.
+ * Sends an instant mattermost message.
  *
  * @param message The message to send
  * @param text The text to send
@@ -162,13 +162,6 @@ void teams(Map config) {
       (NOTIFY_TEAMS_MESSAGE)    : null,
       (NOTIFY_TEAMS_WEBHOOK_URL): null,
       (NOTIFY_TEAMS_COLOR)      : null,
-      (NOTIFY_ON_ABORT)         : false,
-      (NOTIFY_ON_FAILURE)       : true,
-      (NOTIFY_ON_STILL_FAILING) : true,
-      (NOTIFY_ON_FIXED)         : true,
-      (NOTIFY_ON_SUCCESS)       : false,
-      (NOTIFY_ON_UNSTABLE)      : true,
-      (NOTIFY_ON_STILL_UNSTABLE): true,
     ]
   ]
 
@@ -192,17 +185,38 @@ void teams(String message = null, String webhookUrl = null, String color = null)
   Logger log = new Logger("im.teams")
 
   log.debug("message", message)
-  log.debug("webhookUrl", message)
+  log.debug("webhookUrl", webhookUrl)
   log.debug("color", color)
+
+  List credentials = []
 
   GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
   String search = genericConfigUtils.getFQJN()
   log.debug("Fully-Qualified Job Name (FQJN)", search)
 
-  try {
-    office365ConnectorSend(message: message, webhookUrl: webhookUrl, color: color)
-  } catch (Exception ex) {
-    log.error("Unable to send MS Teams notification. ", ex.getCause().toString())
+  // load yamlConfig
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_TEAMS_CONFIG_PATH, search, NOTIFY_TEAMS)
+  Map notifyTeams = yamlConfig[NOTIFY_TEAMS] ?: [:]
+
+  if (webhookUrl == null) {
+    log.debug("webhookUrl ($webhookUrl) is null, try to retrieve from generic config")
+    webhookUrl = notifyTeams[NOTIFY_TEAMS_WEBHOOK_URL] ?: webhookUrl
+  } else {
+    credentials.push(string(credentialsId: webhookUrl, variable: 'TEAMS_WEBHOOK_URL'))
+  }
+
+  log.debug("webhookUrl", webhookUrl)
+
+  withCredentials(credentials) {
+    if (credentials.size() > 0) {
+      webhookUrl = "$TEAMS_WEBHOOK_URL"
+    }
+
+    try {
+      office365ConnectorSend(message: message, webhookUrl: webhookUrl, color: color)
+    } catch (Exception ex) {
+      log.error("Unable to send MS Teams notification. ", ex.getCause().toString())
+    }
   }
 
 }
