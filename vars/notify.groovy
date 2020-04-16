@@ -135,7 +135,7 @@ void mail(Map config = [:]) {
 }
 
 /**
- * Sends a MQTT notification using the MQTT Notification Plugin
+ * Sends an MQTT notification using the MQTT Notification Plugin
  *
  * @param config The configuration for the step
  */
@@ -279,6 +279,67 @@ void mattermost(Map config = [:]) {
   log.debug("buildResultConfig", buildResultConfig)
 
   im.mattermost((NOTIFY_MATTERMOST): buildResultConfig)
+}
+
+/**
+ * Sends a Microsoft Teams notification using the Office365 Connector plugin
+ *
+ * @param config The configuration for the step
+ */
+void teams(Map config = [:]) {
+
+  Logger log = new Logger("notify.teams")
+
+  NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
+  String defaultColor = triggerHelper.getTrigger().getColor()
+
+  Map defaultConfig = [
+    (NOTIFY_TEAMS): [
+      (MAP_MERGE_MODE)                        : (MapMergeMode.REPLACE),
+      (NOTIFY_TEAMS_ENABLED)                  : true,
+      (NOTIFY_TEAMS_MESSAGE)                  : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL)              : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID): null,
+      (NOTIFY_TEAMS_COLOR)                    : defaultColor,
+      (NOTIFY_ON_ABORT)                       : false,
+      (NOTIFY_ON_FAILURE)                     : true,
+      (NOTIFY_ON_STILL_FAILING)               : true,
+      (NOTIFY_ON_FIXED)                       : true,
+      (NOTIFY_ON_SUCCESS)                     : false,
+      (NOTIFY_ON_UNSTABLE)                    : true,
+      (NOTIFY_ON_STILL_UNSTABLE)              : true,
+    ]
+  ]
+
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.info("Fully-Qualified Job Name (FQJN)", search)
+
+  // load yamlConfig
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_TEAMS_CONFIG_PATH, search, NOTIFY_TEAMS)
+
+  // merge default config with config from yaml and incoming yaml
+  config = MapUtils.merge(defaultConfig, yamlConfig, config)
+
+  // ease access to MS Teams config values
+  Map teamsConfig = config[NOTIFY_TEAMS]
+
+  if (!teamsConfig[NOTIFY_TEAMS_ENABLED]) {
+    log.info("MS Teams notifications are disabled")
+    return
+  }
+
+  // get build result specific configuration
+  Object buildResultConfig = this.getBuildResultConfig(teamsConfig)
+  if (buildResultConfig == false) {
+    // notification is disabled in the build result specific configuration
+    return
+  }
+
+  log.debug("buildResultConfig", buildResultConfig)
+
+  im.teams((NOTIFY_TEAMS): buildResultConfig)
+
 }
 
 /**

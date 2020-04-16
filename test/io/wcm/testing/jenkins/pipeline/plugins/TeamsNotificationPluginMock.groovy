@@ -17,17 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.devops.jenkins.pipeline.config
+package io.wcm.testing.jenkins.pipeline.plugins
 
-/**
- * Constants for generic configurations
- */
-class GenericConfigConstants implements Serializable{
-  private static final long serialVersionUID = 1L
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 
-  static final String NOTIFY_MAIL_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mail.yaml"
-  static final String NOTIFY_MATTERMOST_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mattermost.yaml"
-  static final String NOTIFY_MQTT_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mqtt.yaml"
-  static final String NOTIFY_TEAMS_CONFIG_PATH = "jenkins-pipeline-library/config/notify/teams.yaml"
+import static io.wcm.testing.jenkins.pipeline.StepConstants.OFFICE365_CONNECTOR_SEND
+
+class TeamsNotificationPluginMock {
+
+  TeamsNotificationPluginMock(LibraryIntegrationTestContext context) {
+    context.getPipelineTestHelper().registerAllowedMethod(OFFICE365_CONNECTOR_SEND, [Map.class], { Map incomingCall -> context.getStepRecorder().record(OFFICE365_CONNECTOR_SEND, incomingCall) })
+  }
 
 }

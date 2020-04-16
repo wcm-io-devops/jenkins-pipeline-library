@@ -206,6 +206,11 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   MattermostNotificationPluginMock mattermostNotificationPluginMock
 
+  /**
+   * Mocks the Office365 connector plugin for MS Teams notifications
+   */
+  TeamsNotificationPluginMock teamsNotificationPluginMock
+
   @Override
   @Before
   void setUp() throws Exception {
@@ -243,6 +248,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     this.httpRequestPluginMock = new HTTPRequestPluginMock(context)
     this.mqttNotificationPluginMock = new MQTTNotificationPluginMock(context)
     this.mattermostNotificationPluginMock = new MattermostNotificationPluginMock(context)
+    this.teamsNotificationPluginMock = new TeamsNotificationPluginMock(context)
 
     context.getPipelineTestHelper().registerAllowedMethod("getName", [], canonicalNameCallback)
     context.getPipelineTestHelper().registerAllowedMethod("getCanonicalName", [], canonicalNameCallback)

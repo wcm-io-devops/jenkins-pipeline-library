@@ -1,0 +1,11 @@
+- patterns:
+    - .*
+  id: "default ms teams notification configuration"
+  config:
+    webhookUrlCredentialId: default.credential.id
+
+- patterns:
+    - team-a\/.*
+  id: "default ms teams configuration for all jobs below team-a"
+  config:
+    webhookUrlCredentialId: default.credential.id

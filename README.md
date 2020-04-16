@@ -129,6 +129,7 @@ The pipeline library comes with the following steps:
   * [`getParentBranch`](vars/gitTools.md#string-getparentbranch)
 * [im (instant messaging)](vars/im.md)
   * [`im.mattermost()`](vars/im.md#immattermost)
+  * [`im.teams()`](vars/im.md#imteams)
 * [jenkinsRestApi](vars/jenkinsRestApi.md)
   * [`jenkinsRestApi.findJobsByNameRegex`](vars/jenkinsRestApi.md#list-job-findjobsbynameregexmap-remote)
 * [managedScripts](vars/managedScripts.md)
@@ -140,6 +141,7 @@ The pipeline library comes with the following steps:
   * [`notify.mail`](vars/notify.md#notifymailmap-config)
   * [`notify.mattermost`](vars/notify.md#notifymattermostmap-config)
   * [`notify.mqtt`](vars/notify.md#notifymqttmap-config)
+  * [`notify.teams`](vars/notify.md#notifyteamsmap-config)
 * [`notifyMail`](vars/notifyMail.md) :warning: deprecated, use
   [`notify.mail`](vars/notify.md#notifymailmap-config) instead
 * [`setBuildName`](vars/setBuildName.md)

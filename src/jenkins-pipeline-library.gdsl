@@ -115,6 +115,9 @@ contributor(im) {
   method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String], doc: 'Mattermost instant notification with Generic Config support.')
   method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String, endpointOrCredentialId: String], doc: 'Mattermost instant notification with Generic Config support.')
   method(name: 'mattermost', type: 'void', params: [message: String, text: String, color: String, channel: String, icon: String, endpointOrCredentialId: String, failOnError: Boolean], doc: 'Mattermost instant notification with Generic Config support.')
+  method(name: 'teams', type: 'void', params: [message: String], doc: "MS Teams instant notification with Generic Config support.")
+  method(name: 'teams', type: 'void', params: [message: String, webhookUrlOrCredentialId:String], doc: "MS Teams instant notification with Generic Config support.")
+  method(name: 'teams', type: 'void', params: [message: String, webhookUrlOrCredentialId: String, color: String], doc: "MS Teams instant notification with Generic Config support.")
 }
 
 def jenkinsRestApi = context(ctype: "jenkinsRestApi")
@@ -148,7 +151,8 @@ def notify = context(ctype: "notify")
 contributor(notify) {
   method(name: 'mail', type: 'void', params: [config: Map], doc: 'Sends a mail notification.')
   method(name: 'mattermost', type: 'void', params: [config: Map], doc: 'Triggers a mattermost notification')
-  method(name: 'mqtt', type: 'void', params: [config: Map], doc: 'Triggers a mqtt notification')
+  method(name: 'mqtt', type: 'void', params: [config: Map], doc: 'Triggers an mqtt notification')
+  method(name: 'teams', type: 'void', params: [config: Map], doc: 'Triggers an MS Teams notification')
 }
 
 def wrap = context(ctype: "wrap")

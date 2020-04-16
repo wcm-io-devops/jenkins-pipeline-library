@@ -17,17 +17,32 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.devops.jenkins.pipeline.config
+package vars.notify.teams.jobs
+
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
- * Constants for generic configurations
+ * Runs notify.teams step with default configuration
+ *
+ * @return The script
  */
-class GenericConfigConstants implements Serializable{
-  private static final long serialVersionUID = 1L
+def execute() {
+  notify.teams(
+    [
+      (NOTIFY_TEAMS): [
+        (NOTIFY_TEAMS_ENABLED)     : false,
+        (NOTIFY_ON_SUCCESS)        : true,
+        (NOTIFY_ON_FAILURE)        : true,
+        (NOTIFY_ON_STILL_FAILING)  : true,
+        (NOTIFY_ON_FIXED)          : true,
+        (NOTIFY_ON_UNSTABLE)       : true,
+        (NOTIFY_ON_STILL_UNSTABLE) : true,
+        (NOTIFY_ON_ABORT)          : true,
+      ]
+    ]
 
-  static final String NOTIFY_MAIL_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mail.yaml"
-  static final String NOTIFY_MATTERMOST_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mattermost.yaml"
-  static final String NOTIFY_MQTT_CONFIG_PATH = "jenkins-pipeline-library/config/notify/mqtt.yaml"
-  static final String NOTIFY_TEAMS_CONFIG_PATH = "jenkins-pipeline-library/config/notify/teams.yaml"
-
+  )
 }
+
+
+return this

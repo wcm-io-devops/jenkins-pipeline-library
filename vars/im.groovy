@@ -67,7 +67,7 @@ void mattermost(Map config) {
 }
 
 /**
- * Sends a instant mattermost message.
+ * Sends an instant mattermost message.
  *
  * @param message The message to send
  * @param text The text to send
@@ -146,4 +146,95 @@ void mattermost(String message, String text = null, String color = null, String 
     }
 
   }
+}
+
+/**
+ * Adapter function for sending instant messages to Microsoft Teams using a configMap
+ *
+ * @param config The config for the teams step
+ */
+void teams(Map config) {
+
+  Map defaultConfig = [
+    (NOTIFY_TEAMS): [
+      (MAP_MERGE_MODE)                          : (MapMergeMode.REPLACE),
+      (NOTIFY_TEAMS_ENABLED)                    : true,
+      (NOTIFY_TEAMS_MESSAGE)                    : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID): null,
+      (NOTIFY_TEAMS_COLOR)                      : null,
+    ]
+  ]
+
+  Map teamsConfig = MapUtils.merge(defaultConfig, config)[NOTIFY_TEAMS]
+
+  String message = teamsConfig[NOTIFY_TEAMS_MESSAGE]
+  String webhookUrl = teamsConfig[NOTIFY_TEAMS_WEBHOOK_URL]
+  String webhookUrlCredentialId = teamsConfig[NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID]
+  String color = teamsConfig[NOTIFY_TEAMS_COLOR]
+
+  String webhookUrlOrCredentialId = null
+  if (webhookUrl) {
+    webhookUrlOrCredentialId = webhookUrl
+  } else if (webhookUrlCredentialId) {
+    webhookUrlOrCredentialId = webhookUrlCredentialId
+  }
+
+  this.teams(message, webhookUrlOrCredentialId,color)
+}
+
+/**
+ * Sends an instant MS Teams message.
+ * @param message The message to send
+ * @param webhookUrlOrCredentialId The URL to the webhook of MS Teams or a credential id for a string credential
+ * containing the webhook URL. When no value is provided, the step tries to retrieve the endpoint using the Generic
+ * Configuration mechanism.
+ * @param color The color for the message
+ */
+void teams(String message = null, String webhookUrlOrCredentialId = null, String color = null) {
+
+  Logger log = new Logger("im.teams")
+  String webhookUrl = null
+  String webhookUrlCredentialId = null
+  List credentials = []
+
+  log.debug("message", message)
+  log.debug("webhookUrlOrCredentialId", webhookUrlOrCredentialId)
+  log.debug("color", color)
+
+  GenericConfigUtils genericConfigUtils = new GenericConfigUtils(this)
+  String search = genericConfigUtils.getFQJN()
+  log.debug("Fully-Qualified Job Name (FQJN)", search)
+
+  // load yamlConfig
+  Map yamlConfig = genericConfig.load(GenericConfigConstants.NOTIFY_TEAMS_CONFIG_PATH, search, NOTIFY_TEAMS)
+  Map notifyTeams = yamlConfig[NOTIFY_TEAMS] ?: [:]
+
+  if (webhookUrlOrCredentialId == null) {
+    log.debug("webhookUrlCredentialId ($webhookUrlCredentialId) is null, load generic config")
+    webhookUrlCredentialId = notifyTeams[NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID] ?: webhookUrlCredentialId
+  } else if (webhookUrlOrCredentialId.startsWith("http://") || webhookUrlOrCredentialId.startsWith("https://")) {
+    webhookUrl = webhookUrlOrCredentialId
+  } else {
+    webhookUrlCredentialId = webhookUrlOrCredentialId
+  }
+
+  if (webhookUrlCredentialId != null) {
+    credentials.push(string(credentialsId: webhookUrlCredentialId, variable: 'TEAMS_WEBHOOK_URL'))
+  }
+
+  log.debug("webhookUrlCredentialId", webhookUrlCredentialId)
+
+  withCredentials(credentials) {
+    if (credentials.size() > 0) {
+      webhookUrl = "$TEAMS_WEBHOOK_URL"
+    }
+
+    try {
+      office365ConnectorSend(message: message, webhookUrl: webhookUrl, color: color)
+    } catch (Exception ex) {
+      log.error("Unable to send MS Teams notification. ", ex.getCause().toString())
+    }
+  }
+
 }

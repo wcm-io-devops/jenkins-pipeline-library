@@ -110,6 +110,13 @@ class ConfigConstants {
   public static final String NOTIFY_SUBJECT = "subject"
   public static final String NOTIFY_TO = "to"
 
+  public static final String NOTIFY_TEAMS = "notifyTeams"
+  public static final String NOTIFY_TEAMS_ENABLED = "enabled"
+  public static final String NOTIFY_TEAMS_MESSAGE = "message"
+  public static final String NOTIFY_TEAMS_WEBHOOK_URL = "webhookUrl"
+  public static final String NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID = "webhookUrlCredentialId"
+  public static final String NOTIFY_TEAMS_COLOR = "color"
+
   public static final String NPM = "NPM"
   public static final String NPM_ARGUMENTS = "arguments"
   public static final String NPM_EXECUTABLE = "executable"
