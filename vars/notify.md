@@ -703,7 +703,7 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 NotificationTriggerHelper triggerHelper = this.getTriggerHelper()
 String defaultColor = triggerHelper.getTrigger().getColor()
 
-notify.mattermost( 
+notify.teams( 
   (NOTIFY_TEAMS): [
       (NOTIFY_TEAMS_ENABLED)                    : true,
       (NOTIFY_TEAMS_MESSAGE)                    : null,

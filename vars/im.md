@@ -14,7 +14,7 @@ This part of the pipeline provide steps for instant messaging.
   * [Examples](#examples)
 * [`im.teams()`](#imteams)
   * [Arguments](#arguments)
-    * [`webhookUrlOrCredentialId`](#webhookUrlOrCredentialId)
+    * [`webhookUrlOrCredentialId`](#webhookurlorcredentialid)
     * [`config`](#config)
        * [Configuration options](#configuration-options)
   * [Generic Configuration support](#generic-configuration-support)

@@ -295,19 +295,19 @@ void teams(Map config = [:]) {
 
   Map defaultConfig = [
     (NOTIFY_TEAMS): [
-      (MAP_MERGE_MODE)                           : (MapMergeMode.REPLACE),
-      (NOTIFY_TEAMS_ENABLED)                     : true,
-      (NOTIFY_TEAMS_MESSAGE)                    : null,
-      (NOTIFY_TEAMS_WEBHOOK_URL)                : null,
-      (NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID) : null,
-      (NOTIFY_TEAMS_COLOR)                      : defaultColor,
-      (NOTIFY_ON_ABORT)                         : false,
-      (NOTIFY_ON_FAILURE)                       : true,
-      (NOTIFY_ON_STILL_FAILING)                : true,
-      (NOTIFY_ON_FIXED)                         : true,
-      (NOTIFY_ON_SUCCESS)                       : false,
-      (NOTIFY_ON_UNSTABLE)                      : true,
-      (NOTIFY_ON_STILL_UNSTABLE)               : true,
+      (MAP_MERGE_MODE)                        : (MapMergeMode.REPLACE),
+      (NOTIFY_TEAMS_ENABLED)                  : true,
+      (NOTIFY_TEAMS_MESSAGE)                  : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL)              : null,
+      (NOTIFY_TEAMS_WEBHOOK_URL_CREDENTIAL_ID): null,
+      (NOTIFY_TEAMS_COLOR)                    : defaultColor,
+      (NOTIFY_ON_ABORT)                       : false,
+      (NOTIFY_ON_FAILURE)                     : true,
+      (NOTIFY_ON_STILL_FAILING)               : true,
+      (NOTIFY_ON_FIXED)                       : true,
+      (NOTIFY_ON_SUCCESS)                     : false,
+      (NOTIFY_ON_UNSTABLE)                    : true,
+      (NOTIFY_ON_STILL_UNSTABLE)              : true,
     ]
   ]
 
