@@ -135,7 +135,7 @@ appropriate configuration options.
 :bulb: This method of configuration is recommended!
 
 When using this mechanism the step expects a YAML pipeline resource with
-the path `resources/jenkins-pipeline-library/notify/mattermost.yaml`.
+the path `resources/jenkins-pipeline-library/config/notify/mail.yaml`.
 
 :bulb: An example for this `mail.yaml` is here:
 [`mail.yaml`](../test/resources/jenkins-pipeline-library/config/notify/mail.yaml)
@@ -364,7 +364,7 @@ appropriate configuration options.
 :bulb: This method of configuration is recommended!
 
 When using this mechanism the step expects a YAML pipeline resource with
-the path `resources/jenkins-pipeline-library/notify/mattermost.yaml`.
+the path `resources/jenkins-pipeline-library/config/notify/mattermost.yaml`.
 
 :bulb: An example for this `mattermost.yaml` is here: [`mattermost.yaml`](../test/resources/jenkins-pipeline-library/config/notify/mattermost.yaml)
 
@@ -525,7 +525,7 @@ auto-lookup for the appropriate configuration options.
 :bulb: This method of configuration is recommended!
 
 When using this mechanism the step expects a YAML pipeline resource with
-the path `resources/jenkins-pipeline-library/notify/mqtt.yaml`.
+the path `resources/jenkins-pipeline-library/config/notify/mqtt.yaml`.
 
 :bulb: An example for this `mqtt.yaml` is here:
 [`mqtt.yaml`](../test/resources/jenkins-pipeline-library/config/notify/mqtt.yaml)
@@ -682,7 +682,7 @@ appropriate configuration options.
 :bulb: This method of configuration is recommended!
 
 When using this mechanism the step expects a YAML pipeline resource with
-the path `resources/jenkins-pipeline-library/notify/teams.yaml`.
+the path `resources/jenkins-pipeline-library/config/notify/teams.yaml`.
 
 :bulb: An example for this `teams.yaml` is here: [`teams.yaml`](../test/resources/jenkins-pipeline-library/config/notify/teams.yaml)
 
