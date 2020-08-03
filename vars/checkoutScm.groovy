@@ -98,10 +98,23 @@ def call(Map config) {
  */
 Object checkoutWithScmVar() {
   Logger log = new Logger("checkoutScm.checkoutWithScmVar")
-  List scmBranches = scm.getBranches()
+  List scmBranches = []
+  try {
+    scmBranches = scm.getBranches()
+  }
+  catch (Exception ex) {
+    log.warn("The used SCM does not provide the 'getBranches()' method.")
+  }
+
 
   String remoteName = "origin";
-  for (UserRemoteConfig remote in scm.getUserRemoteConfigs()) {
+  List userRemoteConfigs = []
+  try {
+    userRemoteConfigs = scm.getUserRemoteConfigs()
+  } catch (Exception ex) {
+    log.warn("The used SCM does not provide the 'getUserRemoteConfigs()' method.")
+  }
+  for (UserRemoteConfig remote in userRemoteConfigs) {
     remoteName = remote.getName()
     if (remoteName == null || remoteName.isEmpty()) {
       remoteName = "origin";
