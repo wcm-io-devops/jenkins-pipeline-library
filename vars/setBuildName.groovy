@@ -31,16 +31,15 @@ void call() {
     // set default versions
     String versionNumberString = '#${BUILD_NUMBER}'
 
-    log.debug("Value of EnvironmentConstants.GIT_BRANCH", env.getProperty(EnvironmentConstants.GIT_BRANCH))
+    String branchName = envUtils.getFirstFound([EnvironmentConstants.BRANCH_NAME, EnvironmentConstants.GIT_BRANCH])
 
-    // check if GIT_BRANCH env var is available
-    if (envUtils.hasEnvVar(EnvironmentConstants.GIT_BRANCH, false)) {
-        String branchName = env.getProperty(EnvironmentConstants.GIT_BRANCH)
+    if (branchName != null) {
         log.debug("branchName before replacement", branchName)
         branchName = branchName.replace("origin/","")
         log.debug("branchName after replacement", branchName)
         versionNumberString = '#${BUILD_NUMBER}_'+branchName
     }
+
     // create the versionNumber string
     def version = VersionNumber(projectStartDate: '1970-01-01', versionNumberString: versionNumberString, versionPrefix: '')
     log.info("created versionNumber number", version)
