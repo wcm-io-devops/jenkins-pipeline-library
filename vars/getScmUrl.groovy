@@ -18,6 +18,7 @@
  * #L%
  */
 import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentUtils
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
@@ -33,8 +34,10 @@ String call(Map config = [:], Boolean jobNameFallback = false) {
   Map scmConfig = (Map) config[SCM] ?: [:]
   // try to retrieve scm url from config constants, otherwise do fallback to SCM_URL environment variable
   String detectedScmUrl = scmConfig[SCM_URL] ?: null
+  EnvironmentUtils envUtils = new EnvironmentUtils(this)
+
   if (detectedScmUrl == null) {
-    detectedScmUrl = env.getProperty(EnvironmentConstants.SCM_URL) ?: null
+    detectedScmUrl = envUtils.getFirstFound([EnvironmentConstants.SCM_URL, EnvironmentConstants.GIT_URL])
   }
   // log a warning when scm url is still null
   if (detectedScmUrl == null) {

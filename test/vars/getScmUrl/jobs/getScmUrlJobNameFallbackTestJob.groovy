@@ -29,8 +29,8 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.SCM
  * @return The script
  * @see vars.execMaven.ExecMavenIT
  */
-def execute() {
-  return getScmUrl((SCM): [:])
+def execute(Map config) {
+  return getScmUrl((SCM): [:], config.fallback)
 }
 
 return this

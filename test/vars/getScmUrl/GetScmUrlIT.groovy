@@ -19,6 +19,7 @@
  */
 package vars.getScmUrl
 
+import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import org.junit.Assert
 import org.junit.Test
@@ -32,8 +33,31 @@ class GetScmUrlIT extends LibraryIntegrationTestBase {
   }
 
   @Test
-  void shouldUseEnvVar() {
+  void shouldUseScmEnvVar() {
+    this.setEnv(EnvironmentConstants.SCM_URL, "scm-url-from-env-var")
+    this.setEnv(EnvironmentConstants.GIT_URL, "git-url-from-env-var")
     String actualScmUrl = loadAndExecuteScript("vars/getScmUrl/jobs/getScmUrlFromEnvVarTestJob.groovy")
     Assert.assertEquals("scm-url-from-env-var", actualScmUrl)
+  }
+
+  @Test
+  void shouldFallbackToGitUrlEnvVar() {
+    this.setEnv(EnvironmentConstants.GIT_URL, "git-url-from-env-var")
+    String actualScmUrl = loadAndExecuteScript("vars/getScmUrl/jobs/getScmUrlFromEnvVarTestJob.groovy")
+    Assert.assertEquals("git-url-from-env-var", actualScmUrl)
+  }
+
+  @Test
+  void shouldFallbackToJobName() {
+    this.setEnv(EnvironmentConstants.JOB_NAME, "job-name-from-env-var")
+    String actualScmUrl = loadAndExecuteScript("vars/getScmUrl/jobs/getScmUrlJobNameFallbackTestJob.groovy", [ fallback: true ])
+    Assert.assertEquals("job-name-from-env-var", actualScmUrl)
+  }
+
+  @Test
+  void shouldNotFallbackToJobName() {
+    this.setEnv(EnvironmentConstants.JOB_NAME, "job-name-from-env-var")
+    String actualScmUrl = loadAndExecuteScript("vars/getScmUrl/jobs/getScmUrlJobNameFallbackTestJob.groovy", [ fallback: false ])
+    Assert.assertNull(actualScmUrl)
   }
 }
