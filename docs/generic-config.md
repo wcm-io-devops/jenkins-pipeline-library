@@ -88,7 +88,7 @@ This mechanism is for example used in:
 **Example**
 
     String scmUrl = getScmUrl()
-    Map yamlConfig = genericConfig.load('resources/jenkins-pipeline-library/config/notify/mattermost.yaml', getScmUrl(), 'notifyMattermost')
+    Map yamlConfig = genericConfig.load('resources/jenkins-pipeline-library/config/notify/mattermost.yaml', scmUrl, 'notifyMattermost')
 
 
 ## FQJN based pattern matching
