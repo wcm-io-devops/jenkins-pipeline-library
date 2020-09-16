@@ -48,6 +48,13 @@ class GetScmUrlIT extends LibraryIntegrationTestBase {
   }
 
   @Test
+  void shouldFallbackToGitUrl1EnvVar() {
+    this.setEnv(EnvironmentConstants.GIT_URL_1, "git-url-1-from-env-var")
+    String actualScmUrl = loadAndExecuteScript("vars/getScmUrl/jobs/getScmUrlFromEnvVarTestJob.groovy")
+    Assert.assertEquals("git-url-1-from-env-var", actualScmUrl)
+  }
+
+  @Test
   void shouldFallbackToJobName() {
     this.setEnv(EnvironmentConstants.JOB_NAME, "job-name-from-env-var")
     String actualScmUrl = loadAndExecuteScript("vars/getScmUrl/jobs/getScmUrlJobNameFallbackTestJob.groovy", [ fallback: true ])

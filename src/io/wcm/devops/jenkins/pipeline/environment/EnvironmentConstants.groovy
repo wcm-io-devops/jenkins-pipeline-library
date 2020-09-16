@@ -36,6 +36,7 @@ class EnvironmentConstants implements Serializable {
   static final public String GIT_COMMIT = "GIT_COMMIT"
   static final public String GIT_PREVIOUS_SUCCESSFUL_COMMIT = "GIT_PREVIOUS_SUCCESSFUL_COMMIT "
   static final public String GIT_URL = "GIT_URL"
+  static final public String GIT_URL_1 = "GIT_URL_1"
   static final public String SCM_URL = "SCM_URL"
   static final public String TERM = "TERM"
   static final public String WORKSPACE = "WORKSPACE"

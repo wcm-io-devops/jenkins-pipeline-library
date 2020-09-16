@@ -37,7 +37,7 @@ String call(Map config = [:], Boolean jobNameFallback = false) {
   EnvironmentUtils envUtils = new EnvironmentUtils(this)
 
   if (detectedScmUrl == null) {
-    detectedScmUrl = envUtils.getFirstFound([EnvironmentConstants.SCM_URL, EnvironmentConstants.GIT_URL])
+    detectedScmUrl = envUtils.getFirstFound([EnvironmentConstants.SCM_URL, EnvironmentConstants.GIT_URL, EnvironmentConstants.GIT_URL_1])
   }
   // log a warning when scm url is still null
   if (detectedScmUrl == null) {
