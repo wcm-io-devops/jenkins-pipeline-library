@@ -187,6 +187,7 @@ void mqtt(Map config = [:]) {
 
   if (!mqttEnabled) {
     log.info("mqtt notification is disabled.")
+    return
   }
 
   String broker = mqttConfig[NOTIFY_MQTT_BROKER]
