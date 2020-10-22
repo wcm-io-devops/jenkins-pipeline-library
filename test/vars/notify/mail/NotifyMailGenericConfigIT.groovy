@@ -51,6 +51,7 @@ class NotifyMailGenericConfigIT extends LibraryIntegrationTestBase {
     assertEquals("compressLog is wrong", true, extmailCall[NOTIFY_COMPRESS_LOG])
     assertEquals("mimeType is wrong", null, extmailCall[NOTIFY_MIME_TYPE])
     assertEquals("to is wrong", 'success@company.tld', extmailCall[NOTIFY_TO])
+    assertEquals("replyTo", 'reply-to@company.tld', extmailCall[NOTIFY_REPLY_TO])
 
 
     String expectedRecipientProviderList = '[[$class:CulpritsRecipientProvider]]'

@@ -80,6 +80,7 @@ def execute() {
         (NOTIFY_BODY)               : 'custom body with trigger: ${NOTIFICATION_TRIGGER}',
         (NOTIFY_ATTACHMENTS_PATTERN): 'custom/pattern/**/*.txt',
         (NOTIFY_ATTACH_LOG)         : true,
+        (NOTIFY_REPLY_TO)           : 'custom-reply@test.com',
         (NOTIFY_COMPRESS_LOG)       : true,
         (NOTIFY_MIME_TYPE)          : 'text/html',
         (NOTIFY_RECIPIENT_PROVIDERS): [

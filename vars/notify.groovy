@@ -46,6 +46,7 @@ void mail(Map config = [:]) {
       (NOTIFY_ATTACH_LOG)         : false,
       (NOTIFY_ATTACHMENTS_PATTERN): '',
       (NOTIFY_BODY)               : '${DEFAULT_CONTENT}',
+      (NOTIFY_REPLY_TO)           : '${DEFAULT_REPLYTO}',
       (NOTIFY_COMPRESS_LOG)       : false,
       (NOTIFY_ENABLED)            : true,
       (NOTIFY_MIME_TYPE)          : null,
@@ -107,6 +108,7 @@ void mail(Map config = [:]) {
   String subject = notifyConfig[NOTIFY_SUBJECT]
   String body = notifyConfig[NOTIFY_BODY]
   String to = notifyConfig[NOTIFY_TO]
+  String replyTo = notifyConfig[NOTIFY_REPLY_TO]
 
   String attachmentsPattern = notifyConfig[NOTIFY_ATTACHMENTS_PATTERN]
   Boolean attachLog = notifyConfig[NOTIFY_ATTACH_LOG]
@@ -130,7 +132,8 @@ void mail(Map config = [:]) {
     compressLog: compressLog,
     mimeType: mimeType,
     recipientProviders: recipientProviders,
-    to: to
+    to: to,
+    replyTo: replyTo
   )
 }
 

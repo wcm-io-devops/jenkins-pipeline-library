@@ -153,5 +153,6 @@ class NotifyMailCustomRecipientsIT extends LibraryIntegrationTestBase {
     assertEquals("attachLog is wrong", true, extmailCall[NOTIFY_ATTACH_LOG] ?: 'attachLogNotSet')
     assertEquals("compressLog is wrong", true, extmailCall[NOTIFY_COMPRESS_LOG] ?: 'compressLogNotSet')
     assertEquals("mimeType is wrong", 'text/html', extmailCall[NOTIFY_MIME_TYPE] ?: 'mimeTypeNotSet')
+    assertEquals("replyTo is wrong", 'custom-reply@test.com', extmailCall[NOTIFY_REPLY_TO] ?: 'replyToNotSet')
   }
 }
