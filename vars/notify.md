@@ -154,7 +154,7 @@ notifyMail(
     (NOTIFY) : [
         (NOTIFY_ATTACH_LOG): false,
         (NOTIFY_ATTACHMENTS_PATTERN): '',
-        (NOTIFY_BODY): null,
+        (NOTIFY_BODY): '${DEFAULT_CONTENT}',
         (NOTIFY_COMPRESS_LOG): false,
         (NOTIFY_ENABLED): true,
         (NOTIFY_MIME_TYPE): null,
@@ -165,7 +165,8 @@ notifyMail(
         (NOTIFY_ON_SUCCESS): false,    
         (NOTIFY_ON_UNSTABLE): true,
         (NOTIFY_ON_STILL_UNSTABLE): true,
-        (NOTIFY_RECIPIENT_PROVIDERS) : null, 
+        (NOTIFY_RECIPIENT_PROVIDERS) : null,
+        (NOTIFY_REPLY_TO) : '${DEFAULT_REPLYTO}', 
         (NOTIFY_SUBJECT): '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${NOTIFICATION_TRIGGER}',
         (NOTIFY_TO): "recipient@domain.tld"
     ]
