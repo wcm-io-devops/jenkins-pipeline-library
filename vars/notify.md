@@ -17,14 +17,14 @@ The `notify.*` steps bring back parts of this convenience.
 # Table of contents
 
 * [Build result specific configuration](#build-result-specific-configuration)
-* [notify.mail](#notifymattermostmap-config)
+* [notify.mail](#notifymailmap-config)
   * [Examples](#examples)
   * [Default triggers with attached log and to-recipients](#default-triggers-with-attached-log-and-to-recipients)
   * [Send only on first failure all participating developers](#send-only-on-first-failure-all-participating-developers)
   * [Custom Subject](#custom-subject)
 * [notify.mattermost](#notifymattermostmap-config)
 * [notify.mqtt](#notifymqttmap-config)
-* [notify.teams](#notifyteams-config)
+* [notify.teams](#notifyteamsmap-config)
 
 # Build result specific configuration
 
