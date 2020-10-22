@@ -107,6 +107,7 @@ class ConfigConstants {
   public static final String NOTIFY_ON_STILL_UNSTABLE = "onStillUnstable"
   public static final String NOTIFY_ON_ABORT = "onAbort"
   public static final String NOTIFY_RECIPIENT_PROVIDERS = "recipientProviders"
+  public static final String NOTIFY_REPLY_TO = "replyTo"
   public static final String NOTIFY_SUBJECT = "subject"
   public static final String NOTIFY_TO = "to"
 

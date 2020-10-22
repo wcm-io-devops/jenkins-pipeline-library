@@ -39,6 +39,7 @@ def execute() {
               (NOTIFY_ON_STILL_UNSTABLE)  : false,
               (NOTIFY_ON_ABORT)           : true,
               (NOTIFY_TO)                 : 'test@test.com',
+              (NOTIFY_REPLY_TO)           : 'custom-reply@test.com',
               (NOTIFY_SUBJECT)            : 'custom mail subject with trigger: ${NOTIFICATION_TRIGGER}',
               (NOTIFY_BODY)               : 'custom body with trigger: ${NOTIFICATION_TRIGGER}',
               (NOTIFY_ATTACHMENTS_PATTERN): 'custom/pattern/**/*.txt',

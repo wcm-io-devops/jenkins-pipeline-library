@@ -334,6 +334,17 @@ The subject for the mail.
 
 :bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
 
+### `replyTo` (optional)
+|                                                                                                                   ||
+|:---------|:--------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.NOTIFY_REPLY_TO`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `String`                                                                                                |
+| Default  | `${DEFAULT_REPLYTO}`                                                                                    |
+
+The reply to mail address.
+
+:bulb: See [Email Extension Plugin](https://jenkins.io/doc/pipeline/steps/email-ext/)
+
 ### `to` (optional)
 |                                                                                                             ||
 |:---------|:--------------------------------------------------------------------------------------------------|

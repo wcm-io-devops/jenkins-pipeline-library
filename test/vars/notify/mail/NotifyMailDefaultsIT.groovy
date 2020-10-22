@@ -100,7 +100,7 @@ class NotifyMailDefaultsIT extends LibraryIntegrationTestBase {
     assertEquals("compressLog is wrong", false, extmailCall[NOTIFY_COMPRESS_LOG] != null ? extmailCall.compressLog : 'compressLogNotSet')
     assertEquals("mimeType is wrong", null, extmailCall[NOTIFY_MIME_TYPE])
     assertEquals("to is wrong", null, extmailCall[NOTIFY_TO])
-
+    assertEquals("replyTo is wrong", '${DEFAULT_REPLYTO}', extmailCall[NOTIFY_REPLY_TO] ?: 'replyToNotSet')
 
     String expectedRecipientProviderList = '[[$class:CulpritsRecipientProvider], [$class:DevelopersRecipientProvider], [$class:FirstFailingBuildSuspectsRecipientProvider], [$class:RequesterRecipientProvider], [$class:UpstreamComitterRecipientProvider]]'
 

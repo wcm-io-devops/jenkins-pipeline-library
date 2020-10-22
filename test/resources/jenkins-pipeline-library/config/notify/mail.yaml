@@ -17,6 +17,7 @@
       body: successBody
       subject: successSubject
       to: success@company.tld
+      replyTo: reply-to@company.tld
       attachLog: true
       compressLog: true
       attachmentsPattern: successAttachmentsPattern
