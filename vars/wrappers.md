@@ -1,4 +1,4 @@
-# wrapUtils
+# wrappers
 
 This part of the library contains utilites for wrappers such as
 * ansiColor
@@ -26,7 +26,7 @@ Map config = [
 
 Logger.init(this, LogLevel.INFO)
 Logger log = new Logger(this)
-wrapUtils.color(config) {
+wrappers.color(config) {
     log.info("i have a colorized loglevel!")
 }
 
@@ -41,7 +41,7 @@ The value used in this configuration option is the color mode provided to the
 ```groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-wrapUtils.color(
+wrappers.color(
         (ANSI_COLOR): ANSI_COLOR_XTERM
     )
 ```
