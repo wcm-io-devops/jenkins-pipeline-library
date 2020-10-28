@@ -17,27 +17,35 @@
  * limitations under the License.
  * #L%
  */
+package vars.wrappers.jobs
 
-import io.wcm.devops.jenkins.pipeline.environment.EnvironmentConstants
+import io.wcm.devops.jenkins.pipeline.utils.logging.LogLevel
 import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR
-import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR_XTERM
+import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
 /**
- * Enables color output in Jenkins console by using the ansiColor step
- * Please refer to the documentation for details about the configuration options
- *
- * @param config The configuration options
- * @param body The closure to be executed
- *
- * @deprecated
+ * Runs the wrap.color step
  */
-void color(Map config = [:], Closure body) {
-    Logger log = new Logger(this)
-    log.deprecated("wrap.color", "wrappers.color")
+def execute() {
+  Logger.init(this, LogLevel.DEBUG)
+  Logger log = new Logger(this)
 
+  Map config = [
+      (ANSI_COLOR): ANSI_COLOR_GNOME_TERMINAL
+  ]
+
+  log.info("non colorized output - 1")
+
+  wrappers.color(config) {
+    config[ANSI_COLOR] = ANSI_COLOR_VGA
+    log.info("first wrap env.TERM: ${env.TERM}")
     wrappers.color(config) {
-        body()
+      log.info("second wrap env.TERM: ${env.TERM}")
     }
+  }
+
+  log.info("non colorized output - 2")
 }
+
+return this

@@ -151,7 +151,9 @@ The pipeline library comes with the following steps:
 * [`sshAgentWrapper`](vars/sshAgentWrapper.md)
 * [`transferScp`](vars/transferScp.md)
 * [wrap](vars/wrap.md)
-    * [`wrap.color`](vars/wrap.md#colormap-config-closure-body)
+    * [`wrap.color`](vars/wrap.md) :warning: deprecated, use [`wrappers`](vars/wrappers.md) instead.
+* [wrappers](vars/wrappers.md)
+    * [`wrappers.color`](vars/wrappers.md#colormap-config-closure-body)
 
 ## Utilities
 * [Build Parameter Factory](src/io/wcm/devops/jenkins/pipeline/job/BuildParameterFactory.groovy)

@@ -26,6 +26,7 @@ import io.wcm.devops.jenkins.pipeline.utils.logging.Logger
 import org.junit.Assert
 import org.junit.Test
 
+@Deprecated
 class WrapColorIT extends LibraryIntegrationTestBase {
 
   @Test
@@ -34,12 +35,14 @@ class WrapColorIT extends LibraryIntegrationTestBase {
     loadAndExecuteScript("vars/wrap/jobs/shouldWrapColorMultiWithConfigTestJob.groovy")
 
     List<String> expectedLogOutputs = [
-        "[INFO] vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : non colorized output - 1",
-        "[DEBUG] wrap : Wrapping build with color scheme: 'gnome-terminal'",
-        "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : first wrap env.TERM: gnome-terminal",
-        "\u001B[1;38;5;12m[DEBUG]\u001B[0m wrap : Wrapping build with color scheme: 'vga'",
-        "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : second wrap env.TERM: vga",
-        "[INFO] vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : non colorized output - 2"
+      "[INFO] vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : non colorized output - 1",
+      "[DEPRECATED] wrap : The step/function/class 'wrap.color' is marked as depecreated and will be removed in future releases. Please use 'wrappers.color' instead.",
+      "[DEBUG] wrap : Wrapping build with color scheme: 'gnome-terminal'",
+      "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : first wrap env.TERM: gnome-terminal",
+      "\u001B[1;38;5;93m[DEPRECATED]\u001B[0m wrap : The step/function/class 'wrap.color' is marked as depecreated and will be removed in future releases. Please use 'wrappers.color' instead.",
+      "\u001B[1;38;5;12m[DEBUG]\u001B[0m wrap : Wrapping build with color scheme: 'vga'",
+      "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : second wrap env.TERM: vga",
+      "[INFO] vars.wrap.jobs.shouldWrapColorMultiWithConfigTestJob : non colorized output - 2"
     ]
 
     StepRecorderAssert.assertTwice(StepConstants.ANSI_COLOR)
@@ -55,6 +58,7 @@ class WrapColorIT extends LibraryIntegrationTestBase {
     loadAndExecuteScript("vars/wrap/jobs/shouldWrapColorTestJob.groovy")
     List<String> expectedLogOutputs = [
         "[INFO] vars.wrap.jobs.shouldWrapColorTestJob : non colorized output - 1",
+        "[DEPRECATED] wrap : The step/function/class 'wrap.color' is marked as depecreated and will be removed in future releases. Please use 'wrappers.color' instead.",
         "[DEBUG] wrap : Wrapping build with color scheme: 'xterm'",
         "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorTestJob : colorized output",
         "[INFO] vars.wrap.jobs.shouldWrapColorTestJob : non colorized output - 2",
@@ -74,8 +78,10 @@ class WrapColorIT extends LibraryIntegrationTestBase {
 
     List<String> expectedLogOutputs = [
         "[INFO] vars.wrap.jobs.shouldWrapColorOnlyOnceWithSameColorModeTestJob : non colorized output - 1",
+        "[DEPRECATED] wrap : The step/function/class 'wrap.color' is marked as depecreated and will be removed in future releases. Please use 'wrappers.color' instead.",
         "[DEBUG] wrap : Wrapping build with color scheme: 'vga'",
         "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorOnlyOnceWithSameColorModeTestJob : first wrap env.TERM: vga",
+        "\u001B[1;38;5;93m[DEPRECATED]\u001B[0m wrap : The step/function/class 'wrap.color' is marked as depecreated and will be removed in future releases. Please use 'wrappers.color' instead.",
         "\u001B[1;38;5;12m[DEBUG]\u001B[0m wrap : Do not wrap with color scheme: 'vga' because wrapper with same color map is already active",
         "\u001B[1;38;5;0m[INFO]\u001B[0m vars.wrap.jobs.shouldWrapColorOnlyOnceWithSameColorModeTestJob : second wrap env.TERM: vga",
         "[INFO] vars.wrap.jobs.shouldWrapColorOnlyOnceWithSameColorModeTestJob : non colorized output - 2"
