@@ -95,20 +95,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   AnsiblePluginMock ansiblePluginMock
 
   /**
-   * @deprecated please use context.getStepRecorder() instead
-   *
-   * Reference to the StepRecorder instance
-   */
-  StepRecorder stepRecorder
-
-  /**
-   * @deprecated please use context.getRunWrapperMock() instead
-   *
-   * Reference to the runWrapper
-   */
-  RunWrapperMock runWrapper
-
-  /**
    * Mocks the Checkstyle plugin
    */
   CheckstylePluginMock checkstylePluginMock
@@ -192,9 +178,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     super.setUp()
 
     context = new LibraryIntegrationTestContext(helper, binding)
-
-    this.stepRecorder = context.getStepRecorder()
-    this.runWrapper = context.getRunWrapperMock()
 
     // add badge plugin mocks
     this.ansiblePluginMock = new AnsiblePluginMock(context)
