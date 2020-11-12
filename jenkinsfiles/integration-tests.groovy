@@ -202,7 +202,6 @@ node() {
       log.info(ManagedFileConstants.MAVEN_SETTING_ENV, ManagedFileConstants.MAVEN_SETTING_ENV)
       log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH, ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH)
       log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV, ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV)
-      log.info(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV, ManagedFileConstants.NPM_CONF_USERCONFIG_ENV)
       log.info(ManagedFileConstants.NPMRC_PATH, ManagedFileConstants.NPMRC_PATH)
       log.info(ManagedFileConstants.NPMRC_ENV, ManagedFileConstants.NPMRC_ENV)
       log.info(ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV, ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV)

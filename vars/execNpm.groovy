@@ -60,7 +60,7 @@ void call(Map config = null) {
     List configFiles = []
 
     // add config file for NPM_CONF_USERCONFIG if defined
-    addManagedFile(log, scmUrl, ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH, ManagedFileConstants.NPM_CONF_USERCONFIG_ENV, configFiles)
+    addManagedFile(log, scmUrl, ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH, ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV, configFiles)
 
     // add config file for NPM_CONF_GLOBALCONFIG if defined
     addManagedFile(log, scmUrl, ManagedFileConstants.NPMRC_PATH, ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV, configFiles)
@@ -70,9 +70,9 @@ void call(Map config = null) {
     // run in config file provider wrapper
     configFileProvider(configFiles) {
         // check if npm user config was provided
-        if (env.getProperty(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV) != null) {
-            log.debug("found environment variable ${ManagedFileConstants.NPM_CONF_USERCONFIG_ENV}, value: ${env.getProperty(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV)}")
-            commandBuilder.addPathArgument("--userconfig", (String) env.getProperty(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV))
+        if (env.getProperty(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV) != null) {
+            log.debug("found environment variable ${ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV}, value: ${env.getProperty(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV)}")
+            commandBuilder.addPathArgument("--userconfig", (String) env.getProperty(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV))
         }
         // check if npm global config was provided
         if (env.getProperty(ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV) != null) {
