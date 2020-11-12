@@ -21,6 +21,7 @@ package vars.execNpm
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 import org.junit.Assert
 import org.junit.Test
 
@@ -43,6 +44,6 @@ class ExecNpmIT extends LibraryIntegrationTestBase {
     loadAndExecuteScript("vars/execNpm/jobs/execNpmCustomAndAutoLookupTestJob.groovy")
     assertOneShellCommand(expectedCommand)
     // check if npm config userconfig was automatically provived by setting environment variable
-    Assert.assertEquals(WORKSPACE_TMP_PATH.concat("npm-user-config-id"), getEnv(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV))
+    Assert.assertEquals(LibraryIntegrationTestContext.WORKSPACE_TMP_PATH.concat("npm-user-config-id"), getEnv(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV))
   }
 }

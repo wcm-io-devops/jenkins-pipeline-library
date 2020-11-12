@@ -40,34 +40,6 @@ import static com.lesfurets.jenkins.unit.global.lib.LibraryConfiguration.library
 class LibraryIntegrationTestBase extends BasePipelineTest {
 
   /**
-   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_PATH instead
-   */
-  public final static String WORKSPACE_PATH = LibraryIntegrationTestContext.WORKSPACE_PATH
-
-  /**
-   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_TMP_PATH instead
-   */
-  public final static String WORKSPACE_TMP_PATH = LibraryIntegrationTestContext.WORKSPACE_TMP_PATH
-
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK_PREFIX instead
-   */
-  public final static String TOOL_JDK_PREFIX = LibraryIntegrationTestContext.TOOL_JDK_PREFIX
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX instead
-   */
-  public final static String TOOL_MAVEN_PREFIX = LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX
-
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK instead
-   */
-  public final static String TOOL_JDK = LibraryIntegrationTestContext.TOOL_JDK
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN instead
-   */
-  public final static String TOOL_MAVEN = LibraryIntegrationTestContext.TOOL_MAVEN
-
-  /**
    * Path to the log file
    */
   protected File logFile = null
