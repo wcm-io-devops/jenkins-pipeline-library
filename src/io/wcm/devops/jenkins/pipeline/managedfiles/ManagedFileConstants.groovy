@@ -37,14 +37,6 @@ class ManagedFileConstants implements Serializable {
   static final String NPM_CONFIG_USERCONFIG_PATH = "managedfiles/npm/npm-config-userconfig.json"
   static final String NPM_CONFIG_USERCONFIG_ENV = "NPM_CONFIG_USERCONFIG"
 
-  static final String NPMRC_PATH = "managedfiles/npm/npmrc.json"
-  // wrong name in existing jenkins/maven projects
-  @Deprecated
-  static final String NPMRC_ENV = "NPMRC"
-  // correct name based on NPM config
-  static final String NPM_CONF_GLOBALCONFIG_ENV = "NPM_CONF_GLOBALCONFIG"
-
-
   static final String BUNDLE_CONFIG_ENV = "BUNDLE_CONFIG"
   static final String BUNDLE_CONFIG_PATH = "managedfiles/ruby/bundle-config.json"
 
