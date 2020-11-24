@@ -113,7 +113,6 @@ The pipeline library comes with the following steps:
     *  [`lookupHttpCredential`](vars/credentials.md#lookuphttpcredentialstring-uri)
     *  [`lookupScmCredential`](vars/credentials.md#lookupscmcredentialstring-uri)
     *  [`lookupSshCredential`](vars/credentials.md#lookupsshcredentialstring-uri)
-* [`execManagedShellScript`](vars/execManagedShellScript.md)
 * [`execMaven`](vars/execMaven.md)
 * [`execMavenRelease`](vars/execMavenRelease.md)
 * [`execNpm`](vars/execNpm.md)
