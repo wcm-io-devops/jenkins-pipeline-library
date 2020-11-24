@@ -41,18 +41,6 @@ void checkoutRoles(Map config) {
 }
 
 /**
- * Legacy Adapter function
- * @param requirementsYmlPath
- *
- * @deprecated
- */
-void checkoutRequirements(String requirementsYmlPath) {
-  Logger log = new Logger("ansible:checkoutRequirements -> ")
-  log.deprecated("ansible.checkoutRequirements", "ansible.checkoutRoles")
-  checkoutRoles(requirementsYmlPath)
-}
-
-/**
  * Checks out ansible galaxy requirements based upon a provided
  * path to a requirements YAML file.
  *
