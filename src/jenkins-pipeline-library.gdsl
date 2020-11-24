@@ -33,7 +33,6 @@ contributor(pipelineCtx) {
   method(name: 'getBuildParameters.groovy', type: String, doc: 'Returns the current build parameters')
   method(name: 'getScmUrl', type: String, doc: 'Returns the current scm url')
   method(name: 'getScmUrl', type: String, params: [config: Map], doc: 'Returns the current scm url')
-  method(name: 'notifyMail', type: 'void', params: [config: Map], doc: 'Sends mail notification with the given configuration')
   method(name: 'setBuildName', type: 'void', doc: 'Sets the current build name to #BUILD_NUMBER GIT_BRANCH')
   method(name: 'setGitBranch', type: 'void', doc: 'Detects the current git branch and sets the result into GIT_BRANCH environment variable')
   method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
