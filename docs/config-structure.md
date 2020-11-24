@@ -69,7 +69,7 @@ Map config = [
 ]
 
 // initialize the logger
-Logger.init(steps, config)
+Logger.init(this, config)
 
 node() {
     // setup the tools

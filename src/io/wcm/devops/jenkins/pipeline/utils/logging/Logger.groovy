@@ -80,7 +80,7 @@ class Logger implements Serializable {
    *
    * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
    * @param logLvl The log level to use during execution of the pipeline script
-   * @deprecated
+   * @deprecated still used by tests
    */
   @NonCPS
   static void init(DSL dsl, LogLevel logLvl = LogLevel.INFO) {
@@ -93,51 +93,6 @@ class Logger implements Serializable {
     initialized = true
     Logger tmpLogger = new Logger('Logger')
     tmpLogger.deprecated('Logger.init(DSL dsl, logLevel)','Logger.init(Script script, logLevel)')
-  }
-
-  /**
-   * Initializes the logger with DSL/steps object and configuration map
-   *
-   * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
-   * @param map The configuration object of the pipeline
-   * @deprecated
-   */
-  @NonCPS
-  static void init(DSL dsl, Map map) {
-    LogLevel lvl
-    if (map) {
-      lvl = map[ConfigConstants.LOGLEVEL] ?: LogLevel.INFO
-    } else {
-      lvl = LogLevel.INFO
-    }
-    init(dsl, lvl)
-  }
-
-  /**
-   * Initializes the logger with DSL/steps object and loglevel as string
-   *
-   * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
-   * @param sLevel the log level as string
-   * @deprecated
-   */
-  @NonCPS
-  static void init(DSL dsl, String sLevel) {
-    if (sLevel == null) sLevel = LogLevel.INFO
-    init(dsl, LogLevel.fromString(sLevel))
-  }
-
-  /**
-   * Initializes the logger with DSL/steps object and loglevel as integer
-   *
-   * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
-   * @param iLevel the log level as integer
-   *
-   * @deprecated
-   */
-  @NonCPS
-  static void init(DSL dsl, Integer iLevel) {
-    if (iLevel == null) iLevel = LogLevel.INFO.getLevel()
-    init(dsl, LogLevel.fromInteger(iLevel))
   }
 
   /**

@@ -26,7 +26,7 @@ Map config = [
 // surround by try and catch
 try {
     // initialize the logger
-    Logger.init(steps, config)
+    Logger.init(this, config)
     node() {
         // setup the tools
         setupTools(config)
