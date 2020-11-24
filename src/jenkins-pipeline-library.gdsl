@@ -30,7 +30,6 @@ contributor(pipelineCtx) {
   method(name: 'execMaven', type: 'void', params: [config: Map], doc: 'Executes maven with the given configuration')
   method(name: 'execMavenRelease', type: 'void', params: [config: Map], doc: 'Performs a maven release with the given configuration')
   method(name: 'execNpm', type: 'void', params: [config: Map], doc: 'Executed NPM with the given configuration')
-  method(name: 'getBuildParameters.groovy', type: String, doc: 'Returns the current build parameters')
   method(name: 'getScmUrl', type: String, doc: 'Returns the current scm url')
   method(name: 'getScmUrl', type: String, params: [config: Map], doc: 'Returns the current scm url')
   method(name: 'setBuildName', type: 'void', doc: 'Sets the current build name to #BUILD_NUMBER GIT_BRANCH')
