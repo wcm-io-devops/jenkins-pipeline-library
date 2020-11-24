@@ -46,7 +46,7 @@ configurations like:
 ``` groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-notifyMail(
+notify.mail(
     (NOTIFY) : [
         (NOTIFY_ON_FAILURE) : [
           (NOTIFY_TO) : "build-failure@example.com",
@@ -78,7 +78,7 @@ list.
 ``` groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-notifyMail(
+notify.mail(
     (NOTIFY) : [
         (NOTIFY_ATTACH_LOG): true,
         (NOTIFY_COMPRESS_LOG) : false,
@@ -92,7 +92,7 @@ notifyMail(
 ``` groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-notifyMail(
+notify.mail(
     (NOTIFY) : [
         (NOTIFY_ATTACH_LOG): true,
         (NOTIFY_COMPRESS_LOG) : false,
@@ -113,7 +113,7 @@ notifyMail(
 ``` groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-notifyMail(
+notify.mail(
     (NOTIFY) : [
         (NOTIFY_SUBJECT): 'Custom notification for ${PROJECT_NAME} with status: ${NOTIFICATION_TRIGGER}',
     ]
@@ -150,7 +150,7 @@ evaluated and used by the step.
 ```groovy
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 
-notifyMail(
+notify.mail(
     (NOTIFY) : [
         (NOTIFY_ATTACH_LOG): false,
         (NOTIFY_ATTACHMENTS_PATTERN): '',

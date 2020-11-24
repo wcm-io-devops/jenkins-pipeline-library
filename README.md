@@ -142,8 +142,6 @@ The pipeline library comes with the following steps:
   * [`notify.mattermost`](vars/notify.md#notifymattermostmap-config)
   * [`notify.mqtt`](vars/notify.md#notifymqttmap-config)
   * [`notify.teams`](vars/notify.md#notifyteamsmap-config)
-* [`notifyMail`](vars/notifyMail.md) :warning: deprecated, use
-  [`notify.mail`](vars/notify.md#notifymailmap-config) instead
 * [`setBuildName`](vars/setBuildName.md)
 * [`setGitBranch`](vars/setGitBranch.md)
 * [`setScmUrl`](vars/setScmUrl.md)
