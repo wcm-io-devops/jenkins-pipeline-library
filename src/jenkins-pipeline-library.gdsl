@@ -33,7 +33,6 @@ contributor(pipelineCtx) {
   method(name: 'getScmUrl', type: String, doc: 'Returns the current scm url')
   method(name: 'getScmUrl', type: String, params: [config: Map], doc: 'Returns the current scm url')
   method(name: 'setBuildName', type: 'void', doc: 'Sets the current build name to #BUILD_NUMBER GIT_BRANCH')
-  method(name: 'setGitBranch', type: 'void', doc: 'Detects the current git branch and sets the result into GIT_BRANCH environment variable')
   method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
   method(name: 'setupTools', type: 'void', params: [config: Map], doc: 'Setup tools configured in the provided configuration')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')

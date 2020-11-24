@@ -142,7 +142,6 @@ The pipeline library comes with the following steps:
   * [`notify.mqtt`](vars/notify.md#notifymqttmap-config)
   * [`notify.teams`](vars/notify.md#notifyteamsmap-config)
 * [`setBuildName`](vars/setBuildName.md)
-* [`setGitBranch`](vars/setGitBranch.md)
 * [`setScmUrl`](vars/setScmUrl.md)
 * [`setupTools`](vars/setupTools.md)
 * [`sshAgentWrapper`](vars/sshAgentWrapper.md)

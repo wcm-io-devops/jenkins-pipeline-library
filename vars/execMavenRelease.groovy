@@ -127,7 +127,7 @@ void checkScm(String scmUrl, String scmBranch) {
 
     // check scm branch
     if (scmBranch == null) {
-        error("Unable to retrieve 'GIT_BRANCH' environment variable. Make sure to checkout with 'checkout to local branch' extension enabled and call the setGitBranch step before.")
+        error("Unable to retrieve 'GIT_BRANCH' environment variable. Make sure to checkout with 'checkout to local branch' extension enabled and call the gitTools.getBranch() step before.")
     }
 
     // check for correct branch

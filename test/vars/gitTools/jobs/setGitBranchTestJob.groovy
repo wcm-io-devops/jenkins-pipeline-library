@@ -20,12 +20,12 @@
 package vars.gitTools.jobs
 
 /**
- * Runs the setGitBranch task. Environment is manipulated by the integration test to test several variants
+ * Runs the gitTools.getBranch() task. Environment is manipulated by the integration test to test several variants
  *
  * @return The script
  */
 def execute() {
-  setGitBranch()
+  gitTools.getBranch()
 }
 
 return this
