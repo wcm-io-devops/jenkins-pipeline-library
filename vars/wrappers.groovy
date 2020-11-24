@@ -30,7 +30,6 @@ import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.ANSI_COLOR_XT
  * @param config The configuration options
  * @param body The closure to be executed
  *
- * @deprecated
  */
 void color(Map config = [:], Closure body) {
     Logger log = new Logger(this)
