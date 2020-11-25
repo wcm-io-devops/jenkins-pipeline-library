@@ -151,7 +151,7 @@ contributor(notify) {
   method(name: 'teams', type: 'void', params: [config: Map], doc: 'Triggers an MS Teams notification')
 }
 
-def wrap = context(ctype: "wrap")
+def wrap = context(ctype: "wrappers")
 contributor(wrap) {
   method(name: 'color', type: 'void', params: [config: Map, closure: Closure], doc: 'Enables color output in Jenkins console by using the ansiColor step.')
 }
