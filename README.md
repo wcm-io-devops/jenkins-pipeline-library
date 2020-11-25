@@ -113,7 +113,6 @@ The pipeline library comes with the following steps:
     *  [`lookupHttpCredential`](vars/credentials.md#lookuphttpcredentialstring-uri)
     *  [`lookupScmCredential`](vars/credentials.md#lookupscmcredentialstring-uri)
     *  [`lookupSshCredential`](vars/credentials.md#lookupsshcredentialstring-uri)
-* [`execManagedShellScript`](vars/execManagedShellScript.md)
 * [`execMaven`](vars/execMaven.md)
 * [`execMavenRelease`](vars/execMavenRelease.md)
 * [`execNpm`](vars/execNpm.md)
@@ -142,16 +141,11 @@ The pipeline library comes with the following steps:
   * [`notify.mattermost`](vars/notify.md#notifymattermostmap-config)
   * [`notify.mqtt`](vars/notify.md#notifymqttmap-config)
   * [`notify.teams`](vars/notify.md#notifyteamsmap-config)
-* [`notifyMail`](vars/notifyMail.md) :warning: deprecated, use
-  [`notify.mail`](vars/notify.md#notifymailmap-config) instead
 * [`setBuildName`](vars/setBuildName.md)
-* [`setGitBranch`](vars/setGitBranch.md)
 * [`setScmUrl`](vars/setScmUrl.md)
 * [`setupTools`](vars/setupTools.md)
 * [`sshAgentWrapper`](vars/sshAgentWrapper.md)
 * [`transferScp`](vars/transferScp.md)
-* [wrap](vars/wrap.md)
-    * [`wrap.color`](vars/wrap.md) :warning: deprecated, use [`wrappers`](vars/wrappers.md) instead.
 * [wrappers](vars/wrappers.md)
     * [`wrappers.color`](vars/wrappers.md#colormap-config-closure-body)
 

@@ -52,19 +52,8 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
   /**
    * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
    * @param executable The executable, default: 'maven'
-   *
-   * @deprecated
    */
-  MavenCommandBuilderImpl(DSL dsl, String executable = null) {
-    this(dsl, [:], executable)
-    log.warn("Calling MavenCommandBuilderImpl Constructor without params is deprecated and is subject to remove in the upcoming versions")
-  }
-
-  /**
-   * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
-   * @param executable The executable, default: 'maven'
-   */
-  MavenCommandBuilderImpl(DSL dsl, Map params, String executable = null) {
+  MavenCommandBuilderImpl(DSL dsl, Map params = [:], String executable = null) {
     commandBuilder = new CommandBuilderImpl(dsl, executable ?: EXECUTABLE)
     this.dsl = dsl
     this._params = params

@@ -57,7 +57,6 @@ class StepConstants {
   public final static String ENV_SET_PROPERTY = "env.setProperty"
   public final static String ENV_GET_PROPERTY = "env.getProperty"
   public final static String ERROR = "error"
-  public final static String EXEC_MANAGED_SHELL_SCRIPT = "execManagedShellScript"
 
   public final static String FILE_EXISTS = "fileExists"
   public final static String FIND_FILES = "findFiles"

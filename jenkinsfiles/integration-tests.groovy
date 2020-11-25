@@ -202,10 +202,6 @@ node() {
       log.info(ManagedFileConstants.MAVEN_SETTING_ENV, ManagedFileConstants.MAVEN_SETTING_ENV)
       log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH, ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH)
       log.info(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV, ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV)
-      log.info(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV, ManagedFileConstants.NPM_CONF_USERCONFIG_ENV)
-      log.info(ManagedFileConstants.NPMRC_PATH, ManagedFileConstants.NPMRC_PATH)
-      log.info(ManagedFileConstants.NPMRC_ENV, ManagedFileConstants.NPMRC_ENV)
-      log.info(ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV, ManagedFileConstants.NPM_CONF_GLOBALCONFIG_ENV)
       log.info(ManagedFileConstants.BUNDLE_CONFIG_ENV, ManagedFileConstants.BUNDLE_CONFIG_ENV)
       log.info(ManagedFileConstants.BUNDLE_CONFIG_PATH, ManagedFileConstants.BUNDLE_CONFIG_PATH)
 
@@ -350,8 +346,6 @@ node() {
       mavenCommandBuilder.build()
       mavenCommandBuilder.reset()
 
-      mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, "mvn")
-
       mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, [:])
       mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, [:], "mvn")
     }
@@ -426,9 +420,6 @@ node() {
     integrationTestUtils.runTest("Logger") {
       Logger test = new Logger(this)
       // call all logger init functions
-      Logger.init((DSL) this.steps, [:])
-      Logger.init((DSL) this.steps, "info")
-      Logger.init((DSL) this.steps, 0)
       Logger.init(this, [:])
       Logger.init(this, "info")
       Logger.init(this, 0)

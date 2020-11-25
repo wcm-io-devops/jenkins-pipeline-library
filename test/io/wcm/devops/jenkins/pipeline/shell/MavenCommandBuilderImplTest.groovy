@@ -44,7 +44,7 @@ class MavenCommandBuilderImplTest extends DSLTestBase {
 
   @Test
   void shouldBuildWithCustomExecutable() {
-    underTest = new MavenCommandBuilderImpl(this.dslMock.getMock(), "time mvn")
+    underTest = new MavenCommandBuilderImpl(this.dslMock.getMock(),[:], "time mvn")
     underTest.setPom("customPom1.xml")
     underTest.setGoals("clean package")
     assertEquals("time mvn -f customPom1.xml clean package", underTest.build())

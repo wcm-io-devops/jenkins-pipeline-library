@@ -8,7 +8,6 @@ The ansible part of the library implements
 ## Table of contents
 
 * [Common configuration options](#common-configuration-options)
-* [`checkoutRequirements(String requirementsYmlPath)`](#checkoutrequirementsstring-requirementsymlpath)
 * [`checkoutRoles(Map config)`](#checkoutrolesmap-config)
 * [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
   * [Example of a `roles.yml`](#example-of-a-rolesyml)
@@ -40,13 +39,6 @@ map element to be evaluated and used by the step.
 |Constant|[`ConfigConstants.ANSIBLE_INSTALLATION`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy)|
 |Type|`String`|
 |Default|`null`|
-
-## `checkoutRequirements(String requirementsYmlPath)`
-
-:exclamation: This step is marked as deprecated and is replaced by
-`ansible.checkoutRoles`. See
-* [`checkoutRoles(Map config)`](#checkoutrolesmap-config) and
-* [`checkoutRoles(String galaxyRoleFile)`](#checkoutrolesstring-galaxyrolefile)
 
 ## `checkoutRoles(Map config)`
 

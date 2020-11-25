@@ -40,34 +40,6 @@ import static com.lesfurets.jenkins.unit.global.lib.LibraryConfiguration.library
 class LibraryIntegrationTestBase extends BasePipelineTest {
 
   /**
-   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_PATH instead
-   */
-  public final static String WORKSPACE_PATH = LibraryIntegrationTestContext.WORKSPACE_PATH
-
-  /**
-   * @deprecated use LibraryIntegrationTestContext.WORKSPACE_TMP_PATH instead
-   */
-  public final static String WORKSPACE_TMP_PATH = LibraryIntegrationTestContext.WORKSPACE_TMP_PATH
-
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK_PREFIX instead
-   */
-  public final static String TOOL_JDK_PREFIX = LibraryIntegrationTestContext.TOOL_JDK_PREFIX
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX instead
-   */
-  public final static String TOOL_MAVEN_PREFIX = LibraryIntegrationTestContext.TOOL_MAVEN_PREFIX
-
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_JDK instead
-   */
-  public final static String TOOL_JDK = LibraryIntegrationTestContext.TOOL_JDK
-  /**
-   * @deprecated use LibraryIntegrationTestContext.TOOL_MAVEN instead
-   */
-  public final static String TOOL_MAVEN = LibraryIntegrationTestContext.TOOL_MAVEN
-
-  /**
    * Path to the log file
    */
   protected File logFile = null
@@ -121,20 +93,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    * Mocks the Ansible plugin
    */
   AnsiblePluginMock ansiblePluginMock
-
-  /**
-   * @deprecated please use context.getStepRecorder() instead
-   *
-   * Reference to the StepRecorder instance
-   */
-  StepRecorder stepRecorder
-
-  /**
-   * @deprecated please use context.getRunWrapperMock() instead
-   *
-   * Reference to the runWrapper
-   */
-  RunWrapperMock runWrapper
 
   /**
    * Mocks the Checkstyle plugin
@@ -220,9 +178,6 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     super.setUp()
 
     context = new LibraryIntegrationTestContext(helper, binding)
-
-    this.stepRecorder = context.getStepRecorder()
-    this.runWrapper = context.getRunWrapperMock()
 
     // add badge plugin mocks
     this.ansiblePluginMock = new AnsiblePluginMock(context)

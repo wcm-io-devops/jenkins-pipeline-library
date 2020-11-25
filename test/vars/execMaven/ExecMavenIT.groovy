@@ -97,7 +97,6 @@ class ExecMavenIT extends LibraryIntegrationTestBase {
     loadAndExecuteScript("vars/execMaven/jobs/execMavenWithNPMAndRubyTestJob.groovy")
     assertOneShellCommand(expectedCommand)
     // check if env was set correctly
-    assertEquals("/path/to/workspace@tmp/npmrc-project1-id", getEnv(ManagedFileConstants.NPMRC_ENV))
     assertEquals("/path/to/workspace@tmp/npm-user-config-project1-id", getEnv(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV))
     assertEquals("/path/to/workspace@tmp/bundle-config-project1-id", getEnv(ManagedFileConstants.BUNDLE_CONFIG_ENV))
   }

@@ -158,39 +158,6 @@ class LoggerTest extends DSLTestBase {
     assertEquals("[INFO] i have a custom logger name : i should have a custom logger name", getLogMessageAt(0))
   }
 
-  /*@Test
-  void shouldNotFailWhenNotInitialized() {
-      Logger.setLevel(LogLevel.ALL)
-      Logger.init((DSL) null, null)
-      logAllLevels()
-  }*/
-
-  @Test
-  void shouldInstanciateWithIntegerAsLogLevel() {
-    Logger.setLevel(LogLevel.ALL)
-    Logger.init(this.dslMock.getMock(), 0)
-    logAllLevels()
-  }
-
-  @Test
-  void shouldInstanciateWithStringAsLogLevel() {
-    Logger.setLevel(LogLevel.ALL)
-    Logger.init(this.dslMock.getMock(), "INFO")
-    logAllLevels()
-  }
-
-  @Test
-  void shouldChangeLogLevelOnReinitialization() {
-    Logger.init(this.dslMock.getMock(), "WARN")
-    logAllLevels()
-    assertEquals(LogLevel.WARN, Logger.getLevel())
-    assertLogSize(3)
-    Logger.setLevel(LogLevel.FATAL)
-    logAllLevels()
-    assertEquals(LogLevel.FATAL, Logger.getLevel())
-    assertLogSize(4)
-  }
-
   void logAllLevels() {
     underTest.trace("trace")
     underTest.debug("debug")

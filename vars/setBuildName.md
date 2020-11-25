@@ -6,7 +6,7 @@ for the build.
 At the moment there are no configuration options for this step
 
 :bulb: If you want to make the branch name appear in your build call the
-[`setGitBranch`](setGitBranch.groovy) step before calling this step
+[`gitTools.getBranch()`](gitTools.groovy) step before calling this step
 
 :exclamation: This step requires the [Jenkins Version Number Plugin](https://wiki.jenkins.io/display/JENKINS/Version+Number+Plugin).
 

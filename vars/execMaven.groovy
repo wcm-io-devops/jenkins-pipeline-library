@@ -89,8 +89,6 @@ void call(Map config = null) {
 
     // add config file for NPM_CONFIG_USERCONFIG if defined
     addManagedFile(log, scmUrl, ManagedFileConstants.NPM_CONFIG_USERCONFIG_PATH, ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV, configFiles)
-    // add config file for NPMRC if defined
-    addManagedFile(log, scmUrl, ManagedFileConstants.NPMRC_PATH, ManagedFileConstants.NPMRC_ENV, configFiles)
     // add config file for ruby
     addManagedFile(log, scmUrl, ManagedFileConstants.BUNDLE_CONFIG_PATH, ManagedFileConstants.BUNDLE_CONFIG_ENV, configFiles)
 

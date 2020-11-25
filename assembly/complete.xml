@@ -13,6 +13,7 @@
         <include>resources/**/*</include>
         <include>src/**/*</include>
         <include>vars/**/*</include>
+        <include>test/**/*</include>
         <include>**/*.md</include>
       </includes>
     </fileSet>

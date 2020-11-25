@@ -30,12 +30,9 @@ contributor(pipelineCtx) {
   method(name: 'execMaven', type: 'void', params: [config: Map], doc: 'Executes maven with the given configuration')
   method(name: 'execMavenRelease', type: 'void', params: [config: Map], doc: 'Performs a maven release with the given configuration')
   method(name: 'execNpm', type: 'void', params: [config: Map], doc: 'Executed NPM with the given configuration')
-  method(name: 'getBuildParameters.groovy', type: String, doc: 'Returns the current build parameters')
   method(name: 'getScmUrl', type: String, doc: 'Returns the current scm url')
   method(name: 'getScmUrl', type: String, params: [config: Map], doc: 'Returns the current scm url')
-  method(name: 'notifyMail', type: 'void', params: [config: Map], doc: 'Sends mail notification with the given configuration')
   method(name: 'setBuildName', type: 'void', doc: 'Sets the current build name to #BUILD_NUMBER GIT_BRANCH')
-  method(name: 'setGitBranch', type: 'void', doc: 'Detects the current git branch and sets the result into GIT_BRANCH environment variable')
   method(name: 'setScmUrl', type: 'void', params: [config: Map], doc: 'Detects the current scm url and sets the result into SCM_URL environment variable')
   method(name: 'setupTools', type: 'void', params: [config: Map], doc: 'Setup tools configured in the provided configuration')
   method(name: 'sshAgentWrapper', type: 'void', params: [sshTarget: String, body: Closure], doc: 'Provides auto lookup for ssh credential and wraps body into an sshagent')
@@ -58,7 +55,6 @@ contributor(pipelineCtx) {
 def ansible = context(ctype: "ansible")
 contributor(ansible) {
   method(name: 'execPlaybook', type: 'void', params: [config: Map], doc: 'Executes a ansible playbook with the given configuration.')
-  method(name: 'checkoutRequirements', type: 'void', params: [requirementsYmlPath: String], doc: 'Deprecated, use ansible.checkoutRoles instead.')
   method(name: 'checkoutRoles', type: 'void', params: [galaxyRoleFile: String], doc: 'Checks out ansible galaxy roles based upon a provided path to a requirements YAML file.')
   method(name: 'checkoutRoles', type: 'void', params: [config: Map], doc: 'Checks out ansible galaxy roles based upon a provided pipeline configuration.')
   method(name: 'getGalaxyRoleInfo', type: 'Object', params: [role: 'io.wcm.devops.jenkins.pipeline.tools.ansible.Role'], doc: 'Calls the ansible galaxy API for role information')
@@ -155,7 +151,7 @@ contributor(notify) {
   method(name: 'teams', type: 'void', params: [config: Map], doc: 'Triggers an MS Teams notification')
 }
 
-def wrap = context(ctype: "wrap")
+def wrap = context(ctype: "wrappers")
 contributor(wrap) {
   method(name: 'color', type: 'void', params: [config: Map, closure: Closure], doc: 'Enables color output in Jenkins console by using the ansiColor step.')
 }

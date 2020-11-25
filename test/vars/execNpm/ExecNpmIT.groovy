@@ -21,6 +21,7 @@ package vars.execNpm
 
 import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestBase
 import io.wcm.devops.jenkins.pipeline.managedfiles.ManagedFileConstants
+import io.wcm.testing.jenkins.pipeline.LibraryIntegrationTestContext
 import org.junit.Assert
 import org.junit.Test
 
@@ -39,10 +40,10 @@ class ExecNpmIT extends LibraryIntegrationTestBase {
 
   @Test
   void shouldRunWithCustomAndAutoLookup() {
-    expectedCommand = "/path/to/custom/npm run build -flag --property=value --userconfig /path/to/workspace@tmp/npm-user-config-id --globalconfig /path/to/workspace@tmp/npmrc-id"
+    expectedCommand = "/path/to/custom/npm run build -flag --property=value --userconfig /path/to/workspace@tmp/npm-user-config-id"
     loadAndExecuteScript("vars/execNpm/jobs/execNpmCustomAndAutoLookupTestJob.groovy")
     assertOneShellCommand(expectedCommand)
     // check if npm config userconfig was automatically provived by setting environment variable
-    Assert.assertEquals(WORKSPACE_TMP_PATH.concat("npm-user-config-id"), getEnv(ManagedFileConstants.NPM_CONF_USERCONFIG_ENV))
+    Assert.assertEquals(LibraryIntegrationTestContext.WORKSPACE_TMP_PATH.concat("npm-user-config-id"), getEnv(ManagedFileConstants.NPM_CONFIG_USERCONFIG_ENV))
   }
 }
