@@ -346,8 +346,6 @@ node() {
       mavenCommandBuilder.build()
       mavenCommandBuilder.reset()
 
-      mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, "mvn")
-
       mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, [:])
       mavenCommandBuilder = new MavenCommandBuilderImpl((DSL) this.steps, [:], "mvn")
     }
