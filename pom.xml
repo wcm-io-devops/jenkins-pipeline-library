@@ -62,7 +62,7 @@
 
   <ciManagement>
     <system>Travis CI</system>
-    <url>https://travis-ci.org/wcm-io-devops</url>
+    <url>https://travis-ci.com/wcm-io-devops</url>
   </ciManagement>
 
   <developers>
