@@ -42,6 +42,7 @@ class WorkflowDurableTaskStepPluginMock {
   def shellMapCallback = { Map incomingCommand ->
     context.getStepRecorder().record(SH, incomingCommand)
     Boolean returnStdout = incomingCommand.returnStdout ?: false
+    Boolean returnStatus = incomingCommand.returnStatus ?: false
     String script = incomingCommand.script ?: ""
     // return default values for several commands
     if (returnStdout) {
@@ -52,7 +53,16 @@ class WorkflowDurableTaskStepPluginMock {
           break
         case "git branch": return "* (detached from 0HFGC0)"
           break
+        case "mvn -f path/to/returnStdout.xml": return "stdout from maven"
+          break
         default: return ""
+      }
+    }
+    else if (returnStatus) {
+      switch (script) {
+        case "mvn -f path/to/returnStatus.xml": return 42
+          break
+        default: return 0
       }
     }
   }

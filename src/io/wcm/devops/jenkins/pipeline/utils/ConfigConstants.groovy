@@ -64,6 +64,8 @@ class ConfigConstants {
   public static final String MAVEN_POM = "pom"
   public static final String MAVEN_PROFILES = "profiles"
   public static final String MAVEN_SETTINGS = "settings"
+  public static final String MAVEN_RETURN_STDOUT = "returnStdout"
+  public static final String MAVEN_RETURN_STATUS = "returnStatus"
 
   public static final String MAVEN_PURGE_SNAPSHOTS = "purgeSnapShots"
   public static final String MAVEN_PURGE_SNAPSHOTS_REPO_PATH = "repoPath"

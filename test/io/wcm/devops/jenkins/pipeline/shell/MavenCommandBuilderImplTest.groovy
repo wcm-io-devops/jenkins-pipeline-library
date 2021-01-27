@@ -24,6 +24,8 @@ import org.junit.Test
 
 import static io.wcm.devops.jenkins.pipeline.utils.ConfigConstants.*
 import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 class MavenCommandBuilderImplTest extends DSLTestBase {
 
@@ -124,12 +126,15 @@ class MavenCommandBuilderImplTest extends DSLTestBase {
             (MAVEN_POM)            : "path with spaces/to/custom/pom.xml",
             (MAVEN_SETTINGS)       : "settings-id",
             (MAVEN_PROFILES)       : ["profile1", "profile2"],
+            (MAVEN_RETURN_STATUS)  : true
         ]
     ]
     underTest.applyConfig(config)
     assertEquals("path/to/custom/maven/bin/mvn -f path\\ with\\ spaces/to/custom/pom.xml clean install -B -U -DvalueDefine=value -DflagDefine -Pprofile1,profile2", underTest.build())
     assertEquals("settings-id", underTest.getSettingsId())
     assertEquals("global-settings-id", underTest.getGlobalSettingsId())
+    assertFalse(underTest.getReturnStdout())
+    assertTrue(underTest.getReturnStatus())
     assertEmptyAfterReset("path/to/custom/maven/bin/mvn")
   }
 
@@ -145,12 +150,15 @@ class MavenCommandBuilderImplTest extends DSLTestBase {
             (MAVEN_POM)            : "path with spaces/to/custom/pom.xml",
             (MAVEN_SETTINGS)       : "settings-id",
             (MAVEN_PROFILES)       : "profile3,profile4",
+            (MAVEN_RETURN_STDOUT)  : true
         ]
     ]
     underTest.applyConfig(config)
     assertEquals("path/to/custom/maven/bin/mvn -f path\\ with\\ spaces/to/custom/pom.xml clean install -B -U -DvalueDefine=value -DflagDefine -Pprofile3,profile4", underTest.build())
     assertEquals("settings-id", underTest.getSettingsId())
     assertEquals("global-settings-id", underTest.getGlobalSettingsId())
+    assertTrue(underTest.getReturnStdout())
+    assertFalse(underTest.getReturnStatus())
     assertEmptyAfterReset("path/to/custom/maven/bin/mvn")
   }
 

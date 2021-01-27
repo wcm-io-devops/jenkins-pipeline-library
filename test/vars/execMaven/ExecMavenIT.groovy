@@ -75,6 +75,34 @@ class ExecMavenIT extends LibraryIntegrationTestBase {
   }
 
   @Test
+  void shouldExecuteMavenWithReturnStatus() {
+
+    expectedCommand = [
+      script: 'mvn -f path/to/returnStatus.xml',
+      returnStatus: true,
+      returnStdout: false
+    ]
+    Object result = loadAndExecuteScript("vars/execMaven/jobs/execMavenWithReturnStatus.groovy")
+
+    assertOneShellCommand(expectedCommand)
+    assertEquals(42, result)
+  }
+
+  @Test
+  void shouldExecuteMavenWithReturnStdout() {
+
+    expectedCommand = [
+      script: 'mvn -f path/to/returnStdout.xml',
+      returnStatus: false,
+      returnStdout: true
+    ]
+    Object result = loadAndExecuteScript("vars/execMaven/jobs/execMavenWithReturnStdout.groovy")
+
+    assertOneShellCommand(expectedCommand)
+    assertEquals("stdout from maven", result)
+  }
+
+  @Test
   void shouldExecuteWithCustomConfigVariant2() {
 
     expectedCommand = "mvn -f path/to/customPom2.xml customGoal3 customGoal4 -B -U -DdefineValue2=true -DdefineFlag2 --global-settings /path/to/workspace@tmp/CUSTOM_GLOBAL_SETTINGS_VARIANT2 --settings /path/to/workspace@tmp/CUSTOM_SETTINGS_VARIANT2"

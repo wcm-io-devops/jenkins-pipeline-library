@@ -40,6 +40,8 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
 
   public String _globalSettingsId = null
   public String _settingsId = null
+  public Boolean _returnStdout = false
+  public Boolean _returnStatus = false
 
   public CommandBuilder commandBuilder
 
@@ -48,6 +50,8 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
   public Map _params
 
   public Logger log = new Logger(this)
+
+
 
   /**
    * @param dsl The DSL object of the current pipeline script (available via this.steps in pipeline scripts)
@@ -245,6 +249,38 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
   }
 
   /**
+   * @return value of returnStdout
+   */
+  @NonCPS
+  Boolean getReturnStdout() {
+    return _returnStdout
+  }
+
+  /**
+   * @return value of returnStdout
+   */
+  @NonCPS
+  Boolean getReturnStatus() {
+    return _returnStatus
+  }
+
+  /**
+   * @param _returnStdout set returnStdout option
+   */
+  @NonCPS
+  void set_returnStdout(Boolean _returnStdout) {
+    this._returnStdout = _returnStdout
+  }
+
+  /**
+   *
+   * @param _returnStatus set returnStatus option
+   */
+  @NonCPS
+  void set_returnStatus(Boolean _returnStatus) {
+    this._returnStatus = _returnStatus
+  }
+/**
    * @param globalSettingsId The id of the global maven settings managed file
    */
   @NonCPS
@@ -277,6 +313,8 @@ class MavenCommandBuilderImpl implements Serializable, CommandBuilder, ConfigAwa
     Object defines = mavenConfig[ConfigConstants.MAVEN_DEFINES] ?: [:]
     Boolean injectParameters = mavenConfig[ConfigConstants.MAVEN_INJECT_PARAMS] ?: false
     Object profiles = mavenConfig[ConfigConstants.MAVEN_PROFILES] ?: []
+    _returnStatus =  mavenConfig[ConfigConstants.MAVEN_RETURN_STATUS] ?: false
+    _returnStdout =  mavenConfig[ConfigConstants.MAVEN_RETURN_STDOUT] ?: false
 
     if (mavenExecutable != null) {
       commandBuilder.setExecutable(mavenExecutable)
