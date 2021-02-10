@@ -3,10 +3,6 @@
 name: Deploy
 
 on:
-  # *** Temporarily enable this for all branches to be able to test it on the github-actions branch - workflow_run only works on default branch ***
-  #push:
-  #  branches-ignore:
-  #    - 'experimental/**'
   workflow_run:
     workflows:
       - Build
