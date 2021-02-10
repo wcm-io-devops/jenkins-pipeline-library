@@ -40,7 +40,7 @@ jobs:
 
       # Build & verify
       - name: Build and verify
-        run: mvn -s ./.maven-settings.xml -Pcontinuous-integration -B -U clean verify
+        run: mvn -s ./.maven-settings.xml -B -U clean verify
 
       # Run code coverage check
       - name: Run code coverage check

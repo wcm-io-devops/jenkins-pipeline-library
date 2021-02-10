@@ -46,4 +46,4 @@ jobs:
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: mvn -s ./.maven-settings.xml -Pcontinuous-integration -B -U clean deploy
+        run: mvn -s ./.maven-settings.xml -B -U clean deploy
