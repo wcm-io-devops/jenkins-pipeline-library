@@ -40,8 +40,10 @@ import org.jenkinsci.plugins.workflow.cps.DSL
  *  - auto lookup for BUNDLE_CONFIG
  *
  * @param config Configuration options for the step
+ *
+ * @return void, stdOut or stdErr
  */
-void call(Map config = null) {
+Object call(Map config = null) {
     config = config ?: [:]
     Logger log = new Logger(this)
 
@@ -92,6 +94,8 @@ void call(Map config = null) {
     // add config file for ruby
     addManagedFile(log, scmUrl, ManagedFileConstants.BUNDLE_CONFIG_PATH, ManagedFileConstants.BUNDLE_CONFIG_ENV, configFiles)
 
+    Object result = void
+
     configFileProvider(configFiles) {
         // add global settingsId
         if (commandBuilder.getGlobalSettingsId() != null) {
@@ -110,8 +114,13 @@ void call(Map config = null) {
         log.info("executing maven with: $command")
 
         // execute the maven command
-        sh(command)
+        if (commandBuilder.returnStdout || commandBuilder.returnStatus) {
+            result = sh(script: command, returnStatus: commandBuilder.returnStatus, returnStdout: commandBuilder.returnStdout)
+        } else {
+            result = sh(command)
+        }
     }
+    return result
 }
 
 /**

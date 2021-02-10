@@ -46,6 +46,8 @@ given configuration into a `sh` step call.
     * [`goals` (optional)](#goals-optional)
     * [`pom` (optional)](#pom-optional)
     * [`profiles` (optional)](#profiles-optional)
+    * [`returnStatus` (optional)](#returnstatus-optional)
+    * [`returnStdout` (optional)](#returnstdout-optional)
     * [`settings` (optional)](#settings-optional)
 * [Related classes](#related-classes)
 
@@ -375,6 +377,8 @@ execMaven(
         (MAVEN_POM): "/path/to/pom.xml",
         (MAVEN_PROFILES): ["profile1", "profile2"],
         (MAVEN_SETTINGS): "managed-file-id",
+        (MAVEN_RETURN_STATUS): false,
+        (MAVEN_RETURN_STDOUT): false,
     ]
 )
 ```
@@ -479,6 +483,32 @@ current working directory
 |Default|`[]`|
 
 Maven profiles to use.
+
+### `returnStatus` (optional)
+|                                                                                                                  ||
+|:---------|:-------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.MAVEN_SETTINGS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                              |
+| Default  | `false`                                                                                                |
+
+When provided the `sh` step will be called with `returnStatus: true` and
+the `execMaven` step will return the status code of the shell command.
+
+Please note that either `returnStdout` or `returnStatus` can be set to
+`true` due to the used `sh` step.
+
+### `returnStdout` (optional)
+|                                                                                                                  ||
+|:---------|:-------------------------------------------------------------------------------------------------------|
+| Constant | [`ConfigConstants.MAVEN_SETTINGS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy) |
+| Type     | `Boolean`                                                                                              |
+| Default  | `false`                                                                                                |
+
+When provided the `sh` step will be called with `returnStdout: true` and
+the `execMaven` step will return the stdout of the shell command.
+
+Please note that either `returnStdout` or `returnStatus` can be set to
+`true` due to the used `sh` step.
 
 ### `settings` (optional)
 |||
