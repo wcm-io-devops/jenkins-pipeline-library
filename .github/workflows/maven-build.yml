@@ -6,7 +6,6 @@ name: Build
 on:
   push:
     branches-ignore:
-      - 'master'
       - 'experimental/**'
   pull_request:
     branches-ignore:

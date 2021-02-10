@@ -4,20 +4,19 @@ name: Deploy
 
 on:
   # *** Temporarily enable this for all branches to be able to test it on the github-actions branch - workflow_run only works on default branch ***
-  push:
-    branches-ignore:
-      - 'master'
-      - 'experimental/**'
-#  workflow_run:
-#    workflows:
-#      - Verify
-#    branches:
-#      - $default-branch
-#    types: 
-#      - completed
+  #push:
+  #  branches-ignore:
+  #    - 'experimental/**'
+  workflow_run:
+    workflows:
+      - Build
+    branches:
+      - $default-branch
+    types:
+      - completed
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
