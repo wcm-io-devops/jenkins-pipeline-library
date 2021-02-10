@@ -1,0 +1,49 @@
+# Deploy snapshots to Sonatpe OSS repository
+
+name: Deploy
+
+on:
+  # *** Temporarily enable this for all branches to be able to test it on the github-actions branch - workflow_run only works on default branch ***
+  push:
+    branches-ignore:
+      - 'master'
+      - 'experimental/**'
+#  workflow_run:
+#    workflows:
+#      - Verify
+#    branches:
+#      - $default-branch
+#    types: 
+#      - completed
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out Git repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up environment with Java and Maven
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      # Set up dependency cache
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Build, deploy to ossrh, deploy site to Github Pages, generate and stage site
+      - name: Build, verify, deploy
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: mvn -s ./.maven-settings.xml -Pcontinuous-integration -B -U clean deploy
