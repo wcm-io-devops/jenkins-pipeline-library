@@ -7,7 +7,7 @@ on:
     workflows:
       - Build
     branches:
-      - $default-branch
+      - master
     types:
       - completed
 
