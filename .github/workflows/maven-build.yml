@@ -1,0 +1,44 @@
+# Default build validation "clean verify" for non-experimental branches
+
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - 'experimental/**'
+  pull_request:
+    branches-ignore:
+      - 'experimental/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out Git repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up environment with Java and Maven
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      # Set up dependency cache
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Build & verify
+      - name: Build and verify
+        run: mvn -s ./.maven-settings.xml -B -U clean verify
+
+      # Run code coverage check
+      - name: Run code coverage check
+        run: bash <(curl -s https://codecov.io/bash)
