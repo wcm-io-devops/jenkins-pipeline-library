@@ -61,8 +61,8 @@
   </issueManagement>
 
   <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.com/wcm-io-devops</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/wcm-io-devops/jenkins-pipeline-library/actions</url>
   </ciManagement>
 
   <developers>
