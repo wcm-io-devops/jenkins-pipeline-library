@@ -17,11 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out Git repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up environment with Java and Maven
       - name: Setup JDK
         uses: actions/setup-java@v2
         with:
@@ -29,7 +27,6 @@ jobs:
           java-version: 8
           cache: 'maven'
 
-      # Build, deploy to ossrh, deploy site to Github Pages, generate and stage site
       - name: Build, verify, deploy
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}

@@ -16,11 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out Git repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up environment with Java and Maven
       - name: Setup JDK
         uses: actions/setup-java@v2
         with:
@@ -28,10 +26,5 @@ jobs:
           java-version: 8
           cache: 'maven'
 
-      # Build & verify
       - name: Build and verify
         run: mvn -s ./.maven-settings.xml -B -U clean verify
-
-      # Run code coverage check
-      - name: Run code coverage check
-        run: bash <(curl -s https://codecov.io/bash)
