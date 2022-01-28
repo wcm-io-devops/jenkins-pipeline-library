@@ -95,39 +95,20 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   AnsiblePluginMock ansiblePluginMock
 
   /**
-   * Mocks the Checkstyle plugin
-   */
-  CheckstylePluginMock checkstylePluginMock
-
-  /**
    * Mocks the Email-ext plugin
    */
   EmailExtPluginMock emailExtPluginMock
-
-  /**
-   * Mocks the FindBugs plugin
-   */
-  FindBugsPluginMock findBugsPluginMock
 
   /**
    * Mocks the JUnit olugin
    */
   JUnitPluginMock jUnitPluginMock
 
-  /**
-   * Mocks the Task Scanner plugin
-   */
-  TaskScannerPluginMock taskScannerPluginMock
 
   /**
    * Mocks the SSH Agent plugin
    */
   SSHAgentPluginMock sshAgentPluginMock
-
-  /**
-   * Mocks the PMD plugin
-   */
-  PMDPluginMock pmdPluginMock
 
   /**
    * Mocks the Timestamper plugin
@@ -184,19 +165,15 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     this.ansiColorPluginMock = new AnsiColorPluginMock(context)
     this.basicStepsMock = new BasicStepsMock(context)
     this.badgePluginMock = new BadgePluginMock(context)
-    this.checkstylePluginMock = new CheckstylePluginMock(context)
     this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(context)
     this.coreStepsMock = new CoreStepsMock(context)
     this.credentialsPluginMock = new CredentialsPluginMock(context)
     this.emailExtPluginMock = new EmailExtPluginMock(context)
-    this.findBugsPluginMock = new FindBugsPluginMock(context)
     this.jobPropertiesMock = new JobPropertiesMock(context)
     this.jUnitPluginMock = new JUnitPluginMock(context)
     this.pipelineStageStepPluginMock = new PipelineStageStepPluginMock(context)
     this.pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(context)
-    this.pmdPluginMock = new PMDPluginMock(context)
     this.sshAgentPluginMock = new SSHAgentPluginMock(context)
-    this.taskScannerPluginMock = new TaskScannerPluginMock(context)
     this.timestamperPluginMock = new TimestamperPluginMock(context)
     this.versionNumberPluginMock = new VersionNumberPluginMock(context)
     this.workflowDurableTaskStepPluginMock = new WorkflowDurableTaskStepPluginMock(context)
