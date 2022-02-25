@@ -31,7 +31,6 @@ class StepConstants {
   public final static String ADD_SHORT_TEXT = "addShortText"
   public final static String ADD_WARNING_BADGE = "addWarningBadge"
 
-  public final static String ANALYSISPUBLISHER = "AnalysisPublisher"
   public final static String ANSI_COLOR = "ansiColor"
   public final static String ANSIBLE_PLAYBOOK = "ansiblePlaybook"
 
@@ -40,7 +39,6 @@ class StepConstants {
   public final static String BUILD_BLOCKER_PROPERTY = "BuildBlockerProperty"
 
   public final static String CHECKOUT = "checkout"
-  public final static String CHECKSTYLE = "checkstyle"
   public final static String CHECK_STYLE = "checkStyle"
   public final static String CHECKOUT_SCM = "checkoutScm"
   public final static String CHOICE = "choice"
@@ -61,7 +59,6 @@ class StepConstants {
 
   public final static String FILE_EXISTS = "fileExists"
   public final static String FIND_FILES = "findFiles"
-  public final static String FINDBUGS = "findbugs"
   public final static String FIND_BUGS = "findBugs"
   public final static String FINGERPRINT = "fingerprint"
 
@@ -84,11 +81,8 @@ class StepConstants {
 
   public final static String NODE = "node"
 
-  public final static String OPENTASKS = "openTasks"
-
   public final static String PARAMETERS = "parameters"
   public final static String PIPELINE_TRIGGERS = "pipelineTriggers"
-  public final static String PMD = "pmd"
   public final static String PMD_PARSER = "pmdParser"
   public final static String POLLSCM = "pollSCM"
   public final static String PROPERTIES = "properties"
