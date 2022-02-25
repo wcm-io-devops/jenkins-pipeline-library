@@ -169,6 +169,11 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
    */
   TeamsNotificationPluginMock teamsNotificationPluginMock
 
+  /**
+   * Mocks the Office365 connector plugin for MS Teams notifications
+   */
+  WarningsNGPluginMock warningsNGPluginMock
+
   @Override
   @Before
   void setUp() throws Exception {
@@ -184,21 +189,22 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
     this.ansiColorPluginMock = new AnsiColorPluginMock(context)
     this.basicStepsMock = new BasicStepsMock(context)
     this.badgePluginMock = new BadgePluginMock(context)
-    this.checkstylePluginMock = new CheckstylePluginMock(context)
+    // this.checkstylePluginMock = new CheckstylePluginMock(context)
     this.configFileProviderPluginMock = new ConfigFileProviderPluginMock(context)
     this.coreStepsMock = new CoreStepsMock(context)
     this.credentialsPluginMock = new CredentialsPluginMock(context)
     this.emailExtPluginMock = new EmailExtPluginMock(context)
-    this.findBugsPluginMock = new FindBugsPluginMock(context)
+    // this.findBugsPluginMock = new FindBugsPluginMock(context)
     this.jobPropertiesMock = new JobPropertiesMock(context)
     this.jUnitPluginMock = new JUnitPluginMock(context)
     this.pipelineStageStepPluginMock = new PipelineStageStepPluginMock(context)
     this.pipelineUtilityStepsPluginMock = new PipelineUtilityStepsPluginMock(context)
-    this.pmdPluginMock = new PMDPluginMock(context)
+    // this.pmdPluginMock = new PMDPluginMock(context)
     this.sshAgentPluginMock = new SSHAgentPluginMock(context)
-    this.taskScannerPluginMock = new TaskScannerPluginMock(context)
+    // this.taskScannerPluginMock = new TaskScannerPluginMock(context)
     this.timestamperPluginMock = new TimestamperPluginMock(context)
     this.versionNumberPluginMock = new VersionNumberPluginMock(context)
+    this.warningsNGPluginMock = new WarningsNGPluginMock(context)
     this.workflowDurableTaskStepPluginMock = new WorkflowDurableTaskStepPluginMock(context)
     this.httpRequestPluginMock = new HTTPRequestPluginMock(context)
     this.mqttNotificationPluginMock = new MQTTNotificationPluginMock(context)
