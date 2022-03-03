@@ -150,7 +150,7 @@ class LibraryIntegrationTestBase extends BasePipelineTest {
   TeamsNotificationPluginMock teamsNotificationPluginMock
 
   /**
-   * Mocks the Office365 connector plugin for MS Teams notifications
+   * Mocks the warnings ng plugin
    */
   WarningsNGPluginMock warningsNGPluginMock
 
