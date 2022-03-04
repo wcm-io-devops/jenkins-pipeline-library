@@ -31,7 +31,6 @@ class StepConstants {
   public final static String ADD_SHORT_TEXT = "addShortText"
   public final static String ADD_WARNING_BADGE = "addWarningBadge"
 
-  public final static String ANALYSISPUBLISHER = "AnalysisPublisher"
   public final static String ANSI_COLOR = "ansiColor"
   public final static String ANSIBLE_PLAYBOOK = "ansiblePlaybook"
 
@@ -40,7 +39,7 @@ class StepConstants {
   public final static String BUILD_BLOCKER_PROPERTY = "BuildBlockerProperty"
 
   public final static String CHECKOUT = "checkout"
-  public final static String CHECKSTYLE = "checkstyle"
+  public final static String CHECK_STYLE = "checkStyle"
   public final static String CHECKOUT_SCM = "checkoutScm"
   public final static String CHOICE = "choice"
   public final static String CONFIGFILE = "configFile"
@@ -60,11 +59,12 @@ class StepConstants {
 
   public final static String FILE_EXISTS = "fileExists"
   public final static String FIND_FILES = "findFiles"
-  public final static String FINDBUGS = "findbugs"
+  public final static String FIND_BUGS = "findBugs"
   public final static String FINGERPRINT = "fingerprint"
 
   public final static String JACOCOPUBLISHER = "JacocoPublisher"
   public final static String JUNIT = "junit"
+  public final static String JUNIT_PARSER = "junitParser"
 
   public final static String HTTP_REQUEST = "httpRequest"
 
@@ -81,11 +81,9 @@ class StepConstants {
 
   public final static String NODE = "node"
 
-  public final static String OPENTASKS = "openTasks"
-
   public final static String PARAMETERS = "parameters"
   public final static String PIPELINE_TRIGGERS = "pipelineTriggers"
-  public final static String PMD = "pmd"
+  public final static String PMD_PARSER = "pmdParser"
   public final static String POLLSCM = "pollSCM"
   public final static String PROPERTIES = "properties"
 
@@ -93,6 +91,7 @@ class StepConstants {
   public final static String READ_JSON = "readJSON"
   public final static String READ_MAVEN_POM = "readMavenPom"
   public final static String READ_YAML = "readYaml"
+  public final static String RECORD_ISSUES = "recordIssues"
 
   public final static String RETRY = "retry"
 
@@ -110,6 +109,7 @@ class StepConstants {
 
   public final static String OFFICE365_CONNECTOR_SEND = "office365ConnectorSend"
 
+  public final static String TASK_SCANNER = "taskScanner"
   public final static String TEXT = "text"
   public final static String TIMESTAMPS = "timestamps"
   public final static String TIMEOUT = "timeout"
