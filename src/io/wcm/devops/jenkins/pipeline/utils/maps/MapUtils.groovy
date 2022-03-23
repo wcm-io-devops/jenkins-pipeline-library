@@ -78,6 +78,9 @@ class MapUtils implements Serializable {
     } else {
       result = [:]
       maps.each { map ->
+        // skip null maps
+        if (map == null) return
+
         // get the merge mode from current result
         MapMergeMode mergeMode = (MapMergeMode) result[MAP_MERGE_MODE] ?: null
         // get the merge mode from incoming map when not in result
