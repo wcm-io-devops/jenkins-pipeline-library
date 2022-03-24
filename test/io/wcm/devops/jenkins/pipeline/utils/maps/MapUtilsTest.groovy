@@ -278,4 +278,11 @@ class MapUtilsTest {
     assertEquals([:], MapUtils.merge(null))
   }
 
+  @Test
+  void shouldNotFailOnMergeWithNullParam() {
+    assertEquals([ key : "value" ], MapUtils.merge([ key : "value" ], null))
+    assertEquals([ key1 : "value1" ], MapUtils.merge([ key1 : "value1" ], null, null))
+    assertEquals([ key1 : "value1", key2 : "value2" ], MapUtils.merge([ key1 : "value1" ], null, [ key2 : "value2" ]))
+  }
+
 }
