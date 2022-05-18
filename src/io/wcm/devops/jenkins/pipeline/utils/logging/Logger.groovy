@@ -295,7 +295,7 @@ class Logger implements Serializable {
    */
   @NonCPS
   void deprecated(String deprecatedItem, String newItem) {
-    String message = "The step/function/class '$deprecatedItem' is marked as depecreated and will be removed in future releases. " +
+    String message = "The step/function/class '$deprecatedItem' is marked as deprecated and will be removed in future releases. " +
       "Please use '$newItem' instead."
     deprecated(message)
   }
