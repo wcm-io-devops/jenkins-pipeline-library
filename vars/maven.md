@@ -15,6 +15,8 @@ This function is a map based adapter function for [`purgeSnapshots`](#purgesnaps
 
 Complete list of all configuration options.
 
+:bulb: In order to use node specific repository locations you can also specify the path to the repo in the environment variable `M2_REPO`.
+
 All configuration options must be inside the `MAVEN_PURGE_SNAPSHOTS`
 ([`ConfigConstants.MAVEN_PURGE_SNAPSHOTS`](../src/io/wcm/devops/jenkins/pipeline/utils/ConfigConstants.groovy))
 map element to be evaluated and used by the function.
@@ -68,7 +70,7 @@ The log level of the managed shell script.
 This function uses the managed pipeline shell script [`purge-snapshots.sh`](../resources/jenkins-pipeline-library/managedScripts/shell/maven/purge-snapshots.sh)
 
 This scrips searches for SNAPSHOT artifacts in the specified maven repository and deletes them.
-Normally this script searches under `$HOME/.m2/repository` but this can be adjusted by setting a `repositoryPath`.
+Normally this script searches under `$HOME/.m2/repository` but this can be adjusted by setting a `repositoryPath` or using the environment variable `M2_PATH`.
 When `dryRun` is set to `true` the script will only simulate the purge.
 With the parameter `logLevel` the verbosity of the managed shell script can be adjusted.
 

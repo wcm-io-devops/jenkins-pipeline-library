@@ -22,7 +22,8 @@
 # This managed shell script purges SNAPSHOT artifacts from a maven repository
 
 # define variables / defaults
-MAVEN_REPO="$HOME/.m2/repository"
+MAVEN_REPO="${M2_REPO:-$HOME/.m2/repository}"
+# MAVEN_REPO="$HOME/.m2/repository"
 LOG_LVL=4
 DRY_RUN=false
 REGEX="\/?\s*(.+)"
