@@ -1,5 +1,5 @@
 [![Build](https://github.com/wcm-io-devops/jenkins-pipeline-library/workflows/Build/badge.svg)](https://github.com/wcm-io-devops/jenkins-pipeline-library/actions?query=workflow%3ABuild)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library)
+[![Maven Central](https://img.shields.io/maven-central/v/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library)](https://repo1.maven.org/maven2/io/wcm/devops/jenkins/io.wcm.devops.jenkins.pipeline-library)
 [![Sonatype Snapshots](https://img.shields.io/nexus/s/https/oss.sonatype.org/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library.svg)](https://oss.sonatype.org/content/repositories/snapshots/io/wcm/devops/jenkins/io.wcm.devops.jenkins.pipeline-library/)
 
 # Jenkins Pipeline Library
