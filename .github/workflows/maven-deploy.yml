@@ -1,4 +1,4 @@
-# Deploy snapshots to Sonatpe OSS repository
+# Deploy snapshots to Sonatype OSS repository
 
 name: Deploy
 
@@ -18,14 +18,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 8
-          cache: 'maven'
+          cache: maven
 
       - name: Build, verify, deploy
         env:
