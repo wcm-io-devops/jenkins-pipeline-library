@@ -56,8 +56,8 @@
   </organization>
 
   <issueManagement>
-    <system>JIRA</system>
-    <url>https://wcm-io.atlassian.net/browse/</url>
+    <system>GitHub</system>
+    <url>https://github.com/wcm-io-devops/jenkins-pipeline-library</url>
   </issueManagement>
 
   <ciManagement>
