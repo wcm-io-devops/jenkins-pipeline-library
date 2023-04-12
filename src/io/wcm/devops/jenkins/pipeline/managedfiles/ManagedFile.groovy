@@ -35,7 +35,6 @@ class ManagedFile extends PatternMatchable implements Serializable {
 
   ManagedFile(String pattern, String id, String name = null, String comment = null) {
     super(pattern, id)
-    this.id = id
     this.name = name
     this.comment = comment
   }
