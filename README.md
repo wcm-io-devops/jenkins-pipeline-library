@@ -2,6 +2,10 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library)](https://repo1.maven.org/maven2/io/wcm/devops/jenkins/io.wcm.devops.jenkins.pipeline-library)
 [![Sonatype Snapshots](https://img.shields.io/nexus/s/https/oss.sonatype.org/io.wcm.devops.jenkins/io.wcm.devops.jenkins.pipeline-library.svg)](https://oss.sonatype.org/content/repositories/snapshots/io/wcm/devops/jenkins/io.wcm.devops.jenkins.pipeline-library/)
 
+> :information_source: **Unmaintained**
+> 
+> This project is currently not maintained.
+
 # Jenkins Pipeline Library
 
 Since Jenkins Pipeline has reached a certain state of production scripted
